@@ -385,6 +385,7 @@ inline Point2<T>& middle(
 /// \return The distance between two points.
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
+/// \pre Only works with float types (e.g. Point2i is not acceptable) 
 /// \remarks
 /// This friend function finds distance between two given points.
 /// \see distanceSq(const Point2<T>&, const Point2<T>&)
@@ -420,6 +421,7 @@ inline T distanceSq(
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \param p3 Reference to the third point.
+/// \pre Only works with float types (e.g. Point2i is not acceptable) 
 /// \remarks
 /// This friend function finds the angle formed between the vector
 /// from point \a p1 to \a p2 and the vector from point \a p2 to \a p3

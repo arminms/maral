@@ -53,4 +53,10 @@ inline T radian2degree(T rad)
 //	return static_cast<T>(v >= static_cast<T>(0) ? v : -v);
 //}
 
+//template <typename T>
+//inline T sqrt(T v)
+//{
+//	return sqrt(v);
+//}
+
 /// @}
