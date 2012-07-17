@@ -1,0 +1,87 @@
+LINUX
+=====
+
+tar zxvf boost_1_50_0.tar.gz
+cd boost_1_50_0
+./bootstrap.sh --prefix=/opt/local
+./b2 install
+
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/local/lib
+export LD_LIBRARY_PATH
+
+DO THESE STEPS IN CASE OF CUSOTMIZING:
+rm -rf /opt/local/lib/libboost_*
+cd ..
+rm -rf boost_1.50.0
+tar zxvf boost_1_50_0.tar.gz
+cd boost_1_50_0
+cd tools/build/v2/
+./bootstrap.sh
+./b2 install --prefix=/opt/local
+cd ../../../
+cp tools/build/v2/user-config.jam .
+vi user-config.jam ----> using mpi ;
+/opt/local/bin/b2 -j 4 toolset=gcc --link=shared,static --threading=multi --user-config=user-config.jam --layout=versioned stage
+cd stage
+cp -av lib/* /opt/local/lib
+cd ..
+rm -rf boost_1.50.0
+
+
+WINDOWS x64
+===========
+
+unzip archive
+copy boost folder to C:\Program Files\boost\boost_1_50_0\include
+cd tools/build/v2/
+bootstrap.bat
+.\b2 install --prefix="C:\Program Files\boost\build"
+cd ..\..\..\
+
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc address-model=64 --variant=debug,release --link=shared,static --threading=multi stage
+
+or with static link to C++ library:
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
+
+or for complete build:
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
+
+copy stage to :\Program Files\boost\boost_1_50_0\lib
+
+mklink /D "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost" "C:\Program Files\boost\boost_1_50_0\include\boost"
+
+To remove the link:
+rmdir "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost"
+
+WINDOWS x86
+===========
+
+unzip archive
+copy boost folder to C:\Program Files (x86)\boost\boost_1_50_0\include
+cd tools/build/v2/
+bootstrap.bat
+.\b2 install --prefix="C:\Program Files (x86)\boost\build"
+cd ..\..\..\
+
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static --threading=multi stage
+
+or with static link to C++ library:
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
+
+or for complete build:
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
+
+copy stage to C:\Program Files (x86)\boost\boost_1_50_0\lib
+
+Mac OS X
+========
+
+install MacPorts from http://www.macports.org/install.php
+sudo port install gcc46 -> will be installed in /opt/local
+sudo port install boost -> /opt/local/include, /opt/local/lib
+
+port contents boost -> to see installed files
+sudo port upgrade boost -> for upgrade
+sudo port uninstall boost -> for uninstall
+
+
