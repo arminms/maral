@@ -33,7 +33,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="boost_unit_test_framework-gcc45-mt-1_50" />
 					<Add library="boost_unit_test_framework" />
 				</Linker>
 			</Target>
