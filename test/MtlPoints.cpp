@@ -1,5 +1,10 @@
 #define BOOST_TEST_MODULE MTL
-#define BOOST_TEST_DYN_LINK
+#ifdef _WIN32
+	#define BOOST_TEST_ALTERNATIVE_INIT_API
+#else
+	#define BOOST_TEST_DYN_LINK
+#endif	//_WIN32
+//#define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 //#include <boost/test/included/unit_test.hpp>
 //#include <boost/test/test_case_template.hpp>
@@ -265,7 +270,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMiddle, T, test_types)
 	BOOST_CHECK_EQUAL(point1[1], (T)3);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDistance, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDistance, T, float_types)
 {
 	Point2<T> point1((T)1, (T)2);
 	Point2<T> point2((T)3, (T)2);
