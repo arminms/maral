@@ -40,16 +40,27 @@ inline Vector2<T>::Vector2(T x, T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Vectorer to an array of two arbitrary types containing
-/// x and y.
+/// \param p1 A Point2 object that specify start of the vector.
+/// \param p2 A Point2 object that specify end of the vector.
 /// \remarks
-/// Constructs a Vector2 object from an array of two arbitrary type.
+/// Constructs a Vector2 object from 2 supplied Point2 object.
 
 template <typename T>
-inline Vector2<T>::Vector2(const T* dataPtr)
+inline Vector2<T>::Vector2(const Point2<T>& p1, const Point2<T>& p2)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1];
+	data_[0] = p2[0] - p1[0];
+	data_[1] = p2[1] - p1[1];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \param p A Point2 object that already exists.
+/// \remarks
+/// Explicitly constructs a Vector2 object from a Point2.
+
+template <typename T>
+inline Vector2<T>::Vector2(const Point2<T>& p)
+{
+	data_[0] = p[0]; data_[1] = p[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,32 +229,6 @@ inline T* Vector2<T>::getData()
 
 template <typename T>
 inline const T* Vector2<T>::getData() const
-{
-	return data_;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// This function is a casting operator which returns address of the
-/// first element (x coordinate) of this vector as a vectorer to an
-/// arbitrary type (int, float, double, ...).
-/// \see Vector2<T>::operator const T* () const
-
-template <typename T>
-inline Vector2<T>::operator T* ()
-{
-	return data_;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// This function is a casting operator which returns address of the
-/// first element (x coordinate) of this vector as a vectorer to an
-/// arbitrary type (int, float, double, ...).
-/// \see Vector2<T>::operator T *()
-
-template <typename T>
-inline Vector2<T>::operator const T* () const
 {
 	return data_;
 }

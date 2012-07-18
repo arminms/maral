@@ -5,8 +5,8 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
+#include <Magma/MtlPoint.hpp>
 #include <Magma/MtlVector.hpp>
-//#include <Magma/MtlOutput.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace Magma::Mtl;
@@ -24,6 +24,33 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Creation, T, test_types)
 	BOOST_CHECK_EQUAL(vec[1], (T)0);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Constructors, T, test_types)
+{
+	Vector2<T> vec((T)1, (T)2);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_ConstructFromPoints, T, test_types)
+{
+	Point2<T> point1((T)2, (T)2);
+	Point2<T> point2((T)1, (T)2);
+
+	Vector2<T> vec(point1, point2);
+	BOOST_CHECK_EQUAL(vec[0], (T)-1);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_PointExplicit, T, test_types)
+{
+	Point2<T> point((T)1, (T)2);
+	Vector2<T> vec((Point2<T>)point);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_CopyConstruct, T, test_types)
 {
 	Vector2<T> vec;
@@ -31,17 +58,57 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_CopyConstruct, T, test_types)
 	vec[0] = (T)2;
 	vec[1] = (T)4;
 
-	Vector2<T> vec_copy(vec);
+	Vector2<T> vecCopy(vec);
 
-	BOOST_CHECK_EQUAL(vec_copy[0], (T)2);
-	BOOST_CHECK_EQUAL(vec_copy[1], (T)4);
+	BOOST_CHECK_EQUAL(vecCopy[0], (T)2);
+	BOOST_CHECK_EQUAL(vecCopy[1], (T)4);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Constructors, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_X, T, test_types)
+{
+	Vector2<T> vec;
+
+	vec.x() = (T)1;
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec.x(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Y, T, test_types)
+{
+	Vector2<T> vec;
+
+	vec.y() = (T)2;
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec.y(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetX, T, test_types)
 {
 	Vector2<T> vec((T)1, (T)2);
 
+	BOOST_CHECK_EQUAL(vec.getX(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetY, T, test_types)
+{
+	Vector2<T> vec((T)1, (T)2);
+
+	BOOST_CHECK_EQUAL(vec.getY(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_SetX, T, test_types)
+{
+	Vector2<T> vec;
+
+	vec.setX((T)1);
 	BOOST_CHECK_EQUAL(vec[0], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_SetY, T, test_types)
+{
+	Vector2<T> vec;
+
+	vec.setY((T)2);
 	BOOST_CHECK_EQUAL(vec[1], (T)2);
 }
 

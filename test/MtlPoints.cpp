@@ -12,6 +12,7 @@
 #include <boost/mpl/list.hpp>
 
 //#include <Magma/MtlPoint.hpp>
+#include <Magma/MtlVector.hpp>
 #include <Magma/MtlPointOps.hpp>
 #include <Magma/MtlOutput.hpp>
 
@@ -31,6 +32,23 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Creation, T, test_types)
 	BOOST_CHECK_EQUAL(point[1], (T)0);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Constructors, T, test_types)
+{
+	Point2<T> point((T)1, (T)2);
+
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_VectorExplicit, T, test_types)
+{
+	Vector2<T> vec((T)1, (T)2);
+	Point2<T> point((Vector2<T>)vec);
+
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_CopyConstruct, T, test_types)
 {
 	Point2<T> point;
@@ -44,11 +62,51 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_CopyConstruct, T, test_types)
 	BOOST_CHECK_EQUAL(point_copy[1], (T)4);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Constructors, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_X, T, test_types)
+{
+	Point2<T> point;
+
+	point.x() = (T)1;
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point.x(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Y, T, test_types)
+{
+	Point2<T> point;
+
+	point.y() = (T)2;
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point.y(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_GetX, T, test_types)
 {
 	Point2<T> point((T)1, (T)2);
 
+	BOOST_CHECK_EQUAL(point.getX(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_GetY, T, test_types)
+{
+	Point2<T> point((T)1, (T)2);
+
+	BOOST_CHECK_EQUAL(point.getY(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_SetX, T, test_types)
+{
+	Point2<T> point;
+
+	point.setX((T)1);
 	BOOST_CHECK_EQUAL(point[0], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_SetY, T, test_types)
+{
+	Point2<T> point;
+
+	point.setY((T)2);
 	BOOST_CHECK_EQUAL(point[1], (T)2);
 }
 

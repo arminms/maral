@@ -40,16 +40,14 @@ inline Point2<T>::Point2(T x, T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of two arbitrary types containing
-/// x and y.
+/// \param p A Vector2 object that already exists.
 /// \remarks
-/// Constructs a Point2 object from an array of two arbitrary type.
+/// Explicitly constructs a Point2 object from a Vector2.
 
 template <typename T>
-inline Point2<T>::Point2(const T* dataPtr)
+inline Point2<T>::Point2(const Vector2<T>& v)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1];
+	data_[0] = v[0]; data_[1] = v[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -218,32 +216,6 @@ inline T* Point2<T>::getData()
 
 template <typename T>
 inline const T* Point2<T>::getData() const
-{
-	return data_;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// This function is a casting operator which returns address of the
-/// first element (x coordinate) of this point as a pointer to an
-/// arbitrary type (int, float, double, ...).
-/// \see Point2<T>::operator const T* () const
-
-template <typename T>
-inline Point2<T>::operator T* ()
-{
-	return data_;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// This function is a casting operator which returns address of the
-/// first element (x coordinate) of this point as a pointer to an
-/// arbitrary type (int, float, double, ...).
-/// \see Point2<T>::operator T *()
-
-template <typename T>
-inline Point2<T>::operator const T* () const
 {
 	return data_;
 }
