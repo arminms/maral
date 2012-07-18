@@ -29,6 +29,8 @@
 namespace Magma {
 	namespace Mtl {
 
+template <typename T> class Vector2;
+
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief The Point2 class abstracts a 2D point.
 ///
@@ -55,7 +57,7 @@ public:
 //@{
 	Point2();
 	Point2(T x, T y);
-	Point2(const T* dataPtr);
+	explicit Point2(const Vector2<T>& v);
 
 	// Copy constructor
 	Point2(const Point2<T>& p);
@@ -80,12 +82,6 @@ public:
 
 	T* getData();
 	const T* getData() const;
-//@}
-
-/// \name Casting operators
-//@{
-	operator T* ();
-	operator const T* () const;
 //@}
 
 /// \name Operators
