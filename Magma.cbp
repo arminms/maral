@@ -51,6 +51,8 @@
 		<Unit filename="src/Magma/MtlPointOps.inl" />
 		<Unit filename="src/Magma/MtlVector.hpp" />
 		<Unit filename="src/Magma/MtlVector.inl" />
+		<Unit filename="src/Magma/MtlVectorOps.hpp" />
+		<Unit filename="src/Magma/MtlVectorOps.inl" />
 		<Extensions>
 			<envvars />
 			<code_completion />

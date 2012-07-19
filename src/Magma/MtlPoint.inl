@@ -40,7 +40,7 @@ inline Point2<T>::Point2(T x, T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Vector2 object that already exists.
+/// \param v A Vector2 object that already exists.
 /// \remarks
 /// Explicitly constructs a Point2 object from a Vector2.
 
