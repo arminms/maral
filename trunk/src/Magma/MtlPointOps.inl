@@ -324,7 +324,7 @@ inline Point2<T> sumScaled(
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \remarks
-/// This friend function copies maximum values of x and y of \a p1 and
+/// This function copies maximum values of x and y of \a p1 and
 /// \a p2 into \a r and then returns reference to \a r. In this way, it
 /// can be used as a parameter for another function.
 /// \see minimize(Point2<T>&,const Point2<T>&,const Point2<T>&)
@@ -346,7 +346,7 @@ inline Point2<T>& maximize(
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \remarks
-/// This friend function copies minimum values of x and y of \a p1 and
+/// This function copies minimum values of x and y of \a p1 and
 /// \a p2 into \a r and then returns reference to \a r. In this way, it
 /// can be used as a parameter for another function.
 /// \see maximize(Point2<T>&,const Point2<T>&,const Point2<T>&)
@@ -368,7 +368,7 @@ inline Point2<T>& minimize(
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \remarks
-/// This friend function returns the middle point between \a p1 and \a
+/// This function returns the middle point between \a p1 and \a
 /// p2.
 
 template<typename T>
@@ -388,7 +388,7 @@ inline Point2<T>& middle(
 /// \param p2 Reference to the second point.
 /// \pre Only works with float types (e.g. Point2i is not acceptable)
 /// \remarks
-/// This friend function finds distance between two given points.
+/// This function finds distance between two given points.
 /// \see distanceSq(const Point2<T>&, const Point2<T>&)
 
 template<typename T>
@@ -396,8 +396,8 @@ inline T distance(
 	const Point2<T>& p1,
 	const Point2<T>& p2)
 {
-	Point2<T> r = p1 - p2;
-	return sqrt(r[0]*r[0] + r[1]*r[1]);
+	T r = distanceSq(p1, p2);
+	return (r == T(0.0f) ? T(0.0f) : sqrt(r));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -405,7 +405,10 @@ inline T distance(
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \remarks
-/// This friend function finds squared distance between two points.
+/// This function finds squared distance between two points. This can
+/// be used in many calculations instead of
+/// distance(const Point2<T>&, const Point2<T>&) to increase speed by
+/// saving you an expensive sqrt call.
 /// \see distance(const Point2<T>&, const Point2<T>&)
 
 template<typename T>
@@ -424,7 +427,7 @@ inline T distanceSq(
 /// \param p3 Reference to the third point.
 /// \pre Only works with float types (e.g. Point2i is not acceptable)
 /// \remarks
-/// This friend function finds the angle formed between the vector
+/// This function finds the angle formed between the vector
 /// from point \a p1 to \a p2 and the vector from point \a p2 to \a p3
 /// and returns the result in degrees.
 
