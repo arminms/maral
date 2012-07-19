@@ -41,6 +41,8 @@
 			<Add option="-fexceptions" />
 			<Add option="-DNDEBUG" />
 		</Compiler>
+		<Unit filename="src/Magma/Magma.hpp" />
+		<Unit filename="src/Magma/Mtl.hpp" />
 		<Unit filename="src/Magma/MtlDefines.hpp" />
 		<Unit filename="src/Magma/MtlDefines.inl" />
 		<Unit filename="src/Magma/MtlOutput.hpp" />
