@@ -40,7 +40,15 @@ namespace Magma
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Namespace for the \b Mtl (Magma::Mtl).
 ///
-/// Namespace for the \b Math \b Template \b Library (MTL).
+/// Namespace for the \b Math \b Template \b Library (MTL). \b MTL is the
+/// mathematical engine behind \b Magma and because all the classes and
+/// functions have been implemented as header only inlines, it is
+/// highly efficient. The \b MTL has two aspects: The \a data \a types,
+/// and the \a operations on the data. All data types and operations
+/// are defined in the Mtl namespace. Thus all types must be prefixed
+/// with the Mtl:: scope or a \a using \a namespace \a Magma::Mtl;
+/// command can be used to bring all of the \b MTL functionality into
+/// the local scope.
 
 	namespace Mtl
 	{

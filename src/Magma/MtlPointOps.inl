@@ -14,8 +14,8 @@
 //	This file contains inlines for all operations related to points.
 //------------------------------------------------------------------------------
 
-/// \ingroup Ops
-/// \name Point/Vector Operations
+/// \ingroup Pnt2Ops
+/// \name Point2 Operations
 /// @{
 
 ////////////////////////////////////////////////////////////////////////////////

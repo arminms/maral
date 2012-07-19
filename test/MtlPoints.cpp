@@ -11,10 +11,7 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
-//#include <Magma/MtlPoint.hpp>
-#include <Magma/MtlVector.hpp>
-#include <Magma/MtlPointOps.hpp>
-#include <Magma/MtlOutput.hpp>
+#include <Magma/Magma.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace Magma::Mtl;

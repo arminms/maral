@@ -21,12 +21,8 @@
 # pragma once
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-// Includes
-
-#include <Magma/MtlDefines.hpp>
-
 namespace Magma {
+
 	namespace Mtl {
 
 template <typename T> class Vector2;

@@ -22,11 +22,6 @@
 # pragma once
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-// Includes
-
-#include <Magma/MtlDefines.hpp>
-
 namespace Magma {
 	namespace Mtl {
 
@@ -63,10 +58,10 @@ public:
 	explicit Vector2(const Point2<T>& p);
 
 	// Copy constructor
-	Vector2(const Vector2<T>& p);
+	Vector2(const Vector2<T>& v);
 
 	// Assignment method
-	Vector2<T>& operator=(const Vector2<T>& p);
+	Vector2<T>& operator=(const Vector2<T>& v);
 //@}
 
 /// \name Attributes

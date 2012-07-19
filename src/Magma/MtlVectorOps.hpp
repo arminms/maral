@@ -7,15 +7,14 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-/// \file MtlOutput.hpp
-/// \brief Include file for outputing Magma::Mtl classes to the output
-/// stream.
+/// \file MtlVectorOps.hpp
+/// \brief Include file for all Vector types operations.
 ///
-/// \b MtlOutput.hpp is the header file for all output stream operators
-/// of Magma::Mtl classes.
+/// \b MtlVectorOps.hpp is the header file for all the operations on
+/// points (i.e. Vector2, Vector3, Vector4).
 
-#ifndef MTL_OUTPUT_HPP
-#define MTL_OUTPUT_HPP
+#ifndef MTL_VECTOR_OPS_HPP
+#define MTL_VECTOR_OPS_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -30,9 +29,9 @@ namespace Magma
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-	#include "MtlOutput.inl"
+	#include "MtlVectorOps.inl"
 
 	}	// namespace Mtl
 }	// namespace Magma
 
-#endif // MTL_OUTPUT_HPP
+#endif	//MTL_VECTOR_OPS_HPP

@@ -21,11 +21,6 @@
 # pragma once
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-// Includes
-
-#include <Magma/MtlPoint.hpp>
-
 namespace Magma
 {
 	namespace Mtl
