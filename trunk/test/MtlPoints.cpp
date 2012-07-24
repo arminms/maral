@@ -21,6 +21,8 @@ typedef boost::mpl::list<float,double,long double> float_types;
 
 BOOST_AUTO_TEST_SUITE( Points )
 
+BOOST_AUTO_TEST_SUITE( Pnt2 )
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Creation, T, test_types)
 {
 	Point2<T> point;
@@ -136,6 +138,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_GetData, T, test_types)
 	BOOST_CHECK_EQUAL(data[0], (T)1);
 	BOOST_CHECK_EQUAL(data[1], (T)2);
 }
+
+BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE( Pnt2Ops )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpEqualityCompare, T, test_types)
 {
@@ -343,11 +348,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDistanceSq, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
 {
-	Point2<T> point1((T)1, (T)2);
-	Point2<T> point2((T)1, (T)1);
-	Point2<T> point3((T)2, (T)1);
+	Point2<T> point1(1, 2);
+	Point2<T> point2(1, 1);
+	Point2<T> point3(2, 1);
 
-	BOOST_CHECK_CLOSE(angle(point1, point2, point3), T(90), T(SMALL));
+	BOOST_CHECK_CLOSE(angle(point1, point2, point3), 90, SMALL);
+	point1.set(2, 2);
+	BOOST_CHECK_CLOSE(angle(point1, point2, point3), 45, SMALL);
+	point1.set(1, 1);
+	BOOST_CHECK_CLOSE(angle(point1, point2, point3), 0, SMALL);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Output, T, test_types)
@@ -362,8 +371,4 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Output, T, test_types)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-//BOOST_AUTO_TEST_CASE( Point2 )
-//{
-//	BOOST_CHECK( BOOST_IS_DEFINED(SYMBOL1) );
-//	BOOST_CHECK( BOOST_IS_DEFINED(SYMBOL2(arg)) );
-//}
+BOOST_AUTO_TEST_SUITE_END()
