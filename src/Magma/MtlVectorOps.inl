@@ -367,6 +367,7 @@ inline Vector2<T>& minimize(
 /// \param r Reference to a vector that receives the result.
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
+/// \pre Only works with float types (e.g. Vector2i is not acceptable)
 /// \remarks
 /// This function returns the middle vector between \a v1 and \a
 /// v2.
@@ -377,9 +378,31 @@ inline Vector2<T>& middle(
 	const Vector2<T>& v1,
 	const Vector2<T>& v2)
 {
-	r[0] = (v1[0] + v2[0]) / (T)2;
-	r[1] = (v1[1] + v2[1]) / (T)2;
+	r[0] = (v1[0] + v2[0]) * (T)HALF;
+	r[1] = (v1[1] + v2[1]) * (T)HALF;
 	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return The dot product of \a v1 and \a v2:
+/// \li if two vectors are perpendicular, result is 0.
+/// \li if two vectors lie in exactly the same direction, result is
+/// length(v1)*length(v2).
+/// \li if two vectors point in exactly opposite direction, result is
+/// -( length(v1) * length(v2) ).
+/// \param v1 The first vector.
+/// \param v2 The second vector.
+/// \remarks
+/// This function computes dot product of two given vectors. The dot
+/// product is used to calculate the angle between two vectors.
+/// \see angle(const Vector2<T>&,const Vector2<T>&)
+
+template<typename T>
+inline T dot(
+	const Vector2<T>& v1,
+	const Vector2<T>& v2)
+{
+	return (v1[0]*v2[0] + v1[1]*v2[1]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -429,9 +452,53 @@ inline T angle(
 	const Vector2<T>& v1,
 	const Vector2<T>& v2)
 {
-	return radian2degree(acos(v1[0]*v2[0] + v1[1]*v2[1]) /
-			sqrt( (v1[0]*v1[0] + v1[1]*v1[1]) *
-				(v2[0]*v2[0] + v2[1]*v2[1]) ) );
+	T lenSq = (v1[0]*v1[0] + v1[1]*v1[1]) * (v2[0]*v2[0] + v2[1]*v2[1]);
+	return (lenSq == T(0.0f) ?
+		T(0.0f) :
+		radian2degree(acos( (v1[0]*v2[0] + v1[1]*v2[1]) / sqrt(lenSq) ) ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return The length of \p v before it was normalized.
+/// \param v The vector to normalize.
+/// \pre Only works with float types (e.g. Vector2i is not acceptable)
+/// \post length(v) == 1.0 unless length(v) is originally 0.0, in which
+/// case it is unchanged
+/// \remarks
+/// This function normalizes the given vector in place causing it to
+/// be of unit length. If the vector is already of length 1.0, nothing
+/// is done. For convenience, the original length of the vector is
+/// returned.
+
+template<typename T>
+inline T normalize(
+	Vector2<T>& v)
+{
+	T len = length(v);
+	if (len != T(0.0f))
+	{
+		v[0] /= len;
+		v[1] /= len;
+	}
+	return len;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \b true if the vector is normalized, \b false otherwise.
+/// \param v The vector to test.
+/// \param eps The epsilon tolerance.
+/// \remarks
+/// This function etermines if the given vector is normalized within
+/// the given tolerance. The vector is normalized if its lengthSquared
+/// is 1
+/// \see lengthSq(const Vector2<T>&)
+
+template<typename T>
+inline bool isNormalized(
+	const Vector2<T>& v,
+	const T eps = (T)SMALL)
+{
+	return isEqual(lengthSq(v), T(1.0), eps);
 }
 
 /// @}

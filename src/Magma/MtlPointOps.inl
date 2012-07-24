@@ -439,9 +439,10 @@ inline T angle(
 {
 	Point2<T> r1 = p2 - p1;
 	Point2<T> r2 = p2 - p3;
-	return radian2degree(acos(r1[0]*r2[0] + r1[1]*r2[1]) /
-			sqrt( (r1[0]*r1[0] + r1[1]*r1[1]) *
-				(r2[0]*r2[0] + r2[1]*r2[1]) ) );
+	T lenSq = (r1[0]*r1[0] + r1[1]*r1[1]) * (r2[0]*r2[0] + r2[1]*r2[1]);
+	return (lenSq == T(0.0f) ?
+		T(0.0f) :
+		radian2degree(acos( (r1[0]*r2[0] + r1[1]*r2[1]) / sqrt(lenSq) ) ) );
 }
 
 /// @}

@@ -47,6 +47,24 @@ inline T radian2degree(T rad)
 	return T(PIUNDER180 * rad);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// \return \b true if two values are almost equal, \b false otherwise.
+/// \param a First float type value.
+/// \param a Second float type value.
+/// \remarks
+/// A handy inline template function that test for equality within
+/// some tolerance.
+
+template<typename T>
+inline bool isEqual(
+	const T& a,
+	const T& b,
+	const T& tolerance)
+{
+	assert(tolerance >= static_cast<T>(0));
+	return (abs(a - b) <= tolerance);
+}
+
 //template <typename T>
 //inline T abs(T v)
 //{

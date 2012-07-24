@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out the stream to write to.
-/// \param p the VecBase type to output.
+/// \param p the Point2 type to output.
 /// \remarks
 /// Outputs a string representation of the given Point2 type to the
 /// given output stream. The output is formatted such that
@@ -33,6 +33,24 @@ inline std::ostream& operator<< (
 	const Point2<T>& p)
 {
 	out << '(' << p[0] << ',' << p[1] << ')';
+	return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \p out after it has been written to.
+/// \param out The stream to write to.
+/// \param v The Vector2 type to output.
+/// \remarks
+/// Outputs a string representation of the given Vector2 type to the
+/// given output stream. The output is formatted such that
+/// Vector2<int>(1,2) will appear as "(1,2)".
+
+template<typename T>
+inline std::ostream& operator<< (
+	std::ostream& out,
+	const Vector2<T>& v)
+{
+	out << '(' << v[0] << ',' << v[1] << ')';
 	return out;
 }
 
