@@ -435,6 +435,17 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpIsNormalized, T, float_types )
 	BOOST_CHECK( isNormalized(v2, T(21.0f * 21.0f + 0.9f) ) );
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpReflect, T, test_types)
+{
+	Vector2<T> v(1, -1);
+	Vector2<T> n(0, 1);
+	Vector2<T> r;
+	Vector2<T> ans(1, 1);
+
+	reflect(r, v, n);
+	BOOST_CHECK(r == ans);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Output, T, test_types)
 {
 	output_test_stream output;

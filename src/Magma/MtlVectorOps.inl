@@ -501,5 +501,37 @@ inline bool isNormalized(
 	return isEqual(lengthSq(v), T(1.0), eps);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// \return \a r after getting the result of the operation.
+/// \param r Reference to a vector that receives the result.
+/// \param v Reference to the original vector that we want to reflect.
+/// \param n Reference to the normal vector.
+/// \post \a r contains the reflected vector.
+/// \remarks
+/// This method reflects the given vector around the given normal
+/// vector. It is similar to if the normal vector was for a plane that
+/// you wanted to reflect about. \a v going into the plane, \a n normal
+/// to the plane, and \a r coming back out of the plane (see below).
+///
+/// \code
+/// |   v
+/// | /
+/// |/
+/// |------> n
+/// |\
+/// | \
+/// |  r
+/// \endcode
+
+template<typename T>
+inline Vector2<T>& reflect(
+	Vector2<T>& r,
+	const Vector2<T>& v,
+	const Vector2<T>& n)
+{
+	r = v - ( T(2.0) * (dot(v, n) * n) );
+	return r;
+}
+
 /// @}
 
