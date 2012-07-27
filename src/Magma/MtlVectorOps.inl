@@ -513,15 +513,8 @@ inline bool isNormalized(
 /// you wanted to reflect about. \a v going into the plane, \a n normal
 /// to the plane, and \a r coming back out of the plane (see below).
 ///
-/// \code
-/// |   v
-/// | /
-/// |/
-/// |------> n
-/// |\
-/// | \
-/// |  r
-/// \endcode
+/// \image html vector_reflect.png
+/// \image rtf vector_reflect.png
 
 template<typename T>
 inline Vector2<T>& reflect(
@@ -531,6 +524,37 @@ inline Vector2<T>& reflect(
 {
 	r = v - ( T(2.0) * (dot(v, n) * n) );
 	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \a result after getting the result of the operation.
+/// \param result Reference to a vector that receives the result.
+/// \param lerpVal The value to interpolate between \a from and \a to.
+/// \param from The vector at \a lerpVal 0.
+/// \param to The vector at \a lerpVal 1.
+/// \pre   \a lerpVal is a value between 0 and 1 that interpolates
+/// between \a from and \a to.
+/// \pre   Only works with float types (e.g. Vector2i is not acceptable)
+/// \post  Undefined if \a lerpVal < 0 or \a lerpVal > 1.
+/// \remarks
+/// Linearly interpolates between to vectors. For convenience reference
+/// to \a result is returned. In this way, it can be used as a parameter
+/// for another function.
+
+template<typename T>
+inline Vector2<T>& lerp(
+	Vector2<T>& result,
+	const T& lerpVal,
+	const Vector2<T>& from,
+	const Vector2<T>& to)
+{
+	result[0] = to[0] - from[0];
+	result[0] *= lerpVal;
+	result[0] += from[0];
+	result[1] = to[1] - from[1];
+	result[1] *= lerpVal;
+	result[1] += from[1];
+	return result;
 }
 
 /// @}
