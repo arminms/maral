@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpNormalize, T, float_types)
 	BOOST_CHECK(isEqual(vec2, Vector2<T>(vec1*length(vec2) ), T(SMALL) ) );
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpIsNormalized, T, float_types )
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpIsNormalized, T, float_types)
 {
 	Vector2<T> v1(1, 0);
 	Vector2<T> v2(0, 1);
@@ -444,6 +444,37 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpReflect, T, test_types)
 
 	reflect(r, v, n);
 	BOOST_CHECK(r == ans);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLerp, T, float_types)
+{
+	Vector2<T> v1(1, 0);
+	Vector2<T> v2(0, 1);
+	Vector2<T> v3(2, 4);
+
+	const float eps = 0.0001f;
+	Vector2<T> q1(2, 3), q2(9.01f, 8.4f);
+	Vector2<T> expected_result1(q1), res1;
+	Vector2<T> expected_result2(q2), res2;
+
+	lerp(res1, T(0.0f), q1, q2);
+	lerp(res2, T(1.0f), q1, q2);
+	BOOST_CHECK_CLOSE(expected_result1[0], res1[0], eps);
+	BOOST_CHECK_CLOSE(expected_result1[1], res1[1], eps);
+	BOOST_CHECK_CLOSE(expected_result2[0], res2[0], eps);
+	BOOST_CHECK_CLOSE(expected_result2[1], res2[1], eps);
+
+	// test interpolated values...
+	Vector2<T> q3(0, 0), q4(1, 1);
+	Vector2<T> expected_result3(0.35f, 0.35f), res3;
+	Vector2<T> expected_result4(0.69f, 0.69f), res4;
+
+	lerp(res3, T(0.35f), q3, q4);
+	lerp(res4, T(0.69f), q3, q4);
+	BOOST_CHECK_CLOSE(expected_result3[0], res3[0], eps);
+	BOOST_CHECK_CLOSE(expected_result3[1], res3[1], eps);
+	BOOST_CHECK_CLOSE(expected_result4[0], res4[0], eps);
+	BOOST_CHECK_CLOSE(expected_result4[1], res4[1], eps);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Output, T, test_types)
