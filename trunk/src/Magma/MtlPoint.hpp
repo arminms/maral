@@ -26,6 +26,7 @@ namespace Magma {
 	namespace Mtl {
 
 template <typename T> class Vector2;
+template <typename T> class Vector3;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief The Point2 class abstracts a 2D point.
@@ -92,6 +93,73 @@ protected:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \brief The Point3 class abstracts a 3D point.
+///
+/// \param T Type of the elements stored (e.g. int, float, double, ...).
+/// \remarks
+/// \par
+/// Point3 abstracts a 3D point. It is templated on the component
+/// datatype. Points have position but neither magnitude nor direction.
+/// It is used to define the position of a point in 3D space.
+/// \par
+/// Don't use Point3 to represent a Vector3. One difference you should
+/// note is that certain matrix operations are different between Point3
+/// and Vector3 such as xform and operator*. A Vector3 xform by matrix
+/// is simply a rotation, while a Point3 xformed by a matrix is a full
+/// matrix transform (rotation, skew, translation, scale).
+/// \see Point3i, Point3f, Point3d, Vector3
+/// \author Armin Madadkar-Sobhani
+
+template <typename T>
+class Point3
+{
+public:
+/// \name Construction
+//@{
+	Point3();
+	Point3(T x, T y, T z);
+	explicit Point3(const Vector3<T>& v);
+
+	// Copy constructor
+	Point3(const Point3<T>& p);
+
+	// Assignment method
+	Point3<T>& operator=(const Point3<T>& p);
+//@}
+
+/// \name Attributes
+//@{
+	T& x();
+	T& y();
+	T& z();
+
+	T getX() const;
+	T getY() const;
+	T getZ() const;
+
+	void setX(T x);
+	void setY(T y);
+	void setZ(T y);
+
+	void set(T x, T y, T z);
+	void set(const T* dataPtr);
+
+	T* getData();
+	const T* getData() const;
+//@}
+
+/// \name Operators
+//@{
+	T& operator[] (const unsigned i);
+	T  operator[] (const unsigned i) const;
+//@}
+
+// Implementation
+protected:
+	T data_[3];
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
 #include "MtlPoint.inl"
@@ -131,6 +199,39 @@ typedef Point2<float> Point2f;
 /// \see Point2
 
 typedef Point2<double> Point2d;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \remarks
+/// Use Point3i to define a 3D point composed of 2 unsigned integer
+/// components. It has all the features of Point3, i.e. the member
+/// functions of Point3i are similar to the member functions of Point3
+/// class. So, you can use the Point3 reference documentation: Wherever
+/// you see a \a T type, substitute it to \a int.
+/// \see Point3
+
+typedef Point3<int> Point3i;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \remarks
+/// Use Point3f to define a 3D point composed of 2 float components.
+/// It has all the features of Point3, i.e. the member functions of
+/// Point3f are similar to the member functions of Point3 class. So,
+/// you can use the Point3 reference documentation: Wherever you see
+/// a \a T type, substitute it to \a float.
+/// \see Point3
+
+typedef Point3<float> Point3f;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \remarks
+/// Use Point3d to define a 3D point composed of 2 double components.
+/// It has all the features of Point3, i.e. the member functions of
+/// Point3d are similar to the member functions of Point3 class. So,
+/// you can use the Point3 reference documentation: Wherever you see
+/// a \a T type, substitute it to \a double.
+/// \see Point3
+
+typedef Point3<double> Point3d;
 
 	}	// namespace Mtl
 }	// namespace Magma

@@ -370,5 +370,156 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Output, T, test_types)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE( Pnt3 )
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Creation, T, test_types)
+{
+	Point3<T> point;
+
+	BOOST_CHECK_EQUAL(point[0], (T)0);
+	BOOST_CHECK_EQUAL(point[1], (T)0);
+	BOOST_CHECK_EQUAL(point[2], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Constructors, T, test_types)
+{
+	Point3<T> point((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+}
+
+//BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_VectorExplicit, T, test_types)
+//{
+//	Vector3<T> vec((T)1, (T)2, (T)3);
+//	Point3<T> point((Vector3<T>)vec);
+
+//	BOOST_CHECK_EQUAL(point[0], (T)1);
+//	BOOST_CHECK_EQUAL(point[1], (T)2);
+//	BOOST_CHECK_EQUAL(point[2], (T)3);
+//}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_CopyConstruct, T, test_types)
+{
+	Point3<T> point;
+
+	point[0] = (T)2;
+	point[1] = (T)4;
+	point[2] = (T)6;
+
+	Point3<T> point_copy(point);
+
+	BOOST_CHECK_EQUAL(point_copy[0], (T)2);
+	BOOST_CHECK_EQUAL(point_copy[1], (T)4);
+	BOOST_CHECK_EQUAL(point_copy[2], (T)6);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_X, T, test_types)
+{
+	Point3<T> point;
+
+	point.x() = (T)1;
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point.x(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Y, T, test_types)
+{
+	Point3<T> point;
+
+	point.y() = (T)2;
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point.y(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Z, T, test_types)
+{
+	Point3<T> point;
+
+	point.z() = (T)3;
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+	BOOST_CHECK_EQUAL(point.z(), (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_GetX, T, test_types)
+{
+	Point3<T> point((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(point.getX(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_GetY, T, test_types)
+{
+	Point3<T> point((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(point.getY(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_GetZ, T, test_types)
+{
+	Point3<T> point((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(point.getZ(), (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_SetX, T, test_types)
+{
+	Point3<T> point;
+
+	point.setX((T)1);
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_SetY, T, test_types)
+{
+	Point3<T> point;
+
+	point.setY((T)2);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_SetZ, T, test_types)
+{
+	Point3<T> point;
+
+	point.setZ((T)3);
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Set, T, test_types)
+{
+	Point3<T> point;
+	point.set((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_SetPtr, T, test_types)
+{
+	T data[3] = {(T)1, (T)2, (T)3};
+
+	Point3<T> point;
+	point.set(data);
+
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_GetData, T, test_types)
+{
+	T* data;
+	Point3<T> point((T)1, (T)2, (T)3);
+	data = point.getData();
+
+	BOOST_CHECK_EQUAL(data[0], (T)1);
+	BOOST_CHECK_EQUAL(data[1], (T)2);
+	BOOST_CHECK_EQUAL(data[2], (T)3);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
