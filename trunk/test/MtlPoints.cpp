@@ -390,15 +390,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Constructors, T, test_types)
 	BOOST_CHECK_EQUAL(point[2], (T)3);
 }
 
-//BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_VectorExplicit, T, test_types)
-//{
-//	Vector3<T> vec((T)1, (T)2, (T)3);
-//	Point3<T> point((Vector3<T>)vec);
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_VectorExplicit, T, test_types)
+{
+	Vector3<T> vec((T)1, (T)2, (T)3);
+	Point3<T> point((Vector3<T>)vec);
 
-//	BOOST_CHECK_EQUAL(point[0], (T)1);
-//	BOOST_CHECK_EQUAL(point[1], (T)2);
-//	BOOST_CHECK_EQUAL(point[2], (T)3);
-//}
+	BOOST_CHECK_EQUAL(point[0], (T)1);
+	BOOST_CHECK_EQUAL(point[1], (T)2);
+	BOOST_CHECK_EQUAL(point[2], (T)3);
+}
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_CopyConstruct, T, test_types)
 {
