@@ -299,7 +299,7 @@ inline Point3<T>::Point3(T x, T y, T z)
 template <typename T>
 inline Point3<T>::Point3(const Vector3<T>& v)
 {
-	data_[0] = v[0]; data_[1] = v[1]; data_[1] = v[2];
+	data_[0] = v[0]; data_[1] = v[1]; data_[2] = v[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -520,14 +520,12 @@ inline const T* Point3<T>::getData() const
 ////////////////////////////////////////////////////////////////////////////////
 /// \return Reference to an arbitrary type (int, float, double, ...)
 /// containing specified component.
-/// \param i The zero-based index of the component to access (x=0, y=1,
-/// z=2).
+/// \param i The zero-based index of the component to access (x=0, y=1, z=2).
 /// \pre i < 3
 /// \remarks
-/// This overloaded operator returns the value of the specified
-/// component. It can be used on either the right (r-value) or the
-/// left (l-value) of an assignment statement. In debug builds,
-/// function asserts if \a i is not in the range 0-2.
+/// This overloaded operator returns the value of the specified component. It
+/// can be used only on the right (r-value) of an assignment statement. In debug
+/// builds, function asserts if \a i is not in the range 0-2.
 /// \see Point3<T>::operator[](const unsigned) const
 
 template <typename T>
@@ -540,14 +538,12 @@ inline T& Point3<T>::operator[] (const unsigned i)
 ////////////////////////////////////////////////////////////////////////////////
 /// \return Reference to an arbitrary type (int, float, double, ...)
 /// containing specified component.
-/// \param i The zero-based index of the component to access (x=0, y=1,
-/// z=2).
+/// \param i The zero-based index of the component to access (x=0, y=1, z=2).
 /// \pre i < 3
 /// \remarks
-/// This overloaded operator returns the value of the specified
-/// component. It can be used only on the right (r-value) of an
-/// assignment statement. In debug builds, function asserts if \a i is
-/// not in the range 0-2.
+/// This overloaded operator returns the value of the specified component. It
+/// can be used only on the right (r-value) of an assignment statement. In debug
+/// builds, function asserts if \a i is not in the range 0-2.
 /// \see Point3<T>::operator[](const unsigned)
 
 template <typename T>

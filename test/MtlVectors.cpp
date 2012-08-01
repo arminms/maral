@@ -488,5 +488,167 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Output, T, test_types)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE( Vec3 )
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Creation, T, test_types)
+{
+	Vector3<T> vec;
+
+	BOOST_CHECK_EQUAL(vec[0], (T)0);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+	BOOST_CHECK_EQUAL(vec[2], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Constructors, T, test_types)
+{
+	Vector3<T> vec((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_ConstructFromPoints, T, test_types)
+{
+	Point3<T> point1((T)2, (T)2, (T)4);
+	Point3<T> Point3((T)1, (T)2, (T)5);
+
+	Vector3<T> vec(point1, Point3);
+	BOOST_CHECK_EQUAL(vec[0], (T)-1);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+	BOOST_CHECK_EQUAL(vec[2], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_PointExplicit, T, test_types)
+{
+	Point3<T> point((T)1, (T)2, (T)3);
+	Vector3<T> vec((Point3<T>)point);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_CopyConstruct, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec[0] = (T)2;
+	vec[1] = (T)4;
+	vec[2] = (T)8;
+
+	Vector3<T> vecCopy(vec);
+
+	BOOST_CHECK_EQUAL(vecCopy[0], (T)2);
+	BOOST_CHECK_EQUAL(vecCopy[1], (T)4);
+	BOOST_CHECK_EQUAL(vecCopy[2], (T)8);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_X, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.x() = (T)1;
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec.x(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Y, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.y() = (T)2;
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec.y(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Z, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.z() = (T)3;
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+	BOOST_CHECK_EQUAL(vec.z(), (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetX, T, test_types)
+{
+	Vector3<T> vec((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(vec.getX(), (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetY, T, test_types)
+{
+	Vector3<T> vec((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(vec.getY(), (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetZ, T, test_types)
+{
+	Vector3<T> vec((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(vec.getZ(), (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_SetX, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.setX((T)1);
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_SetY, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.setY((T)2);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_SetZ, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec.setZ((T)3);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Set, T, test_types)
+{
+	Vector3<T> vec;
+	vec.set((T)1, (T)2, (T)3);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_SetPtr, T, test_types)
+{
+	T data[3] = {(T)1, (T)2, (T)3};
+
+	Vector3<T> vec;
+	vec.set(data);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetData, T, test_types)
+{
+	T* data;
+	Vector3<T> vec((T)1, (T)2, (T)3);
+	data = vec.getData();
+
+	BOOST_CHECK_EQUAL(data[0], (T)1);
+	BOOST_CHECK_EQUAL(data[1], (T)2);
+	BOOST_CHECK_EQUAL(data[2], (T)3);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
