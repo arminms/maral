@@ -12,6 +12,7 @@
 #include <boost/mpl/list.hpp>
 
 #include <Magma/Magma.hpp>
+#include "MtlData.hpp"
 
 using boost::test_tools::output_test_stream;
 using namespace Magma::Mtl;
@@ -757,6 +758,40 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types)
 	BOOST_CHECK_CLOSE(angle(point1, point2, point3), 45, SMALL);
 	point1.set(0, 0, 0);
 	BOOST_CHECK_CLOSE(angle(point1, point2, point3), 135, SMALL);
+
+	DEFINE_ETHYL;
+	Point3<T> C1;
+	C1.set(&ETHYL[0]);
+	Point3<T> C2;
+	C2.set(&ETHYL[3]);
+	Point3<T> H1;
+	H1.set(&ETHYL[6]);
+	BOOST_CHECK_CLOSE(angle(C2, C1, H1), 109.640722, SMALL);
+	BOOST_CHECK_CLOSE(angle(H1, C1, C2), 109.640722, SMALL);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
+{
+	DEFINE_ETHYL;
+	Point3<T> C1;
+	C1.set(&ETHYL[0]);
+	Point3<T> C2;
+	C2.set(&ETHYL[3]);
+	Point3<T> H1;
+	H1.set(&ETHYL[6]);
+	Point3<T> H4;
+	H4.set(&ETHYL[15]);
+	Point3<T> H5;
+	H5.set(&ETHYL[18]);
+	Point3<T> H6;
+	H6.set(&ETHYL[21]);
+
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H4), 60.000007, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H4, C2, C1, H1), 60.000007, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H5), -59.99999, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H5, C2, C1, H1), -59.99999, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H6), -180, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H6, C2, C1, H1), -180, SMALL);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Output, T, test_types)
