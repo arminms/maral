@@ -428,8 +428,8 @@ inline T distanceSq(
 /// \param p3 Reference to the third point.
 /// \pre Only works with float types (e.g. Point2i is not acceptable)
 /// \remarks
-/// This function finds the angle formed between the vector from point \a p1 to
-/// \a p2 and the vector from point \a p2 to \a p3 and returns the result in
+/// This function finds the angle formed between the vector from point \a p2 to
+/// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
 /// degrees.
 
 template<typename T>
@@ -438,8 +438,8 @@ inline T angle(
 	const Point2<T>& p2,
 	const Point2<T>& p3)
 {
-	Point2<T> r1 = p2 - p1;
-	Point2<T> r2 = p2 - p3;
+	Point2<T> r1 = p1 - p2;
+	Point2<T> r2 = p3 - p2;
 	T lenSq = (r1[0]*r1[0] + r1[1]*r1[1]) * (r2[0]*r2[0] + r2[1]*r2[1]);
 	return (lenSq < SMALL ?
 		T(0.0f) :
@@ -865,8 +865,8 @@ inline T distanceSq(
 /// \param p3 Reference to the third point.
 /// \pre Only works with float types (e.g. Point3i is not acceptable)
 /// \remarks
-/// This function finds the angle formed between the vector from point \a p1 to
-/// \a p2 and the vector from point \a p2 to \a p3 and returns the result in
+/// This function finds the angle formed between the vector from point \a p2 to
+/// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
 /// degrees.
 /// \see angle(const Vector3<T>&,const Vector3<T>&)
 
@@ -876,15 +876,14 @@ inline T angle(
 	const Point3<T>& p2,
 	const Point3<T>& p3)
 {
-	Point3<T> r1 = p2 - p1;
-	Point3<T> r2 = p2 - p3;
+	Point3<T> r1 = p1 - p2;
+	Point3<T> r2 = p3 - p2;
 	T lenSq = (r1[0]*r1[0] + r1[1]*r1[1] + r1[2]*r1[2]) *
 		(r2[0]*r2[0] + r2[1]*r2[1] + r2[2]*r2[2]);
 	return (lenSq < SMALL ?
 		T(0.0) :
 		radian2degree(acos(
-			(r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) /
-			sqrt(lenSq) ) ) );
+			(r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) / sqrt(lenSq) ) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -899,12 +898,13 @@ inline T angle(
 /// \a p2 -> \a p1 and \a p3 -> \a p4 when viewed along the vector from \a p2 to
 /// \a p3. This function assumes IUPAC definition of a torsion angle proposed by
 /// W. Klyne and V. Prelog (Experientia, 1960, 16, 521-523), in which an
-/// eclipsed conformation corresponds to a torsion angle of 0 degree and a trans
-/// or anti conformation to a torsion angle of 180 degrees. According to this
-/// definition if one looks along the vector \a p2 -> \a p3, then torsion angle
-/// is clockwise rotation of up to 180° necessary to bring the vector \a p2 ->
-/// \a p1 into an eclipsed position with the \a p3 -> \a p4 vector.
-/// \see torsionAngle(const Vector3<T>&,const Point3<T>&,const Point3<T>&)
+/// eclipsed conformation corresponds to a torsion angle of 0 degree and a \a
+/// trans or \a anti conformation to a torsion angle of 180 degrees. According
+/// to this definition if one looks along the vector \a p2 -> \a p3, then
+/// torsion angle is clockwise rotation of up to 180° necessary to bring the
+/// vector \a p2 -> \a p1 into an eclipsed position with the \a p3 -> \a p4
+/// vector.
+/// \see torsionAngle(const Vector3<T>&,const Vector3<T>&,const Vector3<T>&)
 
 template<typename T>
 inline T torsionAngle(
@@ -918,9 +918,9 @@ inline T torsionAngle(
 	T y1 = p1[1] - p2[1];
 	T z1 = p1[2] - p2[2];
 	// 2nd vector (pivot)
-	T x2 = p2[0] - p3[0];
-	T y2 = p2[1] - p3[1];
-	T z2 = p2[2] - p3[2];
+	T x2 = p3[0] - p2[0];
+	T y2 = p3[1] - p2[1];
+	T z2 = p3[2] - p2[2];
 	// 3rd vector
 	T x3 = p4[0] - p3[0];
 	T y3 = p4[1] - p3[1];

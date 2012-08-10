@@ -183,9 +183,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpIsEqual, T, float_types)
 		BOOST_CHECK(!isEqual(point1, point2, T(10.0)));
 		BOOST_CHECK(!isEqual(point1, point2, T(19.9)));
 		BOOST_CHECK( isEqual(point1, point2, T(20.1)));
-//		BOOST_CHECK_CLOSE(point1[elt], point2[elt], T(20.1));
 		BOOST_CHECK( isEqual(point1, point2, T(22.0)));
-//		BOOST_CHECK_CLOSE(point1[elt], point2[elt], T(22.1));
 	}
 }
 
@@ -786,12 +784,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
 	Point3<T> H6;
 	H6.set(&ETHYL[21]);
 
-	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H4), 60.000007, SMALL);
-	BOOST_CHECK_CLOSE(torsionAngle(H4, C2, C1, H1), 60.000007, SMALL);
-	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H5), -59.99999, SMALL);
-	BOOST_CHECK_CLOSE(torsionAngle(H5, C2, C1, H1), -59.99999, SMALL);
-	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H6), -180, SMALL);
-	BOOST_CHECK_CLOSE(torsionAngle(H6, C2, C1, H1), -180, SMALL);
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H4), -60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(H4, C2, C1, H1), -60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H5), 60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(H5, C2, C1, H1), 60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(H1, C1, C2, H6), -180, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(H6, C2, C1, H1), -180, 0.001);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Output, T, test_types)
