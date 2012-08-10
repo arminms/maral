@@ -446,6 +446,8 @@ inline T lengthSq(
 /// \remarks
 /// This function finds the angle formed between two vectors and returns the
 /// result in degrees.
+/// \image html angle_point.svg
+/// \image rtf angle_point.svg
 
 template<typename T>
 inline T angle(
@@ -994,6 +996,8 @@ inline T lengthSq(
 /// \remarks
 /// This function finds the angle formed between two vectors and returns the
 /// result in degrees.
+/// \image html angle_point.svg
+/// \image rtf angle_point.svg
 /// \see angle(const Point3<T>&,const Point3<T>&,const Point3<T>&)
 
 template<typename T>
@@ -1149,6 +1153,8 @@ inline Vector3<T>& cross(
 /// if one looks along the vector \a v2, then torsion angle is clockwise rotation
 /// of up to 180° necessary to bring the vector \a v1 into an eclipsed position
 /// with the \a v3 vector.
+/// \image html angle_point.svg
+/// \image rtf angle_point.svg
 /// \see torsionAngle(const Point3<T>&,const Point3<T>&,const Point3<T>&,const Point3<T>&)
 
 template<typename T>

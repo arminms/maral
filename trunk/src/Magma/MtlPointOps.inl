@@ -431,6 +431,9 @@ inline T distanceSq(
 /// This function finds the angle formed between the vector from point \a p2 to
 /// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
 /// degrees.
+/// \image html angle_point.svg
+/// \image rtf angle_point.svg
+/// \see angle(const Vector2<T>&,const Vector2<T>&)
 
 template<typename T>
 inline T angle(
@@ -868,6 +871,8 @@ inline T distanceSq(
 /// This function finds the angle formed between the vector from point \a p2 to
 /// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
 /// degrees.
+/// \image html angle_point.svg
+/// \image rtf angle_point.svg
 /// \see angle(const Vector3<T>&,const Vector3<T>&)
 
 template<typename T>
