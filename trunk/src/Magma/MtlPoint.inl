@@ -448,7 +448,7 @@ inline void Point3<T>::setY(T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param y An arbitrary type (int, float, double, ...) containing z
+/// \param z An arbitrary type (int, float, double, ...) containing z
 /// coordinate.
 /// \remarks
 /// Changes z coordinate of this point.
@@ -465,7 +465,7 @@ inline void Point3<T>::setZ(T z)
 /// coordinate.
 /// \param y An arbitrary type (int, float, double, ...) containing y
 /// coordinate.
-/// \param y An arbitrary type (int, float, double, ...) containing z
+/// \param z An arbitrary type (int, float, double, ...) containing z
 /// coordinate.
 /// \remarks
 /// This overloaded member function changes x, y and z components of

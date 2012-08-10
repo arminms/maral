@@ -50,7 +50,8 @@ inline T radian2degree(T rad)
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \b true if two values are almost equal, \b false otherwise.
 /// \param a First float type value.
-/// \param a Second float type value.
+/// \param b Second float type value.
+/// \param tolerance Tolerance for the comparison.
 /// \remarks
 /// A handy inline template function that test for equality within
 /// some tolerance.

@@ -475,7 +475,7 @@ inline void Vector3<T>::setY(T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param y An arbitrary type (int, float, double, ...) containing z
+/// \param z An arbitrary type (int, float, double, ...) containing z
 /// coordinate.
 /// \remarks
 /// Changes z coordinate of this vector.
