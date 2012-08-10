@@ -186,6 +186,7 @@
     <None Include="src\Magma\MtlPoint.inl" />
     <None Include="src\Magma\MtlPointOps.inl" />
     <None Include="src\Magma\MtlVector.inl" />
+    <None Include="src\Magma\MtlVectorOps.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Magma\MtlDefines.hpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="src\Magma\MtlPoint.hpp" />
     <ClInclude Include="src\Magma\MtlPointOps.hpp" />
     <ClInclude Include="src\Magma\MtlVector.hpp" />
+    <ClInclude Include="src\Magma\MtlVectorOps.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
