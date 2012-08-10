@@ -7,7 +7,6 @@
 
 #include <Magma/Magma.hpp>
 #include "MtlData.hpp"
-
 using boost::test_tools::output_test_stream;
 using namespace Magma::Mtl;
 
@@ -346,7 +345,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpDot, T, float_types)
 	v1.set(13.45f, -7.8f);
 	v2.set(0.777f, 5.333f);
 
-	T ans = -31.14675;
+	T ans = -31.14675f;
 	BOOST_CHECK_CLOSE(dot(v1,v2), ans, T(SMALL));
 	BOOST_CHECK_CLOSE(dot(v2,v1), ans, T(SMALL));
 }
@@ -387,14 +386,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpAngle, T, float_types)
 	Vector2<T> vec1(1, 0);
 	Vector2<T> vec2(0, 1);
 
-	BOOST_CHECK_CLOSE(angle(vec1, vec2), 90, SMALL);
+	BOOST_CHECK_CLOSE(angle(vec1, vec2), 90.0f, SMALL);
 	vec2.set(1, 1);
-	BOOST_CHECK_CLOSE(angle(vec1, vec2), 45, SMALL);
+	BOOST_CHECK_CLOSE(angle(vec1, vec2), 45.0f, SMALL);
 	vec1.set(3, 0);
 	vec2.set(3, 3);
-	BOOST_CHECK_CLOSE(angle(vec1, vec2), 45, SMALL);
+	BOOST_CHECK_CLOSE(angle(vec1, vec2), 45.0f, SMALL);
 	vec2.set(0, 0);
-	BOOST_CHECK_CLOSE(angle(vec1, vec2), 0, SMALL);
+	BOOST_CHECK_CLOSE(angle(vec1, vec2), 0.0f, SMALL);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpNormalize, T, float_types)
@@ -921,19 +920,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
 	Vector3<T> v1(p2, p1);
 	Vector3<T> v2(p2, p3);
 
-	BOOST_CHECK_CLOSE(angle(v1, v2), 90, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(90.0), SMALL);
 	p1.set(2, 0, 0);
 	v1 = Vector3<T>(p2, p1);
-	BOOST_CHECK_CLOSE(angle(v1, v2), 45, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(45.0), SMALL);
 	p1.set(0, 0, 0);
 	v1 = Vector3<T>(p2, p1);
-	BOOST_CHECK_CLOSE(angle(v1, v2), 135, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(135.0), SMALL);
 	v1.set(0, 0, 0);
-	BOOST_CHECK_CLOSE(angle(v1, v2), 0, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(0.0), SMALL);
 
 	v1.set(2, -3, 4);
 	v2.set(5, 2, 1);
-	BOOST_CHECK_CLOSE(angle(v1, v2), 74.26280, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(74.26280), SMALL);
 
 	DEFINE_ETHYL;
 	Point3<T> C1;
@@ -944,8 +943,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
 	H1.set(&ETHYL[6]);
 	v1 = Vector3<T>(C1, C2);
 	v2 = Vector3<T>(C1, H1);
-	BOOST_CHECK_CLOSE(angle(v1, v2), 109.640722, SMALL);
-	BOOST_CHECK_CLOSE(angle(v2, v1), 109.640722, SMALL);
+	BOOST_CHECK_CLOSE(angle(v1, v2), T(109.640722), SMALL);
+	BOOST_CHECK_CLOSE(angle(v2, v1), T(109.640722), SMALL);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpNormalize, T, float_types)
@@ -989,7 +988,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpIsNormalized, T, float_types)
 	BOOST_CHECK( isNormalized(v2, T(21.0f * 21.0f + 0.9f) ) );
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpReflect, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpReflect, T, float_types)
 {
 	Vector3<T> v1(1,1,1);
 	Vector3<T> v2(3,1,2);
@@ -1076,16 +1075,16 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
 	Vector3<T> C1C2(C1, C2);
 	Vector3<T> C2C1(C2, C1);
 	Vector3<T> C2H4(C2, H4);
-	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H4), -60, 0.001);
-	BOOST_CHECK_CLOSE(torsionAngle(C2H4, C2C1, C1H1), -60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H4), T(-60.0), T(0.001));
+	BOOST_CHECK_CLOSE(torsionAngle(C2H4, C2C1, C1H1), T(-60.0), T(0.001));
 
 	Vector3<T> C2H5(C2, H5);
-	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H5), 60, 0.001);
-	BOOST_CHECK_CLOSE(torsionAngle(C2H5, C2C1, C1H1), 60, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H5), T(60.0), T(0.001));
+	BOOST_CHECK_CLOSE(torsionAngle(C2H5, C2C1, C1H1), T(60.0), T(0.001));
 
 	Vector3<T> C2H6(C2, H6);
-	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H6), -180, 0.001);
-	BOOST_CHECK_CLOSE(torsionAngle(C2H6, C2C1, C1H1), -180, 0.001);
+	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H6), T(-180.0), T(0.001));
+	BOOST_CHECK_CLOSE(torsionAngle(C2H6, C2C1, C1H1), T(-180.0), T(0.001));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Output, T, test_types)
