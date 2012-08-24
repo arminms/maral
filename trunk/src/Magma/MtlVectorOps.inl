@@ -274,103 +274,13 @@ inline Vector2<T> operator/ (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a v1 after \a v2 scaled and has been added to it.
-/// \param scalar The amount by which to scale \a v2
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// Call this funtion to scale second vector by \a scalar factor and add
-/// it to the first vector simultaneously. This is equivalent to the
-/// expression v1 = v2 * scalar.
-/// \see sumScaled(const T&, const Vector2<T>&, const Vector2<T>&)
-
-template<typename T>
-inline Vector2<T>& addScaled(
-	const T& scalar,
-	Vector2<T>& v1,
-	const Vector2<T>& v2)
-{
-	v1[0] += scalar * v2[0];
-	v1[1] += scalar * v2[1];
-	return v1;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of scaling \a v2 and adding it to \a v1.
-/// \param scalar The amount by which to scale \a v2
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// Call this funtion to get the result of scaling second vector by \a
-/// scalar factor and adding it to the first vector. This is equivalent
-/// to the expression result = v1 + v2 * scalar.
-/// \see addScaled(const T&, Vector2<T>&, const Vector2<T>&)
-
-template<typename T>
-inline Vector2<T> sumScaled(
-	const T& scalar,
-	const Vector2<T>& v1,
-	const Vector2<T>& v2)
-{
-	Vector2<T> r;
-	r[0] = v1[0] + scalar * v2[0];
-	r[1] = v1[1] + scalar * v2[1];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a r after receiving maximum values.
-/// \param r Reference to a vector that receives the result.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// This function copies maximum values of x and y of \a v1 and
-/// \a v2 into \a r and then returns reference to \a r. In this way, it
-/// can be used as a parameter for another function.
-/// \see minimize(Vector2<T>&,const Vector2<T>&,const Vector2<T>&)
-
-template<typename T>
-inline Vector2<T>& maximize(
-	Vector2<T>& r,
-	const Vector2<T>& v1,
-	const Vector2<T>& v2)
-{
-	r[0] = v1[0] > v2[0] ? v1[0] : v2[0];
-	r[1] = v1[1] > v2[1] ? v1[1] : v2[1];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a r after receiving minimum values.
-/// \param r Reference to a vector that receives the result.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// This function copies minimum values of x and y of \a v1 and
-/// \a v2 into \a r and then returns reference to \a r. In this way, it
-/// can be used as a parameter for another function.
-/// \see maximize(Vector2<T>&,const Vector2<T>&,const Vector2<T>&)
-
-template<typename T>
-inline Vector2<T>& minimize(
-	Vector2<T>& r,
-	const Vector2<T>& v1,
-	const Vector2<T>& v2)
-{
-	r[0] = v1[0] < v2[0] ? v1[0] : v2[0];
-	r[1] = v1[1] < v2[1] ? v1[1] : v2[1];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 /// \return \a r after getting the result of the operation.
 /// \param r Reference to a vector that receives the result.
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
 /// \pre Only works with float types (e.g. Vector2i is not acceptable)
 /// \remarks
-/// This function returns the middle vector between \a v1 and \a
-/// v2.
+/// This function returns the middle vector between \a v1 and \a v2.
 
 template<typename T>
 inline Vector2<T>& middle(
@@ -385,11 +295,11 @@ inline Vector2<T>& middle(
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return The dot product of \a v1 and \a v2:
-/// \li if two vectors are perpendicular, result is 0.
+/// \li if two vectors are perpendicular, result is 0 (angle = 90°, or \a right).
 /// \li if two vectors lie in exactly the same direction, result is
-/// length(v1)*length(v2).
+/// length(v1)*length(v2) (i.e. > 0, angle < 90° or \a acute) .
 /// \li if two vectors point in exactly opposite direction, result is
-/// -( length(v1) * length(v2) ).
+/// -( length(v1) * length(v2) ) (i.e. < 0, 90° < angle < 180° or \a obtuse).
 /// \param v1 The first vector.
 /// \param v2 The second vector.
 /// \remarks
@@ -821,99 +731,6 @@ inline Vector3<T> operator/ (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a v1 after \a v2 scaled and has been added to it.
-/// \param scalar The amount by which to scale \a v2.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// Call this funtion to scale second vector by \a scalar factor and add it to
-/// the first vector simultaneously. This is equivalent to the expression
-/// v1 = v2 * scalar.
-/// \see sumScaled(const T&, const Vector3<T>&, const Vector3<T>&)
-
-template<typename T>
-inline Vector3<T>& addScaled(
-	const T& scalar,
-	Vector3<T>& v1,
-	const Vector3<T>& v2)
-{
-	v1[0] += scalar * v2[0];
-	v1[1] += scalar * v2[1];
-	v1[2] += scalar * v2[2];
-	return v1;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of scaling \a v2 and adding it to \a v1.
-/// \param scalar The amount by which to scale \a v2.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// Call this funtion to get the result of scaling second vector by \a scalar
-/// factor and adding it to the first vector. This is equivalent to the
-/// expression result = v1 + v2 * scalar.
-/// \see addScaled(const T&, Vector3<T>&, const Vector3<T>&)
-
-template<typename T>
-inline Vector3<T> sumScaled(
-	const T& scalar,
-	const Vector3<T>& v1,
-	const Vector3<T>& v2)
-{
-	Vector3<T> r;
-	r[0] = v1[0] + scalar * v2[0];
-	r[1] = v1[1] + scalar * v2[1];
-	r[2] = v1[2] + scalar * v2[2];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a r after receiving maximum values.
-/// \param r Reference to a vector that receives the result.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// This function copies maximum values of x and y of \a v1 and \a v2 into \a r
-/// and then returns reference to \a r. In this way, it can be used as a
-/// parameter for another function.
-/// \see minimize(Vector3<T>&,const Vector3<T>&,const Vector3<T>&)
-
-template<typename T>
-inline Vector3<T>& maximize(
-	Vector3<T>& r,
-	const Vector3<T>& v1,
-	const Vector3<T>& v2)
-{
-	r[0] = v1[0] > v2[0] ? v1[0] : v2[0];
-	r[1] = v1[1] > v2[1] ? v1[1] : v2[1];
-	r[2] = v1[2] > v2[2] ? v1[2] : v2[2];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a r after receiving minimum values.
-/// \param r Reference to a vector that receives the result.
-/// \param v1 Reference to the first vector.
-/// \param v2 Reference to the second vector.
-/// \remarks
-/// This function copies minimum values of x and y of \a v1 and \a v2 into \a r
-/// and then returns reference to \a r. In this way, it can be used as a
-/// parameter for another function.
-/// \see maximize(Vector3<T>&,const Vector3<T>&,const Vector3<T>&)
-
-template<typename T>
-inline Vector3<T>& minimize(
-	Vector3<T>& r,
-	const Vector3<T>& v1,
-	const Vector3<T>& v2)
-{
-	r[0] = v1[0] < v2[0] ? v1[0] : v2[0];
-	r[1] = v1[1] < v2[1] ? v1[1] : v2[1];
-	r[2] = v1[2] < v2[2] ? v1[2] : v2[2];
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
 /// \return \a r after getting the result of the operation.
 /// \param r Reference to a vector that receives the result.
 /// \param v1 Reference to the first vector.
@@ -936,11 +753,11 @@ inline Vector3<T>& middle(
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return The dot product of \a v1 and \a v2:
-/// \li if two vectors are perpendicular, result is 0.
+/// \li if two vectors are perpendicular, result is 0 (angle = 90°, or \a right).
 /// \li if two vectors lie in exactly the same direction, result is
-/// length(v1)*length(v2).
+/// length(v1)*length(v2) (i.e. > 0, angle < 90° or \a acute) .
 /// \li if two vectors point in exactly opposite direction, result is
-/// -( length(v1) * length(v2) ).
+/// -( length(v1) * length(v2) ) (i.e. < 0, 90° < angle < 180° or \a obtuse).
 /// \param v1 The first vector.
 /// \param v2 The second vector.
 /// \remarks

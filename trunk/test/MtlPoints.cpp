@@ -187,46 +187,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpIsEqual, T, float_types)
 	}
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpPlusEq, T, test_types)
-{
-	Point2<T> point1((T)1, (T)2);
-	Point2<T> point2((T)2, (T)2);
-
-	point1 += point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)4);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpPlus, T, test_types)
-{
-	Point2<T> point2((T)2, (T)2);
-	Point2<T> point3((T)1, (T)2);
-
-	Point2<T> point1 = point3 + point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)4);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMinusEq, T, test_types)
-{
-	Point2<T> point1((T)1, (T)2);
-	Point2<T> point2((T)2, (T)2);
-
-	point1 -= point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)-1);
-	BOOST_CHECK_EQUAL(point1[1], (T)0);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMinus, T, test_types)
-{
-	Point2<T> point2((T)2, (T)2);
-	Point2<T> point3((T)1, (T)2);
-
-	Point2<T> point1 = point3 - point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)-1);
-	BOOST_CHECK_EQUAL(point1[1], (T)0);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpNegate, T, test_types)
 {
 	Point2<T> point2((T)2, (T)-3);
@@ -236,64 +196,24 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpNegate, T, test_types)
 	BOOST_CHECK_EQUAL(point1[1], (T)3);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMultScalarEq, T, test_types)
-{
-	Point2<T> point((T)1, (T)2);
-
-	point *= (T)4;
-	BOOST_CHECK_EQUAL(point[0], (T)4);
-	BOOST_CHECK_EQUAL(point[1], (T)8);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMultScalar, T, test_types)
-{
-	Point2<T> point2((T)1, (T)2);
-
-	Point2<T> point1 = point2 * (T)4.0;
-	BOOST_CHECK_EQUAL(point1[0], (T)4);
-	BOOST_CHECK_EQUAL(point1[1], (T)8);
-
-	point1 = (T)4.0 * point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)4);
-	BOOST_CHECK_EQUAL(point1[1], (T)8);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDivScalarEq, T, test_types)
-{
-	Point2<T> point((T)12, (T)8);
-
-	point /= (T)4;
-	BOOST_CHECK_EQUAL(point[0], (T)3);
-	BOOST_CHECK_EQUAL(point[1], (T)2);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDivScalar, T, test_types)
-{
-	Point2<T> point2((T)12, (T)8);
-
-	Point2<T> point1 = point2 / (T)4.0;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)2);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAddScaled, T, test_types)
 {
-	Point2<T> point1((T)1, (T)2);
-	Point2<T> point2((T)2, (T)2);
+	Point2<T> p((T)1, (T)2);
+	Vector2<T> v((T)2, (T)2);
 
-	addScaled((T)4, point1, point2);
-	BOOST_CHECK_EQUAL(point1[0], (T)9);
-	BOOST_CHECK_EQUAL(point1[1], (T)10);
+	addScaled((T)4, p, v);
+	BOOST_CHECK_EQUAL(p[0], (T)9);
+	BOOST_CHECK_EQUAL(p[1], (T)10);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpSumScaled, T, test_types)
 {
-	Point2<T> point2((T)1, (T)2);
-	Point2<T> point3((T)2, (T)2);
+	Point2<T> p((T)1, (T)2);
+	Vector2<T> v((T)2, (T)2);
 
-	Point2<T> point1 = sumScaled((T)4, point2, point3);
-	BOOST_CHECK_EQUAL(point1[0], (T)9);
-	BOOST_CHECK_EQUAL(point1[1], (T)10);
+	Point2<T> result = sumScaled((T)4, p, v);
+	BOOST_CHECK_EQUAL(result[0], (T)9);
+	BOOST_CHECK_EQUAL(result[1], (T)10);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMaximize, T, test_types)
@@ -572,50 +492,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpIsEqual, T, float_types)
 	}
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpPlusEq, T, test_types)
-{
-	Point3<T> point1((T)1, (T)2, (T)3);
-	Point3<T> point2((T)2, (T)2, (T)2);
-
-	point1 += point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)4);
-	BOOST_CHECK_EQUAL(point1[2], (T)5);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpPlus, T, test_types)
-{
-	Point3<T> point2((T)2, (T)2, (T)3);
-	Point3<T> point3((T)1, (T)2, (T)3);
-
-	Point3<T> point1 = point3 + point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)4);
-	BOOST_CHECK_EQUAL(point1[2], (T)6);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMinusEq, T, test_types)
-{
-	Point3<T> point1((T)1, (T)2, (T)3);
-	Point3<T> point2((T)2, (T)2, (T)2);
-
-	point1 -= point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)-1);
-	BOOST_CHECK_EQUAL(point1[1], (T)0);
-	BOOST_CHECK_EQUAL(point1[2], (T)1);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMinus, T, test_types)
-{
-	Point3<T> point2((T)2, (T)2, (T)2);
-	Point3<T> point3((T)1, (T)2, (T)3);
-
-	Point3<T> point1 = point3 - point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)-1);
-	BOOST_CHECK_EQUAL(point1[1], (T)0);
-	BOOST_CHECK_EQUAL(point1[2], (T)1);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpNegate, T, test_types)
 {
 	Point3<T> point2((T)2, (T)-3, (T)5);
@@ -626,71 +502,26 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpNegate, T, test_types)
 	BOOST_CHECK_EQUAL(point1[2], (T)-5);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMultScalarEq, T, test_types)
-{
-	Point3<T> point((T)1, (T)2, (T)3);
-
-	point *= (T)4;
-	BOOST_CHECK_EQUAL(point[0], (T)4);
-	BOOST_CHECK_EQUAL(point[1], (T)8);
-	BOOST_CHECK_EQUAL(point[2], (T)12);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMultScalar, T, test_types)
-{
-	Point3<T> point2((T)1, (T)2, (T)3);
-
-	Point3<T> point1 = point2 * (T)4.0;
-	BOOST_CHECK_EQUAL(point1[0], (T)4);
-	BOOST_CHECK_EQUAL(point1[1], (T)8);
-	BOOST_CHECK_EQUAL(point1[2], (T)12);
-
-	point1 = (T)4.0 * point2;
-	BOOST_CHECK_EQUAL(point1[0], (T)4);
-	BOOST_CHECK_EQUAL(point1[1], (T)8);
-	BOOST_CHECK_EQUAL(point1[2], (T)12);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpDivScalarEq, T, test_types)
-{
-	Point3<T> point((T)12, (T)8, (T)4);
-
-	point /= (T)4;
-	BOOST_CHECK_EQUAL(point[0], (T)3);
-	BOOST_CHECK_EQUAL(point[1], (T)2);
-	BOOST_CHECK_EQUAL(point[2], (T)1);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpDivScalar, T, test_types)
-{
-	Point3<T> point2((T)12, (T)8, (T)4);
-
-	Point3<T> point1 = point2 / (T)4.0;
-	BOOST_CHECK_EQUAL(point1[0], (T)3);
-	BOOST_CHECK_EQUAL(point1[1], (T)2);
-	BOOST_CHECK_EQUAL(point1[2], (T)1);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpAddScaled, T, test_types)
 {
-	Point3<T> point1((T)1, (T)2, (T)3);
-	Point3<T> point2((T)2, (T)2, (T)2);
+	Point3<T> p((T)1, (T)2, (T)3);
+	Vector3<T> v((T)2, (T)2, (T)2);
 
-	addScaled((T)4, point1, point2);
-	BOOST_CHECK_EQUAL(point1[0], (T)9);
-	BOOST_CHECK_EQUAL(point1[1], (T)10);
-	BOOST_CHECK_EQUAL(point1[2], (T)11);
+	addScaled((T)4, p, v);
+	BOOST_CHECK_EQUAL(p[0], (T)9);
+	BOOST_CHECK_EQUAL(p[1], (T)10);
+	BOOST_CHECK_EQUAL(p[2], (T)11);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpSumScaled, T, test_types)
 {
-	Point3<T> point2((T)1, (T)2, (T)3);
-	Point3<T> point3((T)2, (T)2, (T)2);
+	Point3<T> p((T)1, (T)2, (T)3);
+	Vector3<T> v((T)2, (T)2, (T)2);
 
-	Point3<T> point1 = sumScaled((T)4, point2, point3);
-	BOOST_CHECK_EQUAL(point1[0], (T)9);
-	BOOST_CHECK_EQUAL(point1[1], (T)10);
-	BOOST_CHECK_EQUAL(point1[2], (T)11);
+	Point3<T> result = sumScaled((T)4, p, v);
+	BOOST_CHECK_EQUAL(result[0], (T)9);
+	BOOST_CHECK_EQUAL(result[1], (T)10);
+	BOOST_CHECK_EQUAL(result[2], (T)11);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMaximize, T, test_types)

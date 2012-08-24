@@ -280,48 +280,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpDivScalar, T, test_types)
 	BOOST_CHECK_EQUAL(vec1[1], (T)2);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpAddScaled, T, test_types)
-{
-	Vector2<T> vec1((T)1, (T)2);
-	Vector2<T> vec2((T)2, (T)2);
-
-	addScaled((T)4, vec1, vec2);
-	BOOST_CHECK_EQUAL(vec1[0], (T)9);
-	BOOST_CHECK_EQUAL(vec1[1], (T)10);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpSumScaled, T, test_types)
-{
-	Vector2<T> vec2((T)1, (T)2);
-	Vector2<T> vec3((T)2, (T)2);
-
-	Vector2<T> vec1 = sumScaled((T)4, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)9);
-	BOOST_CHECK_EQUAL(vec1[1], (T)10);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpMaximize, T, test_types)
-{
-	Vector2<T> vec1;
-	Vector2<T> vec2((T)1, (T)4);
-	Vector2<T> vec3((T)3, (T)2);
-
-	maximize(vec1, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)3);
-	BOOST_CHECK_EQUAL(vec1[1], (T)4);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpMinimize, T, test_types)
-{
-	Vector2<T> vec1;
-	Vector2<T> vec2((T)1, (T)4);
-	Vector2<T> vec3((T)3, (T)2);
-
-	minimize(vec1, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)1);
-	BOOST_CHECK_EQUAL(vec1[1], (T)2);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpMiddle, T, float_types)
 {
 	Vector2<T> vec1;
@@ -798,52 +756,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpDivScalar, T, test_types)
 	BOOST_CHECK_EQUAL(vec1[0], (T)3);
 	BOOST_CHECK_EQUAL(vec1[1], (T)2);
 	BOOST_CHECK_EQUAL(vec1[2], (T)1);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAddScaled, T, test_types)
-{
-	Vector3<T> vec1((T)1, (T)2, (T)3);
-	Vector3<T> vec2((T)2, (T)2, (T)2);
-
-	addScaled((T)4, vec1, vec2);
-	BOOST_CHECK_EQUAL(vec1[0], (T)9);
-	BOOST_CHECK_EQUAL(vec1[1], (T)10);
-	BOOST_CHECK_EQUAL(vec1[2], (T)11);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpSumScaled, T, test_types)
-{
-	Vector3<T> vec2((T)1, (T)2, (T)3);
-	Vector3<T> vec3((T)2, (T)2, (T)2);
-
-	Vector3<T> vec1 = sumScaled((T)4, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)9);
-	BOOST_CHECK_EQUAL(vec1[1], (T)10);
-	BOOST_CHECK_EQUAL(vec1[2], (T)11);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpMaximize, T, test_types)
-{
-	Vector3<T> vec1;
-	Vector3<T> vec2((T)1, (T)-4, (T)-1);
-	Vector3<T> vec3((T)3, (T)2, (T)-2);
-
-	maximize(vec1, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)3);
-	BOOST_CHECK_EQUAL(vec1[1], (T)2);
-	BOOST_CHECK_EQUAL(vec1[2], (T)-1);
-}
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpMinimize, T, test_types)
-{
-	Vector3<T> vec1;
-	Vector3<T> vec2((T)1, (T)-4, (T)-1);
-	Vector3<T> vec3((T)3, (T)2, (T)-2);
-
-	minimize(vec1, vec2, vec3);
-	BOOST_CHECK_EQUAL(vec1[0], (T)1);
-	BOOST_CHECK_EQUAL(vec1[1], (T)-4);
-	BOOST_CHECK_EQUAL(vec1[2], (T)-2);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpMiddle, T, float_types)

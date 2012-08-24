@@ -77,79 +77,79 @@ inline bool isEqual(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 has been added to it.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return \a p after \a v has been added to it.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator adds p2 to p1 and stores the result in p1.
-/// This is equivalent to the expression p1 = p1 + p2.
-/// \see operator+(const Point2<T>&, const Point2<T>&)
+/// This overloaded operator adds \a v to \a p and stores the result in \a p.
+/// This is equivalent to the expression p = p + v.
+/// \see operator+(const Point2<T>&, const Vector2<T>&)
 
 template<typename T>
 inline Point2<T>& operator+= (
-	Point2<T>& p1,
-	const Point2<T>& p2)
+	Point2<T>& p,
+	const Vector2<T>& v)
 {
-	p1[0] += p2[0];
-	p1[1] += p2[1];
-	return p1;
+	p[0] += v[0];
+	p[1] += v[1];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of adding \a p2 to \a p1.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of adding \a v to \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator adds p2 to p1 and returns the result.
-/// This is equivalent to the expression result = p1 + p2.
-/// \see operator+=(Point2<T>&, const Point2<T>&)
+/// This overloaded operator adds \a v to \a p and returns the result. This is
+/// equivalent to the expression result = p + v.
+/// \see operator+=(Point2<T>&, const Vector2<T>&)
 
 template<typename T>
 inline Point2<T> operator+ (
-	const Point2<T>& p1,
-	const Point2<T>& p2)
+	const Point2<T>& p,
+	const Vector2<T>& v)
 {
-	Point2<T> r(p1);
-	r += p2;
+	Point2<T> r(p);
+	r += v;
 	return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 has been subtracted from it.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return \a p after \a v has been subtracted from it.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator subtracts p2 from p1 and stores the
-/// result in p1. This is equivalent to the expression p1 = p1 - p2.
-/// \see operator-(const Point2<T>&, const Point2<T>&)
+/// This overloaded operator subtracts \a v from \a p and stores the result in
+/// \a p. This is equivalent to the expression p = p - v.
+/// \see operator-(const Point2<T>&, const Vector2<T>&)
 
 template<typename T>
 inline Point2<T>& operator-= (
-	Point2<T>& p1,
-	const Point2<T>& p2)
+	Point2<T>& p,
+	const Vector2<T>& v)
 {
-	p1[0] -= p2[0];
-	p1[1] -= p2[1];
-	return p1;
+	p[0] -= v[0];
+	p[1] -= v[1];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of subtracting \a p2 from \a p1.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of subtracting \a v from \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator subtracts p2 from p1 and returns the result.
-/// This is equivalent to the expression result = p1 - p2.
-/// \see operator-=(Point2<T>&, const Point2<T>&),
+/// This overloaded operator subtracts \a v from \a p and returns the result.
+/// This is equivalent to the expression result = p - v.
+/// \see operator-=(Point2<T>&, const Vector2<T>&),
 /// operator-(const Point2<T>&)
 
 template<typename T>
 inline Point2<T> operator- (
-	const Point2<T>& p1,
-	const Point2<T>& p2)
+	const Point2<T>& p,
+	const Vector2<T>& v)
 {
-	Point2<T> r(p1);
-	r -= p2;
+	Point2<T> r(p);
+	r -= v;
 	return r;
 }
 
@@ -171,150 +171,47 @@ inline Point2<T> operator- (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p after it has been multiplied by \a scalar.
-/// \param p Reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
+/// \return \a p after \a v scaled and has been added to it.
+/// \param scalar The amount by which to scale \a v
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and
-/// stores the result in \a p. This is equivalent to the expression
-/// p = p * scalar.
-/// \see operator*(const Point2<T>&, const T&)
-
-template<typename T>
-inline Point2<T>& operator*= (
-	Point2<T>& p,
-	const T& scalar)
-{
-	p[0] *= scalar;
-	p[1] *= scalar;
-	return p;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of multiplying \a p by scalar.
-/// \param p Constant reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and
-/// returns the result. This is equivalent to the expression
-/// result = p * scalar.
-/// \see operator*=(Point2<T>&, const const T&),
-/// operator*(const T&, const Point2<T>&)
-
-template<typename T>
-inline Point2<T> operator* (
-	const Point2<T>& p,
-	const T& scalar)
-{
-	Point2<T> r(p);
-	r *= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of multiplying \a p by scalar.
-/// \param scalar The amount by which to scale \a p
-/// \param p Constant reference to the point to be scaled.
-/// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and
-/// returns the result. This is equivalent to the expression
-/// result = scalar * p. This is a convenient argument position
-/// indifference overloader.
-/// \see operator*=(Point2<T>&, const const T&),
-/// operator*(const Point2<T>&, const T&)
-
-template<typename T>
-inline Point2<T> operator* (
-	const T& scalar,
-	const Point2<T>& p)
-{
-	Point2<T> r(p);
-	r *= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a p after it has been divided by \a scalar.
-/// \param p Reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator divides \a p by a scalar value and
-/// stores the result in \a p. This is equivalent to the expression
-/// p = p / scalar.
-/// \see operator/(const Point2<T>&, const T&)
-
-template<typename T>
-inline Point2<T>& operator/= (
-	Point2<T>& p,
-	const T& scalar)
-{
-	p[0] /= scalar;
-	p[1] /= scalar;
-	return p;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of dividing \a p by scalar.
-/// \param p Constant reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator divides \a p by a scalar value and
-/// returns the result. This is equivalent to the expression
-/// result = p / scalar.
-/// \see operator*=(Point2<T>&, const const T&)
-
-template<typename T>
-inline Point2<T> operator/ (
-	const Point2<T>& p,
-	const T& scalar)
-{
-	Point2<T> r(p);
-	r /= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 scaled and has been added to it.
-/// \param scalar The amount by which to scale \a p2
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
-/// \remarks
-/// Call this funtion to scale second point by \a scalar factor and add
-/// it to the first point simultaneously. This is equivalent to the
-/// expression p1 = p2 * scalar.
-/// \see sumScaled(const T&, const Point2<T>&, const Point2<T>&)
+/// Call this funtion to scale a vector by \a scalar factor and add it to a
+/// point simultaneously. This is equivalent to the expression p = p + v *
+/// scalar.
+/// \see sumScaled(const T&, const Point2<T>&, const Vector2<T>&)
 
 template<typename T>
 inline Point2<T>& addScaled(
 	const T& scalar,
-	Point2<T>& p1,
-	const Point2<T>& p2)
+	Point2<T>& p,
+	const Vector2<T>& v)
 {
-	p1[0] += scalar * p2[0];
-	p1[1] += scalar * p2[1];
-	return p1;
+	p[0] += scalar * v[0];
+	p[1] += scalar * v[1];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of scaling \a p2 and adding it to \a p1.
-/// \param scalar The amount by which to scale \a p2
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of scaling \a v and adding it to \a p.
+/// \param scalar The amount by which to scale \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// Call this funtion to get the result of scaling second point by \a
-/// scalar factor and adding it to the first point. This is equivalent
-/// to the expression result = p1 + p2 * scalar.
-/// \see addScaled(const T&, Point2<T>&, const Point2<T>&)
+/// Call this funtion to get the result of scaling a vector by \a scalar factor
+/// and adding it to a point. This is equivalent to the expression result = p +
+/// v * scalar.
+/// \see addScaled(const T&, Point2<T>&, const Vector2<T>&)
 
 template<typename T>
 inline Point2<T> sumScaled(
 	const T& scalar,
-	const Point2<T>& p1,
-	const Point2<T>& p2)
+	const Point2<T>& p,
+	const Vector2<T>& v)
 {
 	Point2<T> r;
-	r[0] = p1[0] + scalar * p2[0];
-	r[1] = p1[1] + scalar * p2[1];
+	r[0] = p[0] + scalar * v[0];
+	r[1] = p[1] + scalar * v[1];
 	return r;
 }
 
@@ -417,7 +314,7 @@ inline T distanceSq(
 	const Point2<T>& p1,
 	const Point2<T>& p2)
 {
-	Point2<T> r = p1 - p2;
+	Vector2<T> r(p1, p2);
 	return (r[0]*r[0] + r[1]*r[1]);
 }
 
@@ -441,8 +338,8 @@ inline T angle(
 	const Point2<T>& p2,
 	const Point2<T>& p3)
 {
-	Point2<T> r1 = p1 - p2;
-	Point2<T> r2 = p3 - p2;
+	Vector2<T> r1(p2, p1);
+	Vector2<T> r2(p2, p3);
 	T lenSq = (r1[0]*r1[0] + r1[1]*r1[1]) * (r2[0]*r2[0] + r2[1]*r2[1]);
 	return (lenSq < SMALL ?
 		T(0.0f) :
@@ -516,80 +413,80 @@ inline bool isEqual(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 has been added to it.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return \a p after \a v has been added to it.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator adds p2 to p1 and stores the result in p1. This is
-/// equivalent to the expression p1 = p1 + p2.
-/// \see operator+(const Point3<T>&, const Point3<T>&)
+/// This overloaded operator adds \a v to \a p and stores the result in \a p.
+/// This is equivalent to the expression p = p + v.
+/// \see operator+(const Point3<T>&, const Vector3<T>&)
 
 template<typename T>
 inline Point3<T>& operator+= (
-	Point3<T>& p1,
-	const Point3<T>& p2)
+	Point3<T>& p,
+	const Vector3<T>& v)
 {
-	p1[0] += p2[0];
-	p1[1] += p2[1];
-	p1[2] += p2[2];
-	return p1;
+	p[0] += v[0];
+	p[1] += v[1];
+	p[2] += v[2];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of adding \a p2 to \a p1.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of adding \a v to \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator adds \a p2 to \a p1 and returns the result. This is
-/// equivalent to the expression result = p1 + p2.
-/// \see operator+=(Point3<T>&, const Point3<T>&)
+/// This overloaded operator adds \a v to \a p and returns the result. This is
+/// equivalent to the expression result = p + v.
+/// \see operator+=(Point3<T>&, const Vector3<T>&)
 
 template<typename T>
 inline Point3<T> operator+ (
-	const Point3<T>& p1,
-	const Point3<T>& p2)
+	const Point3<T>& p,
+	const Vector3<T>& v)
 {
-	Point3<T> r(p1);
-	r += p2;
+	Point3<T> r(p);
+	r += v;
 	return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 has been subtracted from it.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return \a p after \a v has been subtracted from it.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator subtracts \a p2 from \a p1 and stores the result in
-/// \a p1. This is equivalent to the expression p1 = p1 - p2.
-/// \see operator-(const Point3<T>&, const Point3<T>&)
+/// This overloaded operator subtracts \a v from \a p and stores the result in
+/// \a p. This is equivalent to the expression p = p - v.
+/// \see operator-(const Point3<T>&, const Vector3<T>&)
 
 template<typename T>
 inline Point3<T>& operator-= (
-	Point3<T>& p1,
-	const Point3<T>& p2)
+	Point3<T>& p,
+	const Vector3<T>& v)
 {
-	p1[0] -= p2[0];
-	p1[1] -= p2[1];
-	p1[2] -= p2[2];
-	return p1;
+	p[0] -= v[0];
+	p[1] -= v[1];
+	p[2] -= v[2];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of subtracting \a p2 from \a p1.
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of subtracting \a v from \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator subtracts \a p2 from \a p1 and returns the result.
-/// This is equivalent to the expression result = p1 - p2.
-/// \see operator-=(Point3<T>&, const Point3<T>&), operator-(const Point3<T>&)
+/// This overloaded operator subtracts \a v from \a p and returns the result.
+/// This is equivalent to the expression result = p - v.
+/// \see operator-=(Point3<T>&, const Vector3<T>&), operator-(const Point3<T>&)
 
 template<typename T>
 inline Point3<T> operator- (
-	const Point3<T>& p1,
-	const Point3<T>& p2)
+	const Point3<T>& p,
+	const Vector3<T>& v)
 {
-	Point3<T> r(p1);
-	r -= p2;
+	Point3<T> r(p);
+	r -= p;
 	return r;
 }
 
@@ -611,149 +508,49 @@ inline Point3<T> operator- (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return \a p after it has been multiplied by \a scalar.
-/// \param p Reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
+/// \return \a p after \a v scaled and has been added to it.
+/// \param scalar The amount by which to scale \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and stores the
-/// result in \a p. This is equivalent to the expression p = p * scalar.
-/// \see operator*(const Point3<T>&, const T&)
-
-template<typename T>
-inline Point3<T>& operator*= (
-	Point3<T>& p,
-	const T& scalar)
-{
-	p[0] *= scalar;
-	p[1] *= scalar;
-	p[2] *= scalar;
-	return p;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of multiplying \a p by scalar.
-/// \param p Constant reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and returns the
-/// result. This is equivalent to the expression result = p * scalar.
-/// \see operator*=(Point3<T>&, const const T&),
-/// operator*(const T&, const Point3<T>&)
-
-template<typename T>
-inline Point3<T> operator* (
-	const Point3<T>& p,
-	const T& scalar)
-{
-	Point3<T> r(p);
-	r *= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of multiplying \a p by scalar.
-/// \param scalar The amount by which to scale \a p
-/// \param p Constant reference to the point to be scaled.
-/// \remarks
-/// This overloaded operator multiplies \a p by a scalar value and returns the
-/// result. This is equivalent to the expression result = scalar * p. This is a
-/// convenient argument position indifference overloader.
-/// \see operator*=(Point3<T>&, const const T&),
-/// operator*(const Point3<T>&, const T&)
-
-template<typename T>
-inline Point3<T> operator* (
-	const T& scalar,
-	const Point3<T>& p)
-{
-	Point3<T> r(p);
-	r *= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a p after it has been divided by \a scalar.
-/// \param p Reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator divides \a p by a scalar value and stores the
-/// result in \a p. This is equivalent to the expression p = p / scalar.
-/// \see operator/(const Point3<T>&, const T&)
-
-template<typename T>
-inline Point3<T>& operator/= (
-	Point3<T>& p,
-	const T& scalar)
-{
-	p[0] /= scalar;
-	p[1] /= scalar;
-	p[2] /= scalar;
-	return p;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return The result of dividing \a p by scalar.
-/// \param p Constant reference to the point to be scaled.
-/// \param scalar The amount by which to scale \a p
-/// \remarks
-/// This overloaded operator divides \a p by a scalar value and returns the
-/// result. This is equivalent to the expression result = p / scalar.
-/// \see operator*=(Point3<T>&, const const T&)
-
-template<typename T>
-inline Point3<T> operator/ (
-	const Point3<T>& p,
-	const T& scalar)
-{
-	Point3<T> r(p);
-	r /= scalar;
-	return r;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-/// \return \a p1 after \a p2 scaled and has been added to it.
-/// \param scalar The amount by which to scale \a p2
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
-/// \remarks
-/// Call this funtion to scale second point by \a scalar factor and add it to
-/// the first point simultaneously. This is equivalent to the expression
-/// p1 = p2 * scalar.
-/// \see sumScaled(const T&, const Point3<T>&, const Point3<T>&)
+/// Call this funtion to scale a vector by \a scalar factor and add it to a
+/// point simultaneously. This is equivalent to the expression
+/// p = p + v * scalar.
+/// \see sumScaled(const T&, const Point3<T>&, const Vector3<T>&)
 
 template<typename T>
 inline Point3<T>& addScaled(
 	const T& scalar,
-	Point3<T>& p1,
-	const Point3<T>& p2)
+	Point3<T>& p,
+	const Vector3<T>& v)
 {
-	p1[0] += scalar * p2[0];
-	p1[1] += scalar * p2[1];
-	p1[2] += scalar * p2[2];
-	return p1;
+	p[0] += scalar * v[0];
+	p[1] += scalar * v[1];
+	p[2] += scalar * v[2];
+	return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The result of scaling \a p2 and adding it to \a p1.
-/// \param scalar The amount by which to scale \a p2
-/// \param p1 Reference to the first point.
-/// \param p2 Reference to the second point.
+/// \return The result of scaling \a v and adding it to \a p.
+/// \param scalar The amount by which to scale \a p.
+/// \param p Reference to the point.
+/// \param v Reference to the vector.
 /// \remarks
-/// Call this funtion to get the result of scaling second point by \a scalar
-/// factor and adding it to the first point. This is equivalent to the
-/// expression result = p1 + p2 * scalar.
-/// \see addScaled(const T&, Point3<T>&, const Point3<T>&)
+/// Call this funtion to get the result of scaling a vector by \a scalar factor
+/// and adding it to a point. This is equivalent to the expression
+/// result = p + v * scalar.
+/// \see addScaled(const T&, Point3<T>&, const Vector3<T>&)
 
 template<typename T>
 inline Point3<T> sumScaled(
 	const T& scalar,
-	const Point3<T>& p1,
-	const Point3<T>& p2)
+	const Point3<T>& p,
+	const Vector3<T>& v)
 {
 	Point3<T> r;
-	r[0] = p1[0] + scalar * p2[0];
-	r[1] = p1[1] + scalar * p2[1];
-	r[2] = p1[2] + scalar * p2[2];
+	r[0] = p[0] + scalar * v[0];
+	r[1] = p[1] + scalar * v[1];
+	r[2] = p[2] + scalar * v[2];
 	return r;
 }
 
@@ -857,7 +654,7 @@ inline T distanceSq(
 	const Point3<T>& p1,
 	const Point3<T>& p2)
 {
-	Point3<T> r = p1 - p2;
+	Vector3<T> r(p1, p2);
 	return (r[0]*r[0] + r[1]*r[1] + r[2]*r[2]);
 }
 
@@ -881,8 +678,8 @@ inline T angle(
 	const Point3<T>& p2,
 	const Point3<T>& p3)
 {
-	Point3<T> r1 = p1 - p2;
-	Point3<T> r2 = p3 - p2;
+	Vector3<T> r1(p2, p1);
+	Vector3<T> r2(p2, p3);
 	T lenSq = (r1[0]*r1[0] + r1[1]*r1[1] + r1[2]*r1[2]) *
 		(r2[0]*r2[0] + r2[1]*r2[1] + r2[2]*r2[2]);
 	return (lenSq < SMALL ?
