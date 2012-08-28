@@ -134,6 +134,24 @@ inline Point2<T>& operator-= (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return The resulting vector.
+/// \param p1 A Point2 object that specify start \a (tail) of the vector.
+/// \param p2 A Point2 object that specify end \a (head) of the vector.
+/// \remarks
+/// This overloaded operator returns a Vector2 from 2 supplied Point2
+/// objects. The resulting vector is from \a p1 (tail) to \a p2 (head).
+/// \see Vector2<T>::Vector2(const Point2<T>&, const Point2<T>&)
+
+template<typename T>
+inline Vector2<T> operator- (
+	const Point2<T>& p1,
+	const Point2<T>& p2)
+{
+	Vector2<T> v(p1, p2);
+	return v;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// \return The result of subtracting \a v from \a p.
 /// \param p Reference to the point.
 /// \param v Reference to the vector.
@@ -472,6 +490,24 @@ inline Point3<T>& operator-= (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return The resulting vector.
+/// \param p1 A Point2 object that specify start \a (tail) of the vector.
+/// \param p2 A Point2 object that specify end \a (head) of the vector.
+/// \remarks
+/// This overloaded operator returns a Vector3 object from 2 supplied Point3
+/// objects. The resulting vector is from \a p1 (tail) to \a p2 (head).
+/// \see Vector3<T>::Vector3(const Point3<T>&, const Point3<T>&)
+
+template<typename T>
+inline Vector3<T> operator- (
+	const Point3<T>& p1,
+	const Point3<T>& p2)
+{
+	Vector3<T> v(p1, p2);
+	return v;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// \return The result of subtracting \a v from \a p.
 /// \param p Reference to the point.
 /// \param v Reference to the vector.
@@ -486,7 +522,7 @@ inline Point3<T> operator- (
 	const Vector3<T>& v)
 {
 	Point3<T> r(p);
-	r -= p;
+	r -= v;
 	return r;
 }
 

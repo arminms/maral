@@ -25,14 +25,14 @@
 /// \remarks
 /// Outputs a string representation of the given Point2 type to the
 /// given output stream. The output is formatted such that
-/// Point2<int>(1,2) will appear as "(1,2)".
+/// Point2<int>(1,2) will appear as "[1,2]".
 
 template<typename T>
 inline std::ostream& operator<< (
 	std::ostream& out,
 	const Point2<T>& p)
 {
-	out << '(' << p[0] << ',' << p[1] << ')';
+	out << '[' << p[0] << ',' << p[1] << ']';
 	return out;
 }
 
@@ -43,14 +43,14 @@ inline std::ostream& operator<< (
 /// \remarks
 /// Outputs a string representation of the given Vector2 type to the
 /// given output stream. The output is formatted such that
-/// Vector2<int>(1,2) will appear as "(1,2)".
+/// Vector2<int>(1,2) will appear as "[1,2]".
 
 template<typename T>
 inline std::ostream& operator<< (
 	std::ostream& out,
 	const Vector2<T>& v)
 {
-	out << '(' << v[0] << ',' << v[1] << ')';
+	out << '[' << v[0] << ',' << v[1] << ']';
 	return out;
 }
 
@@ -61,14 +61,14 @@ inline std::ostream& operator<< (
 /// \remarks
 /// Outputs a string representation of the given Point3 type to the
 /// given output stream. The output is formatted such that
-/// Point3<int>(1,2,3) will appear as "(1,2,3)".
+/// Point3<int>(1,2,3) will appear as "[1,2,3]".
 
 template<typename T>
 inline std::ostream& operator<< (
 	std::ostream& out,
 	const Point3<T>& p)
 {
-	out << '(' << p[0] << ',' << p[1] << ',' << p[2] << ')';
+	out << '[' << p[0] << ',' << p[1] << ',' << p[2] << ']';
 	return out;
 }
 
@@ -79,14 +79,14 @@ inline std::ostream& operator<< (
 /// \remarks
 /// Outputs a string representation of the given Vector3 type to the
 /// given output stream. The output is formatted such that
-/// Vector3<int>(1,2,3) will appear as "(1,2,3)".
+/// Vector3<int>(1,2,3) will appear as "[1,2,3]".
 
 template<typename T>
 inline std::ostream& operator<< (
 	std::ostream& out,
 	const Vector3<T>& v)
 {
-	out << '(' << v[0] << ',' << v[1] << ',' << v[2] << ')';
+	out << '[' << v[0] << ',' << v[1] << ',' << v[2] << ']';
 	return out;
 }
 

@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Output, T, test_types)
 	output << vec;
 	BOOST_CHECK(!output.is_empty(false) );
 	BOOST_CHECK( output.check_length(5, false) );
-	BOOST_CHECK( output.is_equal("(1,2)") );
+	BOOST_CHECK( output.is_equal("[1,2]") );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -468,10 +468,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Constructors, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_ConstructFromPoints, T, test_types)
 {
-	Point3<T> point1((T)2, (T)2, (T)4);
-	Point3<T> Point3((T)1, (T)2, (T)5);
+	Point3<T> p1((T)2, (T)2, (T)4);
+	Point3<T> p2((T)1, (T)2, (T)5);
 
-	Vector3<T> vec(point1, Point3);
+	Vector3<T> vec(p1, p2);
 	BOOST_CHECK_EQUAL(vec[0], (T)-1);
 	BOOST_CHECK_EQUAL(vec[1], (T)0);
 	BOOST_CHECK_EQUAL(vec[2], (T)1);
@@ -1006,7 +1006,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Output, T, test_types)
 	output << vec;
 	BOOST_CHECK(!output.is_empty(false) );
 	BOOST_CHECK( output.check_length(7, false) );
-	BOOST_CHECK( output.is_equal("(1,2,3)") );
+	BOOST_CHECK( output.is_equal("[1,2,3]") );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
