@@ -187,6 +187,56 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpIsEqual, T, float_types)
 	}
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpPlusEq, T, test_types)
+{
+	Point2<T> p((T)1, (T)2);
+	Vector2<T> v((T)2, (T)2);
+
+	p += v;
+	BOOST_CHECK_EQUAL(p[0], (T)3);
+	BOOST_CHECK_EQUAL(p[1], (T)4);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpPlus, T, test_types)
+{
+	Point2<T> p((T)2, (T)2);
+	Vector2<T> v((T)1, (T)2);
+
+	Point2<T> r = p + v;
+	BOOST_CHECK_EQUAL(r[0], (T)3);
+	BOOST_CHECK_EQUAL(r[1], (T)4);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMinusEq, T, test_types)
+{
+	Point2<T> p((T)1, (T)2);
+	Vector2<T> v((T)2, (T)2);
+
+	p -= v;
+	BOOST_CHECK_EQUAL(p[0], (T)-1);
+	BOOST_CHECK_EQUAL(p[1], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMinusVector, T, test_types)
+{
+	Point2<T> point1((T)2, (T)2);
+	Point2<T> point2((T)1, (T)2);
+
+	Vector2<T> vec = point1 - point2;
+	BOOST_CHECK_EQUAL(vec[0], (T)-1);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpMinus, T, test_types)
+{
+	Point2<T> p((T)2, (T)2);
+	Vector2<T> v((T)1, (T)2);
+
+	Point2<T> r = p - v;
+	BOOST_CHECK_EQUAL(r[0], (T)1);
+	BOOST_CHECK_EQUAL(r[1], (T)0);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpNegate, T, test_types)
 {
 	Point2<T> point2((T)2, (T)-3);
@@ -285,7 +335,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Output, T, test_types)
 	output << point;
 	BOOST_CHECK(!output.is_empty(false) );
 	BOOST_CHECK( output.check_length(5, false) );
-	BOOST_CHECK( output.is_equal("(1,2)") );
+	BOOST_CHECK( output.is_equal("[1,2]") );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -492,6 +542,61 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpIsEqual, T, float_types)
 	}
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpPlusEq, T, test_types)
+{
+	Point3<T> p((T)1, (T)2, (T)3);
+	Vector3<T> v((T)2, (T)2, (T)2);
+
+	p += v;
+	BOOST_CHECK_EQUAL(p[0], (T)3);
+	BOOST_CHECK_EQUAL(p[1], (T)4);
+	BOOST_CHECK_EQUAL(p[2], (T)5);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpPlus, T, test_types)
+{
+	Vector3<T> v((T)2, (T)2, (T)3);
+	Point3<T> p((T)1, (T)2, (T)3);
+
+	Point3<T> r = p + v;
+	BOOST_CHECK_EQUAL(r[0], (T)3);
+	BOOST_CHECK_EQUAL(r[1], (T)4);
+	BOOST_CHECK_EQUAL(r[2], (T)6);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMinusEq, T, test_types)
+{
+	Point3<T> p((T)1, (T)2, (T)3);
+	Vector3<T> v((T)2, (T)2, (T)2);
+
+	p -= v;
+	BOOST_CHECK_EQUAL(p[0], (T)-1);
+	BOOST_CHECK_EQUAL(p[1], (T)0);
+	BOOST_CHECK_EQUAL(p[2], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpMinusVector, T, test_types)
+{
+	Point3<T> p1((T)2, (T)2, (T)4);
+	Point3<T> p2((T)1, (T)2, (T)5);
+
+	Vector3<T> vec = p1 - p2;
+	BOOST_CHECK_EQUAL(vec[0], (T)-1);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+	BOOST_CHECK_EQUAL(vec[2], (T)1);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpMinus, T, test_types)
+{
+	Vector3<T> v((T)2, (T)2, (T)2);
+	Point3<T> p((T)1, (T)2, (T)3);
+
+	Point3<T> r = p - v;
+	BOOST_CHECK_EQUAL(r[0], (T)-1);
+	BOOST_CHECK_EQUAL(r[1], (T)0);
+	BOOST_CHECK_EQUAL(r[2], (T)1);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpNegate, T, test_types)
 {
 	Point3<T> point2((T)2, (T)-3, (T)5);
@@ -630,7 +735,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Output, T, test_types)
 	output << point;
 	BOOST_CHECK(!output.is_empty(false) );
 	BOOST_CHECK( output.check_length(7, false) );
-	BOOST_CHECK( output.is_equal("(1,2,3)") );
+	BOOST_CHECK( output.is_equal("[1,2,3]") );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

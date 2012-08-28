@@ -43,11 +43,11 @@ inline Vector2<T>::Vector2(T x, T y)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p1 A Point2 object that specify start of the vector.
-/// \param p2 A Point2 object that specify end of the vector.
+/// \param p1 A Point2 object that specify start \a (tail) of the vector.
+/// \param p2 A Point2 object that specify end \a (head) of the vector.
 /// \remarks
 /// Constructs a Vector2 object from 2 supplied Point2 object. The resulting
-/// vector is from \a p1 to \a p2.
+/// vector is from \a p1 (tail) to \a p2 (head).
 
 template <typename T>
 inline Vector2<T>::Vector2(const Point2<T>& p1, const Point2<T>& p2)
@@ -306,11 +306,11 @@ inline Vector3<T>::Vector3(T x, T y, T z)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p1 A Point3 object that specify start of the vector.
-/// \param p2 A Point3 object that specify end of the vector.
+/// \param p1 A Point3 object that specify start \a (tail) of the vector.
+/// \param p2 A Point3 object that specify end \a (head) of the vector.
 /// \remarks
 /// Constructs a Vector3 object from 2 supplied Point3 object. The resulting
-/// vector is from \a p1 to \a p2.
+/// vector is from \a p1 (tail) to \a p2 (head).
 
 template <typename T>
 inline Vector3<T>::Vector3(const Point3<T>& p1, const Point3<T>& p2)
