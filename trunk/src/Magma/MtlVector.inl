@@ -19,13 +19,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Vector2 object (default constructor). All components
-/// are initialized to zero.
+/// Constructs a Vector2 object (default constructor). For efficiency, no
+/// initialization is performed which leaves vector in an indeterminate state.
+/// You may call zero() member function later to make a zero vector.
+/// \see Vector2<T>::zero
 
 template <typename T>
 inline Vector2<T>::Vector2()
 {
-	data_[0] = data_[1] = (T)0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +215,20 @@ inline void Vector2<T>::set(const T* dataPtr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to this vector after all components were initialized to
+/// zero.
+/// \remarks
+/// Sets the vector to zero then returns its reference. In this way, it can be
+/// used as a parameter for another function.
+
+template <typename T>
+inline Vector2<T>& Vector2<T>::zero()
+{
+	data_[0] = data_[1] = (T)0;
+	return *this;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// \return Pointer to the first element (x coordinate) of the component
 /// array for this vector.
 /// \remarks
@@ -280,13 +295,14 @@ inline T Vector2<T>::operator[] (const unsigned i) const
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Vector3 object (default constructor). All components
-/// are initialized to zero.
+/// Constructs a Vector3 object (default constructor). For efficiency, no
+/// initialization is performed which leaves vector in an indeterminate state.
+/// You may call zero() member function later to make a zero vector.
+/// \see Vector3<T>::zero
 
 template <typename T>
 inline Vector3<T>::Vector3()
 {
-	data_[0] = data_[1] = data_[2] = (T)0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -532,6 +548,20 @@ template <typename T>
 inline T* Vector3<T>::getData()
 {
 	return data_;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to this vector after all components were initialized to
+/// zero.
+/// \remarks
+/// Sets the vector to zero then returns its reference. In this way, it can be
+/// used as a parameter for another function.
+
+template <typename T>
+inline Vector3<T>& Vector3<T>::zero()
+{
+	data_[0] = data_[1] = data_[2] = (T)0;
+	return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

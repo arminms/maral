@@ -79,6 +79,8 @@ public:
 	void set(T x, T y);
 	void set(const T* dataPtr);
 
+	Vector2<T>& zero();
+
 	T* getData();
 	const T* getData() const;
 //@}
@@ -147,6 +149,8 @@ public:
 
 	void set(T x, T y, T z);
 	void set(const T* dataPtr);
+
+	Vector3<T>& zero();
 
 	T* getData();
 	const T* getData() const;

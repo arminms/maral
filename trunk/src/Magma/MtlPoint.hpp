@@ -77,6 +77,8 @@ public:
 	void set(T x, T y);
 	void set(const T* dataPtr);
 
+	Point2<T>& zero();
+
 	T* getData();
 	const T* getData() const;
 //@}
@@ -143,6 +145,8 @@ public:
 
 	void set(T x, T y, T z);
 	void set(const T* dataPtr);
+
+	Point3<T>& zero();
 
 	T* getData();
 	const T* getData() const;
