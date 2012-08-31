@@ -17,14 +17,6 @@ BOOST_AUTO_TEST_SUITE( Vectors )
 
 BOOST_AUTO_TEST_SUITE( Vec2 )
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Creation, T, test_types)
-{
-	Vector2<T> vec;
-
-	BOOST_CHECK_EQUAL(vec[0], (T)0);
-	BOOST_CHECK_EQUAL(vec[1], (T)0);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Constructors, T, test_types)
 {
 	Vector2<T> vec((T)1, (T)2);
@@ -133,6 +125,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_SetPtr, T, test_types)
 	BOOST_CHECK_EQUAL(vec[1], (T)2);
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Zero, T, test_types)
+{
+	Vector2<T> vec;
+
+	BOOST_CHECK_EQUAL(vec.zero()[0], (T)0);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetData, T, test_types)
 {
 	T* data;
@@ -142,7 +142,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetData, T, test_types)
 	BOOST_CHECK_EQUAL(data[0], (T)1);
 	BOOST_CHECK_EQUAL(data[1], (T)2);
 }
-
 
 BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE( Vec2Ops )
@@ -448,15 +447,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Output, T, test_types)
 BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE( Vec3 )
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Creation, T, test_types)
-{
-	Vector3<T> vec;
-
-	BOOST_CHECK_EQUAL(vec[0], (T)0);
-	BOOST_CHECK_EQUAL(vec[1], (T)0);
-	BOOST_CHECK_EQUAL(vec[2], (T)0);
-}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Constructors, T, test_types)
 {
 	Vector3<T> vec((T)1, (T)2, (T)3);
@@ -594,6 +584,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_SetPtr, T, test_types)
 	BOOST_CHECK_EQUAL(vec[0], (T)1);
 	BOOST_CHECK_EQUAL(vec[1], (T)2);
 	BOOST_CHECK_EQUAL(vec[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Zero, T, test_types)
+{
+	Vector3<T> vec;
+
+	BOOST_CHECK_EQUAL(vec.zero()[0], (T)0);
+	BOOST_CHECK_EQUAL(vec[1], (T)0);
+	BOOST_CHECK_EQUAL(vec[2], (T)0);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetData, T, test_types)
@@ -954,8 +953,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpCross, T, float_types)
 
 	cross(r, v1, v2);
 	BOOST_CHECK(isEqual(r, v3, T(0.001f) ) );
+	BOOST_CHECK(isEqual(cross(v1, v2), v3, T(0.001f) ) );
 	cross(r, v2, v1);
 	BOOST_CHECK(isEqual(r, Vector3<T>(-v3), T(0.001f) ) );
+	BOOST_CHECK(isEqual(cross(v2, v1), Vector3<T>(-v3), T(0.001f) ) );
 
 	v1.set(13.45f, -7.8f, 0.056f);
 	v2.set(0.777f, 5.333f, 12.21f);
@@ -963,8 +964,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpCross, T, float_types)
 
 	cross(r, v1, v2);
 	BOOST_CHECK(isEqual(r, v3, T(0.001f) ) );
+	BOOST_CHECK(isEqual(cross(v1, v2), v3, T(0.001f) ) );
 	cross(r, v2, v1);
 	BOOST_CHECK(isEqual(r, Vector3<T>(-v3), T(0.001f) ) );
+	BOOST_CHECK(isEqual(cross(v2, v1), Vector3<T>(-v3), T(0.001f) ) );
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
@@ -997,6 +1000,36 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
 	Vector3<T> C2H6(C2, H6);
 	BOOST_CHECK_CLOSE(torsionAngle(C1H1, C1C2, C2H6), T(-180.0), T(0.001));
 	BOOST_CHECK_CLOSE(torsionAngle(C2H6, C2C1, C1H1), T(-180.0), T(0.001));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Linear_Algebra_Identities, T, float_types)
+{
+	Vector3<T> v1(1,2,3);
+	Vector3<T> v2(-1,0,1);
+	Vector3<T> v3(2,4,-5);
+	Vector3<T> r;
+	Vector3<T> zero;
+
+	BOOST_CHECK(v1+v2 == v2+v1);
+	BOOST_CHECK(v1-v2 == v1+(-v2) );
+	BOOST_CHECK((v1+v2)+v3 == v1+(v2+v3));
+	BOOST_CHECK(v1*T(3) == T(3)*v1);
+	BOOST_CHECK(T(3)*(v1+v2) == (T(3)*v1) + (T(3)*v2));
+	BOOST_CHECK_CLOSE(length(v1*T(-3)), length(v1)*abs(T(-3)), SMALL);
+//	BOOST_CHECK((length(v1)*length(v1)) + (length(v2)*length(v2)) == length(v1+v2) * length(v1+v2));
+	BOOST_CHECK(length(v1)+length(v2) >= length(v1+v2));
+	BOOST_CHECK(dot(v1, v2) == dot(v2, v1));
+	BOOST_CHECK_CLOSE(length(v1), sqrt(dot(v1, v1)), SMALL);
+	BOOST_CHECK(T(3)*dot(v1, v2) == dot(T(3)*v1, v2));
+	BOOST_CHECK(T(3)*dot(v1, v2) == dot(v1, T(3)*v2));
+	BOOST_CHECK(dot(v1, v2+v3) == dot(v1, v2) + dot(v1, v3));
+	BOOST_CHECK(cross(r, v1, v1) == zero.zero());
+	BOOST_CHECK(cross(v1, v2) == -(cross(v2, v1)));
+	BOOST_CHECK(cross(v1, v2) == cross(-v1, -v2));
+	BOOST_CHECK(T(3)*cross(v1, v2) == cross(v1*T(3), v2));
+	BOOST_CHECK(T(3)*cross(v1, v2) == cross(v1, v2*T(3)));
+	BOOST_CHECK(cross(v1, v2+v3) == cross(v1, v2) + cross(v1, v3));
+	BOOST_CHECK(dot(v1, cross(v1, v2)) == T(0));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Output, T, test_types)

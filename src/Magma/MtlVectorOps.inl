@@ -51,7 +51,7 @@ inline bool operator!= (
 	const Vector2<T>& v1,
 	const Vector2<T>& v2)
 {
-	return (!(v1 == v2));
+	return (v1[0] != v2[0] || v1[1] != v2[1]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +138,7 @@ inline Vector2<T>& operator-= (
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
 /// \remarks
-/// This overloaded operator subtracts v2 from v1 and returns the result.
+/// This overloaded operator subtracts \a v2 from \a v1 and returns the result.
 /// This is equivalent to the expression result = v1 - v2.
 /// \see operator-=(Vector2<T>&, const Vector2<T>&),
 /// operator-(const Vector2<T>&)
@@ -157,9 +157,11 @@ inline Vector2<T> operator- (
 /// \return The result of negating \a v.
 /// \param v Reference to the vector.
 /// \remarks
-/// This overloaded unary operator changes the sign of each components
-/// of a given vector and returns the result as a new vector. This is
-/// equivalent to the expression result = -v.
+/// This overloaded unary operator changes the sign of each components of a
+/// given vector and returns the result as a new vector. This is
+/// equivalent to the expression result = -v which is a vector negation.
+/// Negating a vector results in a vector of the same magnitude but opposite
+/// direction.
 /// \see operator-(const Vector2<T>&, const Vector2<T>&)
 
 template<typename T>
@@ -175,9 +177,10 @@ inline Vector2<T> operator- (
 /// \param v Reference to the vector to be scaled.
 /// \param scalar The amount by which to scale \a v
 /// \remarks
-/// This overloaded operator multiplies \a v by a scalar value and
-/// stores the result in \a v. This is equivalent to the expression
-/// v = v * scalar.
+/// This overloaded operator multiplies \a v by a scalar value and stores the
+/// result in \a v. This is equivalent to the expression v = v * scalar. The
+/// result is a vector parallel with the original one, except with a different
+/// length and possibly opposite direction.
 /// \see operator*(const Vector2<T>&, const T&)
 
 template<typename T>
@@ -197,7 +200,8 @@ inline Vector2<T>& operator*= (
 /// \remarks
 /// This overloaded operator multiplies \a v by a scalar value and
 /// returns the result. This is equivalent to the expression
-/// result = v * scalar.
+/// result = v * scalar. The result is a vector parallel with the original one,
+/// except with a different length and possibly opposite direction.
 /// \see operator*=(Vector2<T>&, const const T&),
 /// operator*(const T&, const Vector2<T>&)
 
@@ -237,10 +241,12 @@ inline Vector2<T> operator* (
 /// \return \a v after it has been divided by \a scalar.
 /// \param v Reference to the vector to be scaled.
 /// \param scalar The amount by which to scale \a v
+/// \pre scalar != 0
 /// \remarks
 /// This overloaded operator divides \a v by a scalar value and
 /// stores the result in \a v. This is equivalent to the expression
-/// v = v / scalar.
+/// v = v / scalar. The result is a vector parallel with the original one,
+/// except with a different length and possibly opposite direction.
 /// \see operator/(const Vector2<T>&, const T&)
 
 template<typename T>
@@ -248,6 +254,7 @@ inline Vector2<T>& operator/= (
 	Vector2<T>& v,
 	const T& scalar)
 {
+	assert(scalar != T(0));
 	v[0] /= scalar;
 	v[1] /= scalar;
 	return v;
@@ -257,10 +264,12 @@ inline Vector2<T>& operator/= (
 /// \return The result of dividing \a v by scalar.
 /// \param v Constant reference to the vector to be scaled.
 /// \param scalar The amount by which to scale \a v
+/// \pre scalar != 0
 /// \remarks
 /// This overloaded operator divides \a v by a scalar value and
 /// returns the result. This is equivalent to the expression
-/// result = v / scalar.
+/// result = v / scalar. The result is a vector parallel with the original one,
+/// except with a different length and possibly opposite direction.
 /// \see operator*=(Vector2<T>&, const const T&)
 
 template<typename T>
@@ -303,8 +312,10 @@ inline Vector2<T>& middle(
 /// \param v1 The first vector.
 /// \param v2 The second vector.
 /// \remarks
-/// This function computes dot product (AKA scalar product) of two given vectors.
-/// The dot product is used to calculate the angle between two vectors.
+/// This function computes dot product (AKA \a scalar \a product, \a inner \a
+/// product) of two given vectors. It tells how \a similar two vectors are; the
+/// larger the dot product, the more similar the two vectors. The dot product is
+/// used to calculate the angle between two vectors.
 /// \see angle(const Vector2<T>&,const Vector2<T>&)
 
 template<typename T>
@@ -320,15 +331,16 @@ inline T dot(
 /// \param v The vector with which to compute the length.
 /// \pre Only works with float types (e.g. Vector2i is not acceptable)
 /// \remarks
-/// This function computes the length of the given vector.
+/// This function computes the length (AKA \a magnitude or \a norm) of the
+/// given vector.
 /// \see lengthSq(const Vector2<T>&)
 
 template<typename T>
 inline T length(
 	const Vector2<T>& v)
 {
-	T r = lengthSq(v);
-	return (r == T(0.0f) ? T(0.0f) : sqrt(r));
+	T r = v[0]*v[0] + v[1]*v[1];
+	return (r > T(0) ? sqrt(r) : T(0));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -375,24 +387,23 @@ inline T angle(
 /// \param v The vector to normalize.
 /// \pre Only works with float types (e.g. Vector2i is not acceptable)
 /// \post length(v) == 1.0 unless length(v) is originally 0.0, in which
-/// case it is unchanged
+/// case it is unchanged.
 /// \remarks
 /// This function normalizes the given vector in place causing it to
 /// be of unit length. If the vector is already of length 1.0, nothing
-/// is done. For convenience, the original length of the vector is
-/// returned.
+/// is done.
 
 template<typename T>
-inline T normalize(
+inline void normalize(
 	Vector2<T>& v)
 {
-	T len = length(v);
-	if (len != T(0.0f))
+	T lenSq = v[0]*v[0] + v[1]*v[1];
+	if (lenSq > T(0))
 	{
-		v[0] /= len;
-		v[1] /= len;
+		T oneOverLen = T(1) / sqrt(lenSq);
+		v[0] *= oneOverLen;
+		v[1] *= oneOverLen;
 	}
-	return len;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -507,7 +518,7 @@ inline bool operator!= (
 	const Vector3<T>& v1,
 	const Vector3<T>& v2)
 {
-	return (!(v1 == v2));
+	return (v1[0] != v2[0] || v1[1] != v2[1] || v1[2] != v2[2]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -619,7 +630,8 @@ inline Vector3<T> operator- (
 /// \remarks
 /// This overloaded unary operator changes the sign of each components of a
 /// given vector and returns the result as a new vector. This is equivalent to
-/// the expression result = -v.
+/// the expression result = -v  which is a vector negation. Negating a vector
+/// results in a vector of the same magnitude but opposite direction.
 /// \see operator-(const Vector3<T>&, const Vector3<T>&)
 
 template<typename T>
@@ -636,7 +648,9 @@ inline Vector3<T> operator- (
 /// \param scalar The amount by which to scale \a v
 /// \remarks
 /// This overloaded operator multiplies \a v by a scalar value and stores the
-/// result in \a v. This is equivalent to the expression v = v * scalar.
+/// result in \a v. This is equivalent to the expression v = v * scalar. The
+/// result is a vector parallel with the original one, except with a different
+/// length and possibly opposite direction.
 /// \see operator*(const Vector3<T>&, const T&)
 
 template<typename T>
@@ -656,7 +670,9 @@ inline Vector3<T>& operator*= (
 /// \param scalar The amount by which to scale \a v.
 /// \remarks
 /// This overloaded operator multiplies \a v by a scalar value and returns the
-/// result. This is equivalent to the expression result = v * scalar.
+/// result. This is equivalent to the expression result = v * scalar. The result
+/// is a vector parallel with the original one, except with a different length
+/// and possibly opposite direction.
 /// \see operator*=(Vector3<T>&, const const T&),
 /// operator*(const T&, const Vector3<T>&)
 
@@ -695,9 +711,12 @@ inline Vector3<T> operator* (
 /// \return \a v after it has been divided by \a scalar.
 /// \param v Reference to the vector to be scaled.
 /// \param scalar The amount by which to scale \a v.
+/// \pre scalar != 0
 /// \remarks
 /// This overloaded operator divides \a v by a scalar value and stores the
-/// result in \a v. This is equivalent to the expression v = v / scalar.
+/// result in \a v. This is equivalent to the expression v = v / scalar. The
+/// result is a vector parallel with the original one, except with a different
+/// length and possibly opposite direction.
 /// \see operator/(const Vector3<T>&, const T&)
 
 template<typename T>
@@ -705,6 +724,7 @@ inline Vector3<T>& operator/= (
 	Vector3<T>& v,
 	const T& scalar)
 {
+	assert(scalar != T(0));
 	v[0] /= scalar;
 	v[1] /= scalar;
 	v[2] /= scalar;
@@ -715,9 +735,12 @@ inline Vector3<T>& operator/= (
 /// \return The result of dividing \a v by scalar.
 /// \param v Constant reference to the vector to be scaled.
 /// \param scalar The amount by which to scale \a v.
+/// \pre scalar != 0
 /// \remarks
 /// This overloaded operator divides \a v by a scalar value and returns the
-/// result. This is equivalent to the expression result = v / scalar.
+/// result. This is equivalent to the expression result = v / scalar. The result
+/// is a vector parallel with the original one, except with a different length
+/// and possibly opposite direction.
 /// \see operator*=(Vector3<T>&, const const T&)
 
 template<typename T>
@@ -761,8 +784,10 @@ inline Vector3<T>& middle(
 /// \param v1 The first vector.
 /// \param v2 The second vector.
 /// \remarks
-/// This function computes dot product (AKA scalar product) of two given vectors.
-/// The dot product is used to calculate the angle between two vectors.
+/// This function computes dot product (AKA \a scalar \a product, \a inner \a
+/// product) of two given vectors. It tells how \a similar two vectors are; the
+/// larger the dot product, the more similar the two vectors. The dot product is
+/// used to calculate the angle between two vectors.
 /// \see angle(const Vector3<T>&,const Vector3<T>&)
 
 template<typename T>
@@ -778,15 +803,16 @@ inline T dot(
 /// \param v The vector with which to compute the length.
 /// \pre Only works with float types (e.g. Vector3i is not acceptable).
 /// \remarks
-/// This function computes the length of the given vector.
+/// This function computes the length (AKA \a magnitude or \a norm) of the
+/// given vector.
 /// \see lengthSq(const Vector3<T>&)
 
 template<typename T>
 inline T length(
 	const Vector3<T>& v)
 {
-	T r = lengthSq(v);
-	return (r == T(0.0f) ? T(0.0f) : sqrt(r));
+	T r = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+	return (r > T(0) ? sqrt(r) : T(0.0f));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -831,28 +857,26 @@ inline T angle(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return The length of \p v before it was normalized.
 /// \param v The vector to normalize.
 /// \pre Only works with float types (e.g. Vector3i is not acceptable).
 /// \post length(v) == 1.0 unless length(v) is originally 0.0, in which case it
 /// is unchanged.
 /// \remarks
 /// This function normalizes the given vector in place causing it to be of unit
-/// length. If the vector is already of length 1.0, nothing is done. For
-/// convenience, the original length of the vector is returned.
+/// length. If the vector is already of length 1.0, nothing is done.
 
 template<typename T>
-inline T normalize(
+inline void normalize(
 	Vector3<T>& v)
 {
-	T len = length(v);
-	if (len != T(0.0f))
+	T lenSq = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+	if (lenSq > T(0))
 	{
-		v[0] /= len;
-		v[1] /= len;
-		v[2] /= len;
+		T oneOverLen = T(1) / sqrt(lenSq);
+		v[0] *= oneOverLen;
+		v[1] *= oneOverLen;
+		v[2] *= oneOverLen;
 	}
-	return len;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -937,10 +961,14 @@ inline Vector3<T>& lerp(
 /// \param v1 The first vector.
 /// \param v2 The second vector.
 /// \remarks
-/// Computes the cross product between \a v1 and \a v2 which is another vector
-/// peripendicular to the plane defined by the previous ones and stores the
-/// result in \a r. The result is also returned by reference. In this way, it
+/// Computes the cross product (AKA \a outer \a product) between \a v1 and \a v2
+/// which is another vector peripendicular to the plane defined by the original
+/// two vectors and stores the result in \a r. In a left-handed coordinate
+/// system, the direction of the cross product vector would be toward you for
+/// a clockwise turn from \a v1 to \a v2 when head of \a v1 aligned with the
+/// tail of \a v2. The result is also returned by reference. In this way, it
 /// can be used as a parameter for another function.
+/// \see cross(const Vector3<T>&,const Vector3<T>&)
 
 template<typename T>
 inline Vector3<T>& cross(
@@ -948,6 +976,30 @@ inline Vector3<T>& cross(
 	const Vector3<T>& v1,
 	const Vector3<T>& v2)
 {
+	r[0] = (v1[1]*v2[2]) - (v1[2]*v2[1]);
+	r[1] = (v1[2]*v2[0]) - (v1[0]*v2[2]);
+	r[2] = (v1[0]*v2[1]) - (v1[1]*v2[0]);
+	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Cross product vector.
+/// \param v1 The first vector.
+/// \param v2 The second vector.
+/// \remarks
+/// Computes the cross product (AKA \a outer \a product) between \a v1 and \a v2
+/// which is another vector peripendicular to the plane defined by the original
+/// two vectors. In a left-handed coordinate system, the direction of the cross
+/// product vector would be toward you for a clockwise turn from \a v1 to \a v2
+/// when head of \a v1 aligned with the tail of \a v2.
+/// \see cross(Vector3<T>&,const Vector3<T>&,const Vector3<T>&)
+
+template<typename T>
+inline Vector3<T> cross(
+	const Vector3<T>& v1,
+	const Vector3<T>& v2)
+{
+	Vector3<T> r;
 	r[0] = (v1[1]*v2[2]) - (v1[2]*v2[1]);
 	r[1] = (v1[2]*v2[0]) - (v1[0]*v2[2]);
 	r[2] = (v1[0]*v2[1]) - (v1[1]*v2[0]);

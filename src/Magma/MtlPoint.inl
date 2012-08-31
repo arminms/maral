@@ -19,13 +19,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Point2 object (default constructor). All components
-/// are initialized to zero.
+/// Constructs a Point2 object (default constructor). For efficiency, no
+/// initialization is performed which leaves point in an indeterminate state.
+/// You may call zero() member function later to make a zero point.
+/// \see Point2<T>::zero
 
 template <typename T>
 inline Point2<T>::Point2()
 {
-	data_[0] = data_[1] = (T)0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +201,20 @@ inline void Point2<T>::set(const T* dataPtr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to this point after all components were initialized to
+/// zero.
+/// \remarks
+/// Sets the point to zero then returns its reference. In this way, it can be
+/// used as a parameter for another function.
+
+template <typename T>
+inline Point2<T>& Point2<T>::zero()
+{
+	data_[0] = data_[1] = (T)0;
+	return *this;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// \return Pointer to the first element (x coordinate) of the component
 /// array for this point.
 /// \remarks
@@ -266,13 +281,15 @@ inline T Point2<T>::operator[] (const unsigned i) const
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Point3 object (default constructor). All components
-/// are initialized to zero.
+/// Constructs a Point3 object (default constructor). For efficiency, no
+/// initialization is performed which leaves point in an indeterminate state.
+/// You may call zero() member function later to make a zero point.
+/// \see Point3<T>::zero
+
 
 template <typename T>
 inline Point3<T>::Point3()
 {
-	data_[0] = data_[1] = data_[2] = (T)0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -491,6 +508,20 @@ inline void Point3<T>::set(const T* dataPtr)
 {
 	assert(dataPtr);
 	data_[0] = dataPtr[0]; data_[1] = dataPtr[1]; data_[2] = dataPtr[2];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to this point after all components were initialized to
+/// zero.
+/// \remarks
+/// Sets the point to zero then returns its reference. In this way, it can be
+/// used as a parameter for another function.
+
+template <typename T>
+inline Point3<T>& Point3<T>::zero()
+{
+	data_[0] = data_[1] = data_[2] = (T)0;
+	return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
