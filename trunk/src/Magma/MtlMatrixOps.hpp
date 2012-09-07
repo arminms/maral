@@ -7,31 +7,32 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-/// \file Mtl.hpp
-/// \brief Include file for some frequently used mathematical defines.
+/// \file MtlMatrixOps.hpp
+/// \brief Include file for all matrix types operations.
 ///
-/// \b MtlDefines.hpp is the include file for some frequently used
-/// mathematical constansts and handy templated inlines.
+/// \b MtlMatrixOps.hpp is the header file for all the operations on
+/// matrices (i.e. Matrix22, Matrix33, Matrix44).
 
-#ifndef MTL_HPP
-#define MTL_HPP
+#ifndef MTL_MATRIX_OPS_HPP
+#define MTL_MATRIX_OPS_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
+namespace Magma
+{
+	namespace Mtl
+	{
+
 ////////////////////////////////////////////////////////////////////////////////
-// Includes
+// Inlines
 
-#include "MtlDefines.hpp"
-#include "MtlPoint.hpp"
-#include "MtlVector.hpp"
-#include "MtlPointOps.hpp"
-#include "MtlVectorOps.hpp"
-#include "MtlMatrix.hpp"
-#include "MtlMatrixOps.hpp"
-#include "MtlOutput.hpp"
+		#include "MtlMatrixOps.inl"
 
-#endif	//MTL_HPP
+	}	// namespace Mtl
+}	// namespace Magma
+
+#endif	//MTL_MATRIX_OPS_HPP
 

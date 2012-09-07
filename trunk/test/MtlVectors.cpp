@@ -1,7 +1,4 @@
-#define BOOST_TEST_MODULE MTL
 #include <boost/test/unit_test.hpp>
-//#include <boost/test/included/unit_test.hpp>
-//#include <boost/test/test_case_template.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
@@ -141,6 +138,19 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetData, T, test_types)
 
 	BOOST_CHECK_EQUAL(data[0], (T)1);
 	BOOST_CHECK_EQUAL(data[1], (T)2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_BracketOp, T, test_types)
+{
+	Vector2<T> vec;
+
+	vec[0] = (T)1;
+	BOOST_CHECK_EQUAL(vec.data_[0], (T)1);
+	vec[1] = (T)2;
+	BOOST_CHECK_EQUAL(vec.data_[1], (T)2);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -604,6 +614,22 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetData, T, test_types)
 	BOOST_CHECK_EQUAL(data[0], (T)1);
 	BOOST_CHECK_EQUAL(data[1], (T)2);
 	BOOST_CHECK_EQUAL(data[2], (T)3);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_BracketOp, T, test_types)
+{
+	Vector3<T> vec;
+
+	vec[0] = (T)1;
+	BOOST_CHECK_EQUAL(vec.data_[0], (T)1);
+	vec[1] = (T)2;
+	BOOST_CHECK_EQUAL(vec.data_[1], (T)2);
+	vec[2] = (T)3;
+	BOOST_CHECK_EQUAL(vec.data_[2], (T)3);
+
+	BOOST_CHECK_EQUAL(vec[0], (T)1);
+	BOOST_CHECK_EQUAL(vec[1], (T)2);
+	BOOST_CHECK_EQUAL(vec[2], (T)3);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

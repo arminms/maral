@@ -22,7 +22,7 @@
 /// Constructs a Vector2 object (default constructor). For efficiency, no
 /// initialization is performed which leaves vector in an indeterminate state.
 /// You may call zero() member function later to make a zero vector.
-/// \see Vector2<T>::zero
+/// \see Vector2::zero
 
 template <typename T>
 inline Vector2<T>::Vector2()
@@ -107,7 +107,7 @@ inline Vector2<T>& Vector2<T>::operator=(const Vector2<T>& v)
 /// \remarks
 /// Returns x coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector2<T>::setX, Vector2<T>::getX
+/// \see Vector2::setX, Vector2::getX
 
 template <typename T>
 inline T& Vector2<T>::x()
@@ -121,7 +121,7 @@ inline T& Vector2<T>::x()
 /// \remarks
 /// Returns y coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector2<T>::setY, Vector2<T>::getY
+/// \see Vector2::setY, Vector2::getY
 
 template <typename T>
 inline T& Vector2<T>::y()
@@ -135,7 +135,7 @@ inline T& Vector2<T>::y()
 /// \remarks
 /// Returns x coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector2<T>::x, Vector2<T>::setX
+/// \see Vector2::x, Vector2::setX
 
 template <typename T>
 inline T Vector2<T>::getX() const
@@ -149,7 +149,7 @@ inline T Vector2<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector2<T>::y, Vector2<T>::setY
+/// \see Vector2::y, Vector2::setY
 
 template <typename T>
 inline T Vector2<T>::getY() const
@@ -162,7 +162,7 @@ inline T Vector2<T>::getY() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this vector.
-/// \see Vector2<T>::x, Vector2<T>::getX
+/// \see Vector2::x, Vector2::getX
 
 template <typename T>
 inline void Vector2<T>::setX(T x)
@@ -175,7 +175,7 @@ inline void Vector2<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this vector.
-/// \see Vector2<T>::y, Vector2<T>::getY
+/// \see Vector2::y, Vector2::getY
 
 template <typename T>
 inline void Vector2<T>::setY(T y)
@@ -191,7 +191,7 @@ inline void Vector2<T>::setY(T y)
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector2<T>::set(const T*)
+/// \see Vector2::set(const T*)
 
 template <typename T>
 inline void Vector2<T>::set(T x, T y)
@@ -205,7 +205,7 @@ inline void Vector2<T>::set(T x, T y)
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector2<T>::set(T,T)
+/// \see Vector2::set(T,T)
 
 template <typename T>
 inline void Vector2<T>::set(const T* dataPtr)
@@ -262,7 +262,7 @@ inline const T* Vector2<T>::getData() const
 /// component. It can be used on either the right (r-value) or the
 /// left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a i is not in the range 0-1.
-/// \see Vector2<T>::operator[](const unsigned) const
+/// \see Vector2::operator[](const unsigned) const
 
 template <typename T>
 inline T& Vector2<T>::operator[] (const unsigned i)
@@ -281,7 +281,7 @@ inline T& Vector2<T>::operator[] (const unsigned i)
 /// component. It can be used only on the right (r-value) of an
 /// assignment statement. In debug builds, function asserts if \a i is
 /// not in the range 0-1.
-/// \see Vector2<T>::operator[](const unsigned)
+/// \see Vector2::operator[](const unsigned)
 
 template <typename T>
 inline T Vector2<T>::operator[] (const unsigned i) const
@@ -298,7 +298,7 @@ inline T Vector2<T>::operator[] (const unsigned i) const
 /// Constructs a Vector3 object (default constructor). For efficiency, no
 /// initialization is performed which leaves vector in an indeterminate state.
 /// You may call zero() member function later to make a zero vector.
-/// \see Vector3<T>::zero
+/// \see Vector3::zero
 
 template <typename T>
 inline Vector3<T>::Vector3()
@@ -388,7 +388,7 @@ inline Vector3<T>& Vector3<T>::operator=(const Vector3<T>& v)
 /// \remarks
 /// Returns x coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3<T>::setX, Vector3<T>::getX
+/// \see Vector3::setX, Vector3::getX
 
 template <typename T>
 inline T& Vector3<T>::x()
@@ -402,7 +402,7 @@ inline T& Vector3<T>::x()
 /// \remarks
 /// Returns y coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3<T>::setY, Vector3<T>::getY
+/// \see Vector3::setY, Vector3::getY
 
 template <typename T>
 inline T& Vector3<T>::y()
@@ -416,7 +416,7 @@ inline T& Vector3<T>::y()
 /// \remarks
 /// Returns z coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3<T>::setZ, Vector3<T>::getZ
+/// \see Vector3::setZ, Vector3::getZ
 
 template <typename T>
 inline T& Vector3<T>::z()
@@ -430,7 +430,7 @@ inline T& Vector3<T>::z()
 /// \remarks
 /// Returns x coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3<T>::x, Vector3<T>::setX
+/// \see Vector3::x, Vector3::setX
 
 template <typename T>
 inline T Vector3<T>::getX() const
@@ -444,7 +444,7 @@ inline T Vector3<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3<T>::y, Vector3<T>::setY
+/// \see Vector3::y, Vector3::setY
 
 template <typename T>
 inline T Vector3<T>::getY() const
@@ -458,7 +458,7 @@ inline T Vector3<T>::getY() const
 /// \remarks
 /// Returns z coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3<T>::z, Vector3<T>::setZ
+/// \see Vector3::z, Vector3::setZ
 
 template <typename T>
 inline T Vector3<T>::getZ() const
@@ -471,7 +471,7 @@ inline T Vector3<T>::getZ() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this vector.
-/// \see Vector3<T>::x, Vector3<T>::getX
+/// \see Vector3::x, Vector3::getX
 
 template <typename T>
 inline void Vector3<T>::setX(T x)
@@ -484,7 +484,7 @@ inline void Vector3<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this vector.
-/// \see Vector3<T>::y, Vector3<T>::getY
+/// \see Vector3::y, Vector3::getY
 
 template <typename T>
 inline void Vector3<T>::setY(T y)
@@ -497,7 +497,7 @@ inline void Vector3<T>::setY(T y)
 /// coordinate.
 /// \remarks
 /// Changes z coordinate of this vector.
-/// \see Vector3<T>::z, Vector3<T>::getZ
+/// \see Vector3::z, Vector3::getZ
 
 template <typename T>
 inline void Vector3<T>::setZ(T z)
@@ -515,7 +515,7 @@ inline void Vector3<T>::setZ(T z)
 /// \remarks
 /// This overloaded member function changes x, y and z components of this
 /// vector to new values.
-/// \see Vector3<T>::set(const T*)
+/// \see Vector3::set(const T*)
 
 template <typename T>
 inline void Vector3<T>::set(T x, T y, T z)
@@ -529,7 +529,7 @@ inline void Vector3<T>::set(T x, T y, T z)
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector3<T>::set(T,T)
+/// \see Vector3::set(T,T)
 
 template <typename T>
 inline void Vector3<T>::set(const T* dataPtr)
@@ -586,7 +586,7 @@ inline const T* Vector3<T>::getData() const
 /// component. It can be used on either the right (r-value) or the
 /// left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a i is not in the range 0-2.
-/// \see Vector3<T>::operator[](const unsigned) const
+/// \see Vector3::operator[](const unsigned) const
 
 template <typename T>
 inline T& Vector3<T>::operator[] (const unsigned i)
@@ -605,7 +605,7 @@ inline T& Vector3<T>::operator[] (const unsigned i)
 /// component. It can be used only on the right (r-value) of an
 /// assignment statement. In debug builds, function asserts if \a i is
 /// not in the range 0-2.
-/// \see Vector3<T>::operator[](const unsigned)
+/// \see Vector3::operator[](const unsigned)
 
 template <typename T>
 inline T Vector3<T>::operator[] (const unsigned i) const
