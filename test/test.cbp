@@ -42,6 +42,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="MtlData.hpp" />
+		<Unit filename="MtlMatrices.cpp" />
 		<Unit filename="MtlPoints.cpp" />
 		<Unit filename="MtlVectors.cpp" />
 		<Extensions>

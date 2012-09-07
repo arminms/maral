@@ -21,6 +21,12 @@
 # pragma once
 #endif
 
+////////////////////////////////////////////////////////////////////////////////
+// Includes
+
+#include <iostream>
+#include <assert.h>
+
 #include "Mtl.hpp"
 
 #endif	//MAGMA_HPP

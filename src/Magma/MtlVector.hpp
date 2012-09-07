@@ -29,7 +29,7 @@ template <typename T> class Point2;
 template <typename T> class Point3;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief The Vector2 class abstracts a 2D vector.
+/// \brief Abstracts a 2D vector.
 ///
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
@@ -92,12 +92,17 @@ public:
 //@}
 
 // Implementation
-protected:
+
+	/// \brief Vector data
+	///
+	/// Vector data as two consecutive values in memory. Please use
+	/// Vector2::operator[] instead of direct access which in debug builds
+	/// asserts when index is not less than 2.
 	T data_[2];
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief The Vector3 class abstracts a 3D vector.
+/// \brief Abstracts a 3D vector.
 ///
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
@@ -163,7 +168,12 @@ public:
 //@}
 
 // Implementation
-protected:
+
+	/// \brief Vector data
+	///
+	/// Vector data as three consecutive values in memory. Please use
+	/// Vector3::operator[] instead of direct access which in debug builds
+	/// asserts when index is not less than 3.
 	T data_[3];
 };
 
@@ -171,7 +181,8 @@ protected:
 // Helper types
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
+/// \brief 2D vector composed of 2 unsigned integers
+///
 /// Use Vector2i to define a 2D vector composed of 2 unsigned integer
 /// components. It has all the features of Vector2, i.e. the member
 /// functions of Vector2i are similar to the member functions of
@@ -182,7 +193,8 @@ protected:
 typedef Vector2<int> Vector2i;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
+/// \brief 2D vector composed of 2 unsigned floats
+///
 /// Use Vector2f to define a 2D vector composed of 2 float components.
 /// It has all the features of Vector2, i.e. the member functions of
 /// Vector2f are similar to the member functions of Vector2 class. So,
@@ -193,7 +205,8 @@ typedef Vector2<int> Vector2i;
 typedef Vector2<float> Vector2f;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
+/// \brief 2D vector composed of 2 unsigned doubles
+///
 /// Use Vector2d to define a 2D vector composed of 2 double components.
 /// It has all the features of Vector2, i.e. the member functions of
 /// Vector2d are similar to the member functions of Vector2 class. So,
@@ -204,8 +217,9 @@ typedef Vector2<float> Vector2f;
 typedef Vector2<double> Vector2d;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// Use Vector3i to define a 3D vector composed of 2 unsigned integer
+/// \brief 3D vector composed of 3 unsigned integers
+///
+/// Use Vector3i to define a 3D vector composed of 3 unsigned integer
 /// components. It has all the features of Vector3, i.e. the member
 /// functions of Vector3i are similar to the member functions of
 /// Vector3 class. So, you can use the Vector3 reference documentation:
@@ -215,8 +229,9 @@ typedef Vector2<double> Vector2d;
 typedef Vector3<int> Vector3i;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// Use Vector3f to define a 3D vector composed of 2 float components.
+/// \brief 3D vector composed of 3 floats
+///
+/// Use Vector3f to define a 3D vector composed of 3 float components.
 /// It has all the features of Vector3, i.e. the member functions of
 /// Vector3f are similar to the member functions of Vector3 class. So,
 /// you can use the Vector3 reference documentation: Wherever you see
@@ -226,8 +241,9 @@ typedef Vector3<int> Vector3i;
 typedef Vector3<float> Vector3f;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \remarks
-/// Use Vector3d to define a 3D vector composed of 2 double components.
+/// \brief 3D vector composed of 3 doubles
+///
+/// Use Vector3d to define a 3D vector composed of 3 double components.
 /// It has all the features of Vector3, i.e. the member functions of
 /// Vector3d are similar to the member functions of Vector3 class. So,
 /// you can use the Vector3 reference documentation: Wherever you see
