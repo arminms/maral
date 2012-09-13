@@ -132,7 +132,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_ParaVsBraOps, T, test_types)
 
 	for (unsigned row=0; row<2; ++row)
 		for (unsigned col=0; col<2; ++col)
-				BOOST_CHECK_EQUAL(m(row, col), m[row][col]);
+			BOOST_CHECK_EQUAL(m(row, col), m[row][col]);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
