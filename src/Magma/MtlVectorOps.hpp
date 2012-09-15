@@ -7,6 +7,8 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
+// $Id$
+//------------------------------------------------------------------------------
 /// \file MtlVectorOps.hpp
 /// \brief Include file for all Vector types operations.
 ///

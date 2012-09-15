@@ -1,3 +1,6 @@
+// $Id$
+//------------------------------------------------------------------------------
+
 #define BOOST_TEST_MODULE MTL
 #ifdef _WIN32
 	#define BOOST_TEST_ALTERNATIVE_INIT_API
