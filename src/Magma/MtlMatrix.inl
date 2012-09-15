@@ -32,7 +32,7 @@ inline Matrix22<T>::RowAccessor22::RowAccessor22(
 :	m_(mat)
 ,	r_(row)
 {
-	assert(mat != NULL);
+	assert(mat != nullptr);
 	assert(row < 2);
 }
 
@@ -73,7 +73,7 @@ inline Matrix22<T>::ConstRowAccessor22::ConstRowAccessor22(
 :	m_(mat)
 ,	r_(row)
 {
-	assert(mat != NULL);
+	assert(mat != nullptr);
 	assert(row < 2);
 }
 
