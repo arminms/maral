@@ -63,27 +63,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files\boost\boost_1_50_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\boost\boost_1_51_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
-    <LibraryPath>C:\Program Files (x86)\boost\boost_1_50_0\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <ReferencePath>C:\Program Files (x86)\boost\boost_1_50_0\lib;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <LibraryPath>C:\Program Files (x86)\boost\boost_1_51_0\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <ReferencePath>C:\Program Files (x86)\boost\boost_1_51_0\lib;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files\boost\boost_1_50_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\boost\boost_1_51_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
-    <ReferencePath>C:\Program Files\boost\boost_1_50_0\lib;$(VCInstallDir)atlmfc\lib\amd64;$(VCInstallDir)lib\amd64</ReferencePath>
-    <LibraryPath>C:\Program Files\boost\boost_1_50_0\lib;$(VCInstallDir)lib\amd64;$(VCInstallDir)atlmfc\lib\amd64;$(WindowsSdkDir)lib\x64;</LibraryPath>
+    <ReferencePath>C:\Program Files\boost\boost_1_51_0\lib;$(VCInstallDir)atlmfc\lib\amd64;$(VCInstallDir)lib\amd64</ReferencePath>
+    <LibraryPath>C:\Program Files\boost\boost_1_51_0\lib;$(VCInstallDir)lib\amd64;$(VCInstallDir)atlmfc\lib\amd64;$(WindowsSdkDir)lib\x64;</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>C:\Program Files\boost\boost_1_50_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files (x86)\boost\boost_1_50_0\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
-    <ReferencePath>C:\Program Files (x86)\boost\boost_1_50_0\lib;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <IncludePath>C:\Program Files\boost\boost_1_51_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\boost\boost_1_51_0\lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
+    <ReferencePath>C:\Program Files (x86)\boost\boost_1_51_0\lib;$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -91,9 +91,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>C:\Program Files\boost\boost_1_50_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\Program Files\boost\boost_1_50_0\lib;$(VCInstallDir)atlmfc\lib\amd64;$(VCInstallDir)lib\amd64</ReferencePath>
-    <LibraryPath>C:\Program Files\boost\boost_1_50_0\lib;$(VCInstallDir)lib\amd64;$(VCInstallDir)atlmfc\lib\amd64;$(WindowsSdkDir)lib\x64;</LibraryPath>
+    <IncludePath>C:\Program Files\boost\boost_1_51_0\include;$(SolutionDir)\src;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\Program Files\boost\boost_1_51_0\lib;$(VCInstallDir)atlmfc\lib\amd64;$(VCInstallDir)lib\amd64</ReferencePath>
+    <LibraryPath>C:\Program Files\boost\boost_1_51_0\lib;$(VCInstallDir)lib\amd64;$(VCInstallDir)atlmfc\lib\amd64;$(WindowsSdkDir)lib\x64;</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
