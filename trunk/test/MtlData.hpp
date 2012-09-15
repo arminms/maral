@@ -1,3 +1,6 @@
+// $Id$
+//------------------------------------------------------------------------------
+
 // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
 // tabulated form SCF calculation in a Guassian basis set, John Wiley & Sons,
 // p T-74, 1972

@@ -7,6 +7,8 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
+// $Id$
+//------------------------------------------------------------------------------
 /// \file MtlOutput.hpp
 /// \brief Include file for outputing Magma::Mtl classes to the output
 /// stream.

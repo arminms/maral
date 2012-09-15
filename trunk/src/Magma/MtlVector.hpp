@@ -7,6 +7,8 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
+// $Id$
+//------------------------------------------------------------------------------
 /// \file MtlVector.hpp
 /// \brief Include file for all classes representing vectors.
 ///

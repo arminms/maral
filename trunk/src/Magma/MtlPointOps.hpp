@@ -7,6 +7,8 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
+// $Id$
+//------------------------------------------------------------------------------
 /// \file MtlPointOps.hpp
 /// \brief Include file for all Point types operations.
 ///
