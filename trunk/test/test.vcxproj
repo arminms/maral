@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MtlMatrices.cpp" />
     <ClCompile Include="MtlPoints.cpp" />
     <ClCompile Include="MtlVectors.cpp" />
   </ItemGroup>
