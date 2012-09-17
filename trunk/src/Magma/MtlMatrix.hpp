@@ -96,7 +96,7 @@ public:
 
 /// \name Construction
 //@{
-	explicit Matrix22();
+	Matrix22();
 	Matrix22(std::initializer_list<T> vals);
 
 	// Copy constructor
