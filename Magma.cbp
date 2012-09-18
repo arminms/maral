@@ -33,6 +33,33 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="Doxygen">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<ExtraCommands>
+					<Add before="rm -rf doc/*" />
+					<Add before="doxygen Doxyfile" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
+			<Target title="Makefile">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectLibDirsRelation="1" />
+				<ExtraCommands>
+					<Add before="--local -in Magma.cbp -unix -windows -mac --wrap-objects --with-deps" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-std=c++11" />
@@ -40,24 +67,82 @@
 			<Add option="-fexceptions" />
 			<Add option="-DNDEBUG" />
 		</Compiler>
-		<Unit filename="src/Magma/Magma.hpp" />
-		<Unit filename="src/Magma/Mtl.hpp" />
-		<Unit filename="src/Magma/MtlDefines.hpp" />
-		<Unit filename="src/Magma/MtlDefines.inl" />
-		<Unit filename="src/Magma/MtlMatrix.hpp" />
-		<Unit filename="src/Magma/MtlMatrix.inl" />
-		<Unit filename="src/Magma/MtlMatrixOps.hpp" />
-		<Unit filename="src/Magma/MtlMatrixOps.inl" />
-		<Unit filename="src/Magma/MtlOutput.hpp" />
-		<Unit filename="src/Magma/MtlOutput.inl" />
-		<Unit filename="src/Magma/MtlPoint.hpp" />
-		<Unit filename="src/Magma/MtlPoint.inl" />
-		<Unit filename="src/Magma/MtlPointOps.hpp" />
-		<Unit filename="src/Magma/MtlPointOps.inl" />
-		<Unit filename="src/Magma/MtlVector.hpp" />
-		<Unit filename="src/Magma/MtlVector.inl" />
-		<Unit filename="src/Magma/MtlVectorOps.hpp" />
-		<Unit filename="src/Magma/MtlVectorOps.inl" />
+		<Unit filename="src/Magma/Magma.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/Mtl.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlDefines.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlDefines.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlMatrix.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlMatrix.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlMatrixOps.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlMatrixOps.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlOutput.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlOutput.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlPoint.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlPoint.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlPointOps.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlPointOps.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/Magma/MtlVector.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Doxygen" />
+		</Unit>
+		<Unit filename="src/Magma/MtlVector.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Doxygen" />
+		</Unit>
+		<Unit filename="src/Magma/MtlVectorOps.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Doxygen" />
+		</Unit>
+		<Unit filename="src/Magma/MtlVectorOps.inl">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Doxygen" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
