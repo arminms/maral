@@ -141,7 +141,7 @@ inline Matrix22<T>::Matrix22(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Matrix22 object that already exists.
+/// \param m A Matrix22 object that already exists.
 /// \remarks
 /// Constructs a Matrix22 object from another one (copy constructor).
 

@@ -56,7 +56,7 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<ExtraCommands>
-					<Add before="--local -in Magma.cbp -unix -windows -mac --wrap-objects --with-deps" />
+					<Add before="cbp2make --local -in Magma.cbp -out Makefile --wrap-objects --with-deps" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

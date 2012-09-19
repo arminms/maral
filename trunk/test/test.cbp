@@ -49,16 +49,42 @@
 					<Add library="boost_unit_test_framework" />
 				</Linker>
 			</Target>
+			<Target title="Makefile">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<ExtraCommands>
+					<Add before="cbp2make --local -in test.cbp -out Makefile --wrap-objects --with-deps" />
+					<Mode after="always" />
+				</ExtraCommands>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="MtlData.hpp" />
-		<Unit filename="MtlMatrices.cpp" />
-		<Unit filename="MtlPoints.cpp" />
-		<Unit filename="MtlVectors.cpp" />
+		<Unit filename="MtlData.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Profile" />
+		</Unit>
+		<Unit filename="MtlMatrices.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Profile" />
+		</Unit>
+		<Unit filename="MtlPoints.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Profile" />
+		</Unit>
+		<Unit filename="MtlVectors.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Profile" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
