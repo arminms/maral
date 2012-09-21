@@ -92,4 +92,27 @@ inline std::ostream& operator<< (
 	return out;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// \return \p out after it has been written to.
+/// \param out The stream to write to.
+/// \param m The Matrix22 type to output.
+/// \remarks
+/// Outputs a string representation of the given Matrix22 type to the given
+/// output stream. The output is formatted such that
+/// Matrix22<int> m {1,2,3,4)} will appear as:
+/// <pre>
+///    | 1 3 |
+///    | 2 4 |
+/// </pre>
+
+template<typename T>
+inline std::ostream& operator<< (
+	std::ostream& out,
+	const Matrix22<T>& m)
+{
+	out << "| " << m(0, 0) << ' ' << m(0, 1) << " |\n";
+	out << "| " << m(1, 0) << ' ' << m(1, 1) << " |\n";
+	return out;
+}
+
 /// @}
