@@ -72,6 +72,17 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Identity, T, test_types)
 	BOOST_CHECK_EQUAL(m(1, 0), T(0));
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Zero, T, test_types)
+{
+	Matrix22<T> m;
+
+	m.zero();
+	BOOST_CHECK_EQUAL(m(0, 0), T(0));
+	BOOST_CHECK_EQUAL(m(1, 1), T(0));
+	BOOST_CHECK_EQUAL(m(0, 1), T(0));
+	BOOST_CHECK_EQUAL(m(1, 0), T(0));
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Set, T, test_types)
 {
 	T mat22[] = { T(0), T(1), T(2), T(3) };
@@ -137,6 +148,81 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_ParaVsBraOps, T, test_types)
 	for (unsigned row=0; row<2; ++row)
 		for (unsigned col=0; col<2; ++col)
 			BOOST_CHECK_EQUAL(m(row, col), m[row][col]);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE( Mat22Ops )
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpMult, T, test_types)
+{
+	Matrix22<T> m1 { 2,-6,-4,8 };
+	Matrix22<T> m2 { -1,3,2,-4 };
+
+	Matrix22<T> r;
+	mult(r, m1, m2);
+	BOOST_CHECK_EQUAL(r(0, 0), T(-14));
+	BOOST_CHECK_EQUAL(r(0, 1), T(20));
+	BOOST_CHECK_EQUAL(r(1, 0), T(30));
+	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpPreMult, T, test_types)
+{
+	Matrix22<T> r { 2,-6,-4,8 };
+	Matrix22<T> m { -1,3,2,-4 };
+
+	preMult(r, m);
+	BOOST_CHECK_EQUAL(r(0, 0), T(-14));
+	BOOST_CHECK_EQUAL(r(0, 1), T(20));
+	BOOST_CHECK_EQUAL(r(1, 0), T(30));
+	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpPostMult, T, test_types)
+{
+	Matrix22<T> r { -1,3,2,-4 };
+	Matrix22<T> m { 2,-6,-4,8 };
+
+	postMult(r, m);
+	BOOST_CHECK_EQUAL(r(0, 0), T(-14));
+	BOOST_CHECK_EQUAL(r(0, 1), T(20));
+	BOOST_CHECK_EQUAL(r(1, 0), T(30));
+	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpMultOp, T, test_types)
+{
+	Matrix22<T> m1 { 2,-6,-4,8 };
+	Matrix22<T> m2 { -1,3,2,-4 };
+
+	Matrix22<T> r;
+	r = m1 * m2;
+	BOOST_CHECK_EQUAL(r(0, 0), T(-14));
+	BOOST_CHECK_EQUAL(r(0, 1), T(20));
+	BOOST_CHECK_EQUAL(r(1, 0), T(30));
+	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpMultEqOp, T, test_types)
+{
+	Matrix22<T> r { -1,3,2,-4 };
+	Matrix22<T> m { 2,-6,-4,8 };
+
+	r *= m;
+	BOOST_CHECK_EQUAL(r(0, 0), T(-14));
+	BOOST_CHECK_EQUAL(r(0, 1), T(20));
+	BOOST_CHECK_EQUAL(r(1, 0), T(30));
+	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Output, T, test_types)
+{
+	output_test_stream output;
+	Matrix22<T> m { 0,1,2,3 };
+	output << m;
+	BOOST_CHECK(!output.is_empty(false) );
+	BOOST_CHECK( output.check_length(16, false) );
+	BOOST_CHECK( output.is_equal("| 0 2 |\n| 1 3 |\n") );
 }
 
 BOOST_AUTO_TEST_SUITE_END()

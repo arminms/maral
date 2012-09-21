@@ -109,6 +109,7 @@ public:
 /// \name Attributes
 //@{
 	Matrix22<T>& identity();
+	Matrix22<T>& zero();
 
 	void set(const T* dataPtr);
 	void setTranspose(const T* dataPtr);

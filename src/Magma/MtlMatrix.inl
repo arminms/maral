@@ -105,9 +105,9 @@ inline const T& Matrix22<T>::ConstRowAccessor22::operator[] (
 /// \remarks
 /// Constructs a Matrix22 object (default constructor). For efficiency, no
 /// initialization is performed which leaves matrix in an indeterminate state.
-/// You may call Matrix22::identity member function later to make an identity
-/// matrix.
-/// \see Matrix22::identity
+/// You may call Matrix22::identity or Matrix22::zero member functions later to
+/// make an identity or zero matrix.
+/// \see Matrix22::identity, Matrix22::zero
 
 template <typename T>
 inline Matrix22<T>::Matrix22()
@@ -181,14 +181,29 @@ inline Matrix22<T>& Matrix22<T>::operator=(const Matrix22<T>& m)
 /// \return Reference to this matrix after all components were initialized to
 /// an identity matrix.
 /// \remarks
-/// Sets this matrix to identity then returns its reference. In this way, it can
-/// be used as a parameter for another function.
+/// Sets this matrix to identity (every element is 0 except the matrix's
+///  diagonal, whose elements are 1) then returns its reference. In this way, it
+/// can be used as a parameter for another function.
 
 template <typename T>
 inline Matrix22<T>& Matrix22<T>::identity()
 {
 	data_[0] = data_[3] = (T)1;
 	data_[1] = data_[2] = (T)0;
+	return *this;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to this matrix after all components were initialized to
+/// zero.
+/// \remarks
+/// Sets all elements of this matrix to zero then returns its reference. In this
+/// way, it can be used as a parameter for another function.
+
+template <typename T>
+inline Matrix22<T>& Matrix22<T>::zero()
+{
+	data_[0] = data_[1] = data_[2] = data_[3] = (T)0;
 	return *this;
 }
 
