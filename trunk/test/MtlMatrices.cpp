@@ -215,6 +215,47 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpMultEqOp, T, test_types)
 	BOOST_CHECK_EQUAL(r(1, 1), T(-44));
 }
 
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpTransposeInPlace, T, test_types)
+{
+	Matrix22<T> t { 1,2,3,4 };
+	Matrix22<T> r { 1,3,2,4 };
+
+	BOOST_CHECK(transpose(t) == r);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpTranspose, T, test_types)
+{
+	Matrix22<T> t { 1,2,3,4 };
+	Matrix22<T> r { 1,3,2,4 };
+
+	Matrix22<T> m;
+	BOOST_CHECK(transpose(m, t) == r);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpDeterminant, T, test_types)
+{
+	Matrix22<T> m { 1,2,3,4 };
+
+	BOOST_CHECK(determinant(m) == -2);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpInvert, T, float_types)
+{
+	Matrix22<T> t { 1,2,3,4 };
+	Matrix22<T> r { -2,1,1.5,-0.5 };
+
+	Matrix22<T> m;
+	BOOST_CHECK(invert(m, t) == r);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpInvertUnary, T, float_types)
+{
+	Matrix22<T> t { 1,2,3,4 };
+	Matrix22<T> r { -2,1,1.5,-0.5 };
+
+	BOOST_CHECK(invert(t) == r);
+}
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Output, T, test_types)
 {
 	output_test_stream output;

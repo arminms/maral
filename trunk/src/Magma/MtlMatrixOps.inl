@@ -207,3 +207,98 @@ inline Matrix22<T>& operator*= (
 {
 	return mult(r, r, operand);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \a r after the operation.
+/// \param r Reference to the matrix to be transposed.
+/// \remarks
+/// This function transposes the given matrix \a r in place and then returns
+/// reference to \a r. In this way, it can be used as a parameter for another
+/// function.
+/// \see transpose(Matrix22&, const Matrix22&)
+
+template<typename T>
+inline Matrix22<T>& transpose(
+	Matrix22<T>& r)
+{
+	std::swap(r.data_[1], r.data_[2]);
+	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \a r after the operation.
+/// \param r Reference to the matrix that receives the result of the operation.
+/// \param s Reference to the source matrix.
+/// \remarks
+/// This function puts the result of transposing \a s into \a r and then returns
+/// reference to \a r. In this way, it can be used as a parameter for another
+/// function.
+/// \see transpose(Matrix22&)
+
+template<typename T>
+inline Matrix22<T>& transpose(
+	Matrix22<T>& r,
+	const Matrix22<T>& s)
+{
+	r.data_[0] = s.data_[0]; r.data_[1] = s.data_[2];
+	r.data_[2] = s.data_[1]; r.data_[3] = s.data_[3];
+	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return The determinant of the matrix.
+/// \param m Reference to the matrix used for the determinant calculation.
+/// \remarks
+/// This function computes the determinant of the \a m matrix. Determinant is
+/// used for the calculation of the inverse of a matrix.
+/// \see invert(Matrix22&, const Matrix22)
+
+template<typename T>
+inline T determinant(
+	const Matrix22<T>& m)
+{
+	return ((m.data_[0]*m.data_[3]) - (m.data_[1]*m.data_[2]));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \a r after the operation.
+/// \param r Reference to the matrix that receives the result of the operation.
+/// \param s Reference to the source matrix.
+/// \pre Only works with float types (e.g. Matrix22<int> is not acceptable).
+/// \remarks
+/// This function puts the result of inverting \a s into \a r and then returns
+/// reference to \a r. In this way, it can be used as a parameter for another
+/// function.
+/// \see invert(const Matrix22)
+
+template<typename T>
+inline Matrix22<T>& invert(
+	Matrix22<T>& r,
+	const Matrix22<T>& s)
+{
+	T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
+	assert(abs(det) > SMALL);
+	T oneOverDet = T(1) / det;
+	r.data_[0] =  s.data_[3] * oneOverDet;
+	r.data_[1] = -s.data_[1] * oneOverDet;
+	r.data_[2] = -s.data_[2] * oneOverDet;
+	r.data_[3] =  s.data_[0] * oneOverDet;
+	return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Result of the operation.
+/// \param m Reference to the matrix to be inverted.
+/// \pre Only works with float types (e.g. Matrix22<int> is not acceptable).
+/// \remarks
+/// This function inverts the given matrix \a m and then returns the result. In
+/// this way, it can be used as a parameter for another function.
+/// \see invert(Matrix22&, const Matrix22&)
+
+template<typename T>
+inline Matrix22<T> invert(
+	const Matrix22<T>& m)
+{
+	Matrix22<T> r;
+	return invert(r, m);
+}

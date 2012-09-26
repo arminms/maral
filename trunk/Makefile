@@ -105,7 +105,7 @@ after_doxygen:
 doxygen: before_doxygen after_doxygen
 
 before_makefile: 
-	--local -in Magma.cbp -unix -windows -mac --wrap-objects --with-deps
+	cbp2make --local -in Magma.cbp -out Makefile --wrap-objects --with-deps
 
 after_makefile: 
 
