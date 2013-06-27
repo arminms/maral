@@ -67,81 +67,77 @@
 			<Add option="-fexceptions" />
 			<Add option="-DNDEBUG" />
 		</Compiler>
-		<Unit filename="src/Magma/Magma.hpp">
+		<Unit filename="src/magma.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/Mtl.hpp">
+		<Unit filename="src/mtl/defines.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlDefines.hpp">
+		<Unit filename="src/mtl/defines.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlDefines.inl">
+		<Unit filename="src/mtl/matrix.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlMatrix.hpp">
+		<Unit filename="src/mtl/matrix.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlMatrix.inl">
+		<Unit filename="src/mtl/matrix_ops.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlMatrixOps.hpp">
+		<Unit filename="src/mtl/matrix_ops.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlMatrixOps.inl">
+		<Unit filename="src/mtl/mtl.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlOutput.hpp">
+		<Unit filename="src/mtl/output.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlOutput.inl">
+		<Unit filename="src/mtl/output.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlPoint.hpp">
+		<Unit filename="src/mtl/point.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlPoint.inl">
+		<Unit filename="src/mtl/point.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlPointOps.hpp">
+		<Unit filename="src/mtl/point_ops.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlPointOps.inl">
+		<Unit filename="src/mtl/point_ops.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/Magma/MtlVector.hpp">
+		<Unit filename="src/mtl/vector.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Doxygen" />
 		</Unit>
-		<Unit filename="src/Magma/MtlVector.inl">
+		<Unit filename="src/mtl/vector.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Doxygen" />
 		</Unit>
-		<Unit filename="src/Magma/MtlVectorOps.hpp">
+		<Unit filename="src/mtl/vector_ops.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Doxygen" />
 		</Unit>
-		<Unit filename="src/Magma/MtlVectorOps.inl">
+		<Unit filename="src/mtl/vector_ops.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Doxygen" />
 		</Unit>
 		<Extensions>
 			<envvars />

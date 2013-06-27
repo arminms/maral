@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,24 +11,24 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlVector.inl
+//    vector.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains inlines for all vector classes.
+//    This file contains inlines for all vector classes.
 //------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////
-// Vector2 member functions
+// vector2 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Vector2 object (default constructor). For efficiency, no
+/// Constructs a vector2 object (default constructor). For efficiency, no
 /// initialization is performed which leaves vector in an indeterminate state.
 /// You may call zero() member function later to make a zero vector.
-/// \see Vector2::zero
+/// \see vector2::zero
 
 template <typename T>
-inline Vector2<T>::Vector2()
+inline vector2<T>::vector2()
 {
 }
 
@@ -37,70 +38,70 @@ inline Vector2<T>::Vector2()
 /// \param y An arbitrary type (int, float, double, ...) containing y
 /// coordinate.
 /// \remarks
-/// Constructs a Vector2 object from 2 supplied arbitrary type.
+/// Constructs a vector2 object from 2 supplied arbitrary type.
 
 template <typename T>
-inline Vector2<T>::Vector2(T x, T y)
+inline vector2<T>::vector2(T x, T y)
 {
-	data_[0] = x; data_[1] = y;
+    data_[0] = x; data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p1 A Point2 object that specify start \a (tail) of the vector.
-/// \param p2 A Point2 object that specify end \a (head) of the vector.
+/// \param p1 A point2 object that specify start \a (tail) of the vector.
+/// \param p2 A point2 object that specify end \a (head) of the vector.
 /// \remarks
-/// Constructs a Vector2 object from 2 supplied Point2 object. The resulting
+/// Constructs a vector2 object from 2 supplied point2 object. The resulting
 /// vector is from \a p1 (tail) to \a p2 (head).
 
 template <typename T>
-inline Vector2<T>::Vector2(const Point2<T>& p1, const Point2<T>& p2)
+inline vector2<T>::vector2(const point2<T>& p1, const point2<T>& p2)
 {
-	data_[0] = p2[0] - p1[0];
-	data_[1] = p2[1] - p1[1];
+    data_[0] = p2[0] - p1[0];
+    data_[1] = p2[1] - p1[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Point2 object that already exists.
+/// \param p A point2 object that already exists.
 /// \remarks
-/// Explicitly constructs a Vector2 object from a Point2.
+/// Explicitly constructs a vector2 object from a point2.
 
 template <typename T>
-inline Vector2<T>::Vector2(const Point2<T>& p)
+inline vector2<T>::vector2(const point2<T>& p)
 {
-	data_[0] = p[0]; data_[1] = p[1];
+    data_[0] = p[0]; data_[1] = p[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param v A Vector2 object that already exists.
+/// \param v A vector2 object that already exists.
 /// \remarks
-/// Constructs a Vector2 object from another one (copy constructor).
+/// Constructs a vector2 object from another one (copy constructor).
 
 template <typename T>
-inline Vector2<T>::Vector2(const Vector2<T>& v)
+inline vector2<T>::vector2(const vector2<T>& v)
 {
-	if (this != &v)
-	{
-		data_[0] = v.data_[0];
-		data_[1] = v.data_[1];
-	}
+    if (this != &v)
+    {
+        data_[0] = v.data_[0];
+        data_[1] = v.data_[1];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Reference to this Vector2 object.
-/// \param v A Vector2 object that already exists.
+/// \return Reference to this vector2 object.
+/// \param v A vector2 object that already exists.
 /// \remarks
-/// The overloaded assignment operator copies the source Vector2 \a v
-/// object into this Vector2 object.
+/// The overloaded assignment operator copies the source vector2 \a v
+/// object into this vector2 object.
 
 template <typename T>
-inline Vector2<T>& Vector2<T>::operator=(const Vector2<T>& v)
+inline vector2<T>& vector2<T>::operator=(const vector2<T>& v)
 {
-	if (this != &v)
-	{
-		data_[0] = v[0];
-		data_[1] = v[1];
-	}
-	return *this;
+    if (this != &v)
+    {
+        data_[0] = v[0];
+        data_[1] = v[1];
+    }
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,12 +110,12 @@ inline Vector2<T>& Vector2<T>::operator=(const Vector2<T>& v)
 /// \remarks
 /// Returns x coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector2::setX, Vector2::getX
+/// \see vector2::set_x, vector2::get_x
 
 template <typename T>
-inline T& Vector2<T>::x()
+inline T& vector2<T>::x()
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,12 +124,12 @@ inline T& Vector2<T>::x()
 /// \remarks
 /// Returns y coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector2::setY, Vector2::getY
+/// \see vector2::set_y, vector2::get_y
 
 template <typename T>
-inline T& Vector2<T>::y()
+inline T& vector2<T>::y()
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,12 +138,12 @@ inline T& Vector2<T>::y()
 /// \remarks
 /// Returns x coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector2::x, Vector2::setX
+/// \see vector2::x, vector2::set_x
 
 template <typename T>
-inline T Vector2<T>::getX() const
+inline T vector2<T>::get_x() const
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -151,12 +152,12 @@ inline T Vector2<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector2::y, Vector2::setY
+/// \see vector2::y, vector2::set_y
 
 template <typename T>
-inline T Vector2<T>::getY() const
+inline T vector2<T>::get_y() const
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,12 +165,12 @@ inline T Vector2<T>::getY() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this vector.
-/// \see Vector2::x, Vector2::getX
+/// \see vector2::x, vector2::get_x
 
 template <typename T>
-inline void Vector2<T>::setX(T x)
+inline void vector2<T>::set_x(T x)
 {
-	data_[0] = x;
+    data_[0] = x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,12 +178,12 @@ inline void Vector2<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this vector.
-/// \see Vector2::y, Vector2::getY
+/// \see vector2::y, vector2::get_y
 
 template <typename T>
-inline void Vector2<T>::setY(T y)
+inline void vector2<T>::set_y(T y)
 {
-	data_[1] = y;
+    data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,27 +194,27 @@ inline void Vector2<T>::setY(T y)
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector2::set(const T*)
+/// \see vector2::set(const T*)
 
 template <typename T>
-inline void Vector2<T>::set(T x, T y)
+inline void vector2<T>::set(T x, T y)
 {
-	data_[0] = x; data_[1] = y;
+    data_[0] = x; data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of two arbitrary types containing
+/// \param data_ptr Pointer to an array of two arbitrary types containing
 /// x and y.
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector2::set(T,T)
+/// \see vector2::set(T,T)
 
 template <typename T>
-inline void Vector2<T>::set(const T* dataPtr)
+inline void vector2<T>::set(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,10 +225,10 @@ inline void Vector2<T>::set(const T* dataPtr)
 /// used as a parameter for another function.
 
 template <typename T>
-inline Vector2<T>& Vector2<T>::zero()
+inline vector2<T>& vector2<T>::zero()
 {
-	data_[0] = data_[1] = (T)0;
-	return *this;
+    data_[0] = data_[1] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -237,9 +238,9 @@ inline Vector2<T>& Vector2<T>::zero()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline T* Vector2<T>::getData()
+inline T* vector2<T>::get_data()
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -249,9 +250,9 @@ inline T* Vector2<T>::getData()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline const T* Vector2<T>::getData() const
+inline const T* vector2<T>::get_data() const
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -264,13 +265,13 @@ inline const T* Vector2<T>::getData() const
 /// component. It can be used on either the right (r-value) or the
 /// left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a i is not in the range 0-1.
-/// \see Vector2::operator[](const unsigned) const
+/// \see vector2::operator[](const unsigned) const
 
 template <typename T>
-inline T& Vector2<T>::operator[] (const unsigned i)
+inline T& vector2<T>::operator[] (const unsigned i)
 {
-	assert(i < 2);
-	return data_[i];
+    assert(i < 2);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,27 +284,27 @@ inline T& Vector2<T>::operator[] (const unsigned i)
 /// component. It can be used only on the right (r-value) of an
 /// assignment statement. In debug builds, function asserts if \a i is
 /// not in the range 0-1.
-/// \see Vector2::operator[](const unsigned)
+/// \see vector2::operator[](const unsigned)
 
 template <typename T>
-inline T Vector2<T>::operator[] (const unsigned i) const
+inline T vector2<T>::operator[] (const unsigned i) const
 {
-	assert(i < 2);
-	return data_[i];
+    assert(i < 2);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Vector3 member functions
+// vector3 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Vector3 object (default constructor). For efficiency, no
+/// Constructs a vector3 object (default constructor). For efficiency, no
 /// initialization is performed which leaves vector in an indeterminate state.
 /// You may call zero() member function later to make a zero vector.
-/// \see Vector3::zero
+/// \see vector3::zero
 
 template <typename T>
-inline Vector3<T>::Vector3()
+inline vector3<T>::vector3()
 {
 }
 
@@ -315,73 +316,73 @@ inline Vector3<T>::Vector3()
 /// \param z An arbitrary type (int, float, double, ...) containing z
 /// coordinate.
 /// \remarks
-/// Constructs a Vector3 object from 3 supplied arbitrary type.
+/// Constructs a vector3 object from 3 supplied arbitrary type.
 
 template <typename T>
-inline Vector3<T>::Vector3(T x, T y, T z)
+inline vector3<T>::vector3(T x, T y, T z)
 {
-	data_[0] = x; data_[1] = y; data_[2] = z;
+    data_[0] = x; data_[1] = y; data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p1 A Point3 object that specify start \a (tail) of the vector.
-/// \param p2 A Point3 object that specify end \a (head) of the vector.
+/// \param p1 A point3 object that specify start \a (tail) of the vector.
+/// \param p2 A point3 object that specify end \a (head) of the vector.
 /// \remarks
-/// Constructs a Vector3 object from 2 supplied Point3 object. The resulting
+/// Constructs a vector3 object from 2 supplied point3 object. The resulting
 /// vector is from \a p1 (tail) to \a p2 (head).
 
 template <typename T>
-inline Vector3<T>::Vector3(const Point3<T>& p1, const Point3<T>& p2)
+inline vector3<T>::vector3(const point3<T>& p1, const point3<T>& p2)
 {
-	data_[0] = p2[0] - p1[0];
-	data_[1] = p2[1] - p1[1];
-	data_[2] = p2[2] - p1[2];
+    data_[0] = p2[0] - p1[0];
+    data_[1] = p2[1] - p1[1];
+    data_[2] = p2[2] - p1[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Point3 object that already exists.
+/// \param p A point3 object that already exists.
 /// \remarks
-/// Explicitly constructs a Vector3 object from a Point3.
+/// Explicitly constructs a vector3 object from a point3.
 
 template <typename T>
-inline Vector3<T>::Vector3(const Point3<T>& p)
+inline vector3<T>::vector3(const point3<T>& p)
 {
-	data_[0] = p[0]; data_[1] = p[1]; data_[2] = p[2];
+    data_[0] = p[0]; data_[1] = p[1]; data_[2] = p[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param v A Vector3 object that already exists.
+/// \param v A vector3 object that already exists.
 /// \remarks
-/// Constructs a Vector3 object from another one (copy constructor).
+/// Constructs a vector3 object from another one (copy constructor).
 
 template <typename T>
-inline Vector3<T>::Vector3(const Vector3<T>& v)
+inline vector3<T>::vector3(const vector3<T>& v)
 {
-	if (this != &v)
-	{
-		data_[0] = v.data_[0];
-		data_[1] = v.data_[1];
-		data_[2] = v.data_[2];
-	}
+    if (this != &v)
+    {
+        data_[0] = v.data_[0];
+        data_[1] = v.data_[1];
+        data_[2] = v.data_[2];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Reference to this Vector3 object.
-/// \param v A Vector3 object that already exists.
+/// \return Reference to this vector3 object.
+/// \param v A vector3 object that already exists.
 /// \remarks
-/// The overloaded assignment operator copies the source Vector3 \a v
-/// object into this Vector3 object.
+/// The overloaded assignment operator copies the source vector3 \a v
+/// object into this vector3 object.
 
 template <typename T>
-inline Vector3<T>& Vector3<T>::operator=(const Vector3<T>& v)
+inline vector3<T>& vector3<T>::operator=(const vector3<T>& v)
 {
-	if (this != &v)
-	{
-		data_[0] = v[0];
-		data_[1] = v[1];
-		data_[2] = v[2];
-	}
-	return *this;
+    if (this != &v)
+    {
+        data_[0] = v[0];
+        data_[1] = v[1];
+        data_[2] = v[2];
+    }
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -390,12 +391,12 @@ inline Vector3<T>& Vector3<T>::operator=(const Vector3<T>& v)
 /// \remarks
 /// Returns x coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3::setX, Vector3::getX
+/// \see vector3::set_x, vector3::get_x
 
 template <typename T>
-inline T& Vector3<T>::x()
+inline T& vector3<T>::x()
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -404,12 +405,12 @@ inline T& Vector3<T>::x()
 /// \remarks
 /// Returns y coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3::setY, Vector3::getY
+/// \see vector3::set_y, vector3::get_y
 
 template <typename T>
-inline T& Vector3<T>::y()
+inline T& vector3<T>::y()
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -418,12 +419,12 @@ inline T& Vector3<T>::y()
 /// \remarks
 /// Returns z coordinate of this vector. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Vector3::setZ, Vector3::getZ
+/// \see vector3::set_z, vector3::get_z
 
 template <typename T>
-inline T& Vector3<T>::z()
+inline T& vector3<T>::z()
 {
-	return data_[2];
+    return data_[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -432,12 +433,12 @@ inline T& Vector3<T>::z()
 /// \remarks
 /// Returns x coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3::x, Vector3::setX
+/// \see vector3::x, vector3::set_x
 
 template <typename T>
-inline T Vector3<T>::getX() const
+inline T vector3<T>::get_x() const
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -446,12 +447,12 @@ inline T Vector3<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3::y, Vector3::setY
+/// \see vector3::y, vector3::set_y
 
 template <typename T>
-inline T Vector3<T>::getY() const
+inline T vector3<T>::get_y() const
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -460,12 +461,12 @@ inline T Vector3<T>::getY() const
 /// \remarks
 /// Returns z coordinate of this vector. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Vector3::z, Vector3::setZ
+/// \see vector3::z, vector3::set_z
 
 template <typename T>
-inline T Vector3<T>::getZ() const
+inline T vector3<T>::get_z() const
 {
-	return data_[2];
+    return data_[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -473,12 +474,12 @@ inline T Vector3<T>::getZ() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this vector.
-/// \see Vector3::x, Vector3::getX
+/// \see vector3::x, vector3::get_x
 
 template <typename T>
-inline void Vector3<T>::setX(T x)
+inline void vector3<T>::set_x(T x)
 {
-	data_[0] = x;
+    data_[0] = x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -486,12 +487,12 @@ inline void Vector3<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this vector.
-/// \see Vector3::y, Vector3::getY
+/// \see vector3::y, vector3::get_y
 
 template <typename T>
-inline void Vector3<T>::setY(T y)
+inline void vector3<T>::set_y(T y)
 {
-	data_[1] = y;
+    data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -499,12 +500,12 @@ inline void Vector3<T>::setY(T y)
 /// coordinate.
 /// \remarks
 /// Changes z coordinate of this vector.
-/// \see Vector3::z, Vector3::getZ
+/// \see vector3::z, vector3::get_z
 
 template <typename T>
-inline void Vector3<T>::setZ(T z)
+inline void vector3<T>::set_z(T z)
 {
-	data_[2] = z;
+    data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -517,27 +518,27 @@ inline void Vector3<T>::setZ(T z)
 /// \remarks
 /// This overloaded member function changes x, y and z components of this
 /// vector to new values.
-/// \see Vector3::set(const T*)
+/// \see vector3::set(const T*)
 
 template <typename T>
-inline void Vector3<T>::set(T x, T y, T z)
+inline void vector3<T>::set(T x, T y, T z)
 {
-	data_[0] = x; data_[1] = y; data_[2] = z;
+    data_[0] = x; data_[1] = y; data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of two arbitrary types containing
+/// \param data_ptr Pointer to an array of two arbitrary types containing
 /// x and y.
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// vector to new values.
-/// \see Vector3::set(T,T)
+/// \see vector3::set(T,T)
 
 template <typename T>
-inline void Vector3<T>::set(const T* dataPtr)
+inline void vector3<T>::set(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1]; data_[2] = dataPtr[2];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[1]; data_[2] = data_ptr[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -547,9 +548,9 @@ inline void Vector3<T>::set(const T* dataPtr)
 /// Gets the internal array of the components.
 
 template <typename T>
-inline T* Vector3<T>::getData()
+inline T* vector3<T>::get_data()
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -560,10 +561,10 @@ inline T* Vector3<T>::getData()
 /// used as a parameter for another function.
 
 template <typename T>
-inline Vector3<T>& Vector3<T>::zero()
+inline vector3<T>& vector3<T>::zero()
 {
-	data_[0] = data_[1] = data_[2] = (T)0;
-	return *this;
+    data_[0] = data_[1] = data_[2] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -573,9 +574,9 @@ inline Vector3<T>& Vector3<T>::zero()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline const T* Vector3<T>::getData() const
+inline const T* vector3<T>::get_data() const
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -588,13 +589,13 @@ inline const T* Vector3<T>::getData() const
 /// component. It can be used on either the right (r-value) or the
 /// left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a i is not in the range 0-2.
-/// \see Vector3::operator[](const unsigned) const
+/// \see vector3::operator[](const unsigned) const
 
 template <typename T>
-inline T& Vector3<T>::operator[] (const unsigned i)
+inline T& vector3<T>::operator[] (const unsigned i)
 {
-	assert(i < 3);
-	return data_[i];
+    assert(i < 3);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -607,11 +608,11 @@ inline T& Vector3<T>::operator[] (const unsigned i)
 /// component. It can be used only on the right (r-value) of an
 /// assignment statement. In debug builds, function asserts if \a i is
 /// not in the range 0-2.
-/// \see Vector3::operator[](const unsigned)
+/// \see vector3::operator[](const unsigned)
 
 template <typename T>
-inline T Vector3<T>::operator[] (const unsigned i) const
+inline T vector3<T>::operator[] (const unsigned i) const
 {
-	assert(i < 3);
-	return data_[i];
+    assert(i < 3);
+    return data_[i];
 }

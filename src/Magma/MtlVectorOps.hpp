@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,31 +10,31 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlVectorOps.hpp
-/// \brief Include file for all Vector types operations.
+/// \file vector_ops.hpp
+/// \brief Include file for all vector types operations.
 ///
-/// \b MtlVectorOps.hpp is the header file for all the operations on
-/// points (i.e. Vector2, Vector3, Vector4).
+/// \b vector_ops.hpp is the header file for all the operations on
+/// points (i.e. vector2, vector3, vector4).
 
-#ifndef MTL_VECTOR_OPS_HPP
-#define MTL_VECTOR_OPS_HPP
+#ifndef VECTOR_OPS_HPP
+#define VECTOR_OPS_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma
+namespace magma
 {
-	namespace Mtl
-	{
+    namespace mtl
+    {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-	#include "MtlVectorOps.inl"
+    #include "vector_ops.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_VECTOR_OPS_HPP
+#endif    // VECTOR_OPS_HPP

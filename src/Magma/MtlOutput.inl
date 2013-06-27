@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,10 +11,10 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlOutput.inl
+//    output.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains inlines for all output stream operators.
+//    This file contains inlines for all output stream operators.
 //------------------------------------------------------------------------------
 
 /// \ingroup Output
@@ -23,83 +24,83 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out the stream to write to.
-/// \param p the Point2 type to output.
+/// \param p the point2 type to output.
 /// \remarks
-/// Outputs a string representation of the given Point2 type to the
+/// Outputs a string representation of the given point2 type to the
 /// given output stream. The output is formatted such that
-/// Point2<int>(1,2) will appear as "[1,2]".
+/// point2<int>(1,2) will appear as "[1,2]".
 
 template<typename T>
 inline std::ostream& operator<< (
-	std::ostream& out,
-	const Point2<T>& p)
+    std::ostream& out,
+    const point2<T>& p)
 {
-	out << '[' << p[0] << ',' << p[1] << ']';
-	return out;
+    out << '[' << p[0] << ',' << p[1] << ']';
+    return out;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out The stream to write to.
-/// \param v The Vector2 type to output.
+/// \param v The vector2 type to output.
 /// \remarks
-/// Outputs a string representation of the given Vector2 type to the
+/// Outputs a string representation of the given vector2 type to the
 /// given output stream. The output is formatted such that
-/// Vector2<int>(1,2) will appear as "[1,2]".
+/// vector2<int>(1,2) will appear as "[1,2]".
 
 template<typename T>
 inline std::ostream& operator<< (
-	std::ostream& out,
-	const Vector2<T>& v)
+    std::ostream& out,
+    const vector2<T>& v)
 {
-	out << '[' << v[0] << ',' << v[1] << ']';
-	return out;
+    out << '[' << v[0] << ',' << v[1] << ']';
+    return out;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out the stream to write to.
-/// \param p the Point3 type to output.
+/// \param p the point3 type to output.
 /// \remarks
-/// Outputs a string representation of the given Point3 type to the
+/// Outputs a string representation of the given point3 type to the
 /// given output stream. The output is formatted such that
-/// Point3<int>(1,2,3) will appear as "[1,2,3]".
+/// point3<int>(1,2,3) will appear as "[1,2,3]".
 
 template<typename T>
 inline std::ostream& operator<< (
-	std::ostream& out,
-	const Point3<T>& p)
+    std::ostream& out,
+    const point3<T>& p)
 {
-	out << '[' << p[0] << ',' << p[1] << ',' << p[2] << ']';
-	return out;
+    out << '[' << p[0] << ',' << p[1] << ',' << p[2] << ']';
+    return out;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out The stream to write to.
-/// \param v The Vector3 type to output.
+/// \param v The vector3 type to output.
 /// \remarks
-/// Outputs a string representation of the given Vector3 type to the
+/// Outputs a string representation of the given vector3 type to the
 /// given output stream. The output is formatted such that
-/// Vector3<int>(1,2,3) will appear as "[1,2,3]".
+/// vector3<int>(1,2,3) will appear as "[1,2,3]".
 
 template<typename T>
 inline std::ostream& operator<< (
-	std::ostream& out,
-	const Vector3<T>& v)
+    std::ostream& out,
+    const vector3<T>& v)
 {
-	out << '[' << v[0] << ',' << v[1] << ',' << v[2] << ']';
-	return out;
+    out << '[' << v[0] << ',' << v[1] << ',' << v[2] << ']';
+    return out;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p out after it has been written to.
 /// \param out The stream to write to.
-/// \param m The Matrix22 type to output.
+/// \param m The matrix22 type to output.
 /// \remarks
-/// Outputs a string representation of the given Matrix22 type to the given
+/// Outputs a string representation of the given matrix22 type to the given
 /// output stream. The output is formatted such that
-/// Matrix22<int> m {1,2,3,4)} will appear as:
+/// matrix22<int> m {1,2,3,4)} will appear as:
 /// <pre>
 ///    | 1 3 |
 ///    | 2 4 |
@@ -107,12 +108,12 @@ inline std::ostream& operator<< (
 
 template<typename T>
 inline std::ostream& operator<< (
-	std::ostream& out,
-	const Matrix22<T>& m)
+    std::ostream& out,
+    const matrix22<T>& m)
 {
-	out << "| " << m(0, 0) << ' ' << m(0, 1) << " |\n";
-	out << "| " << m(1, 0) << ' ' << m(1, 1) << " |\n";
-	return out;
+    out << "| " << m(0, 0) << ' ' << m(0, 1) << " |\n";
+    out << "| " << m(1, 0) << ' ' << m(1, 1) << " |\n";
+    return out;
 }
 
 /// @}

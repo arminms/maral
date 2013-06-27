@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,32 +10,32 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlOutput.hpp
-/// \brief Include file for outputing Magma::Mtl classes to the output
+/// \file output.hpp
+/// \brief Include file for outputing magma::mtl classes to the output
 /// stream.
 ///
-/// \b MtlOutput.hpp is the header file for all output stream operators
-/// of Magma::Mtl classes.
+/// \b output.hpp is the header file for all output stream operators
+/// of magma::mtl classes.
 
-#ifndef MTL_OUTPUT_HPP
-#define MTL_OUTPUT_HPP
+#ifndef OUTPUT_HPP
+#define OUTPUT_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma
+namespace magma
 {
-	namespace Mtl
-	{
+    namespace mtl
+    {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-	#include "MtlOutput.inl"
+    #include "output.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif // MTL_OUTPUT_HPP
+#endif // OUTPUT_HPP

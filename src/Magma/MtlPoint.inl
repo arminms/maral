@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,24 +11,24 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlPoint.inl
+//    point.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains inlines for all point classes.
+//    This file contains inlines for all point classes.
 //------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////
-// Point2 member functions
+// point2 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Point2 object (default constructor). For efficiency, no
+/// Constructs a point2 object (default constructor). For efficiency, no
 /// initialization is performed which leaves point in an indeterminate state.
 /// You may call zero() member function later to make a zero point.
-/// \see Point2::zero
+/// \see point2::zero
 
 template <typename T>
-inline Point2<T>::Point2()
+inline point2<T>::point2()
 {
 }
 
@@ -37,56 +38,56 @@ inline Point2<T>::Point2()
 /// \param y An arbitrary type (int, float, double, ...) containing y
 /// coordinate.
 /// \remarks
-/// Constructs a Point2 object from 2 supplied arbitrary type.
+/// Constructs a point2 object from 2 supplied arbitrary type.
 
 template <typename T>
-inline Point2<T>::Point2(T x, T y)
+inline point2<T>::point2(T x, T y)
 {
-	data_[0] = x; data_[1] = y;
+    data_[0] = x; data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param v A Vector2 object that already exists.
+/// \param v A vector2 object that already exists.
 /// \remarks
-/// Explicitly constructs a Point2 object from a Vector2.
+/// Explicitly constructs a point2 object from a vector2.
 
 template <typename T>
-inline Point2<T>::Point2(const Vector2<T>& v)
+inline point2<T>::point2(const vector2<T>& v)
 {
-	data_[0] = v[0]; data_[1] = v[1];
+    data_[0] = v[0]; data_[1] = v[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Point2 object that already exists.
+/// \param p A point2 object that already exists.
 /// \remarks
-/// Constructs a Point2 object from another one (copy constructor).
+/// Constructs a point2 object from another one (copy constructor).
 
 template <typename T>
-inline Point2<T>::Point2(const Point2<T>& p)
+inline point2<T>::point2(const point2<T>& p)
 {
-	if (this != &p)
-	{
-		data_[0] = p.data_[0];
-		data_[1] = p.data_[1];
-	}
+    if (this != &p)
+    {
+        data_[0] = p.data_[0];
+        data_[1] = p.data_[1];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Reference to this Point2 object.
-/// \param p A Point2 object that already exists.
+/// \return Reference to this point2 object.
+/// \param p A point2 object that already exists.
 /// \remarks
-/// The overloaded assignment operator copies the source Point2 \a p
-/// object into this Point2 object.
+/// The overloaded assignment operator copies the source point2 \a p
+/// object into this point2 object.
 
 template <typename T>
-inline Point2<T>& Point2<T>::operator=(const Point2<T>& p)
+inline point2<T>& point2<T>::operator=(const point2<T>& p)
 {
-	if (this != &p)
-	{
-		data_[0] = p[0];
-		data_[1] = p[1];
-	}
-	return *this;
+    if (this != &p)
+    {
+        data_[0] = p[0];
+        data_[1] = p[1];
+    }
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,12 +96,12 @@ inline Point2<T>& Point2<T>::operator=(const Point2<T>& p)
 /// \remarks
 /// Returns x coordinate of this point. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Point2::setX, Point2::getX
+/// \see point2::set_x, point2::get_x
 
 template <typename T>
-inline T& Point2<T>::x()
+inline T& point2<T>::x()
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,12 +110,12 @@ inline T& Point2<T>::x()
 /// \remarks
 /// Returns y coordinate of this point. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Point2::setY, Point2::getY
+/// \see point2::set_y, point2::get_y
 
 template <typename T>
-inline T& Point2<T>::y()
+inline T& point2<T>::y()
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,12 +124,12 @@ inline T& Point2<T>::y()
 /// \remarks
 /// Returns x coordinate of this point. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Point2::x, Point2::setX
+/// \see point2::x, point2::set_x
 
 template <typename T>
-inline T Point2<T>::getX() const
+inline T point2<T>::get_x() const
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,12 +138,12 @@ inline T Point2<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this point. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Point2::y, Point2::setY
+/// \see point2::y, point2::set_y
 
 template <typename T>
-inline T Point2<T>::getY() const
+inline T point2<T>::get_y() const
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,12 +151,12 @@ inline T Point2<T>::getY() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this point.
-/// \see Point2::x, Point2::getX
+/// \see point2::x, point2::get_x
 
 template <typename T>
-inline void Point2<T>::setX(T x)
+inline void point2<T>::set_x(T x)
 {
-	data_[0] = x;
+    data_[0] = x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,12 +164,12 @@ inline void Point2<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this point.
-/// \see Point2::y, Point2::getY
+/// \see point2::y, point2::get_y
 
 template <typename T>
-inline void Point2<T>::setY(T y)
+inline void point2<T>::set_y(T y)
 {
-	data_[1] = y;
+    data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -179,27 +180,27 @@ inline void Point2<T>::setY(T y)
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// point to new values.
-/// \see Point2::set(const T*)
+/// \see point2::set(const T*)
 
 template <typename T>
-inline void Point2<T>::set(T x, T y)
+inline void point2<T>::set(T x, T y)
 {
-	data_[0] = x; data_[1] = y;
+    data_[0] = x; data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of two arbitrary types containing
+/// \param data_ptr Pointer to an array of two arbitrary types containing
 /// x and y.
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// point to new values.
-/// \see Point2::set(T,T)
+/// \see point2::set(T,T)
 
 template <typename T>
-inline void Point2<T>::set(const T* dataPtr)
+inline void point2<T>::set(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,10 +211,10 @@ inline void Point2<T>::set(const T* dataPtr)
 /// used as a parameter for another function.
 
 template <typename T>
-inline Point2<T>& Point2<T>::zero()
+inline point2<T>& point2<T>::zero()
 {
-	data_[0] = data_[1] = (T)0;
-	return *this;
+    data_[0] = data_[1] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +224,9 @@ inline Point2<T>& Point2<T>::zero()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline T* Point2<T>::getData()
+inline T* point2<T>::get_data()
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -235,9 +236,9 @@ inline T* Point2<T>::getData()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline const T* Point2<T>::getData() const
+inline const T* point2<T>::get_data() const
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -250,13 +251,13 @@ inline const T* Point2<T>::getData() const
 /// component. It can be used on either the right (r-value) or the
 /// left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a i is not in the range 0-1.
-/// \see Point2::operator[](const unsigned) const
+/// \see point2::operator[](const unsigned) const
 
 template <typename T>
-inline T& Point2<T>::operator[] (const unsigned i)
+inline T& point2<T>::operator[] (const unsigned i)
 {
-	assert(i < 2);
-	return data_[i];
+    assert(i < 2);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -269,28 +270,28 @@ inline T& Point2<T>::operator[] (const unsigned i)
 /// component. It can be used only on the right (r-value) of an
 /// assignment statement. In debug builds, function asserts if \a i is
 /// not in the range 0-1.
-/// \see Point2::operator[](const unsigned)
+/// \see point2::operator[](const unsigned)
 
 template <typename T>
-inline T Point2<T>::operator[] (const unsigned i) const
+inline T point2<T>::operator[] (const unsigned i) const
 {
-	assert(i < 2);
-	return data_[i];
+    assert(i < 2);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Point3 member functions
+// point3 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Point3 object (default constructor). For efficiency, no
+/// Constructs a point3 object (default constructor). For efficiency, no
 /// initialization is performed which leaves point in an indeterminate state.
 /// You may call zero() member function later to make a zero point.
-/// \see Point3::zero
+/// \see point3::zero
 
 
 template <typename T>
-inline Point3<T>::Point3()
+inline point3<T>::point3()
 {
 }
 
@@ -302,58 +303,58 @@ inline Point3<T>::Point3()
 /// \param z An arbitrary type (int, float, double, ...) containing z
 /// coordinate.
 /// \remarks
-/// Constructs a Point3 object from 3 supplied arbitrary type.
+/// Constructs a point3 object from 3 supplied arbitrary type.
 
 template <typename T>
-inline Point3<T>::Point3(T x, T y, T z)
+inline point3<T>::point3(T x, T y, T z)
 {
-	data_[0] = x; data_[1] = y; data_[2] = z;
+    data_[0] = x; data_[1] = y; data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param v A Vector3 object that already exists.
+/// \param v A vector3 object that already exists.
 /// \remarks
-/// Explicitly constructs a Point3 object from a Vector3.
+/// Explicitly constructs a point3 object from a vector3.
 
 template <typename T>
-inline Point3<T>::Point3(const Vector3<T>& v)
+inline point3<T>::point3(const vector3<T>& v)
 {
-	data_[0] = v[0]; data_[1] = v[1]; data_[2] = v[2];
+    data_[0] = v[0]; data_[1] = v[1]; data_[2] = v[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param p A Point3 object that already exists.
+/// \param p A point3 object that already exists.
 /// \remarks
-/// Constructs a Point3 object from another one (copy constructor).
+/// Constructs a point3 object from another one (copy constructor).
 
 template <typename T>
-inline Point3<T>::Point3(const Point3<T>& p)
+inline point3<T>::point3(const point3<T>& p)
 {
-	if (this != &p)
-	{
-		data_[0] = p.data_[0];
-		data_[1] = p.data_[1];
-		data_[2] = p.data_[2];
-	}
+    if (this != &p)
+    {
+        data_[0] = p.data_[0];
+        data_[1] = p.data_[1];
+        data_[2] = p.data_[2];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Reference to this Point3 object.
-/// \param p A Point3 object that already exists.
+/// \return Reference to this point3 object.
+/// \param p A point3 object that already exists.
 /// \remarks
-/// The overloaded assignment operator copies the source Point3 \a p
-/// object into this Point3 object.
+/// The overloaded assignment operator copies the source point3 \a p
+/// object into this point3 object.
 
 template <typename T>
-inline Point3<T>& Point3<T>::operator=(const Point3<T>& p)
+inline point3<T>& point3<T>::operator=(const point3<T>& p)
 {
-	if (this != &p)
-	{
-		data_[0] = p[0];
-		data_[1] = p[1];
-		data_[2] = p[2];
-	}
-	return *this;
+    if (this != &p)
+    {
+        data_[0] = p[0];
+        data_[1] = p[1];
+        data_[2] = p[2];
+    }
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -362,12 +363,12 @@ inline Point3<T>& Point3<T>::operator=(const Point3<T>& p)
 /// \remarks
 /// Returns x coordinate of this point. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Point3::setX, Point3::getX
+/// \see point3::set_x, point3::get_x
 
 template <typename T>
-inline T& Point3<T>::x()
+inline T& point3<T>::x()
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -376,12 +377,12 @@ inline T& Point3<T>::x()
 /// \remarks
 /// Returns y coordinate of this point. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Point3::setY, Point3::getY
+/// \see point3::set_y, point3::get_y
 
 template <typename T>
-inline T& Point3<T>::y()
+inline T& point3<T>::y()
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -390,12 +391,12 @@ inline T& Point3<T>::y()
 /// \remarks
 /// Returns z coordinate of this point. It can be used on either the
 /// right (r-value) or the left (l-value) of an assignment statement.
-/// \see Point3::setZ, Point3::getZ
+/// \see point3::set_z, point3::get_z
 
 template <typename T>
-inline T& Point3<T>::z()
+inline T& point3<T>::z()
 {
-	return data_[2];
+    return data_[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -404,12 +405,12 @@ inline T& Point3<T>::z()
 /// \remarks
 /// Returns x coordinate of this point. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Point3::x, Point3::setX
+/// \see point3::x, point3::set_x
 
 template <typename T>
-inline T Point3<T>::getX() const
+inline T point3<T>::get_x() const
 {
-	return data_[0];
+    return data_[0];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -418,12 +419,12 @@ inline T Point3<T>::getX() const
 /// \remarks
 /// Returns y coordinate of this point. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Point3::y, Point3::setY
+/// \see point3::y, point3::set_y
 
 template <typename T>
-inline T Point3<T>::getY() const
+inline T point3<T>::get_y() const
 {
-	return data_[1];
+    return data_[1];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -432,12 +433,12 @@ inline T Point3<T>::getY() const
 /// \remarks
 /// Returns z coordinate of this point. It can be used only on the
 /// right side (r-value) of an assignment statement.
-/// \see Point3::z, Point3::setZ
+/// \see point3::z, point3::set_z
 
 template <typename T>
-inline T Point3<T>::getZ() const
+inline T point3<T>::get_z() const
 {
-	return data_[2];
+    return data_[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -445,12 +446,12 @@ inline T Point3<T>::getZ() const
 /// coordinate.
 /// \remarks
 /// Changes x coordinate of this point.
-/// \see Point3::x, Point3::getX
+/// \see point3::x, point3::get_x
 
 template <typename T>
-inline void Point3<T>::setX(T x)
+inline void point3<T>::set_x(T x)
 {
-	data_[0] = x;
+    data_[0] = x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -458,12 +459,12 @@ inline void Point3<T>::setX(T x)
 /// coordinate.
 /// \remarks
 /// Changes y coordinate of this point.
-/// \see Point3::y, Point3::getY
+/// \see point3::y, point3::get_y
 
 template <typename T>
-inline void Point3<T>::setY(T y)
+inline void point3<T>::set_y(T y)
 {
-	data_[1] = y;
+    data_[1] = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -471,12 +472,12 @@ inline void Point3<T>::setY(T y)
 /// coordinate.
 /// \remarks
 /// Changes z coordinate of this point.
-/// \see Point3::z, Point3::getZ
+/// \see point3::z, point3::get_z
 
 template <typename T>
-inline void Point3<T>::setZ(T z)
+inline void point3<T>::set_z(T z)
 {
-	data_[2] = z;
+    data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -489,27 +490,27 @@ inline void Point3<T>::setZ(T z)
 /// \remarks
 /// This overloaded member function changes x, y and z components of
 /// this point to new values.
-/// \see Point3::set(const T*)
+/// \see point3::set(const T*)
 
 template <typename T>
-inline void Point3<T>::set(T x, T y, T z)
+inline void point3<T>::set(T x, T y, T z)
 {
-	data_[0] = x; data_[1] = y; data_[2] = z;
+    data_[0] = x; data_[1] = y; data_[2] = z;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of two arbitrary types containing
+/// \param data_ptr Pointer to an array of two arbitrary types containing
 /// x and y.
 /// \remarks
 /// This overloaded member function changes x and y components of this
 /// point to new values.
-/// \see Point3::set(T,T,T)
+/// \see point3::set(T,T,T)
 
 template <typename T>
-inline void Point3<T>::set(const T* dataPtr)
+inline void point3<T>::set(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1]; data_[2] = dataPtr[2];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[1]; data_[2] = data_ptr[2];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -520,10 +521,10 @@ inline void Point3<T>::set(const T* dataPtr)
 /// used as a parameter for another function.
 
 template <typename T>
-inline Point3<T>& Point3<T>::zero()
+inline point3<T>& point3<T>::zero()
 {
-	data_[0] = data_[1] = data_[2] = (T)0;
-	return *this;
+    data_[0] = data_[1] = data_[2] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -533,9 +534,9 @@ inline Point3<T>& Point3<T>::zero()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline T* Point3<T>::getData()
+inline T* point3<T>::get_data()
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -545,9 +546,9 @@ inline T* Point3<T>::getData()
 /// Gets the internal array of the components.
 
 template <typename T>
-inline const T* Point3<T>::getData() const
+inline const T* point3<T>::get_data() const
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -559,13 +560,13 @@ inline const T* Point3<T>::getData() const
 /// This overloaded operator returns the value of the specified component. It
 /// can be used only on the right (r-value) of an assignment statement. In debug
 /// builds, function asserts if \a i is not in the range 0-2.
-/// \see Point3::operator[](const unsigned) const
+/// \see point3::operator[](const unsigned) const
 
 template <typename T>
-inline T& Point3<T>::operator[] (const unsigned i)
+inline T& point3<T>::operator[] (const unsigned i)
 {
-	assert(i < 3);
-	return data_[i];
+    assert(i < 3);
+    return data_[i];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -577,11 +578,11 @@ inline T& Point3<T>::operator[] (const unsigned i)
 /// This overloaded operator returns the value of the specified component. It
 /// can be used only on the right (r-value) of an assignment statement. In debug
 /// builds, function asserts if \a i is not in the range 0-2.
-/// \see Point3::operator[]
+/// \see point3::operator[]
 
 template <typename T>
-inline T Point3<T>::operator[] (const unsigned i) const
+inline T point3<T>::operator[] (const unsigned i) const
 {
-	assert(i < 3);
-	return data_[i];
+    assert(i < 3);
+    return data_[i];
 }

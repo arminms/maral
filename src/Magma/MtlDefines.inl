@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,10 +11,10 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlDefines.inl
+//    defines.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains handy templated inlines.
+//    This file contains handy templated inlines.
 //------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +34,7 @@
 template<typename T>
 inline T degree2radian(T deg)
 {
-	return T(PIOVER180 * deg);
+    return T(PIOVER180 * deg);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +47,7 @@ inline T degree2radian(T deg)
 template<typename T>
 inline T radian2degree(T rad)
 {
-	return T(PIUNDER180 * rad);
+    return T(PIUNDER180 * rad);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,25 +60,25 @@ inline T radian2degree(T rad)
 /// some tolerance.
 
 template<typename T>
-inline bool isEqual(
-	const T& a,
-	const T& b,
-	const T& tolerance)
+inline bool is_equal(
+    const T& a,
+    const T& b,
+    const T& tolerance)
 {
-	assert(tolerance >= static_cast<T>(0));
-	return (abs(a - b) <= tolerance);
+    assert(tolerance >= static_cast<T>(0));
+    return (abs(a - b) <= tolerance);
 }
 
 //template <typename T>
 //inline T abs(T v)
 //{
-//	return static_cast<T>(v >= static_cast<T>(0) ? v : -v);
+//    return static_cast<T>(v >= static_cast<T>(0) ? v : -v);
 //}
 
 //template <typename T>
 //inline T sqrt(T v)
 //{
-//	return sqrt(v);
+//    return sqrt(v);
 //}
 
 /// @}

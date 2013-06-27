@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -7,10 +8,12 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-/// \file Magma.hpp
-/// \brief Main include file for the \b Magma framework.
+// $Id$
+//------------------------------------------------------------------------------
+/// \file magma.hpp
+/// \brief Main include file for the \b magma framework.
 ///
-/// \b Magma.hpp is the main include file for the \b Magma framework.
+/// \b magma.hpp is the main include file for the \b Magma framework.
 /// This file must be included in all projects using \b Magma.
 
 #ifndef MAGMA_HPP
@@ -27,7 +30,7 @@
 #include <iostream>
 #include <assert.h>
 
-#include "Mtl.hpp"
+#include "mtl/mtl.hpp"
 
-#endif	//MAGMA_HPP
+#endif    // MAGMA_HPP
 

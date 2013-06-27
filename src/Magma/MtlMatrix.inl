@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,32 +11,32 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlMatrix.inl
+//    matrix.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains inlines for all matrix classes.
+//    This file contains inlines for all matrix classes.
 //------------------------------------------------------------------------------
 
 ////////////////////////////////////////////////////////////////////////////////
-// RowAccessor22 member functions
+// row_accessor22 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \param mat Pointer to the matrix.
 /// \param row The zero-based index of the row to access.
 /// \pre row < 2
 /// \remarks
-/// Constructs a RowAccessor22 object. In debug builds, function asserts if
+/// Constructs a row_accessor22 object. In debug builds, function asserts if
 /// \a row is not in the range 0-1.
 
 template <typename T>
-inline Matrix22<T>::RowAccessor22::RowAccessor22(
-	Matrix22<T>* mat,
-	const unsigned row)
-:	m_(mat)
-,	r_(row)
+inline matrix22<T>::row_accessor22::row_accessor22(
+    matrix22<T>* mat,
+    const unsigned row)
+:    m_(mat)
+,    r_(row)
 {
-	assert(mat != nullptr);
-	assert(row < 2);
+    assert(mat != nullptr);
+    assert(row < 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,35 +49,35 @@ inline Matrix22<T>::RowAccessor22::RowAccessor22(
 /// and \a column. It can be used on either the right (r-value) or the left
 /// (l-value) of an assignment statement. In debug builds, function asserts if
 /// \a column is not in the range 0-1.
-/// \see Matrix22::operator[]
+/// \see matrix22::operator[]
 
 template <typename T>
-inline T& Matrix22<T>::RowAccessor22::operator[] (
-	const unsigned column)
+inline T& matrix22<T>::row_accessor22::operator[] (
+    const unsigned column)
 {
-	return (*m_)(r_, column);
+    return (*m_)(r_, column);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// ConstRowAccessor22 member functions
+// const_row_accessor22 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \param mat Pointer to the matrix.
 /// \param row The zero-based index of the row to access.
 /// \pre row < 2
 /// \remarks
-/// Constructs a ConstRowAccessor22 object. In debug builds, function asserts if
-/// \a row is not in the range 0-1.
+/// Constructs a const_row_accessor22 object. In debug builds, function asserts
+/// if \a row is not in the range 0-1.
 
 template <typename T>
-inline Matrix22<T>::ConstRowAccessor22::ConstRowAccessor22(
-	const Matrix22<T>* mat,
-	const unsigned row)
-:	m_(mat)
-,	r_(row)
+inline matrix22<T>::const_row_accessor22::const_row_accessor22(
+    const matrix22<T>* mat,
+    const unsigned row)
+:    m_(mat)
+,    r_(row)
 {
-	assert(mat != nullptr);
-	assert(row < 2);
+    assert(mat != nullptr);
+    assert(row < 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,92 +90,92 @@ inline Matrix22<T>::ConstRowAccessor22::ConstRowAccessor22(
 /// and \a column. It can be used only on the right (r-value) of an assignment
 /// statement. In debug builds, function asserts if \a column is not in the
 /// range 0-1.
-/// \see Matrix22::operator[](const unsigned) const
+/// \see matrix22::operator[](const unsigned) const
 
 template <typename T>
-inline const T& Matrix22<T>::ConstRowAccessor22::operator[] (
-	const unsigned column) const
+inline const T& matrix22<T>::const_row_accessor22::operator[] (
+    const unsigned column) const
 {
-	return (*m_)(r_, column);
+    return (*m_)(r_, column);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Matrix22 member functions
+// matrix22 member functions
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \remarks
-/// Constructs a Matrix22 object (default constructor). For efficiency, no
+/// Constructs a matrix22 object (default constructor). For efficiency, no
 /// initialization is performed which leaves matrix in an indeterminate state.
-/// You may call Matrix22::identity or Matrix22::zero member functions later to
+/// You may call matrix22::identity or matrix22::zero member functions later to
 /// make an identity or zero matrix.
-/// \see Matrix22::identity, Matrix22::zero
+/// \see matrix22::identity, matrix22::zero
 
 template <typename T>
-inline Matrix22<T>::Matrix22()
+inline matrix22<T>::matrix22()
 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \pre vals.size() > 4
 /// \remarks
-/// Constructs a Matrix22 object from an \a initializer-list (\a initializer-list
-/// constructor). In debug builds, function asserts if number of elements in
-/// \a vals is more than 4. If number of elements in \a vals is less than 4, the
-/// rest will be initialized to 0.
+/// Constructs a matrix22 object from an \a initializer-list (\a
+/// initializer-list constructor). In debug builds, function asserts if number
+/// of elements in \a vals is more than 4. If number of elements in \a vals is
+/// less than 4, the rest will be initialized to 0.
 ///
 /// \code
-/// Matrix22f zero {}; // matrix with all elements set to zero
-/// Matrix22f iden {1.0f, 0.0f, 0.0f, 1.0f}; // identity matrix
+/// matrix22f zero {}; // matrix with all elements set to zero
+/// matrix22f iden {1.0f, 0.0f, 0.0f, 1.0f}; // identity matrix
 /// \endcode
 
 template <typename T>
-inline Matrix22<T>::Matrix22(
-	std::initializer_list<T> vals)
+inline matrix22<T>::matrix22(
+    std::initializer_list<T> vals)
 {
-	assert(vals.size() <= 4);
-	unsigned count = 0;
-	for (auto it=vals.begin(); it != vals.end(); ++it)
-		data_[count++] = *it;
-	if (count < 4)
-		for (register unsigned i = count; i < 4; ++i)
-			data_[i] = T(0);
+    assert(vals.size() <= 4);
+    unsigned count = 0;
+    for (auto it=vals.begin(); it != vals.end(); ++it)
+        data_[count++] = *it;
+    if (count < 4)
+        for (register unsigned i = count; i < 4; ++i)
+            data_[i] = T(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param m A Matrix22 object that already exists.
+/// \param m A matrix22 object that already exists.
 /// \remarks
-/// Constructs a Matrix22 object from another one (copy constructor).
+/// Constructs a matrix22 object from another one (copy constructor).
 
 template <typename T>
-inline Matrix22<T>::Matrix22(const Matrix22<T>& m)
+inline matrix22<T>::matrix22(const matrix22<T>& m)
 {
-	if (this != &m)
-	{
-		data_[0] = m.data_[0];
-		data_[1] = m.data_[1];
-		data_[2] = m.data_[2];
-		data_[3] = m.data_[3];
-	}
+    if (this != &m)
+    {
+        data_[0] = m.data_[0];
+        data_[1] = m.data_[1];
+        data_[2] = m.data_[2];
+        data_[3] = m.data_[3];
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Reference to this Matrix22 object.
-/// \param m A Matrix22 object that already exists.
+/// \return Reference to this matrix22 object.
+/// \param m A matrix22 object that already exists.
 /// \remarks
-/// The overloaded assignment operator copies the source Matrix22 \a m into
-/// this Matrix22.
+/// The overloaded assignment operator copies the source matrix22 \a m into
+/// this matrix22.
 
 template <typename T>
-inline Matrix22<T>& Matrix22<T>::operator=(const Matrix22<T>& m)
+inline matrix22<T>& matrix22<T>::operator=(const matrix22<T>& m)
 {
-	if (this != &m)
-	{
-		data_[0] = m.data_[0];
-		data_[1] = m.data_[1];
-		data_[2] = m.data_[2];
-		data_[3] = m.data_[3];
-	}
-	return *this;
+    if (this != &m)
+    {
+        data_[0] = m.data_[0];
+        data_[1] = m.data_[1];
+        data_[2] = m.data_[2];
+        data_[3] = m.data_[3];
+    }
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -186,11 +187,11 @@ inline Matrix22<T>& Matrix22<T>::operator=(const Matrix22<T>& m)
 /// can be used as a parameter for another function.
 
 template <typename T>
-inline Matrix22<T>& Matrix22<T>::identity()
+inline matrix22<T>& matrix22<T>::identity()
 {
-	data_[0] = data_[3] = (T)1;
-	data_[1] = data_[2] = (T)0;
-	return *this;
+    data_[0] = data_[3] = (T)1;
+    data_[1] = data_[2] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,54 +202,54 @@ inline Matrix22<T>& Matrix22<T>::identity()
 /// way, it can be used as a parameter for another function.
 
 template <typename T>
-inline Matrix22<T>& Matrix22<T>::zero()
+inline matrix22<T>& matrix22<T>::zero()
 {
-	data_[0] = data_[1] = data_[2] = data_[3] = (T)0;
-	return *this;
+    data_[0] = data_[1] = data_[2] = data_[3] = (T)0;
+    return *this;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of four arbitrary types.
-/// \pre \a dataPtr is in the native format of the Matrix22 class which is a
+/// \param data_ptr Pointer to an array of four arbitrary types.
+/// \pre \a data_ptr is in the native format of the matrix22 class which is a
 /// column major order, if not, then you might be able to use the
-/// Matrix22<T>::setTranspose function.
+/// matrix22<T>::setTranspose function.
 /// \remarks
 /// This member function sets the matrix to the given data. It is useful to copy
 /// matrix data from another math library. Normally this function is used when
 /// you want to use an array to init the matrix (see code example).
-/// \see Matrix22::setTranspose
+/// \see matrix22::setTranspose
 
 template <typename T>
-inline void Matrix22<T>::set(const T* dataPtr)
+inline void matrix22<T>::set(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[1];
-	data_[2] = dataPtr[2]; data_[3] = dataPtr[3];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
+    data_[2] = data_ptr[2]; data_[3] = data_ptr[3];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \param dataPtr Pointer to an array of four arbitrary types.
-/// \pre \a dataPtr is in the transpose (row major order) of the Matrix22 native
-/// format which is a column major order.
+/// \param data_ptr Pointer to an array of four arbitrary types.
+/// \pre \a data_ptr is in the transpose (row major order) of the matrix22
+/// native format which is a column major order.
 /// \remarks
 /// This member function sets the matrix to the transpose of the given data.
-/// Matrix22<T>::set() takes raw matrix data in column major order, this
+/// matrix22<T>::set() takes raw matrix data in column major order, this
 /// function allows you to pass in row major order data. Normally this function
 /// is used when you want to use an array to init the matrix (see code example).
 ///
 /// \code
 /// float data[] = { 1, 0, 0, 15 };
-/// Matrix22f mat;
+/// matrix22f mat;
 /// mat.setTranspose(data);
 /// \endcode
-/// \see Matrix22::set
+/// \see matrix22::set
 
 template <typename T>
-inline void Matrix22<T>::setTranspose(const T* dataPtr)
+inline void matrix22<T>::set_transpose(const T* data_ptr)
 {
-	assert(dataPtr);
-	data_[0] = dataPtr[0]; data_[1] = dataPtr[2];
-	data_[2] = dataPtr[1]; data_[3] = dataPtr[3];
+    assert(data_ptr);
+    data_[0] = data_ptr[0]; data_[1] = data_ptr[2];
+    data_[2] = data_ptr[1]; data_[3] = data_ptr[3];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -257,9 +258,9 @@ inline void Matrix22<T>::setTranspose(const T* dataPtr)
 /// Gets a pointer to the matrix data.
 
 template <typename T>
-inline T* Matrix22<T>::getData()
+inline T* matrix22<T>::get_data()
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -268,9 +269,9 @@ inline T* Matrix22<T>::getData()
 /// Gets a constant pointer to the matrix data.
 
 template <typename T>
-inline const T* Matrix22<T>::getData() const
+inline const T* matrix22<T>::get_data() const
 {
-	return data_;
+    return data_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -285,16 +286,16 @@ inline const T* Matrix22<T>::getData() const
 /// \a column. It can be used on either the right (r-value) or the left (l-value)
 /// of an assignment statement. In debug builds, function asserts if either
 /// \a row or \a column are not in the range 0-1.
-/// \see Matrix22::operator[]
+/// \see matrix22::operator[]
 
 template <typename T>
-inline T& Matrix22<T>::operator() (
-	const unsigned row,
-	const unsigned column)
+inline T& matrix22<T>::operator() (
+    const unsigned row,
+    const unsigned column)
 {
-	assert(row < 2);
-	assert(column < 2);
-	return data_[(column<<1)+row];
+    assert(row < 2);
+    assert(column < 2);
+    return data_[(column<<1)+row];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -309,51 +310,51 @@ inline T& Matrix22<T>::operator() (
 /// \a column. It can be used only on the right (r-value) of an assignment
 /// statement. In debug builds, function asserts if either \a row or \a column
 /// are not in the range 0-1.
-/// \see Matrix22::operator[](const unsigned) const
+/// \see matrix22::operator[](const unsigned) const
 
 template <typename T>
-inline const T& Matrix22<T>::operator() (
-	const unsigned row,
-	const unsigned column) const
+inline const T& matrix22<T>::operator() (
+    const unsigned row,
+    const unsigned column) const
 {
-	assert(row < 2);
-	assert(column < 2);
-	return data_[(column<<1)+row];
+    assert(row < 2);
+    assert(column < 2);
+    return data_[(column<<1)+row];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return A RowAccessor22 object that can be used to access columns.
+/// \return A row_accessor22 object that can be used to access columns.
 /// \param row The zero-based index of the row to access.
 /// \pre row < 2
 /// \remarks
-/// This overloaded operator returns RowAccessor22 object that can be used
+/// This overloaded operator returns row_accessor22 object that can be used
 /// subsequently to access desired column. It can be used on either the right
 /// (r-value) or the left (l-value) of an assignment statement. In debug builds,
 /// function asserts if \a row is not in the range 0-1.
-/// \see Matrix22::operator()(const unsigned,const unsigned)
+/// \see matrix22::operator()(const unsigned,const unsigned)
 
 template <typename T>
-inline typename Matrix22<T>::RowAccessor22 Matrix22<T>::operator[] (
-	const unsigned row)
+inline typename matrix22<T>::row_accessor22 matrix22<T>::operator[] (
+    const unsigned row)
 {
-	return RowAccessor22(this, row);
+    return row_accessor22(this, row);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return A ConstRowAccessor22 object that can be used to access columns.
+/// \return A const_row_accessor22 object that can be used to access columns.
 /// \param row The zero-based index of the row to access.
 /// \pre row < 2
 /// \remarks
-/// This overloaded operator returns ConstRowAccessor22 object that can be used
+/// This overloaded operator returns const_row_accessor22 object that can be used
 /// subsequently to access desired column. It can be used only on the right
 /// (r-value) of an assignment statement. In debug builds, function asserts if
 /// \a row is not in the range 0-1.
-/// \see Matrix22::operator()(const unsigned,const unsigned) const
+/// \see matrix22::operator()(const unsigned,const unsigned) const
 
 template <typename T>
-inline typename Matrix22<T>::ConstRowAccessor22 Matrix22<T>::operator[] (
-	const unsigned row) const
+inline typename matrix22<T>::const_row_accessor22 matrix22<T>::operator[] (
+    const unsigned row) const
 {
-	return ConstRowAccessor22(this, row);
+    return const_row_accessor22(this, row);
 }
 
