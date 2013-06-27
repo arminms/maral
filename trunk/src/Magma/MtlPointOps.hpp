@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,31 +10,31 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlPointOps.hpp
-/// \brief Include file for all Point types operations.
+/// \file point_ops.hpp
+/// \brief Include file for all point types operations.
 ///
-/// \b MtlPointOps.hpp is the header file for all the operations on
-/// points (i.e. Point2, Point3, Point4).
+/// \b point_ops.hpp is the header file for all the operations on
+/// points (i.e. point2, point3, point4).
 
-#ifndef MTL_POINT_OPS_HPP
-#define MTL_POINT_OPS_HPP
+#ifndef POINT_OPS_HPP
+#define POINT_OPS_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma
+namespace magma
 {
-	namespace Mtl
-	{
+    namespace mtl
+    {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-		#include "MtlPointOps.inl"
+        #include "point_ops.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_POINT_OPS_HPP
+#endif    // POINT_OPS_HPP

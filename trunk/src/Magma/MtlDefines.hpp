@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,10 +10,10 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlDefines.hpp
+/// \file defines.hpp
 /// \brief Include file for some frequently used mathematical defines.
 ///
-/// \b MtlDefines.hpp is the include file for some frequently used
+/// \b defines.hpp is the include file for some frequently used
 /// mathematical constansts and handy templated inlines.
 
 #ifndef MTL_DEFINES_HPP
@@ -28,26 +29,26 @@
 ///
 /// This is the main namespace for the \b Magma application framework.
 /// In order to work with \b Magma this namespace must be used (i.e by
-/// \a using keyword or scope operator (Magma::...)
+/// \a using keyword or scope operator (magma::...)
 
-namespace Magma
+namespace magma
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Namespace for the \b Mtl (Magma::Mtl).
+/// \brief Namespace for the \b Mtl (magma::mtl).
 ///
-/// Namespace for the \b Math \b Template \b Library (MTL). \b MTL is the
+/// Namespace for the \b Math \b Template \b Library (\b Mtl). \b Mtl is the
 /// mathematical engine behind \b Magma and because all the classes and
 /// functions have been implemented as header only inlines, it is
-/// highly efficient. The \b MTL has two aspects: The \a data \a types,
+/// highly efficient. The \b Mtl has two aspects: The \a data \a types,
 /// and the \a operations on the data. All data types and operations
-/// are defined in the Mtl namespace. Thus all types must be prefixed
-/// with the Mtl:: scope or a \a using \a namespace \a Magma::Mtl;
-/// command can be used to bring all of the \b MTL functionality into
+/// are defined in the mtl namespace. Thus all types must be prefixed
+/// with the mtl:: scope or a \a using \a namespace \a magma::mtl;
+/// command can be used to bring all of the \b Mtl functionality into
 /// the local scope.
 
-	namespace Mtl
-	{
+    namespace mtl
+    {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Frequently used constants
@@ -71,9 +72,9 @@ const double PIUNDER180  = 5.72957795130823E+001;
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-#include "MtlDefines.inl"
+#include "defines.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_DEFINES_HPP
+#endif    // MTL_DEFINES_HPP

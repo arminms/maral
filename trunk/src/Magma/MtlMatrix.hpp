@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,132 +10,132 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlMatrix.hpp
+/// \file matrix.hpp
 /// \brief Include file for all classes representing matrices.
 ///
-/// \b MtlMatrix.hpp is the include file for Matrix22f, Matrix22d, Matrix33f,
-/// Matrix33d, Matrix44f and Matrix44f classes.
+/// \b matrix.hpp is the include file for matrix22f, matrix22d, matrix33f,
+/// matrix33d, matrix44f and matrix44f classes.
 
-#ifndef MTL_MATRIX_HPP
-#define MTL_MATRIX_HPP
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma {
+namespace magma {
 
-	namespace Mtl {
+    namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstracts a 2x2 matrix (ordered in memory by Column).
 ///
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
-/// Matrix22 class abstracts a 2x2 matrix. To be compatible with \a OpenGL and
+/// matrix22 class abstracts a 2x2 matrix. To be compatible with \a OpenGL and
 /// efficency, elements are stored in column major order (in opposed to row
 /// major C/C++ ordering of arrays) as 4 consecutive datatypes. It is templated
 /// on the component datatype.
-/// \see Matrix22f, Matrix22d
-/// \author Armin Madadkar-Sobhani
+/// \see matrix22f, matrix22d
+/// \author Armin Madadkar Sobhani
 
 template <typename T>
-class Matrix22
+class matrix22
 {
 public:
 
-	/// \brief Helper nested class for Matrix22::operator[].
-	///
-	/// \remarks
-	/// This nested class encapsulates the row that the user is accessing and
-	/// implements a new operator[] that passes the column to use.
+    /// \brief Helper nested class for matrix22::operator[].
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
 
-	class RowAccessor22
-	{
-	public:
-		RowAccessor22(Matrix22<T>* mat, const unsigned row);
+    class row_accessor22
+    {
+    public:
+        row_accessor22(matrix22<T>* mat, const unsigned row);
 
-		T& operator[](const unsigned column);
+        T& operator[](const unsigned column);
 
-		/// \brief Pointer to the matrix
-		///
-		/// Pointer to a Matrix22 object set by constructor
-		Matrix22<T>* m_;
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix22 object set by constructor
+        matrix22<T>* m_;
 
-		/// \brief The row being accessed
-		///
-		/// The row being accessed set by constructor that can be used later
-		/// by RowAccessor22::operator[]
-		unsigned r_;
-	};
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by row_accessor22::operator[]
+        unsigned r_;
+    };
 
-	/// \brief Helper nested class for Matrix22::operator[] const.
-	///
-	/// \remarks
-	/// This nested class encapsulates the row that the user is accessing and
-	/// implements a new operator[] that passes the column to use.
+    /// \brief Helper nested class for matrix22::operator[] const.
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
 
-	class ConstRowAccessor22
-	{
-	public:
-		ConstRowAccessor22(const Matrix22<T>* mat, const unsigned row);
+    class const_row_accessor22
+    {
+    public:
+        const_row_accessor22(const matrix22<T>* mat, const unsigned row);
 
-		const T& operator[](const unsigned column) const;
+        const T& operator[](const unsigned column) const;
 
-		/// \brief Pointer to the matrix
-		///
-		/// Pointer to a Matrix22 object set by constructor
-		const Matrix22<T>* m_;
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix22 object set by constructor
+        const matrix22<T>* m_;
 
-		/// \brief The row being accessed
-		///
-		/// The row being accessed set by constructor that can be used later
-		/// by ConstRowAccessor22::operator[]
-		unsigned r_;
-	};
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by const_row_accessor22::operator[]
+        unsigned r_;
+    };
 
 /// \name Construction
 //@{
-	Matrix22();
-	Matrix22(std::initializer_list<T> vals);
+    matrix22();
+    matrix22(std::initializer_list<T> vals);
 
-	// Copy constructor
-	Matrix22(const Matrix22<T>& m);
+    // Copy constructor
+    matrix22(const matrix22<T>& m);
 
-	// Assignment method
-	Matrix22<T>& operator=(const Matrix22<T>& m);
+    // Assignment method
+    matrix22<T>& operator=(const matrix22<T>& m);
 //@}
 
 /// \name Attributes
 //@{
-	Matrix22<T>& identity();
-	Matrix22<T>& zero();
+    matrix22<T>& identity();
+    matrix22<T>& zero();
 
-	void set(const T* dataPtr);
-	void setTranspose(const T* dataPtr);
+    void set(const T* dataPtr);
+    void set_transpose(const T* dataPtr);
 
-	T* getData();
-	const T* getData() const;
+    T* get_data();
+    const T* get_data() const;
 //@}
 
 /// \name Operators
 //@{
-	T& operator() (const unsigned row, const unsigned column);
-	const T& operator() (const unsigned row, const unsigned column) const;
+    T& operator() (const unsigned row, const unsigned column);
+    const T& operator() (const unsigned row, const unsigned column) const;
 
-	RowAccessor22 operator[] (const unsigned row);
-	ConstRowAccessor22 operator[] (const unsigned row) const;
+    row_accessor22 operator[] (const unsigned row);
+    const_row_accessor22 operator[] (const unsigned row) const;
 //@}
 
 // Implementation
 
-	/// \brief Matrix data in column major order
-	///
-	/// Matrix data in column major order as four consecutive values in memory.
-	/// Please use Matrix22::operator()(const unsigned,const unsigned)
-	/// or Matrix22::operator[] instead of direct access.
-	T data_[4];
+    /// \brief Matrix's data in column major order
+    ///
+    /// Matrix's data in column major order as four consecutive values in
+    /// memory. Please use matrix22::operator()(const unsigned,const unsigned)
+    /// or matrix22::operator[] instead of direct access.
+    T data_[4];
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,32 +144,32 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2x2 matrix composed of 4 floats
 ///
-/// Use Matrix22f to define a 2x2 matrix composed of 4 float components. It has
-/// all the features of Matrix22, i.e. the member functions of Matrix22f are
-/// similar to the member functions of Matrix22 class. So, you can use the
-/// Matrix22 reference documentation: Wherever you see a \a T type, substitute
+/// Use matrix22f to define a 2x2 matrix composed of 4 float components. It has
+/// all the features of matrix22, i.e. the member functions of matrix22f are
+/// similar to the member functions of matrix22 class. So, you can use the
+/// matrix22 reference documentation: Wherever you see a \a T type, substitute
 /// it to \a float.
 
-typedef Matrix22<float> Matrix22f;
+typedef matrix22<float> matrix22f;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2x2 matrix composed of 4 double
 ///
-/// Use Matrix22d to define a 2x2 matrix composed of 4 double components. It has
-/// all the features of Matrix22, i.e. the member functions of Matrix22d are
-/// similar to the member functions of Matrix22 class. So, you can use the
-/// Matrix22 reference documentation: Wherever you see a \a T type, substitute
+/// Use matrix22d to define a 2x2 matrix composed of 4 double components. It has
+/// all the features of matrix22, i.e. the member functions of matrix22d are
+/// similar to the member functions of matrix22 class. So, you can use the
+/// matrix22 reference documentation: Wherever you see a \a T type, substitute
 /// it to \a double.
 
-typedef Matrix22<double> Matrix22d;
+typedef matrix22<double> matrix22d;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-#include "MtlMatrix.inl"
+#include "matrix.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_MATRIX_HPP
+#endif    // MATRIX_HPP
 

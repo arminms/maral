@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,32 +10,32 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlMatrixOps.hpp
+/// \file matrix_ops.hpp
 /// \brief Include file for all matrix types operations.
 ///
-/// \b MtlMatrixOps.hpp is the header file for all the operations on
-/// matrices (i.e. Matrix22, Matrix33, Matrix44).
+/// \b matrix_ops.hpp is the header file for all the operations on
+/// matrices (i.e. matrix22, matrix33, matrix44).
 
-#ifndef MTL_MATRIX_OPS_HPP
-#define MTL_MATRIX_OPS_HPP
+#ifndef MATRIX_OPS_HPP
+#define MATRIX_OPS_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma
+namespace magma
 {
-	namespace Mtl
-	{
+    namespace mtl
+    {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-		#include "MtlMatrixOps.inl"
+        #include "matrix_ops.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_MATRIX_OPS_HPP
+#endif    // MATRIX_OPS_HPP
 

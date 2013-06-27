@@ -51,19 +51,29 @@ OBJDIR_PROFILE = obj/profile
 DEP_PROFILE = 
 OUT_PROFILE = ../bin/profile/test
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/MtlMatrices.o \
-	$(OBJDIR_DEBUG)/MtlPoints.o \
-	$(OBJDIR_DEBUG)/MtlVectors.o
+INC_MAKEFILE =  $(INC)
+CFLAGS_MAKEFILE = 
+RESINC_MAKEFILE =  $(RESINC)
+RCFLAGS_MAKEFILE =  $(RCFLAGS)
+LIBDIR_MAKEFILE =  $(LIBDIR)
+LIB_MAKEFILE = $(LIB)
+LDFLAGS_MAKEFILE = 
+OBJDIR_MAKEFILE = .objs
+DEP_MAKEFILE = 
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/MtlMatrices.o \
-	$(OBJDIR_RELEASE)/MtlPoints.o \
-	$(OBJDIR_RELEASE)/MtlVectors.o
+OBJ_DEBUG = $(OBJDIR_DEBUG)/mtl_matrices.o \
+	$(OBJDIR_DEBUG)/mtl_points.o \
+	$(OBJDIR_DEBUG)/mtl_vectors.o
 
-OBJ_PROFILE = $(OBJDIR_PROFILE)/MtlMatrices.o \
-	$(OBJDIR_PROFILE)/MtlPoints.o \
-	$(OBJDIR_PROFILE)/MtlVectors.o
+OBJ_RELEASE = $(OBJDIR_RELEASE)/mtl_matrices.o \
+	$(OBJDIR_RELEASE)/mtl_points.o \
+	$(OBJDIR_RELEASE)/mtl_vectors.o
 
-all: debug release profile
+OBJ_PROFILE = $(OBJDIR_PROFILE)/mtl_matrices.o \
+	$(OBJDIR_PROFILE)/mtl_points.o \
+	$(OBJDIR_PROFILE)/mtl_vectors.o
+
+all: debug release profile makefile
 
 clean: clean_debug clean_release clean_profile
 
@@ -78,14 +88,14 @@ debug: before_debug out_debug after_debug
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
 
-$(OBJDIR_DEBUG)/MtlMatrices.o: MtlMatrices.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c MtlMatrices.cpp -o $(OBJDIR_DEBUG)/MtlMatrices.o
+$(OBJDIR_DEBUG)/mtl_matrices.o: mtl_matrices.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c mtl_matrices.cpp -o $(OBJDIR_DEBUG)/mtl_matrices.o
 
-$(OBJDIR_DEBUG)/MtlPoints.o: MtlPoints.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c MtlPoints.cpp -o $(OBJDIR_DEBUG)/MtlPoints.o
+$(OBJDIR_DEBUG)/mtl_points.o: mtl_points.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c mtl_points.cpp -o $(OBJDIR_DEBUG)/mtl_points.o
 
-$(OBJDIR_DEBUG)/MtlVectors.o: MtlVectors.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c MtlVectors.cpp -o $(OBJDIR_DEBUG)/MtlVectors.o
+$(OBJDIR_DEBUG)/mtl_vectors.o: mtl_vectors.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c mtl_vectors.cpp -o $(OBJDIR_DEBUG)/mtl_vectors.o
 
 clean_debug: 
 	rm -f $(OBJ_DEBUG) $(OUT_DEBUG)
@@ -103,14 +113,14 @@ release: before_release out_release after_release
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
 
-$(OBJDIR_RELEASE)/MtlMatrices.o: MtlMatrices.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c MtlMatrices.cpp -o $(OBJDIR_RELEASE)/MtlMatrices.o
+$(OBJDIR_RELEASE)/mtl_matrices.o: mtl_matrices.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c mtl_matrices.cpp -o $(OBJDIR_RELEASE)/mtl_matrices.o
 
-$(OBJDIR_RELEASE)/MtlPoints.o: MtlPoints.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c MtlPoints.cpp -o $(OBJDIR_RELEASE)/MtlPoints.o
+$(OBJDIR_RELEASE)/mtl_points.o: mtl_points.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c mtl_points.cpp -o $(OBJDIR_RELEASE)/mtl_points.o
 
-$(OBJDIR_RELEASE)/MtlVectors.o: MtlVectors.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c MtlVectors.cpp -o $(OBJDIR_RELEASE)/MtlVectors.o
+$(OBJDIR_RELEASE)/mtl_vectors.o: mtl_vectors.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c mtl_vectors.cpp -o $(OBJDIR_RELEASE)/mtl_vectors.o
 
 clean_release: 
 	rm -f $(OBJ_RELEASE) $(OUT_RELEASE)
@@ -128,23 +138,34 @@ profile: before_profile out_profile after_profile
 out_profile: $(OBJ_PROFILE) $(DEP_PROFILE)
 	$(LD) $(LDFLAGS_PROFILE) $(LIBDIR_PROFILE) $(OBJ_PROFILE) $(LIB_PROFILE) -o $(OUT_PROFILE)
 
-$(OBJDIR_PROFILE)/MtlMatrices.o: MtlMatrices.cpp
-	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c MtlMatrices.cpp -o $(OBJDIR_PROFILE)/MtlMatrices.o
+$(OBJDIR_PROFILE)/mtl_matrices.o: mtl_matrices.cpp
+	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c mtl_matrices.cpp -o $(OBJDIR_PROFILE)/mtl_matrices.o
 
-$(OBJDIR_PROFILE)/MtlPoints.o: MtlPoints.cpp
-	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c MtlPoints.cpp -o $(OBJDIR_PROFILE)/MtlPoints.o
+$(OBJDIR_PROFILE)/mtl_points.o: mtl_points.cpp
+	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c mtl_points.cpp -o $(OBJDIR_PROFILE)/mtl_points.o
 
-$(OBJDIR_PROFILE)/MtlVectors.o: MtlVectors.cpp
-	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c MtlVectors.cpp -o $(OBJDIR_PROFILE)/MtlVectors.o
+$(OBJDIR_PROFILE)/mtl_vectors.o: mtl_vectors.cpp
+	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c mtl_vectors.cpp -o $(OBJDIR_PROFILE)/mtl_vectors.o
 
 clean_profile: 
 	rm -f $(OBJ_PROFILE) $(OUT_PROFILE)
 	rm -rf ../bin/profile
 	rm -rf $(OBJDIR_PROFILE)
 
-MtlPoints.cpp: MtlData.hpp
+before_makefile: 
+	cbp2make --local -in test.cbp -out Makefile --wrap-objects --with-deps
 
-MtlVectors.cpp: MtlData.hpp
+after_makefile: 
 
-.PHONY: before_debug after_debug clean_debug before_release after_release clean_release before_profile after_profile clean_profile
+makefile: before_makefile after_makefile
+
+mtl_matrices.cpp: ../src/magma.hpp
+
+mtl_points.cpp: ../src/magma.hpp \
+	mtl_data.hpp
+
+mtl_vectors.cpp: ../src/magma.hpp \
+	mtl_data.hpp
+
+.PHONY: before_debug after_debug clean_debug before_release after_release clean_release before_profile after_profile clean_profile before_makefile after_makefile
 

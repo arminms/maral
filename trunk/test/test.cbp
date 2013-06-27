@@ -65,22 +65,22 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="MtlData.hpp">
+		<Unit filename="mtl_data.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="Profile" />
 		</Unit>
-		<Unit filename="MtlMatrices.cpp">
+		<Unit filename="mtl_matrices.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="Profile" />
 		</Unit>
-		<Unit filename="MtlPoints.cpp">
+		<Unit filename="mtl_points.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="Profile" />
 		</Unit>
-		<Unit filename="MtlVectors.cpp">
+		<Unit filename="mtl_vectors.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="Profile" />

@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -9,26 +10,26 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file MtlVector.hpp
+/// \file vector.hpp
 /// \brief Include file for all classes representing vectors.
 ///
-/// \b MtlVector.hpp is the include file for Vector2i, Vector2f,
-/// Vector2d, Vector3i, Vector3f, Vector3d, Vector4i, Vector4f and
-/// Vector4d classes.
+/// \b vector.hpp is the include file for vector2i, vector2f,
+/// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and
+/// vector4d classes.
 
-#ifndef MTL_VECTOR_HPP
-#define MTL_VECTOR_HPP
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace Magma {
-	namespace Mtl {
+namespace magma {
+    namespace mtl {
 
-template <typename T> class Point2;
-template <typename T> class Point3;
+template <typename T> class point2;
+template <typename T> class point3;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstracts a 2D vector.
@@ -36,71 +37,71 @@ template <typename T> class Point3;
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
 /// \par
-/// Vector2 abstracts a 2D vector. It is templated on the component
+/// vector2 abstracts a 2D vector. It is templated on the component
 /// datatype. Vectors have magnitude and direction but no position. It
 /// is used to define the displacement of a point in the 2D space. So
 /// considered as difference between 2 points: V = P2 - P1..
 /// \par
-/// Don't use Vector2 to represent a Point2. One difference you should
-/// note is that certain matrix operations are different between Point2
-/// and Vector2 such as xform and operator*. A Vector2 xform by matrix
-/// is simply a rotation, while a Point2 xformed by a matrix is a full
+/// Don't use vector2 to represent a point2. One difference you should
+/// note is that certain matrix operations are different between point2
+/// and vector2 such as xform and operator*. A vector2 xform by matrix
+/// is simply a rotation, while a point2 xformed by a matrix is a full
 /// matrix transform (rotation, skew, translation, scale).
-/// \see Vector2i, Vector2f, Vector2d, Point2
-/// \author Armin Madadkar-Sobhani
+/// \see vector2i, vector2f, vector2d, point2
+/// \author Armin Madadkar Sobhani
 
 template <typename T>
-class Vector2
+class vector2
 {
 public:
 /// \name Construction
 //@{
-	Vector2();
-	Vector2(T x, T y);
-	Vector2(const Point2<T>& p1, const Point2<T>& p2);
-	explicit Vector2(const Point2<T>& p);
+    vector2();
+    vector2(T x, T y);
+    vector2(const point2<T>& p1, const point2<T>& p2);
+    explicit vector2(const point2<T>& p);
 
-	// Copy constructor
-	Vector2(const Vector2<T>& v);
+    // Copy constructor
+    vector2(const vector2<T>& v);
 
-	// Assignment method
-	Vector2<T>& operator=(const Vector2<T>& v);
+    // Assignment method
+    vector2<T>& operator=(const vector2<T>& v);
 //@}
 
 /// \name Attributes
 //@{
-	T& x();
-	T& y();
+    T& x();
+    T& y();
 
-	T getX() const;
-	T getY() const;
+    T get_x() const;
+    T get_y() const;
 
-	void setX(T x);
-	void setY(T y);
+    void set_x(T x);
+    void set_y(T y);
 
-	void set(T x, T y);
-	void set(const T* dataPtr);
+    void set(T x, T y);
+    void set(const T* data_ptr);
 
-	Vector2<T>& zero();
+    vector2<T>& zero();
 
-	T* getData();
-	const T* getData() const;
+    T* get_data();
+    const T* get_data() const;
 //@}
 
 /// \name Operators
 //@{
-	T& operator[] (const unsigned i);
-	T  operator[] (const unsigned i) const;
+    T& operator[] (const unsigned i);
+    T  operator[] (const unsigned i) const;
 //@}
 
 // Implementation
 
-	/// \brief Vector data
-	///
-	/// Vector data as two consecutive values in memory. Please use
-	/// Vector2::operator[] instead of direct access which in debug builds
-	/// asserts when index is not less than 2.
-	T data_[2];
+    /// \brief Vector's data
+    ///
+    /// Vector's data as two consecutive values in memory. Please use
+    /// vector2::operator[] instead of direct access which in debug builds
+    /// asserts when index is not less than 2.
+    T data_[2];
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,74 +110,74 @@ public:
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
 /// \par
-/// Vector3 abstracts a 3D vector. It is templated on the component
-/// datatype. Vectors have magnitude and direction but no position. It
+/// vector3 abstracts a 3D vector. It is templated on the component
+/// datatype. vectors have magnitude and direction but no position. It
 /// is used to define the displacement of a point in the 3D space. So
 /// considered as difference between 2 points: V = P2 - P1..
 /// \par
-/// Don't use Vector3 to represent a Point3. One difference you should
-/// note is that certain matrix operations are different between Point3
-/// and Vector3 such as xform and operator*. A Vector3 xform by matrix
-/// is simply a rotation, while a Point3 xformed by a matrix is a full
+/// Don't use vector3 to represent a point3. One difference you should
+/// note is that certain matrix operations are different between point3
+/// and vector3 such as xform and operator*. A vector3 xform by matrix
+/// is simply a rotation, while a point3 xformed by a matrix is a full
 /// matrix transform (rotation, skew, translation, scale).
-/// \see Vector3i, Vector3f, Vector3d, Point3
-/// \author Armin Madadkar-Sobhani
+/// \see vector3i, vector3f, vector3d, point3
+/// \author Armin Madadkar Sobhani
 
 template <typename T>
-class Vector3
+class vector3
 {
 public:
 /// \name Construction
 //@{
-	Vector3();
-	Vector3(T x, T y, T z);
-	Vector3(const Point3<T>& p1, const Point3<T>& p2);
-	explicit Vector3(const Point3<T>& p);
+    vector3();
+    vector3(T x, T y, T z);
+    vector3(const point3<T>& p1, const point3<T>& p2);
+    explicit vector3(const point3<T>& p);
 
-	// Copy constructor
-	Vector3(const Vector3<T>& v);
+    // Copy constructor
+    vector3(const vector3<T>& v);
 
-	// Assignment method
-	Vector3<T>& operator=(const Vector3<T>& v);
+    // Assignment method
+    vector3<T>& operator=(const vector3<T>& v);
 //@}
 
 /// \name Attributes
 //@{
-	T& x();
-	T& y();
-	T& z();
+    T& x();
+    T& y();
+    T& z();
 
-	T getX() const;
-	T getY() const;
-	T getZ() const;
+    T get_x() const;
+    T get_y() const;
+    T get_z() const;
 
-	void setX(T x);
-	void setY(T y);
-	void setZ(T y);
+    void set_x(T x);
+    void set_y(T y);
+    void set_z(T y);
 
-	void set(T x, T y, T z);
-	void set(const T* dataPtr);
+    void set(T x, T y, T z);
+    void set(const T* data_ptr);
 
-	Vector3<T>& zero();
+    vector3<T>& zero();
 
-	T* getData();
-	const T* getData() const;
+    T* get_data();
+    const T* get_data() const;
 //@}
 
 /// \name Operators
 //@{
-	T& operator[] (const unsigned i);
-	T  operator[] (const unsigned i) const;
+    T& operator[] (const unsigned i);
+    T  operator[] (const unsigned i) const;
 //@}
 
 // Implementation
 
-	/// \brief Vector data
-	///
-	/// Vector data as three consecutive values in memory. Please use
-	/// Vector3::operator[] instead of direct access which in debug builds
-	/// asserts when index is not less than 3.
-	T data_[3];
+    /// \brief Vector's data
+    ///
+    /// Vector's data as three consecutive values in memory. Please use
+    /// vector3::operator[] instead of direct access which in debug builds
+    /// asserts when index is not less than 3.
+    T data_[3];
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,81 +186,81 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2D vector composed of 2 unsigned integers
 ///
-/// Use Vector2i to define a 2D vector composed of 2 unsigned integer
-/// components. It has all the features of Vector2, i.e. the member
-/// functions of Vector2i are similar to the member functions of
-/// Vector2 class. So, you can use the Vector2 reference documentation:
+/// Use vector2i to define a 2D vector composed of 2 unsigned integer
+/// components. It has all the features of vector2, i.e. the member
+/// functions of vector2i are similar to the member functions of
+/// vector2 class. So, you can use the vector2 reference documentation:
 /// Wherever you see a \a T type, substitute it to \a int.
-/// \see Vector2
+/// \see vector2
 
-typedef Vector2<int> Vector2i;
+typedef vector2<int> vector2i;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2D vector composed of 2 unsigned floats
 ///
-/// Use Vector2f to define a 2D vector composed of 2 float components.
-/// It has all the features of Vector2, i.e. the member functions of
-/// Vector2f are similar to the member functions of Vector2 class. So,
-/// you can use the Vector2 reference documentation: Wherever you see
+/// Use vector2f to define a 2D vector composed of 2 float components.
+/// It has all the features of vector2, i.e. the member functions of
+/// vector2f are similar to the member functions of vector2 class. So,
+/// you can use the vector2 reference documentation: Wherever you see
 /// a \a T type, substitute it to \a float.
-/// \see Vector2
+/// \see vector2
 
-typedef Vector2<float> Vector2f;
+typedef vector2<float> vector2f;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2D vector composed of 2 unsigned doubles
 ///
-/// Use Vector2d to define a 2D vector composed of 2 double components.
-/// It has all the features of Vector2, i.e. the member functions of
-/// Vector2d are similar to the member functions of Vector2 class. So,
-/// you can use the Vector2 reference documentation: Wherever you see
+/// Use vector2d to define a 2D vector composed of 2 double components.
+/// It has all the features of vector2, i.e. the member functions of
+/// vector2d are similar to the member functions of vector2 class. So,
+/// you can use the vector2 reference documentation: Wherever you see
 /// a \a T type, substitute it to \a double.
-/// \see Vector2
+/// \see vector2
 
-typedef Vector2<double> Vector2d;
+typedef vector2<double> vector2d;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 3D vector composed of 3 unsigned integers
 ///
-/// Use Vector3i to define a 3D vector composed of 3 unsigned integer
-/// components. It has all the features of Vector3, i.e. the member
-/// functions of Vector3i are similar to the member functions of
-/// Vector3 class. So, you can use the Vector3 reference documentation:
+/// Use vector3i to define a 3D vector composed of 3 unsigned integer
+/// components. It has all the features of vector3, i.e. the member
+/// functions of vector3i are similar to the member functions of
+/// vector3 class. So, you can use the vector3 reference documentation:
 /// Wherever you see a \a T type, substitute it to \a int.
-/// \see Vector3
+/// \see vector3
 
-typedef Vector3<int> Vector3i;
+typedef vector3<int> vector3i;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 3D vector composed of 3 floats
 ///
-/// Use Vector3f to define a 3D vector composed of 3 float components.
-/// It has all the features of Vector3, i.e. the member functions of
-/// Vector3f are similar to the member functions of Vector3 class. So,
-/// you can use the Vector3 reference documentation: Wherever you see
+/// Use vector3f to define a 3D vector composed of 3 float components.
+/// It has all the features of vector3, i.e. the member functions of
+/// vector3f are similar to the member functions of vector3 class. So,
+/// you can use the vector3 reference documentation: Wherever you see
 /// a \a T type, substitute it to \a float.
-/// \see Vector3
+/// \see vector3
 
-typedef Vector3<float> Vector3f;
+typedef vector3<float> vector3f;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 3D vector composed of 3 doubles
 ///
-/// Use Vector3d to define a 3D vector composed of 3 double components.
-/// It has all the features of Vector3, i.e. the member functions of
-/// Vector3d are similar to the member functions of Vector3 class. So,
-/// you can use the Vector3 reference documentation: Wherever you see
+/// Use vector3d to define a 3D vector composed of 3 double components.
+/// It has all the features of vector3, i.e. the member functions of
+/// vector3d are similar to the member functions of vector3 class. So,
+/// you can use the vector3 reference documentation: Wherever you see
 /// a \a T type, substitute it to \a double.
-/// \see Vector3
+/// \see vector3
 
-typedef Vector3<double> Vector3d;
+typedef vector3<double> vector3d;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
 
-#include "MtlVector.inl"
+#include "vector.ipp"
 
-	}	// namespace Mtl
-}	// namespace Magma
+    }    // namespace mtl
+}    // namespace magma
 
-#endif	//MTL_VECTOR_HPP
+#endif    // VECTOR_HPP

@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+//
 //     Molecular Animation, Graphics and Modeling Application Framework
 //                                  MAGMA
 //
@@ -10,14 +11,14 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//	MtlMatrixOps.inl
+//    matrix_ops.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//	This file contains inlines for all operations related to matrices.
+//    This file contains inlines for all operations related to matrices.
 //------------------------------------------------------------------------------
 
-/// \ingroup Mtx22Ops
-/// \name Matrix22 Operations
+/// \ingroup mtx22ops
+/// \name matrix22 Operations
 /// @{
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,20 +27,20 @@
 /// \param m1 Reference to the first matrix.
 /// \param m2 Reference to the second matrix.
 /// \remarks
-/// This overloaded operator compares two Matrix22 objects to see if they are
+/// This overloaded operator compares two matrix22 objects to see if they are
 /// exactly the same .
-/// \see operator!=(const Matrix22&, const Matrix22&)
+/// \see operator!=(const matrix22&, const matrix22&)
 
 template<typename T>
 inline bool operator== (
-	const Matrix22<T>& m1,
-	const Matrix22<T>& m2)
+    const matrix22<T>& m1,
+    const matrix22<T>& m2)
 {
-	return (
-		m1.data_[0] == m2.data_[0] &&
-		m1.data_[1] == m2.data_[1] &&
-		m1.data_[2] == m2.data_[2] &&
-		m1.data_[3] == m2.data_[3]);
+    return (
+        m1.data_[0] == m2.data_[0] &&
+        m1.data_[1] == m2.data_[1] &&
+        m1.data_[2] == m2.data_[2] &&
+        m1.data_[3] == m2.data_[3]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,20 +49,20 @@ inline bool operator== (
 /// \param m1 Reference to the first matrix.
 /// \param m2 Reference to the second matrix.
 /// \remarks
-/// This overloaded operator compares two Matrix22 objects to see if they are
+/// This overloaded operator compares two matrix22 objects to see if they are
 /// NOT exactly the same with zero tolerance.
-/// \see operator==(const Matrix22&, const Matrix22&)
+/// \see operator==(const matrix22&, const matrix22&)
 
 template<typename T>
 inline bool operator!= (
-	const Matrix22<T>& m1,
-	const Matrix22<T>& m2)
+    const matrix22<T>& m1,
+    const matrix22<T>& m2)
 {
-	return (
-		m1.data_[0] != m2.data_[0] ||
-		m1.data_[1] != m2.data_[1] ||
-		m1.data_[2] != m2.data_[2] ||
-		m1.data_[3] != m2.data_[3]);
+    return (
+        m1.data_[0] != m2.data_[0] ||
+        m1.data_[1] != m2.data_[1] ||
+        m1.data_[2] != m2.data_[2] ||
+        m1.data_[3] != m2.data_[3]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,20 +75,20 @@ inline bool operator!= (
 /// \remarks
 /// Compares \a m1 and \a m2 to see if they are the same within the given
 /// epsilon tolerance.
-/// \see operator==(const Matrix22&, const Matrix22&)
+/// \see operator==(const matrix22&, const matrix22&)
 
 template<typename T>
-inline bool isEqual(
-	const Matrix22<T>& m1,
-	const Matrix22<T>& m2,
-	const T eps)
+inline bool is_equal(
+    const matrix22<T>& m1,
+    const matrix22<T>& m2,
+    const T eps)
 {
-	assert(eps >= 0);
-	return (
-		abs(m1.data_[0] - m2.data_[0]) <= eps &&
-		abs(m1.data_[1] - m2.data_[1]) <= eps &&
-		abs(m1.data_[2] - m2.data_[2]) <= eps &&
-		abs(m1.data_[3] - m2.data_[3]) <= eps);
+    assert(eps >= 0);
+    return (
+        abs(m1.data_[0] - m2.data_[0]) <= eps &&
+        abs(m1.data_[1] - m2.data_[1]) <= eps &&
+        abs(m1.data_[2] - m2.data_[2]) <= eps &&
+        abs(m1.data_[3] - m2.data_[3]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,30 +102,30 @@ inline bool isEqual(
 /// into \a r and then returns reference to \a r. In this way, it can be used as
 /// a parameter for another function. This is equivalent to the expression \a r
 /// = \a lhs * \a rhs (where \a rhs is applied first).
-/// \see operator*(const Matrix22&, const Matrix22&)
+/// \see operator*(const matrix22&, const matrix22&)
 
 template<typename T>
-inline Matrix22<T>& mult(
-	Matrix22<T>& r,
-	const Matrix22<T>& lhs,
-	const Matrix22<T>& rhs)
+inline matrix22<T>& mult(
+    matrix22<T>& r,
+    const matrix22<T>& lhs,
+    const matrix22<T>& rhs)
 {
-	Matrix22<T> ret;	// prevents aliasing
-	ret.zero();
+    matrix22<T> ret;    // prevents aliasing
+    ret.zero();
 
-	ret(0, 0) += lhs(0, 0) * rhs(0, 0);
-	ret(0, 0) += lhs(0, 1) * rhs(1, 0);
+    ret(0, 0) += lhs(0, 0) * rhs(0, 0);
+    ret(0, 0) += lhs(0, 1) * rhs(1, 0);
 
-	ret(0, 1) += lhs(0, 0) * rhs(0, 1);
-	ret(0, 1) += lhs(0, 1) * rhs(1, 1);
+    ret(0, 1) += lhs(0, 0) * rhs(0, 1);
+    ret(0, 1) += lhs(0, 1) * rhs(1, 1);
 
-	ret(1, 0) += lhs(1, 0) * rhs(0, 0);
-	ret(1, 0) += lhs(1, 1) * rhs(1, 0);
+    ret(1, 0) += lhs(1, 0) * rhs(0, 0);
+    ret(1, 0) += lhs(1, 1) * rhs(1, 0);
 
-	ret(1, 1) += lhs(1, 0) * rhs(0, 1);
-	ret(1, 1) += lhs(1, 1) * rhs(1, 1);
+    ret(1, 1) += lhs(1, 0) * rhs(0, 1);
+    ret(1, 1) += lhs(1, 1) * rhs(1, 1);
 
-	return r = ret;
+    return r = ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,15 +138,15 @@ inline Matrix22<T>& mult(
 /// into \a r and then returns reference to \a r. In this way, it can be used as
 /// a parameter for another function. This is equivalent to the expression \a r
 /// = \a operand * \a r.
-/// \see mult(Matrix22<T>&,const Matrix22&, const Matrix22&),
-/// postMult(Matrix22<T>&,const Matrix22<T>& operand)
+/// \see mult(matrix22<T>&,const matrix22&, const matrix22&),
+/// postMult(matrix22<T>&,const matrix22<T>& operand)
 
 template<typename T>
-inline Matrix22<T>& preMult(
-	Matrix22<T>& r,
-	const Matrix22<T>& operand)
+inline matrix22<T>& pre_mult(
+    matrix22<T>& r,
+    const matrix22<T>& operand)
 {
-	return mult(r, operand, r);
+    return mult(r, operand, r);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -158,15 +159,15 @@ inline Matrix22<T>& preMult(
 /// into \a r and then returns reference to \a r. In this way, it can be used as
 /// a parameter for another function. This is equivalent to the expression \a r
 /// = \a r * \a operand.
-/// \see mult(Matrix22<T>&,const Matrix22&, const Matrix22&),
-/// preMult(Matrix22<T>&,const Matrix22<T>& operand)
+/// \see mult(matrix22<T>&,const matrix22&, const matrix22&),
+/// preMult(matrix22<T>&,const matrix22<T>& operand)
 
 template<typename T>
-inline Matrix22<T>& postMult(
-	Matrix22<T>& r,
-	const Matrix22<T>& operand)
+inline matrix22<T>& post_mult(
+    matrix22<T>& r,
+    const matrix22<T>& operand)
 {
-	return mult(r, r, operand);
+    return mult(r, r, operand);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,15 +178,15 @@ inline Matrix22<T>& postMult(
 /// This overloaded binary operator multiplies \a rhs by \a lhs then returns the
 /// result. This is equivalent to the expression \a r = \a lhs * \a rhs (where
 /// \a rhs is applied first).
-/// \see mult(Matrix22<T>&,const Matrix22&, const Matrix22&)
+/// \see mult(matrix22<T>&,const matrix22&, const matrix22&)
 
 template<typename T>
-inline Matrix22<T> operator* (
-	const Matrix22<T>& lhs,
-	const Matrix22<T>& rhs)
+inline matrix22<T> operator* (
+    const matrix22<T>& lhs,
+    const matrix22<T>& rhs)
 {
-	Matrix22<T> temp;
-	return mult(temp, lhs, rhs);
+    matrix22<T> temp;
+    return mult(temp, lhs, rhs);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,14 +199,14 @@ inline Matrix22<T> operator* (
 /// returns reference to \a r. In this way, it can be used as a parameter for
 /// another function. This is equivalent to the expression \a r  = \a r *
 /// \a operand.
-/// \see postMult(Matrix22<T>&,const Matrix22<T>& operand)
+/// \see postMult(matrix22<T>&,const matrix22<T>& operand)
 
 template<typename T>
-inline Matrix22<T>& operator*= (
-	Matrix22<T>& r,
-	const Matrix22<T>& operand)
+inline matrix22<T>& operator*= (
+    matrix22<T>& r,
+    const matrix22<T>& operand)
 {
-	return mult(r, r, operand);
+    return mult(r, r, operand);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,14 +216,14 @@ inline Matrix22<T>& operator*= (
 /// This function transposes the given matrix \a r in place and then returns
 /// reference to \a r. In this way, it can be used as a parameter for another
 /// function.
-/// \see transpose(Matrix22&, const Matrix22&)
+/// \see transpose(matrix22&, const matrix22&)
 
 template<typename T>
-inline Matrix22<T>& transpose(
-	Matrix22<T>& r)
+inline matrix22<T>& transpose(
+    matrix22<T>& r)
 {
-	std::swap(r.data_[1], r.data_[2]);
-	return r;
+    std::swap(r.data_[1], r.data_[2]);
+    return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -233,16 +234,16 @@ inline Matrix22<T>& transpose(
 /// This function puts the result of transposing \a s into \a r and then returns
 /// reference to \a r. In this way, it can be used as a parameter for another
 /// function.
-/// \see transpose(Matrix22&)
+/// \see transpose(matrix22&)
 
 template<typename T>
-inline Matrix22<T>& transpose(
-	Matrix22<T>& r,
-	const Matrix22<T>& s)
+inline matrix22<T>& transpose(
+    matrix22<T>& r,
+    const matrix22<T>& s)
 {
-	r.data_[0] = s.data_[0]; r.data_[1] = s.data_[2];
-	r.data_[2] = s.data_[1]; r.data_[3] = s.data_[3];
-	return r;
+    r.data_[0] = s.data_[0]; r.data_[1] = s.data_[2];
+    r.data_[2] = s.data_[1]; r.data_[3] = s.data_[3];
+    return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,54 +252,54 @@ inline Matrix22<T>& transpose(
 /// \remarks
 /// This function computes the determinant of the \a m matrix. Determinant is
 /// used for the calculation of the inverse of a matrix.
-/// \see invert(Matrix22&, const Matrix22)
+/// \see invert(matrix22&, const matrix22)
 
 template<typename T>
 inline T determinant(
-	const Matrix22<T>& m)
+    const matrix22<T>& m)
 {
-	return ((m.data_[0]*m.data_[3]) - (m.data_[1]*m.data_[2]));
+    return ((m.data_[0]*m.data_[3]) - (m.data_[1]*m.data_[2]));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \a r after the operation.
 /// \param r Reference to the matrix that receives the result of the operation.
 /// \param s Reference to the source matrix.
-/// \pre Only works with float types (e.g. Matrix22<int> is not acceptable).
+/// \pre Only works with float types (e.g. matrix22<int> is not acceptable).
 /// \remarks
 /// This function puts the result of inverting \a s into \a r and then returns
 /// reference to \a r. In this way, it can be used as a parameter for another
 /// function.
-/// \see invert(const Matrix22)
+/// \see invert(const matrix22)
 
 template<typename T>
-inline Matrix22<T>& invert(
-	Matrix22<T>& r,
-	const Matrix22<T>& s)
+inline matrix22<T>& invert(
+    matrix22<T>& r,
+    const matrix22<T>& s)
 {
-	T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
-	assert(abs(det) > SMALL);
-	T oneOverDet = T(1) / det;
-	r.data_[0] =  s.data_[3] * oneOverDet;
-	r.data_[1] = -s.data_[1] * oneOverDet;
-	r.data_[2] = -s.data_[2] * oneOverDet;
-	r.data_[3] =  s.data_[0] * oneOverDet;
-	return r;
+    T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
+    assert(abs(det) > SMALL);
+    T oneOverDet = T(1) / det;
+    r.data_[0] =  s.data_[3] * oneOverDet;
+    r.data_[1] = -s.data_[1] * oneOverDet;
+    r.data_[2] = -s.data_[2] * oneOverDet;
+    r.data_[3] =  s.data_[0] * oneOverDet;
+    return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return Result of the operation.
 /// \param m Reference to the matrix to be inverted.
-/// \pre Only works with float types (e.g. Matrix22<int> is not acceptable).
+/// \pre Only works with float types (e.g. matrix22<int> is not acceptable).
 /// \remarks
 /// This function inverts the given matrix \a m and then returns the result. In
 /// this way, it can be used as a parameter for another function.
-/// \see invert(Matrix22&, const Matrix22&)
+/// \see invert(matrix22&, const matrix22&)
 
 template<typename T>
-inline Matrix22<T> invert(
-	const Matrix22<T>& m)
+inline matrix22<T> invert(
+    const matrix22<T>& m)
 {
-	Matrix22<T> r;
-	return invert(r, m);
+    matrix22<T> r;
+    return invert(r, m);
 }
