@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlMatrixOps.inl 31 2012-09-26 12:36:26Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    matrix_ops.ipp
@@ -83,7 +83,7 @@ inline bool is_equal(
     const matrix22<T>& m2,
     const T eps)
 {
-    assert(eps >= 0);
+    BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
         abs(m1.data_[0] - m2.data_[0]) <= eps &&
         abs(m1.data_[1] - m2.data_[1]) <= eps &&
@@ -278,12 +278,12 @@ inline matrix22<T>& invert(
     const matrix22<T>& s)
 {
     T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
-    assert(abs(det) > SMALL);
-    T oneOverDet = T(1) / det;
-    r.data_[0] =  s.data_[3] * oneOverDet;
-    r.data_[1] = -s.data_[1] * oneOverDet;
-    r.data_[2] = -s.data_[2] * oneOverDet;
-    r.data_[3] =  s.data_[0] * oneOverDet;
+    BOOST_ASSERT_MSG(abs(det) > SMALL, "not invertible!");
+    T one_over_det = T(1) / det;
+    r.data_[0] =  s.data_[3] * one_over_det;
+    r.data_[1] = -s.data_[1] * one_over_det;
+    r.data_[2] = -s.data_[2] * one_over_det;
+    r.data_[3] =  s.data_[0] * one_over_det;
     return r;
 }
 

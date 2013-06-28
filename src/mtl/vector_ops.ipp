@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlVectorOps.inl 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    vector_ops.ipp
@@ -75,7 +75,7 @@ inline bool is_equal(
     const vector2<T>& v2,
     const T eps)
 {
-    assert(eps >= 0);
+    BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (abs(v1[0] - v2[0]) <= eps && abs(v1[1] - v2[1]) <= eps);
 }
 
@@ -257,7 +257,7 @@ inline vector2<T>& operator/= (
     vector2<T>& v,
     const T& scalar)
 {
-    assert(scalar != T(0));
+    BOOST_ASSERT_MSG(scalar != T(0), "divide by zero!");
     v[0] /= scalar;
     v[1] /= scalar;
     return v;
@@ -542,7 +542,7 @@ inline bool is_equal(
     const vector3<T>& v2,
     const T eps)
 {
-    assert(eps >= 0);
+    BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (abs(v1[0] - v2[0]) <= eps &&
             abs(v1[1] - v2[1]) <= eps &&
             abs(v1[2] - v2[2]) <= eps);
@@ -727,7 +727,7 @@ inline vector3<T>& operator/= (
     vector3<T>& v,
     const T& scalar)
 {
-    assert(scalar != T(0));
+    BOOST_ASSERT_MSG(scalar != T(0), "divide by zero!");
     v[0] /= scalar;
     v[1] /= scalar;
     v[2] /= scalar;

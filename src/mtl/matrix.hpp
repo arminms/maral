@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: matrix.hpp 30 2012-09-21 12:47:14Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 /// \file matrix.hpp
 /// \brief Include file for all classes representing matrices.
@@ -29,7 +29,7 @@ namespace magma {
     namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Abstracts a 2x2 matrix (ordered in memory by Column).
+/// \brief Abstracts a 2x2 matrix (ordered in memory by column).
 ///
 /// \param T Type of the elements stored (e.g. int, float, double, ...).
 /// \remarks
@@ -112,8 +112,8 @@ public:
     matrix22<T>& identity();
     matrix22<T>& zero();
 
-    void set(const T* dataPtr);
-    void set_transpose(const T* dataPtr);
+    void set(const T* data_ptr);
+    void set_transpose(const T* data_ptr);
 
     T* get_data();
     const T* get_data() const;

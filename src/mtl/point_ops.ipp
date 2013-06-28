@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlPointOps.inl 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    point_ops.ipp
@@ -75,7 +75,7 @@ inline bool is_equal(
     const point2<T>& p2,
     const T eps)
 {
-    assert(eps >= 0);
+    BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (abs(p1[0] - p2[0]) <= eps && abs(p1[1] - p2[1]) <= eps);
 }
 
@@ -432,7 +432,7 @@ inline bool is_equal(
     const point3<T>& p2,
     const T eps)
 {
-    assert(eps >= 0);
+    BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (abs(p1[0] - p2[0]) <= eps &&
         abs(p1[1] - p2[1]) <= eps &&
         abs(p1[2] - p2[2]) <= eps );
