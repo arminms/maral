@@ -42,7 +42,7 @@
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<ExtraCommands>
-					<Add before="rm -rf doc/*" />
+					<Add before="rm -rf doc/html doc/latex" />
 					<Add before="doxygen Doxyfile" />
 					<Mode after="always" />
 				</ExtraCommands>
