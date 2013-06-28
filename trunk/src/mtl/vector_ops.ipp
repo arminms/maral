@@ -1027,7 +1027,7 @@ inline vector3<T> cross(
 /// with the \a v3 vector.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
-/// \see torsionAngle(const point3<T>&,const point3<T>&,const point3<T>&,const point3<T>&)
+/// \see torsion_angle(const point3<T>&,const point3<T>&,const point3<T>&,const point3<T>&)
 
 template<typename T>
 inline T torsion_angle(

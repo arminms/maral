@@ -252,7 +252,7 @@ inline matrix22<T>& transpose(
 /// \remarks
 /// This function computes the determinant of the \a m matrix. Determinant is
 /// used for the calculation of the inverse of a matrix.
-/// \see invert(matrix22&, const matrix22)
+/// \see invert(matrix22&, const matrix22&)
 
 template<typename T>
 inline T determinant(
@@ -270,7 +270,7 @@ inline T determinant(
 /// This function puts the result of inverting \a s into \a r and then returns
 /// reference to \a r. In this way, it can be used as a parameter for another
 /// function.
-/// \see invert(const matrix22)
+/// \see invert(const matrix22&)
 
 template<typename T>
 inline matrix22<T>& invert(
