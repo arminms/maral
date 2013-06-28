@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlMatrix.inl 30 2012-09-21 12:47:14Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    matrix.ipp
@@ -35,8 +35,8 @@ inline matrix22<T>::row_accessor22::row_accessor22(
 :    m_(mat)
 ,    r_(row)
 {
-    assert(mat != nullptr);
-    assert(row < 2);
+    BOOST_ASSERT_MSG(mat != nullptr, "null pointer!");
+    BOOST_ASSERT_MSG(row < 2, "out or range!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,8 +76,8 @@ inline matrix22<T>::const_row_accessor22::const_row_accessor22(
 :    m_(mat)
 ,    r_(row)
 {
-    assert(mat != nullptr);
-    assert(row < 2);
+    BOOST_ASSERT_MSG(mat != nullptr, "null pointer!");
+    BOOST_ASSERT_MSG(row < 2, "out of range!");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +132,7 @@ template <typename T>
 inline matrix22<T>::matrix22(
     std::initializer_list<T> vals)
 {
-    assert(vals.size() <= 4);
+    BOOST_ASSERT_MSG(vals.size() <= 4, "out of range initializer list!");
     unsigned count = 0;
     for (auto it=vals.begin(); it != vals.end(); ++it)
         data_[count++] = *it;
@@ -222,7 +222,7 @@ inline matrix22<T>& matrix22<T>::zero()
 template <typename T>
 inline void matrix22<T>::set(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
     data_[2] = data_ptr[2]; data_[3] = data_ptr[3];
 }
@@ -247,7 +247,7 @@ inline void matrix22<T>::set(const T* data_ptr)
 template <typename T>
 inline void matrix22<T>::set_transpose(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[2];
     data_[2] = data_ptr[1]; data_[3] = data_ptr[3];
 }
@@ -293,8 +293,8 @@ inline T& matrix22<T>::operator() (
     const unsigned row,
     const unsigned column)
 {
-    assert(row < 2);
-    assert(column < 2);
+    BOOST_ASSERT_MSG(row < 2, "row out of range!");
+    BOOST_ASSERT_MSG(column < 2, "column out or range!");
     return data_[(column<<1)+row];
 }
 
@@ -317,8 +317,8 @@ inline const T& matrix22<T>::operator() (
     const unsigned row,
     const unsigned column) const
 {
-    assert(row < 2);
-    assert(column < 2);
+    BOOST_ASSERT_MSG(row < 2, "row out of range!");
+    BOOST_ASSERT_MSG(column < 2, "column out of range!");
     return data_[(column<<1)+row];
 }
 

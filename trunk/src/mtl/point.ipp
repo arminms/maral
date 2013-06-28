@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlPoint.inl 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    point.ipp
@@ -199,7 +199,7 @@ inline void point2<T>::set(T x, T y)
 template <typename T>
 inline void point2<T>::set(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
 }
 
@@ -256,7 +256,7 @@ inline const T* point2<T>::get_data() const
 template <typename T>
 inline T& point2<T>::operator[] (const unsigned i)
 {
-    assert(i < 2);
+    BOOST_ASSERT_MSG(i < 2, "out of range!");
     return data_[i];
 }
 
@@ -275,7 +275,7 @@ inline T& point2<T>::operator[] (const unsigned i)
 template <typename T>
 inline T point2<T>::operator[] (const unsigned i) const
 {
-    assert(i < 2);
+    BOOST_ASSERT_MSG(i < 2, "out of range!");
     return data_[i];
 }
 
@@ -565,7 +565,7 @@ inline const T* point3<T>::get_data() const
 template <typename T>
 inline T& point3<T>::operator[] (const unsigned i)
 {
-    assert(i < 3);
+    BOOST_ASSERT_MSG(i < 3, "out of range!");
     return data_[i];
 }
 
@@ -583,6 +583,6 @@ inline T& point3<T>::operator[] (const unsigned i)
 template <typename T>
 inline T point3<T>::operator[] (const unsigned i) const
 {
-    assert(i < 3);
+    BOOST_ASSERT_MSG(i < 3, "out of range!");
     return data_[i];
 }

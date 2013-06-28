@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlPoint.hpp 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 /// \file point.hpp
 /// \brief Include file for all classes representing points.
@@ -152,7 +152,7 @@ public:
     void set_z(T y);
 
     void set(T x, T y, T z);
-    void set(const T* dataPtr);
+    void set(const T* data_ptr);
 
     point3<T>& zero();
 

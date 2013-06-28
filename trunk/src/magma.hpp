@@ -28,7 +28,8 @@
 // Includes
 
 #include <iostream>
-#include <assert.h>
+
+#include <boost/assert.hpp>
 
 #include "mtl/mtl.hpp"
 

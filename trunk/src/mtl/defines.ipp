@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlDefines.inl 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    defines.ipp
@@ -65,7 +65,7 @@ inline bool is_equal(
     const T& b,
     const T& tolerance)
 {
-    assert(tolerance >= static_cast<T>(0));
+    BOOST_ASSERT_MSG(tolerance >= static_cast<T>(0), "negative tolerance!");
     return (abs(a - b) <= tolerance);
 }
 

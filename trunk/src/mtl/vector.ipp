@@ -8,7 +8,7 @@
 //                 See the LICENSE file for terms of use
 //
 //------------------------------------------------------------------------------
-// $Id: MtlVector.inl 25 2012-09-15 23:57:30Z armin $
+// $Id$
 //------------------------------------------------------------------------------
 // Filename:
 //    vector.ipp
@@ -213,7 +213,7 @@ inline void vector2<T>::set(T x, T y)
 template <typename T>
 inline void vector2<T>::set(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[1];
 }
 
@@ -270,7 +270,7 @@ inline const T* vector2<T>::get_data() const
 template <typename T>
 inline T& vector2<T>::operator[] (const unsigned i)
 {
-    assert(i < 2);
+    BOOST_ASSERT_MSG(i < 2, "out of range!");
     return data_[i];
 }
 
@@ -289,7 +289,7 @@ inline T& vector2<T>::operator[] (const unsigned i)
 template <typename T>
 inline T vector2<T>::operator[] (const unsigned i) const
 {
-    assert(i < 2);
+    BOOST_ASSERT_MSG(i < 2, "out of range!");
     return data_[i];
 }
 
@@ -537,7 +537,7 @@ inline void vector3<T>::set(T x, T y, T z)
 template <typename T>
 inline void vector3<T>::set(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[1]; data_[2] = data_ptr[2];
 }
 
@@ -594,7 +594,7 @@ inline const T* vector3<T>::get_data() const
 template <typename T>
 inline T& vector3<T>::operator[] (const unsigned i)
 {
-    assert(i < 3);
+    BOOST_ASSERT_MSG(i < 3, "out of range!");
     return data_[i];
 }
 
@@ -613,6 +613,6 @@ inline T& vector3<T>::operator[] (const unsigned i)
 template <typename T>
 inline T vector3<T>::operator[] (const unsigned i) const
 {
-    assert(i < 3);
+    BOOST_ASSERT_MSG(i < 3, "out of range!");
     return data_[i];
 }
