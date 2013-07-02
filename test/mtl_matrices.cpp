@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_SUITE( Mat2x2 )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_InitListConstruct, T, test_types)
 {
-//    matrix22<T> zero {}; // because of bug in g++ > 4.5
+//    matrix22<T> zero {}; // because of a bug in g++ > 4.5
     matrix22<T> zero {0};
     BOOST_CHECK_EQUAL(zero.data_[0], T(0));
     BOOST_CHECK_EQUAL(zero.data_[1], T(0));
