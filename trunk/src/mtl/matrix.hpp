@@ -139,7 +139,128 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \brief Abstracts a 3x3 matrix (ordered in memory by column).
+///
+/// \param T Type of the elements stored (e.g. int, float, double, ...).
+/// \remarks
+/// matrix33 class abstracts a 3x3 matrix. To be compatible with \a OpenGL and
+/// efficency, elements are stored in column major order (in opposed to row
+/// major C/C++ ordering of arrays) as 9 consecutive datatypes. It is templated
+/// on the component datatype.
+/// \see matrix33f, matrix33d
+/// \author Armin Madadkar Sobhani
+
+template <typename T>
+class matrix33
+{
+public:
+
+    /// \brief Helper nested class for matrix33::operator[].
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
+
+    class row_accessor33
+    {
+    public:
+        row_accessor33(matrix33<T>* mat, const unsigned row);
+
+        T& operator[](const unsigned column);
+
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix33 object set by constructor
+        matrix33<T>* m_;
+
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by row_accessor22::operator[]
+        unsigned r_;
+    };
+
+    /// \brief Helper nested class for matrix33::operator[] const.
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
+
+    class const_row_accessor33
+    {
+    public:
+        const_row_accessor33(const matrix33<T>* mat, const unsigned row);
+
+        const T& operator[](const unsigned column) const;
+
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix33 object set by constructor
+        const matrix33<T>* m_;
+
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by const_row_accessor33::operator[]
+        unsigned r_;
+    };
+
+/// \name Construction
+//@{
+    matrix33();
+    matrix33(std::initializer_list<T> vals);
+
+    // Copy constructor
+    matrix33(const matrix33<T>& m);
+
+    // Assignment method
+    matrix33<T>& operator=(const matrix33<T>& m);
+//@}
+
+/// \name Attributes
+//@{
+    matrix33<T>& identity();
+    matrix33<T>& zero();
+
+    void set(const T* data_ptr);
+    void set_transpose(const T* data_ptr);
+
+    T* get_data();
+    const T* get_data() const;
+//@}
+
+/// \name Operators
+//@{
+    T& operator() (const unsigned row, const unsigned column);
+    const T& operator() (const unsigned row, const unsigned column) const;
+
+    row_accessor33 operator[] (const unsigned row);
+    const_row_accessor33 operator[] (const unsigned row) const;
+//@}
+
+// Implementation
+
+    /// \brief Matrix's data in column major order
+    ///
+    /// Matrix's data in column major order as nine consecutive values in
+    /// memory. Please use matrix33::operator()(const unsigned,const unsigned)
+    /// or matrix33::operator[] instead of direct access.
+    T data_[9];
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // Helper types
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 2x2 matrix composed of 4 signed integers
+///
+/// Use matrix22i to define a 2x2 matrix composed of 4 signed integer
+/// components. It has all the features of matrix22, i.e. the member functions
+/// of matrix22i are similar to the member functions of matrix22 class. So, you
+/// can use the matrix22 reference documentation: Wherever you see a \a T type,
+/// substitute it to \a int.
+
+typedef matrix22<int> matrix22i;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2x2 matrix composed of 4 floats
@@ -162,6 +283,39 @@ typedef matrix22<float> matrix22f;
 /// it to \a double.
 
 typedef matrix22<double> matrix22d;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 3x3 matrix composed of 9 signed integers
+///
+/// Use matrix33i to define a 3x3 matrix composed of 9 signed integer
+/// components. It has all the features of matrix33, i.e. the member functions
+/// of matrix33i are similar to the member functions of matrix33 class. So, you
+/// can use the matrix33 reference documentation: Wherever you see a \a T type,
+/// substitute it to \a int.
+
+typedef matrix33<int> matrix33i;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 3x3 matrix composed of 9 floats
+///
+/// Use matrix33f to define a 3x3 matrix composed of 9 float components. It has
+/// all the features of matrix33, i.e. the member functions of matrix33f are
+/// similar to the member functions of matrix33 class. So, you can use the
+/// matrix33 reference documentation: Wherever you see a \a T type, substitute
+/// it to \a float.
+
+typedef matrix33<float> matrix33f;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 3x3 matrix composed of 9 double
+///
+/// Use matrix33d to define a 3x3 matrix composed of 9 double components. It has
+/// all the features of matrix33, i.e. the member functions of matrix33d are
+/// similar to the member functions of matrix33 class. So, you can use the
+/// matrix33 reference documentation: Wherever you see a \a T type, substitute
+/// it to \a double.
+
+typedef matrix33<double> matrix33d;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines

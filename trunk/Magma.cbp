@@ -67,6 +67,9 @@
 			<Add option="-fexceptions" />
 			<Add option="-DNDEBUG" />
 		</Compiler>
+		<Unit filename="install.txt">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src/magma.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
