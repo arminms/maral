@@ -180,9 +180,9 @@ public:
 // Helper types
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief 2D point composed of 2 unsigned integers
+/// \brief 2D point composed of 2 signed integers
 ///
-/// Use Point2i to define a 2D point composed of 2 unsigned integer
+/// Use Point2i to define a 2D point composed of 2 signed integer
 /// components. It has all the features of point2, i.e. the member
 /// functions of point2i are similar to the member functions of point2
 /// class. So, you can use the point2 reference documentation: Wherever
@@ -216,9 +216,9 @@ typedef point2<float> point2f;
 typedef point2<double> point2d;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief 3D point composed of 3 unsigned integers
+/// \brief 3D point composed of 3 signed integers
 ///
-/// Use point3i to define a 3D point composed of 3 unsigned integer
+/// Use point3i to define a 3D point composed of 3 signed integer
 /// components. It has all the features of point3, i.e. the member
 /// functions of point3i are similar to the member functions of point3
 /// class. So, you can use the point3 reference documentation: Wherever

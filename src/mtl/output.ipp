@@ -116,4 +116,29 @@ inline std::ostream& operator<< (
     return out;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// \return \p out after it has been written to.
+/// \param out The stream to write to.
+/// \param m The matrix33 type to output.
+/// \remarks
+/// Outputs a string representation of the given matrix33 type to the given
+/// output stream. The output is formatted such that
+/// matrix33<int> m {1,2,3,4,5,6,7,8,9)} will appear as:
+/// <pre>
+///    | 1 4 7 |
+///    | 2 5 8 |
+///    | 3 6 9 |
+/// </pre>
+
+template<typename T>
+inline std::ostream& operator<< (
+    std::ostream& out,
+    const matrix33<T>& m)
+{
+    out << "| " << m(0, 0) << ' ' << m(0, 1) << ' ' << m(0, 2) << " |\n";
+    out << "| " << m(1, 0) << ' ' << m(1, 1) << ' ' << m(1, 2) << " |\n";
+    out << "| " << m(2, 0) << ' ' << m(2, 1) << ' ' << m(2, 2) << " |\n";
+    return out;
+}
+
 /// @}
