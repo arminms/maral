@@ -37,7 +37,7 @@ namespace magma {
 /// efficency, elements are stored in column major order (in opposed to row
 /// major C/C++ ordering of arrays) as 4 consecutive datatypes. It is templated
 /// on the component datatype.
-/// \see matrix22f, matrix22d
+/// \see matrix22i, matrix22f, matrix22d
 /// \author Armin Madadkar Sobhani
 
 template <typename T>
@@ -147,7 +147,7 @@ public:
 /// efficency, elements are stored in column major order (in opposed to row
 /// major C/C++ ordering of arrays) as 9 consecutive datatypes. It is templated
 /// on the component datatype.
-/// \see matrix33f, matrix33d
+/// \see matrix33i, matrix33f, matrix33d
 /// \author Armin Madadkar Sobhani
 
 template <typename T>
@@ -176,7 +176,7 @@ public:
         /// \brief The row being accessed
         ///
         /// The row being accessed set by constructor that can be used later
-        /// by row_accessor22::operator[]
+        /// by row_accessor33::operator[]
         unsigned r_;
     };
 
@@ -249,6 +249,116 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \brief Abstracts a 4x4 matrix (ordered in memory by column).
+///
+/// \param T Type of the elements stored (e.g. int, float, double, ...).
+/// \remarks
+/// matrix44 class abstracts a 4x4 matrix. To be compatible with \a OpenGL and
+/// efficency, elements are stored in column major order (in opposed to row
+/// major C/C++ ordering of arrays) as 16 consecutive datatypes. It is templated
+/// on the component datatype.
+/// \see matrix44i, matrix44f, matrix44d
+/// \author Armin Madadkar Sobhani
+
+template <typename T>
+class matrix44
+{
+public:
+
+    /// \brief Helper nested class for matrix44::operator[].
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
+
+    class row_accessor44
+    {
+    public:
+        row_accessor44(matrix44<T>* mat, const unsigned row);
+
+        T& operator[](const unsigned column);
+
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix44 object set by constructor
+        matrix44<T>* m_;
+
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by row_accessor44::operator[]
+        unsigned r_;
+    };
+
+    /// \brief Helper nested class for matrix44::operator[] const.
+    ///
+    /// \remarks
+    /// This nested class encapsulates the row that the user is accessing and
+    /// implements a new operator[] that passes the column to use.
+
+    class const_row_accessor44
+    {
+    public:
+        const_row_accessor44(const matrix44<T>* mat, const unsigned row);
+
+        const T& operator[](const unsigned column) const;
+
+        /// \brief Pointer to the matrix
+        ///
+        /// Pointer to a matrix44 object set by constructor
+        const matrix44<T>* m_;
+
+        /// \brief The row being accessed
+        ///
+        /// The row being accessed set by constructor that can be used later
+        /// by const_row_accessor44::operator[]
+        unsigned r_;
+    };
+
+/// \name Construction
+//@{
+    matrix44();
+    matrix44(std::initializer_list<T> vals);
+
+    // Copy constructor
+    matrix44(const matrix44<T>& m);
+
+    // Assignment method
+    matrix44<T>& operator=(const matrix44<T>& m);
+//@}
+
+/// \name Attributes
+//@{
+    matrix44<T>& identity();
+    matrix44<T>& zero();
+
+    void set(const T* data_ptr);
+    void set_transpose(const T* data_ptr);
+
+    T* get_data();
+    const T* get_data() const;
+//@}
+
+/// \name Operators
+//@{
+    T& operator() (const unsigned row, const unsigned column);
+    const T& operator() (const unsigned row, const unsigned column) const;
+
+    row_accessor44 operator[] (const unsigned row);
+    const_row_accessor44 operator[] (const unsigned row) const;
+//@}
+
+// Implementation
+
+    /// \brief Matrix's data in column major order
+    ///
+    /// Matrix's data in column major order as sixteen consecutive values in
+    /// memory. Please use matrix44::operator()(const unsigned,const unsigned)
+    /// or matrix44::operator[] instead of direct access.
+    T data_[16];
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // Helper types
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -316,6 +426,39 @@ typedef matrix33<float> matrix33f;
 /// it to \a double.
 
 typedef matrix33<double> matrix33d;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 4x4 matrix composed of 16 signed integers
+///
+/// Use matrix44i to define a 4x4 matrix composed of 16 signed integer
+/// components. It has all the features of matrix44, i.e. the member functions
+/// of matrix44i are similar to the member functions of matrix44 class. So, you
+/// can use the matrix44 reference documentation: Wherever you see a \a T type,
+/// substitute it to \a int.
+
+typedef matrix44<int> matrix44i;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 4x4 matrix composed of 16 floats
+///
+/// Use matrix44f to define a 4x4 matrix composed of 16 float components. It has
+/// all the features of matrix44, i.e. the member functions of matrix44f are
+/// similar to the member functions of matrix44 class. So, you can use the
+/// matrix44 reference documentation: Wherever you see a \a T type, substitute
+/// it to \a float.
+
+typedef matrix44<float> matrix44f;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief 4x4 matrix composed of 16 double
+///
+/// Use matrix44d to define a 4x4 matrix composed of 16 double components. It
+/// has all the features of matrix44, i.e. the member functions of matrix44d are
+/// similar to the member functions of matrix44 class. So, you can use the
+/// matrix44 reference documentation: Wherever you see a \a T type, substitute
+/// it to \a double.
+
+typedef matrix44<double> matrix44d;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inlines
