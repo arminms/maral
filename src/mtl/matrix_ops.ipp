@@ -113,17 +113,17 @@ inline matrix22<T>& mult(
     matrix22<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret(0, 0) += lhs(0, 0) * rhs(0, 0);
-    ret(0, 0) += lhs(0, 1) * rhs(1, 0);
+    ret.data_[0] += lhs.data_[0] * rhs.data_[0];
+    ret.data_[0] += lhs.data_[2] * rhs.data_[1];
 
-    ret(0, 1) += lhs(0, 0) * rhs(0, 1);
-    ret(0, 1) += lhs(0, 1) * rhs(1, 1);
+    ret.data_[1] += lhs.data_[1] * rhs.data_[0];
+    ret.data_[1] += lhs.data_[3] * rhs.data_[1];
 
-    ret(1, 0) += lhs(1, 0) * rhs(0, 0);
-    ret(1, 0) += lhs(1, 1) * rhs(1, 0);
+    ret.data_[2] += lhs.data_[0] * rhs.data_[2];
+    ret.data_[2] += lhs.data_[2] * rhs.data_[3];
 
-    ret(1, 1) += lhs(1, 0) * rhs(0, 1);
-    ret(1, 1) += lhs(1, 1) * rhs(1, 1);
+    ret.data_[3] += lhs.data_[1] * rhs.data_[2];
+    ret.data_[3] += lhs.data_[3] * rhs.data_[3];
 
     return r = ret;
 }
@@ -417,41 +417,41 @@ inline matrix33<T>& mult(
     matrix33<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret(0, 0) += lhs(0, 0) * rhs(0, 0);
-    ret(0, 0) += lhs(0, 1) * rhs(1, 0);
-    ret(0, 0) += lhs(0, 2) * rhs(2, 0);
+    ret.data_[0] += lhs.data_[0] * rhs.data_[0];
+    ret.data_[0] += lhs.data_[3] * rhs.data_[1];
+    ret.data_[0] += lhs.data_[6] * rhs.data_[2];
 
-    ret(0, 1) += lhs(0, 0) * rhs(0, 1);
-    ret(0, 1) += lhs(0, 1) * rhs(1, 1);
-    ret(0, 1) += lhs(0, 2) * rhs(2, 1);
+    ret.data_[1] += lhs.data_[1] * rhs.data_[0];
+    ret.data_[1] += lhs.data_[4] * rhs.data_[1];
+    ret.data_[1] += lhs.data_[7] * rhs.data_[2];
 
-    ret(0, 2) += lhs(0, 0) * rhs(0, 2);
-    ret(0, 2) += lhs(0, 1) * rhs(1, 2);
-    ret(0, 2) += lhs(0, 2) * rhs(2, 2);
+    ret.data_[2] += lhs.data_[2] * rhs.data_[0];
+    ret.data_[2] += lhs.data_[5] * rhs.data_[1];
+    ret.data_[2] += lhs.data_[8] * rhs.data_[2];
 
-    ret(1, 0) += lhs(1, 0) * rhs(0, 0);
-    ret(1, 0) += lhs(1, 1) * rhs(1, 0);
-    ret(1, 0) += lhs(1, 2) * rhs(2, 0);
+    ret.data_[3] += lhs.data_[0] * rhs.data_[3];
+    ret.data_[3] += lhs.data_[3] * rhs.data_[4];
+    ret.data_[3] += lhs.data_[6] * rhs.data_[5];
 
-    ret(1, 1) += lhs(1, 0) * rhs(0, 1);
-    ret(1, 1) += lhs(1, 1) * rhs(1, 1);
-    ret(1, 1) += lhs(1, 2) * rhs(2, 1);
+    ret.data_[4] += lhs.data_[1] * rhs.data_[3];
+    ret.data_[4] += lhs.data_[4] * rhs.data_[4];
+    ret.data_[4] += lhs.data_[7] * rhs.data_[5];
 
-    ret(1, 2) += lhs(1, 0) * rhs(0, 2);
-    ret(1, 2) += lhs(1, 1) * rhs(1, 2);
-    ret(1, 2) += lhs(1, 2) * rhs(2, 2);
+    ret.data_[5] += lhs.data_[2] * rhs.data_[3];
+    ret.data_[5] += lhs.data_[5] * rhs.data_[4];
+    ret.data_[5] += lhs.data_[8] * rhs.data_[5];
 
-    ret(2, 0) += lhs(2, 0) * rhs(0, 0);
-    ret(2, 0) += lhs(2, 1) * rhs(1, 0);
-    ret(2, 0) += lhs(2, 2) * rhs(2, 0);
+    ret.data_[6] += lhs.data_[0] * rhs.data_[6];
+    ret.data_[6] += lhs.data_[3] * rhs.data_[7];
+    ret.data_[6] += lhs.data_[6] * rhs.data_[8];
 
-    ret(2, 1) += lhs(2, 0) * rhs(0, 1);
-    ret(2, 1) += lhs(2, 1) * rhs(1, 1);
-    ret(2, 1) += lhs(2, 2) * rhs(2, 1);
+    ret.data_[7] += lhs.data_[1] * rhs.data_[6];
+    ret.data_[7] += lhs.data_[4] * rhs.data_[7];
+    ret.data_[7] += lhs.data_[7] * rhs.data_[8];
 
-    ret(2, 2) += lhs(2, 0) * rhs(0, 2);
-    ret(2, 2) += lhs(2, 1) * rhs(1, 2);
-    ret(2, 2) += lhs(2, 2) * rhs(2, 2);
+    ret.data_[8] += lhs.data_[2] * rhs.data_[6];
+    ret.data_[8] += lhs.data_[5] * rhs.data_[7];
+    ret.data_[8] += lhs.data_[8] * rhs.data_[8];
 
     return r = ret;
 }
@@ -777,85 +777,85 @@ inline matrix44<T>& mult(
     matrix44<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret(0, 0) += lhs(0, 0) * rhs(0, 0);
-    ret(0, 0) += lhs(0, 1) * rhs(1, 0);
-    ret(0, 0) += lhs(0, 2) * rhs(2, 0);
-    ret(0, 0) += lhs(0, 3) * rhs(3, 0);
+    ret.data_ [0] += lhs.data_ [0] * rhs.data_ [0];
+    ret.data_ [0] += lhs.data_ [4] * rhs.data_ [1];
+    ret.data_ [0] += lhs.data_ [8] * rhs.data_ [2];
+    ret.data_ [0] += lhs.data_[12] * rhs.data_ [3];
 
-    ret(0, 1) += lhs(0, 0) * rhs(0, 1);
-    ret(0, 1) += lhs(0, 1) * rhs(1, 1);
-    ret(0, 1) += lhs(0, 2) * rhs(2, 1);
-    ret(0, 1) += lhs(0, 3) * rhs(3, 1);
+    ret.data_ [1] += lhs.data_ [1] * rhs.data_ [0];
+    ret.data_ [1] += lhs.data_ [5] * rhs.data_ [1];
+    ret.data_ [1] += lhs.data_ [9] * rhs.data_ [2];
+    ret.data_ [1] += lhs.data_[13] * rhs.data_ [3];
 
-    ret(0, 2) += lhs(0, 0) * rhs(0, 2);
-    ret(0, 2) += lhs(0, 1) * rhs(1, 2);
-    ret(0, 2) += lhs(0, 2) * rhs(2, 2);
-    ret(0, 2) += lhs(0, 3) * rhs(3, 2);
+    ret.data_ [2] += lhs.data_ [2] * rhs.data_ [0];
+    ret.data_ [2] += lhs.data_ [6] * rhs.data_ [1];
+    ret.data_ [2] += lhs.data_[10] * rhs.data_ [2];
+    ret.data_ [2] += lhs.data_[14] * rhs.data_ [3];
 
-    ret(0, 3) += lhs(0, 0) * rhs(0, 3);
-    ret(0, 3) += lhs(0, 1) * rhs(1, 3);
-    ret(0, 3) += lhs(0, 2) * rhs(2, 3);
-    ret(0, 3) += lhs(0, 3) * rhs(3, 3);
+    ret.data_ [3] += lhs.data_ [3] * rhs.data_ [0];
+    ret.data_ [3] += lhs.data_ [7] * rhs.data_ [1];
+    ret.data_ [3] += lhs.data_[11] * rhs.data_ [2];
+    ret.data_ [3] += lhs.data_[15] * rhs.data_ [3];
 
-    ret(1, 0) += lhs(1, 0) * rhs(0, 0);
-    ret(1, 0) += lhs(1, 1) * rhs(1, 0);
-    ret(1, 0) += lhs(1, 2) * rhs(2, 0);
-    ret(1, 0) += lhs(1, 3) * rhs(3, 0);
+    ret.data_ [4] += lhs.data_ [0] * rhs.data_ [4];
+    ret.data_ [4] += lhs.data_ [4] * rhs.data_ [5];
+    ret.data_ [4] += lhs.data_ [8] * rhs.data_ [6];
+    ret.data_ [4] += lhs.data_[12] * rhs.data_ [7];
 
-    ret(1, 1) += lhs(1, 0) * rhs(0, 1);
-    ret(1, 1) += lhs(1, 1) * rhs(1, 1);
-    ret(1, 1) += lhs(1, 2) * rhs(2, 1);
-    ret(1, 1) += lhs(1, 3) * rhs(3, 1);
+    ret.data_ [5] += lhs.data_ [1] * rhs.data_ [4];
+    ret.data_ [5] += lhs.data_ [5] * rhs.data_ [5];
+    ret.data_ [5] += lhs.data_ [9] * rhs.data_ [6];
+    ret.data_ [5] += lhs.data_[13] * rhs.data_ [7];
 
-    ret(1, 2) += lhs(1, 0) * rhs(0, 2);
-    ret(1, 2) += lhs(1, 1) * rhs(1, 2);
-    ret(1, 2) += lhs(1, 2) * rhs(2, 2);
-    ret(1, 2) += lhs(1, 3) * rhs(3, 2);
+    ret.data_ [6] += lhs.data_ [2] * rhs.data_ [4];
+    ret.data_ [6] += lhs.data_ [6] * rhs.data_ [5];
+    ret.data_ [6] += lhs.data_[10] * rhs.data_ [6];
+    ret.data_ [6] += lhs.data_[14] * rhs.data_ [7];
 
-    ret(1, 3) += lhs(1, 0) * rhs(0, 3);
-    ret(1, 3) += lhs(1, 1) * rhs(1, 3);
-    ret(1, 3) += lhs(1, 2) * rhs(2, 3);
-    ret(1, 3) += lhs(1, 3) * rhs(3, 3);
+    ret.data_ [7] += lhs.data_ [3] * rhs.data_ [4];
+    ret.data_ [7] += lhs.data_ [7] * rhs.data_ [5];
+    ret.data_ [7] += lhs.data_[11] * rhs.data_ [6];
+    ret.data_ [7] += lhs.data_[15] * rhs.data_ [7];
 
-    ret(2, 0) += lhs(2, 0) * rhs(0, 0);
-    ret(2, 0) += lhs(2, 1) * rhs(1, 0);
-    ret(2, 0) += lhs(2, 2) * rhs(2, 0);
-    ret(2, 0) += lhs(2, 3) * rhs(3, 0);
+    ret.data_ [8] += lhs.data_ [0] * rhs.data_ [8];
+    ret.data_ [8] += lhs.data_ [4] * rhs.data_ [9];
+    ret.data_ [8] += lhs.data_ [8] * rhs.data_[10];
+    ret.data_ [8] += lhs.data_[12] * rhs.data_[11];
 
-    ret(2, 1) += lhs(2, 0) * rhs(0, 1);
-    ret(2, 1) += lhs(2, 1) * rhs(1, 1);
-    ret(2, 1) += lhs(2, 2) * rhs(2, 1);
-    ret(2, 1) += lhs(2, 3) * rhs(3, 1);
+    ret.data_ [9] += lhs.data_ [1] * rhs.data_ [8];
+    ret.data_ [9] += lhs.data_ [5] * rhs.data_ [9];
+    ret.data_ [9] += lhs.data_ [9] * rhs.data_[10];
+    ret.data_ [9] += lhs.data_[13] * rhs.data_[11];
 
-    ret(2, 2) += lhs(2, 0) * rhs(0, 2);
-    ret(2, 2) += lhs(2, 1) * rhs(1, 2);
-    ret(2, 2) += lhs(2, 2) * rhs(2, 2);
-    ret(2, 2) += lhs(2, 3) * rhs(3, 2);
+    ret.data_[10] += lhs.data_ [2] * rhs.data_ [8];
+    ret.data_[10] += lhs.data_ [6] * rhs.data_ [9];
+    ret.data_[10] += lhs.data_[10] * rhs.data_[10];
+    ret.data_[10] += lhs.data_[14] * rhs.data_[11];
 
-    ret(2, 3) += lhs(2, 0) * rhs(0, 3);
-    ret(2, 3) += lhs(2, 1) * rhs(1, 3);
-    ret(2, 3) += lhs(2, 2) * rhs(2, 3);
-    ret(2, 3) += lhs(2, 3) * rhs(3, 3);
+    ret.data_[11] += lhs.data_ [3] * rhs.data_ [8];
+    ret.data_[11] += lhs.data_ [7] * rhs.data_ [9];
+    ret.data_[11] += lhs.data_[11] * rhs.data_[10];
+    ret.data_[11] += lhs.data_[15] * rhs.data_[11];
 
-    ret(3, 0) += lhs(3, 0) * rhs(0, 0);
-    ret(3, 0) += lhs(3, 1) * rhs(1, 0);
-    ret(3, 0) += lhs(3, 2) * rhs(2, 0);
-    ret(3, 0) += lhs(3, 3) * rhs(3, 0);
+    ret.data_[12] += lhs.data_ [0] * rhs.data_[12];
+    ret.data_[12] += lhs.data_ [4] * rhs.data_[13];
+    ret.data_[12] += lhs.data_ [8] * rhs.data_[14];
+    ret.data_[12] += lhs.data_[12] * rhs.data_[15];
 
-    ret(3, 1) += lhs(3, 0) * rhs(0, 1);
-    ret(3, 1) += lhs(3, 1) * rhs(1, 1);
-    ret(3, 1) += lhs(3, 2) * rhs(2, 1);
-    ret(3, 1) += lhs(3, 3) * rhs(3, 1);
+    ret.data_[13] += lhs.data_ [1] * rhs.data_[12];
+    ret.data_[13] += lhs.data_ [5] * rhs.data_[13];
+    ret.data_[13] += lhs.data_ [9] * rhs.data_[14];
+    ret.data_[13] += lhs.data_[13] * rhs.data_[15];
 
-    ret(3, 2) += lhs(3, 0) * rhs(0, 2);
-    ret(3, 2) += lhs(3, 1) * rhs(1, 2);
-    ret(3, 2) += lhs(3, 2) * rhs(2, 2);
-    ret(3, 2) += lhs(3, 3) * rhs(3, 2);
+    ret.data_[14] += lhs.data_ [2] * rhs.data_[12];
+    ret.data_[14] += lhs.data_ [6] * rhs.data_[13];
+    ret.data_[14] += lhs.data_[10] * rhs.data_[14];
+    ret.data_[14] += lhs.data_[14] * rhs.data_[15];
 
-    ret(3, 3) += lhs(3, 0) * rhs(0, 3);
-    ret(3, 3) += lhs(3, 1) * rhs(1, 3);
-    ret(3, 3) += lhs(3, 2) * rhs(2, 3);
-    ret(3, 3) += lhs(3, 3) * rhs(3, 3);
+    ret.data_[15] += lhs.data_ [3] * rhs.data_[12];
+    ret.data_[15] += lhs.data_ [7] * rhs.data_[13];
+    ret.data_[15] += lhs.data_[11] * rhs.data_[14];
+    ret.data_[15] += lhs.data_[15] * rhs.data_[15];
 
     return r = ret;
 }
