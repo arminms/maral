@@ -16,8 +16,8 @@
 /// \b point_ops.hpp is the header file for all the operations on
 /// points (i.e. point2, point3, point4).
 
-#ifndef POINT_OPS_HPP
-#define POINT_OPS_HPP
+#ifndef MAGMA_MTL_POINT_OPS_HPP_INCLUDED_
+#define MAGMA_MTL_POINT_OPS_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -37,4 +37,4 @@ namespace magma
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // POINT_OPS_HPP
+#endif    // MAGMA_MTL_POINT_OPS_HPP_INCLUDED_

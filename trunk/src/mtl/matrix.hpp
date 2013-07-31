@@ -16,8 +16,8 @@
 /// \b matrix.hpp is the include file for matrix22f, matrix22d, matrix33f,
 /// matrix33d, matrix44f and matrix44f classes.
 
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+#ifndef MAGMA_MTL_MATRIX_HPP_INCLUDED_
+#define MAGMA_MTL_MATRIX_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -468,5 +468,5 @@ typedef matrix44<double> matrix44d;
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // MATRIX_HPP
+#endif    // MAGMA_MTL_MATRIX_HPP_INCLUDED_
 

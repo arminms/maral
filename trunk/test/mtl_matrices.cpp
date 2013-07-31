@@ -5,7 +5,8 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
-#include <magma.hpp>
+#include <mtl/mtl.hpp>
+
 using boost::test_tools::output_test_stream;
 using namespace magma::mtl;
 

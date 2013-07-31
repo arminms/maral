@@ -17,8 +17,8 @@
 /// \b output.hpp is the header file for all output stream operators
 /// of magma::mtl classes.
 
-#ifndef OUTPUT_HPP
-#define OUTPUT_HPP
+#ifndef MAGMA_MTL_OUTPUT_HPP_INCLUDED_
+#define MAGMA_MTL_OUTPUT_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -38,4 +38,4 @@ namespace magma
     }    // namespace mtl
 }    // namespace magma
 
-#endif // OUTPUT_HPP
+#endif // MAGMA_MTL_OUTPUT_HPP_INCLUDED_

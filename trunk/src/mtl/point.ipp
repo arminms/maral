@@ -509,7 +509,7 @@ inline void point3<T>::set(T x, T y, T z)
 template <typename T>
 inline void point3<T>::set(const T* data_ptr)
 {
-    assert(data_ptr);
+    BOOST_ASSERT_MSG(data_ptr, "null pointer!");
     data_[0] = data_ptr[0]; data_[1] = data_ptr[1]; data_[2] = data_ptr[2];
 }
 

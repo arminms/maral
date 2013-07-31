@@ -1,20 +1,21 @@
 LINUX
 =====
 
-tar zxvf boost_1_50_0.tar.gz
-cd boost_1_50_0
-./bootstrap.sh --prefix=/opt/local
+tar jxvf boost_1_54_0.tar.bz2
+
+cd boost_1_54_0
+./bootstrap.sh --prefix=MAGAM_FOLDER
 ./b2 install
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/local/lib
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MAGAM_FOLDER
 export LD_LIBRARY_PATH
 
 DO THESE STEPS IN CASE OF CUSOTMIZING:
-rm -rf /opt/local/lib/libboost_*
+rm -rf MAGAM_FOLDER/libboost_*
 cd ..
-rm -rf boost_1.50.0
-tar zxvf boost_1_50_0.tar.gz
-cd boost_1_50_0
+rm -rf boost_1.54.0
+tar zxvf boost_1_54_0.tar.gz
+cd boost_1_54_0
 cd tools/build/v2/
 ./bootstrap.sh
 ./b2 install --prefix=/opt/local
@@ -23,16 +24,16 @@ cp tools/build/v2/user-config.jam .
 vi user-config.jam ----> using mpi ;
 /opt/local/bin/b2 -j 4 toolset=gcc --link=shared,static --threading=multi --user-config=user-config.jam --layout=versioned stage
 cd stage
-cp -av lib/* /opt/local/lib
+cp -av lib/* MAGAM_FOLDER
 cd ..
-rm -rf boost_1.50.0
+rm -rf boost_1.54.0
 
 
 WINDOWS x64
 ===========
 
 unzip archive
-copy boost folder to C:\Program Files\boost\boost_1_50_0\include
+copy boost folder to C:\Program Files\boost\boost_1_54_0\include
 cd tools/build/v2/
 bootstrap.bat
 .\b2 install --prefix="C:\Program Files\boost\build"
@@ -46,9 +47,9 @@ or with static link to C++ library:
 or for complete build:
 "C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
 
-copy stage to :\Program Files\boost\boost_1_50_0\lib
+copy stage to :\Program Files\boost\boost_1_54_0\lib
 
-mklink /D "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost" "C:\Program Files\boost\boost_1_50_0\include\boost"
+mklink /D "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost" "C:\Program Files\boost\boost_1_54_0\include\boost"
 
 To remove the link:
 rmdir "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost"
@@ -57,7 +58,7 @@ WINDOWS x86
 ===========
 
 unzip archive
-copy boost folder to C:\Program Files (x86)\boost\boost_1_50_0\include
+copy boost folder to C:\Program Files (x86)\boost\boost_1_54_0\include
 cd tools/build/v2/
 bootstrap.bat
 .\b2 install --prefix="C:\Program Files (x86)\boost\build"
@@ -71,7 +72,7 @@ or with static link to C++ library:
 or for complete build:
 "C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
 
-copy stage to C:\Program Files (x86)\boost\boost_1_50_0\lib
+copy stage to C:\Program Files (x86)\boost\boost_1_54_0\lib
 
 Mac OS X
 ========

@@ -67,8 +67,15 @@
 			<Add option="-fexceptions" />
 			<Add option="-DNDEBUG" />
 		</Compiler>
+		<Unit filename="boost_install.txt">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="install.txt">
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src/core.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/magma.hpp">
 			<Option target="Debug" />
