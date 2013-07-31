@@ -16,8 +16,8 @@
 /// \b defines.hpp is the include file for some frequently used
 /// mathematical constansts and handy templated inlines.
 
-#ifndef MTL_DEFINES_HPP
-#define MTL_DEFINES_HPP
+#ifndef MAGMA_MTL_DEFINES_HPP_INCLUDED_
+#define MAGMA_MTL_DEFINES_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -77,4 +77,4 @@ const double PIUNDER180  = 5.72957795130823E+001;
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // MTL_DEFINES_HPP
+#endif    // MAGMA_MTL_DEFINES_HPP_INCLUDED_

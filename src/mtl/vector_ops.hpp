@@ -16,8 +16,8 @@
 /// \b vector_ops.hpp is the header file for all the operations on
 /// points (i.e. vector2, vector3, vector4).
 
-#ifndef VECTOR_OPS_HPP
-#define VECTOR_OPS_HPP
+#ifndef MAGMA_MTL_VECTOR_OPS_HPP_INCLUDED_
+#define MAGMA_MTL_VECTOR_OPS_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -37,4 +37,4 @@ namespace magma
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // VECTOR_OPS_HPP
+#endif    // MAGMA_MTL_VECTOR_OPS_HPP_INCLUDED_

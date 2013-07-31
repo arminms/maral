@@ -16,8 +16,8 @@
 /// \b point.hpp is the include file for point2i, point2f, point2d,
 /// point3i, point3f, point3d, point4i, point4f and point4d classes.
 
-#ifndef POINT_HPP
-#define POINT_HPP
+#ifndef MAGMA_MTL_POINT_HPP_INCLUDED_
+#define MAGMA_MTL_POINT_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -28,6 +28,7 @@ namespace magma {
 
     namespace mtl {
 
+// forward declarations
 template <typename T> class vector2;
 template <typename T> class vector3;
 
@@ -259,4 +260,4 @@ typedef point3<double> point3d;
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // POINT_HPP
+#endif    // MAGMA_MTL_POINT_HPP_INCLUDED_

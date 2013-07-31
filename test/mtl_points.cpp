@@ -14,7 +14,8 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
-#include <magma.hpp>
+#include <mtl/mtl.hpp>
+
 #include "mtl_data.hpp"
 
 using boost::test_tools::output_test_stream;

@@ -14,9 +14,11 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="../src" />
+					<Add directory="../boost/include" />
 				</Compiler>
 				<Linker>
 					<Add library="boost_unit_test_framework" />
+					<Add directory="../boost/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -28,10 +30,12 @@
 					<Add option="-O2" />
 					<Add option="-DNDEBUG" />
 					<Add directory="../src" />
+					<Add directory="../boost/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="boost_unit_test_framework" />
+					<Add directory="../boost/lib" />
 				</Linker>
 			</Target>
 			<Target title="Profile">
@@ -43,10 +47,12 @@
 					<Add option="-pg" />
 					<Add option="-g" />
 					<Add directory="../src" />
+					<Add directory="../boost/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
 					<Add library="boost_unit_test_framework" />
+					<Add directory="../boost/lib" />
 				</Linker>
 			</Target>
 			<Target title="Makefile">
@@ -65,6 +71,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="magma_core.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="Profile" />
+		</Unit>
 		<Unit filename="mtl_data.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

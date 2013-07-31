@@ -17,8 +17,8 @@
 /// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and
 /// vector4d classes.
 
-#ifndef VECTOR_HPP
-#define VECTOR_HPP
+#ifndef MAGMA_MTL_VECTOR_HPP_INCLUDED_
+#define MAGMA_MTL_VECTOR_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -263,4 +263,4 @@ typedef vector3<double> vector3d;
     }    // namespace mtl
 }    // namespace magma
 
-#endif    // VECTOR_HPP
+#endif    // MAGMA_MTL_VECTOR_HPP_INCLUDED_
