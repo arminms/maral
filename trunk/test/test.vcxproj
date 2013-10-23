@@ -160,12 +160,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MtlMatrices.cpp" />
-    <ClCompile Include="MtlPoints.cpp" />
-    <ClCompile Include="MtlVectors.cpp" />
+    <ClCompile Include="mtl_matrices.cpp" />
+    <ClCompile Include="mtl_points.cpp" />
+    <ClCompile Include="mtl_vectors.cpp" />
+    <ClCompile Include="maral_core.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MtlData.hpp" />
+    <ClInclude Include="mtl_data.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -27,7 +27,7 @@ LIB_DEBUG = $(LIB)
 LDFLAGS_DEBUG =  $(LDFLAGS)
 OBJDIR_DEBUG = obj/debug
 DEP_DEBUG = 
-OUT_DEBUG = bin/debug/Magma.so
+OUT_DEBUG = bin/debug/Maral.so
 
 INC_RELEASE =  $(INC)
 CFLAGS_RELEASE =  $(CFLAGS) -O2 -Wall
@@ -38,7 +38,7 @@ LIB_RELEASE = $(LIB)
 LDFLAGS_RELEASE =  $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
-OUT_RELEASE = bin/release/Magma.so
+OUT_RELEASE = bin/release/Maral.so
 
 INC_DOXYGEN = 
 CFLAGS_DOXYGEN = 
@@ -97,7 +97,7 @@ clean_release:
 	rm -rf bin/release
 
 before_doxygen: 
-	rm -rf doc/*
+	rm -rf doc/html doc/latex
 	doxygen Doxyfile
 
 after_doxygen: 
@@ -105,7 +105,7 @@ after_doxygen:
 doxygen: before_doxygen after_doxygen
 
 before_makefile: 
-	cbp2make --local -in Magma.cbp -out Makefile --wrap-objects --with-deps
+	cbp2make --local -in Maral.cbp -out Makefile --wrap-objects --with-deps
 
 after_makefile: 
 

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -16,15 +16,15 @@
 /// \b matrix.hpp is the include file for matrix22f, matrix22d, matrix33f,
 /// matrix33d, matrix44f and matrix44f classes.
 
-#ifndef MAGMA_MTL_MATRIX_HPP_INCLUDED_
-#define MAGMA_MTL_MATRIX_HPP_INCLUDED_
+#ifndef MARAL_MTL_MATRIX_HPP_INCLUDED_
+#define MARAL_MTL_MATRIX_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace magma {
+namespace maral {
 
     namespace mtl {
 
@@ -466,7 +466,7 @@ typedef matrix44<double> matrix44d;
 #include "matrix.ipp"
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif    // MAGMA_MTL_MATRIX_HPP_INCLUDED_
+#endif    // MARAL_MTL_MATRIX_HPP_INCLUDED_
 

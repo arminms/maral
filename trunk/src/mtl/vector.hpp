@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -17,15 +17,15 @@
 /// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and
 /// vector4d classes.
 
-#ifndef MAGMA_MTL_VECTOR_HPP_INCLUDED_
-#define MAGMA_MTL_VECTOR_HPP_INCLUDED_
+#ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
+#define MARAL_MTL_VECTOR_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace magma {
+namespace maral {
     namespace mtl {
 
 template <typename T> class point2;
@@ -261,6 +261,6 @@ typedef vector3<double> vector3d;
 #include "vector.ipp"
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif    // MAGMA_MTL_VECTOR_HPP_INCLUDED_
+#endif    // MARAL_MTL_VECTOR_HPP_INCLUDED_

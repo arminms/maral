@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magma", "Magma.vcxproj", "{1FA8CC61-E387-4590-8396-229015799E38}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Maral", "Maral.vcxproj", "{1FA8CC61-E387-4590-8396-229015799E38}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{80779F1E-EB5E-43F2-B521-D29FE6C1CAF5}"
 EndProject

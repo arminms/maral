@@ -1,0 +1,14 @@
+SVN Checkout
+============
+
+Getting tagged Version:
+svn co https://pele.bsc.es/subversion/Maral/tags/VERSION
+
+Getting latest development:
+svn co https://pele.bsc.es/subversion/Maral/trunk
+
+Tagging
+=======
+
+svn copy https://pele.bsc.es/subversion/Maral/trunk https://pele.bsc.es/subversion/Maral/tags/VERSION -m "Tagging the VERSION release"
+

@@ -71,7 +71,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="magma_core.cpp">
+		<Unit filename="maral_core.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="Profile" />

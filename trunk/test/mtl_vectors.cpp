@@ -10,7 +10,7 @@
 #include "mtl_data.hpp"
 
 using boost::test_tools::output_test_stream;
-using namespace magma::mtl;
+using namespace maral::mtl;
 
 typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;

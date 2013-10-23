@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -16,8 +16,8 @@
 /// \b defines.hpp is the include file for some frequently used
 /// mathematical constansts and handy templated inlines.
 
-#ifndef MAGMA_MTL_DEFINES_HPP_INCLUDED_
-#define MAGMA_MTL_DEFINES_HPP_INCLUDED_
+#ifndef MARAL_MTL_DEFINES_HPP_INCLUDED_
+#define MARAL_MTL_DEFINES_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -25,25 +25,25 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief The namespace for \b Magma.
+/// \brief The namespace for \b Maral.
 ///
-/// This is the main namespace for the \b Magma application framework.
-/// In order to work with \b Magma this namespace must be used (i.e by
-/// \a using keyword or scope operator (magma::...)
+/// This is the main namespace for the \b Maral application framework.
+/// In order to work with \b Maral this namespace must be used (i.e by
+/// \a using keyword or scope operator (maral::...)
 
-namespace magma
+namespace maral
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Namespace for the \b Mtl (magma::mtl).
+/// \brief Namespace for the \b Mtl (maral::mtl).
 ///
 /// Namespace for the \b Math \b Template \b Library (\b Mtl). \b Mtl is the
-/// mathematical engine behind \b Magma and because all the classes and
+/// mathematical engine behind \b Maral and because all the classes and
 /// functions have been implemented as header only inlines, it is
 /// highly efficient. The \b Mtl has two aspects: The \a data \a types,
 /// and the \a operations on the data. All data types and operations
 /// are defined in the mtl namespace. Thus all types must be prefixed
-/// with the mtl:: scope or a \a using \a namespace \a magma::mtl;
+/// with the mtl:: scope or a \a using \a namespace \a maral::mtl;
 /// command can be used to bring all of the \b Mtl functionality into
 /// the local scope.
 
@@ -75,6 +75,6 @@ const double PIUNDER180  = 5.72957795130823E+001;
 #include "defines.ipp"
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif    // MAGMA_MTL_DEFINES_HPP_INCLUDED_
+#endif    // MARAL_MTL_DEFINES_HPP_INCLUDED_
