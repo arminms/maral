@@ -86,7 +86,7 @@ template <typename T> using node = std::unique_ptr<T>;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstract base class for all molecular hierarchy nodes used in \b
-/// Maral.
+/// Magma.
 ///
 /// \remarks
 /// In \b Design \b Patterns terminology abstract_node acts as a \e Component
@@ -98,12 +98,10 @@ class abstract_node
 :   boost::noncopyable
 {
 public:
-//    typedef boost::ptr_list<abstract_node> hierarchy_type;
-//    typedef hierarchy_type::auto_type node_type;
-//    typedef std::unique_ptr<abstract_node> node_type;
-//    typedef std::list<node_type> hierarchy_type;
     typedef abstract_node* node_type;
     typedef std::list<node_type> hierarchy_type;
+
+////////////////////////////////////////////////////////////////////////////////
 
     class const_iterator
     :   public boost::iterator_facade
@@ -111,6 +109,7 @@ public:
             const_iterator
         ,   node_type const
         ,   boost::forward_traversal_tag
+        ,   node_type
         >
     {
     public:
@@ -121,6 +120,11 @@ public:
         :   pos_(node->children()->cbegin())
         ,   end_pos_(node->children()->cend())
         { if (start_at_end) pos_ = end_pos_; }
+
+        node_type operator->()
+        { return *pos_; }
+        const node_type operator->() const
+        { return *pos_; }
 
     private:
         friend class boost::iterator_core_access;
@@ -152,7 +156,7 @@ public:
             return (this->pos_ == other.pos_);
         }
 
-        node_type const& dereference() const
+        node_type const dereference() const
         {
             return *pos_;
         }
@@ -162,10 +166,271 @@ public:
         std::list<hierarchy_type::const_iterator> lifo_;
     };
 
+////////////////////////////////////////////////////////////////////////////////
+
+    template <typename T>
+    class const_type_iterator
+    :   public boost::iterator_facade
+        <
+            const_type_iterator<T>
+        ,   T* const
+        ,   boost::forward_traversal_tag
+        ,   T*
+        >
+    {
+    public:
+        const_type_iterator()
+        {}
+
+        explicit const_type_iterator(const node_type node,
+                                     bool start_at_end = false)
+        :   pos_(node->children()->cbegin())
+        ,   end_pos_(node->children()->cend())
+        {
+            if (start_at_end)
+            {
+                pos_ = end_pos_;
+                return;
+            }
+
+            if (pos_ == end_pos_)
+                return;
+
+            while (pos_ != end_pos_ && !dynamic_cast<T*>(*pos_))
+            {
+                if ((*pos_)->children())
+                {
+                    lifo_.push_back(end_pos_);
+                    lifo_.push_back(pos_);
+                    end_pos_ = (*pos_)->children()->cend();
+                    pos_ = (*pos_)->children()->cbegin();
+                }
+                else
+                    ++pos_;
+
+                while (pos_ == end_pos_ && !lifo_.empty())
+                {
+                    pos_ = lifo_.back();
+                    lifo_.pop_back();
+                    ++pos_;
+                    end_pos_ = lifo_.back();
+                    lifo_.pop_back();
+                }
+            }
+        }
+
+        T* operator->()
+        { return reinterpret_cast<T*>(*pos_); }
+        const T* operator->() const
+        { return reinterpret_cast<T*>(*pos_); }
+
+    private:
+        friend class boost::iterator_core_access;
+
+        void increment()
+        {
+            do
+            {
+                if ((*pos_)->children())
+                {
+                    lifo_.push_back(end_pos_);
+                    lifo_.push_back(pos_);
+                    end_pos_ = (*pos_)->children()->cend();
+                    pos_ = (*pos_)->children()->cbegin();
+                }
+                else
+                    ++pos_;
+
+                while (pos_ == end_pos_ && !lifo_.empty())
+                {
+                    pos_ = lifo_.back();
+                    lifo_.pop_back();
+                    ++pos_;
+                    end_pos_ = lifo_.back();
+                    lifo_.pop_back();
+                }
+            } while (pos_ != end_pos_ && !dynamic_cast<T*>(*pos_));
+        }
+
+        bool equal(const_type_iterator const& other) const
+        {
+            return (this->pos_ == other.pos_);
+        }
+
+        T* const dereference() const
+        {
+            return reinterpret_cast<T*>(*pos_);
+        }
+
+        hierarchy_type::const_iterator pos_;
+        hierarchy_type::const_iterator end_pos_;
+        std::list<hierarchy_type::const_iterator> lifo_;
+    };
+
+////////////////////////////////////////////////////////////////////////////////
+
+    template <typename T, typename U>
+    class const_filter_iterator
+    :   public boost::iterator_facade
+        <
+            const_filter_iterator<T, U>
+        ,   T* const
+        ,   boost::forward_traversal_tag
+        ,   T*
+        >
+    {
+    public:
+        const_filter_iterator()
+        {}
+
+        explicit const_filter_iterator(const node_type node,
+                                     U f,
+                                     bool start_at_end = false)
+        :   pos_(node->children()->cbegin())
+        ,   end_pos_(node->children()->cend())
+        ,   f_(f)
+        {
+            if (start_at_end)
+            {
+                pos_ = end_pos_;
+                return;
+            }
+
+            if (pos_ == end_pos_)
+                return;
+
+            while (pos_ != end_pos_
+                && !dynamic_cast<T*>(*pos_)
+                && !f_(reinterpret_cast<T*>(*pos_)))
+            {
+                if ((*pos_)->children())
+                {
+                    lifo_.push_back(end_pos_);
+                    lifo_.push_back(pos_);
+                    end_pos_ = (*pos_)->children()->cend();
+                    pos_ = (*pos_)->children()->cbegin();
+                }
+                else
+                    ++pos_;
+
+                while (pos_ == end_pos_ && !lifo_.empty())
+                {
+                    pos_ = lifo_.back();
+                    lifo_.pop_back();
+                    ++pos_;
+                    end_pos_ = lifo_.back();
+                    lifo_.pop_back();
+                }
+            }
+        }
+
+        explicit const_filter_iterator(const node_type node,
+                                     bool start_at_end = false)
+        :   end_pos_(node->children()->cend())
+        ,   pos_(end_pos_)
+        {}
+
+        T* operator->()
+        { return reinterpret_cast<T*>(*pos_); }
+        const T* operator->() const
+        { return reinterpret_cast<T*>(*pos_); }
+
+    private:
+        friend class boost::iterator_core_access;
+
+        void increment()
+        {
+            do
+            {
+                if ((*pos_)->children())
+                {
+                    lifo_.push_back(end_pos_);
+                    lifo_.push_back(pos_);
+                    end_pos_ = (*pos_)->children()->cend();
+                    pos_ = (*pos_)->children()->cbegin();
+                }
+                else
+                    ++pos_;
+
+                while (pos_ == end_pos_ && !lifo_.empty())
+                {
+                    pos_ = lifo_.back();
+                    lifo_.pop_back();
+                    ++pos_;
+                    end_pos_ = lifo_.back();
+                    lifo_.pop_back();
+                }
+            } while (pos_ != end_pos_
+                &&   !dynamic_cast<T*>(*pos_)
+                &&   !f_(reinterpret_cast<T*>(*pos_)));
+        }
+
+        bool equal(const_filter_iterator const& other) const
+        {
+            return (this->pos_ == other.pos_);
+        }
+
+        T* const dereference() const
+        {
+            return reinterpret_cast<T*>(*pos_);
+        }
+
+        hierarchy_type::const_iterator pos_;
+        hierarchy_type::const_iterator end_pos_;
+        U f_;
+        std::list<hierarchy_type::const_iterator> lifo_;
+    };
+
+////////////////////////////////////////////////////////////////////////////////
+
+//    template <typename T> using const_iterator = const_type_iterator<T>;
+
     virtual ~abstract_node() {}
 
 /// \name Attributes
 //@{
+    template<typename T>
+    const_type_iterator<T> begin() const
+    {
+        const_type_iterator<T> itr(const_cast<node_type>(this));
+        return itr;
+    }
+
+    template<typename T>
+    const_type_iterator<T> end() const
+    {
+        const_type_iterator<T> itr(const_cast<node_type>(this), true);
+        return itr;
+    }
+
+    template<typename T, typename U>
+    const_filter_iterator<T, U> begin(U f) const
+    {
+        const_filter_iterator<T, U> itr(const_cast<node_type>(this), f);
+        return itr;
+    }
+
+    template<typename T, typename U>
+    const_filter_iterator<T, U> end(U f) const
+    {
+        const_filter_iterator<T, U> itr(const_cast<node_type>(this), f, true);
+        return itr;
+    }
+
+//    template<typename T>
+//    const_node_iterator<T> cbegin() const
+//    {
+//        const_node_iterator<T> itr(const_cast<node_type>(this));
+//        return itr;
+//    }
+//
+//    template<typename T>
+//    const_node_iterator<T> cend() const
+//    {
+//        const_node_iterator<T> itr(const_cast<node_type>(this), true);
+//        return itr;
+//    }
+
     const_iterator begin() const
     {
         const_iterator itr(const_cast<node_type>(this));
@@ -178,17 +443,31 @@ public:
         return itr;
     }
 
-    const_iterator cbegin() const
+//    const_iterator cbegin() const
+//    {
+//        const_iterator itr(const_cast<node_type>(this));
+//        return itr;
+//    }
+//
+//    const_iterator cend() const
+//    {
+//        const_iterator itr(const_cast<node_type>(this), true);
+//        return itr;
+//    }
+
+    int operator[](unsigned idx)
     {
-        const_iterator itr(const_cast<node_type>(this));
-        return itr;
+        return idx;
     }
 
-    const_iterator cend() const
-    {
-        const_iterator itr(const_cast<node_type>(this), true);
-        return itr;
-    }
+
+//    size_t size() const
+//    {
+//        if (children())
+//        {
+//            for (auto node : *this)
+//        }
+//    }
 
     const hierarchy_type* children() const
     { return get_children(); }
@@ -243,9 +522,19 @@ inline std::ostream& operator<< (
     std::ostream& out,
     const abstract_node* n)
 {
+    BOOST_ASSERT_MSG(n, "null pointer!");
     out << n->name() << ", " << n->ordinal();
     return out;
 }
+
+template <typename T>
+struct has_ordinal
+{
+    explicit has_ordinal(unsigned ordinal)
+    :   ordinal_(ordinal) {}
+  bool operator()(const T* node) { return (node->ordinal() == ordinal_); }
+  unsigned ordinal_;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -368,17 +657,17 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class atom2
+class atom_test
 :   public abstract_node
 {
 public:
 /// \name Construction
 //@{
-    atom2(const std::string& name)
+    atom_test(const std::string& name)
     { name_ = name; }
 //@}
 
-    virtual ~atom2()
+    virtual ~atom_test()
     {}
 
     composite_node* parent_;
@@ -419,7 +708,7 @@ private:
     }
 };
 
-    }    // namespace mtl
+    }    // namespace core
 }    // namespace maral
 
 #endif    // MARAL_CORE_HPP_INCLUDED_
