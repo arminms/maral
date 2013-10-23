@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -16,8 +16,8 @@
 /// \b mtl_defines.hpp is the include file for some frequently used
 /// mathematical constansts and handy templated inlines.
 
-#ifndef MAGMA_MTL_HPP_INCLUDED_
-#define MAGMA_MTL_HPP_INCLUDED_
+#ifndef MARAL_MTL_HPP_INCLUDED_
+#define MARAL_MTL_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -36,5 +36,5 @@
 #include "matrix_ops.hpp"
 #include "output.hpp"
 
-#endif    // MAGMA_MTL_HPP_INCLUDED_
+#endif    // MARAL_MTL_HPP_INCLUDED_
 

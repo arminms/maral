@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -16,15 +16,15 @@
 /// \b point.hpp is the include file for point2i, point2f, point2d,
 /// point3i, point3f, point3d, point4i, point4f and point4d classes.
 
-#ifndef MAGMA_MTL_POINT_HPP_INCLUDED_
-#define MAGMA_MTL_POINT_HPP_INCLUDED_
+#ifndef MARAL_MTL_POINT_HPP_INCLUDED_
+#define MARAL_MTL_POINT_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace magma {
+namespace maral {
 
     namespace mtl {
 
@@ -258,6 +258,6 @@ typedef point3<double> point3d;
 #include "point.ipp"
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif    // MAGMA_MTL_POINT_HPP_INCLUDED_
+#endif    // MARAL_MTL_POINT_HPP_INCLUDED_

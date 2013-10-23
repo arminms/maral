@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -11,21 +11,21 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file output.hpp
-/// \brief Include file for outputing magma::mtl classes to the output
+/// \brief Include file for outputing maral::mtl classes to the output
 /// stream.
 ///
 /// \b output.hpp is the header file for all output stream operators
-/// of magma::mtl classes.
+/// of maral::mtl classes.
 
-#ifndef MAGMA_MTL_OUTPUT_HPP_INCLUDED_
-#define MAGMA_MTL_OUTPUT_HPP_INCLUDED_
+#ifndef MARAL_MTL_OUTPUT_HPP_INCLUDED_
+#define MARAL_MTL_OUTPUT_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 # pragma once
 #endif
 
-namespace magma
+namespace maral
 {
     namespace mtl
     {
@@ -36,6 +36,6 @@ namespace magma
     #include "output.ipp"
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif // MAGMA_MTL_OUTPUT_HPP_INCLUDED_
+#endif // MARAL_MTL_OUTPUT_HPP_INCLUDED_

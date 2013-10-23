@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //

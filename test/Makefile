@@ -18,33 +18,33 @@ LIBDIR =
 LIB = 
 LDFLAGS = 
 
-INC_DEBUG =  $(INC) -I../src
+INC_DEBUG =  $(INC) -I../src -I../boost/include
 CFLAGS_DEBUG =  $(CFLAGS) -g
 RESINC_DEBUG =  $(RESINC)
 RCFLAGS_DEBUG =  $(RCFLAGS)
-LIBDIR_DEBUG =  $(LIBDIR)
+LIBDIR_DEBUG =  $(LIBDIR) -L../boost/lib
 LIB_DEBUG = $(LIB) -lboost_unit_test_framework
 LDFLAGS_DEBUG =  $(LDFLAGS)
 OBJDIR_DEBUG = obj/debug
 DEP_DEBUG = 
 OUT_DEBUG = ../bin/debug/test
 
-INC_RELEASE =  $(INC) -I../src
+INC_RELEASE =  $(INC) -I../src -I../boost/include
 CFLAGS_RELEASE =  $(CFLAGS) -O2 -DNDEBUG
 RESINC_RELEASE =  $(RESINC)
 RCFLAGS_RELEASE =  $(RCFLAGS)
-LIBDIR_RELEASE =  $(LIBDIR)
+LIBDIR_RELEASE =  $(LIBDIR) -L../boost/lib
 LIB_RELEASE = $(LIB) -lboost_unit_test_framework
 LDFLAGS_RELEASE =  $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
 OUT_RELEASE = ../bin/release/test
 
-INC_PROFILE =  $(INC) -I../src
+INC_PROFILE =  $(INC) -I../src -I../boost/include
 CFLAGS_PROFILE =  $(CFLAGS) -pg -g
 RESINC_PROFILE =  $(RESINC)
 RCFLAGS_PROFILE =  $(RCFLAGS)
-LIBDIR_PROFILE =  $(LIBDIR)
+LIBDIR_PROFILE =  $(LIBDIR) -L../boost/lib
 LIB_PROFILE = $(LIB) -lboost_unit_test_framework
 LDFLAGS_PROFILE =  $(LDFLAGS) -pg
 OBJDIR_PROFILE = obj/profile
@@ -61,15 +61,18 @@ LDFLAGS_MAKEFILE =
 OBJDIR_MAKEFILE = .objs
 DEP_MAKEFILE = 
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/mtl_matrices.o \
+OBJ_DEBUG = $(OBJDIR_DEBUG)/maral_core.o \
+	$(OBJDIR_DEBUG)/mtl_matrices.o \
 	$(OBJDIR_DEBUG)/mtl_points.o \
 	$(OBJDIR_DEBUG)/mtl_vectors.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/mtl_matrices.o \
+OBJ_RELEASE = $(OBJDIR_RELEASE)/maral_core.o \
+	$(OBJDIR_RELEASE)/mtl_matrices.o \
 	$(OBJDIR_RELEASE)/mtl_points.o \
 	$(OBJDIR_RELEASE)/mtl_vectors.o
 
-OBJ_PROFILE = $(OBJDIR_PROFILE)/mtl_matrices.o \
+OBJ_PROFILE = $(OBJDIR_PROFILE)/maral_core.o \
+	$(OBJDIR_PROFILE)/mtl_matrices.o \
 	$(OBJDIR_PROFILE)/mtl_points.o \
 	$(OBJDIR_PROFILE)/mtl_vectors.o
 
@@ -87,6 +90,9 @@ debug: before_debug out_debug after_debug
 
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
+
+$(OBJDIR_DEBUG)/maral_core.o: maral_core.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c maral_core.cpp -o $(OBJDIR_DEBUG)/maral_core.o
 
 $(OBJDIR_DEBUG)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c mtl_matrices.cpp -o $(OBJDIR_DEBUG)/mtl_matrices.o
@@ -113,6 +119,9 @@ release: before_release out_release after_release
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
 
+$(OBJDIR_RELEASE)/maral_core.o: maral_core.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c maral_core.cpp -o $(OBJDIR_RELEASE)/maral_core.o
+
 $(OBJDIR_RELEASE)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c mtl_matrices.cpp -o $(OBJDIR_RELEASE)/mtl_matrices.o
 
@@ -138,6 +147,9 @@ profile: before_profile out_profile after_profile
 out_profile: $(OBJ_PROFILE) $(DEP_PROFILE)
 	$(LD) $(LDFLAGS_PROFILE) $(LIBDIR_PROFILE) $(OBJ_PROFILE) $(LIB_PROFILE) -o $(OUT_PROFILE)
 
+$(OBJDIR_PROFILE)/maral_core.o: maral_core.cpp
+	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c maral_core.cpp -o $(OBJDIR_PROFILE)/maral_core.o
+
 $(OBJDIR_PROFILE)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c mtl_matrices.cpp -o $(OBJDIR_PROFILE)/mtl_matrices.o
 
@@ -159,13 +171,11 @@ after_makefile:
 
 makefile: before_makefile after_makefile
 
-mtl_matrices.cpp: ../src/magma.hpp
+maral_core.cpp: ../src/core.hpp
 
-mtl_points.cpp: ../src/magma.hpp \
-	mtl_data.hpp
+mtl_points.cpp: mtl_data.hpp
 
-mtl_vectors.cpp: ../src/magma.hpp \
-	mtl_data.hpp
+mtl_vectors.cpp: mtl_data.hpp
 
 .PHONY: before_debug after_debug clean_debug before_release after_release clean_release before_profile after_profile clean_profile before_makefile after_makefile
 

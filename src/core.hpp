@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//     Molecular Animation, Graphics and Modeling Application Framework
-//                                  MAGMA
+//                                  MARAL
+//            (Molecular Architectural Record & Assembly Library)
 //
 //        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
 //
@@ -11,12 +11,12 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file core.hpp
-/// \brief Include file for the \b core components of \b Magma.
+/// \brief Include file for the \b core components of \b Maral.
 ///
-/// \b core.hpp is the include file for the core components of \b Magma.
+/// \b core.hpp is the include file for the core components of \b Maral.
 
-#ifndef MAGMA_CORE_HPP_INCLUDED_
-#define MAGMA_CORE_HPP_INCLUDED_
+#ifndef MARAL_CORE_HPP_INCLUDED_
+#define MARAL_CORE_HPP_INCLUDED_
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
@@ -32,13 +32,13 @@
 
 #include "mtl/point.hpp"
 
-namespace magma
+namespace maral
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Namespace for the core components of \b Magma.
+/// \brief Namespace for the core components of \b Maral.
 ///
-/// Namespace for the for the core components of \b Magma.
+/// Namespace for the for the core components of \b Maral.
 
     namespace core
     {
@@ -86,7 +86,7 @@ template <typename T> using node = std::unique_ptr<T>;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstract base class for all molecular hierarchy nodes used in \b
-/// Magma.
+/// Maral.
 ///
 /// \remarks
 /// In \b Design \b Patterns terminology abstract_node acts as a \e Component
@@ -420,7 +420,7 @@ private:
 };
 
     }    // namespace mtl
-}    // namespace magma
+}    // namespace maral
 
-#endif    // MAGMA_CORE_HPP_INCLUDED_
+#endif    // MARAL_CORE_HPP_INCLUDED_
 

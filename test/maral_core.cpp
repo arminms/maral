@@ -1,6 +1,8 @@
 // $Id$
 //------------------------------------------------------------------------------
 
+#include <iostream>
+
 #include <boost/test/unit_test.hpp>
 //#include <boost/test/output_test_stream.hpp>
 //#include <boost/mpl/list.hpp>
@@ -8,12 +10,12 @@
 #include <core.hpp>
 
 //using boost::test_tools::output_test_stream;
-using namespace magma::core;
+using namespace maral::core;
 
 //typedef boost::mpl::list<int,float,double,long double> test_types;
 //typedef boost::mpl::list<float,double,long double> float_types;
 
-BOOST_AUTO_TEST_SUITE( Magma )
+BOOST_AUTO_TEST_SUITE( Maral )
 
 BOOST_AUTO_TEST_SUITE( Node_Iterator )
 
