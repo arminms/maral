@@ -15,54 +15,91 @@ using namespace maral::core;
 //typedef boost::mpl::list<int,float,double,long double> test_types;
 //typedef boost::mpl::list<float,double,long double> float_types;
 
+struct ROOT_INIT
+{
+    ROOT_INIT()
+    {
+        root = make_node<molecule>("root");
+        root->add(std::move(make_node<molecule>("empty molecule", 1)));
+
+        node<molecule> res1 = make_node<molecule>("residue1", 1);
+
+        res1->add(std::move(make_node<atom>("atom1")));
+        res1->add(std::move(make_node<atom>("atom2", 2)));
+        res1->add(std::move(make_node<atom>("atom3", 3)));
+        res1->add(std::move(make_node<atom>("atom4", 4)));
+
+        root->add(std::move(res1));
+
+        root->add(std::move(make_node<atom>("inserted atom1", 1)));
+        root->add(std::move(make_node<atom>("inserted atom2", 2)));
+
+        node<molecule> res2 = make_node<molecule>("residue2", 2);
+        res2->add(std::move(make_node<atom>("atom5", 5)));
+        res2->add(std::move(make_node<atom>("atom6", 6)));
+        res2->add(std::move(make_node<atom>("atom7", 7)));
+        root->add(std::move(res2));
+
+        node<molecule> chain = make_node<molecule>("chain1", 1);
+        node<molecule> res4 = make_node<molecule>("residue4", 4);
+        res4->add(std::move(make_node<atom>("atom8", 8)));
+        res4->add(std::move(make_node<atom>("atom9", 9)));
+        chain->add(std::move(res4));
+        root->add(std::move(chain));
+
+        root->add(std::move(make_node<atom>("inserted atom3", 3)));
+        root->add(std::move(make_node<atom>("inserted atom4", 4)));
+    }
+
+    node<molecule> root;
+};
+
 BOOST_AUTO_TEST_SUITE( Maral )
 
-BOOST_AUTO_TEST_SUITE( Node_Iterator )
+BOOST_AUTO_TEST_SUITE( Core )
 
-BOOST_AUTO_TEST_CASE( Core_Node_Iterator )
+BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
     node<molecule> root = make_node<molecule>("root");
     BOOST_CHECK(dynamic_cast<abstract_node*>(root.get()));
     BOOST_CHECK(dynamic_cast<composite_node*>(root.get()));
     BOOST_CHECK(dynamic_cast<named_node*>(root.get()));
     BOOST_CHECK(dynamic_cast<child_node*>(root.get()) == nullptr);
+}
 
-    root->add(std::move(make_node<molecule>("empty molecule", 1)));
-
-    node<molecule> res1 = make_node<molecule>("residue1", 1);
+BOOST_AUTO_TEST_CASE( Make_Node )
+{
+    node<molecule> root = make_node<molecule>("root");
 
     node<atom> atom1(new atom("atom1"));
-    res1->add(std::move(atom1));
+    root->add(std::move(atom1));
     BOOST_CHECK(!atom1);
+
     node<atom> atom2 = make_node<atom>("atom2", 2);
-    res1->add(std::move(atom2));
+    root->add(std::move(atom2));
     BOOST_CHECK(!atom2);
+
     auto atom3 = make_node<atom>("atom3", 3);
-    res1->add(std::move(atom3));
+    root->add(std::move(atom3));
     BOOST_CHECK(!atom3);
-    res1->add(std::move(make_node<atom>("atom4", 4)));
 
-    root->add(std::move(res1));
+    root->add(std::move(make_node<atom>("atom4", 4)));
 
-    root->add(std::move(make_node<atom>("inserted atom1", 1)));
-    root->add(std::move(make_node<atom>("inserted atom2", 2)));
+    BOOST_CHECK(4 == root->children()->size());
+}
 
-    node<molecule> res2 = make_node<molecule>("residue2", 2);
-    res2->add(std::move(make_node<atom>("atom5", 5)));
-    res2->add(std::move(make_node<atom>("atom6", 6)));
-    res2->add(std::move(make_node<atom>("atom7", 7)));
-    root->add(std::move(res2));
+BOOST_FIXTURE_TEST_CASE( Core_Node_Iterator, ROOT_INIT )
+{
+    std::vector<abstract_node*> nodes;
+    std::copy(root->begin(),
+            root->end(),
+            back_inserter(nodes));
+    for (auto node : nodes)
+        std::cout << node << std::endl;
+}
 
-    node<molecule> chain = make_node<molecule>("chain1", 1);
-    node<molecule> res4 = make_node<molecule>("residue4", 4);
-    res4->add(std::move(make_node<atom>("atom8", 8)));
-    res4->add(std::move(make_node<atom>("atom9", 9)));
-    chain->add(std::move(res4));
-    root->add(std::move(chain));
-
-    root->add(std::move(make_node<atom>("inserted atom3", 3)));
-    root->add(std::move(make_node<atom>("inserted atom4", 4)));
-
+//BOOST_AUTO_TEST_CASE( Core_Node_Iterator )
+//{
 //    BOOST_CHECK(dynamic_cast<abstract_node*>(&(*(root->children()->begin()))));
 //    std::cout << "size of node_type: " << sizeof(abstract_node::node_type) << std::endl;
 //    std::cout << "size of pointer: " << sizeof test << std::endl;
@@ -210,20 +247,20 @@ BOOST_AUTO_TEST_CASE( Core_Node_Iterator )
 //    for (auto pos = atoms.cbegin() ; pos != atoms.cend(); ++pos)
 //        std::cout << *pos << std::endl;
 
-    std::vector<abstract_node*> nodes;
-    std::copy(root->begin(),
-            root->end(),
-            back_inserter(nodes));
-    for (auto node : nodes)
-        std::cout << node << std::endl;
+//    std::vector<abstract_node*> nodes;
+//    std::copy(root->begin(),
+//            root->end(),
+//            back_inserter(nodes));
+//    for (auto node : nodes)
+//        std::cout << node << std::endl;
 
 //    std::vector<abstract_node*> nodes;
 //    boost::copy(*root, back_inserter(nodes));
 //    boost::copy( nodes | boost::adaptors::reversed,
 //             std::ostream_iterator<abstract_node*>(std::cout, "\n") );
 //    std::cout << boost::count(nodes);
-}
+//}
 
-BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END() // Core
 
-BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE_END() // Maral
