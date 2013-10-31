@@ -58,13 +58,31 @@ BOOST_AUTO_TEST_SUITE( Maral )
 
 BOOST_AUTO_TEST_SUITE( Core )
 
+BOOST_AUTO_TEST_CASE( PilotTest )
+{
+    node<atom> atom1(new atom("atom1"));
+    std::cout << "size of pointer: " << sizeof atom1 << std::endl;
+    std::cout << "size of node_type: " << sizeof(abstract_node::node_type) << std::endl;
+    std::cout << "size of hierarchy_type: " << sizeof(abstract_node::hierarchy_type) << std::endl;
+    std::cout << "size of abstract_node: " << sizeof(abstract_node) << std::endl;
+    std::cout << "size of composite_node: " << sizeof(composite_node<abstract_node>) << std::endl;
+    std::cout << "size of leaf_node: " << sizeof(leaf_node<abstract_node>) << std::endl;
+    std::cout << "size of root_node: " << sizeof(root_node<abstract_node>) << std::endl;
+    std::cout << "size of has_name: " << sizeof(has_name) << std::endl;
+    std::cout << "size of ordered: " << sizeof(ordered) << std::endl;
+    std::cout << "size of atom: " << sizeof(atom) << std::endl;
+    std::cout << "size of molecule: " << sizeof(molecule) << std::endl;
+}
+
 BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
-    node<molecule> root = make_node<molecule>("root");
-    BOOST_CHECK(dynamic_cast<abstract_node*>(root.get()));
-    BOOST_CHECK(dynamic_cast<composite_node*>(root.get()));
-    BOOST_CHECK(dynamic_cast<named_node*>(root.get()));
-    BOOST_CHECK(dynamic_cast<child_node*>(root.get()) == nullptr);
+    node<molecule> mol = make_node<molecule>("Test");
+    BOOST_CHECK(dynamic_cast<abstract_node*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<composite_node<abstract_node>*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<has_name*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<leaf_node<abstract_node>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<root_node<abstract_node>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
 }
 
 BOOST_AUTO_TEST_CASE( Make_Node )
