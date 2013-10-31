@@ -82,7 +82,95 @@ template<class T, class... Args>
 template <typename T> using node = std::unique_ptr<T>;
 
 
-    class composite_node;
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename Component>
+class composite_node
+:   public Component
+{
+public:
+    template<typename T>
+    void add(node<T> node)
+    {
+        do_add(node.get());
+        node.release();
+    }
+
+// Implementation
+protected:
+    virtual ~composite_node()
+    { for (auto node : children_) delete node; }
+
+    composite_node<Component>* parent_;
+    typename Component::hierarchy_type children_;
+
+private:
+    virtual const typename Component::hierarchy_type*
+        get_children() const
+    { return &children_; }
+
+    virtual composite_node<Component>* get_parent() const
+    { return parent_; }
+
+    virtual composite_node<Component>*
+        do_change_parent(composite_node<Component>* new_parent)
+    {
+        composite_node<Component>* old_parent = parent_;
+        parent_ = new_parent;
+        return old_parent;
+    }
+
+    virtual void do_add(typename Component::node_type node)
+    {
+        children_.push_back(node);
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename Component>
+class leaf_node
+:   public Component
+{
+// Implementation
+private:
+    virtual const typename Component::hierarchy_type*
+        get_children() const
+    { return nullptr; }
+
+    virtual composite_node<Component>* get_parent() const
+    { return parent_; }
+
+    virtual composite_node<Component>*
+        do_change_parent(composite_node<Component>* new_parent)
+    {
+        composite_node<Component>* old_parent = parent_;
+        parent_ = new_parent;
+        return old_parent;
+    }
+
+protected:
+    composite_node<Component>* parent_;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename Component>
+class root_node
+:   public composite_node<Component>
+{
+// Implementation
+private:
+    virtual composite_node<Component>* get_parent() const
+    { return nullptr; }
+
+    virtual composite_node<Component>*
+        do_change_parent(composite_node<Component>* new_parent)
+    {
+        BOOST_ASSERT_MSG(false, "root node has no parent!");
+        return nullptr;
+    }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstract base class for all molecular hierarchy nodes used in \b
@@ -385,8 +473,6 @@ public:
 
 //    template <typename T> using const_iterator = const_type_iterator<T>;
 
-    virtual ~abstract_node() {}
-
 /// \name Attributes
 //@{
     template<typename T>
@@ -472,241 +558,231 @@ public:
     const hierarchy_type* children() const
     { return get_children(); }
 
-    composite_node* parent() const
+    composite_node<abstract_node>* parent() const
     { return parent(); }
 
-    composite_node* change_parent(composite_node* new_parent)
+    composite_node<abstract_node>*
+        change_parent(composite_node<abstract_node>* new_parent)
     { return do_change_parent(new_parent); }
 
-    bool has_name() const
-    { return check_has_name(); }
-
-    std::string name() const
-    { return get_name(); }
-
-    void set_name(const std::string& name)
-    { do_set_name(name); }
-
-    unsigned ordinal() const
-    { return get_ordinal(); }
-
-    void set_ordinal(unsigned ordinal)
-    { do_set_ordinal(ordinal); }
+//    bool has_name() const
+//    { return check_has_name(); }
+//
+//    std::string name() const
+//    { return get_name(); }
+//
+//    void set_name(const std::string& name)
+//    { do_set_name(name); }
+//
+//    unsigned ordinal() const
+//    { return get_ordinal(); }
+//
+//    void set_ordinal(unsigned ordinal)
+//    { do_set_ordinal(ordinal); }
 //@}
 
 
 // Implementation
+    virtual ~abstract_node() {};
+
 private:
-    virtual const hierarchy_type* get_children() const
-    { return nullptr; }
-    virtual composite_node* get_parent() const
-    { return nullptr; }
-    virtual composite_node* do_change_parent(composite_node* new_parent)
-    {
-        BOOST_ASSERT_MSG(false, "root node has no parent!");
-        return nullptr;
-    }
-    virtual bool check_has_name() const
-    { return false; }
-    virtual std::string get_name() const
-    { return "anonymous"; }
-    virtual void do_set_name(const std::string& name)
-    { BOOST_ASSERT_MSG(false, "node has no name!"); }
-    virtual unsigned get_ordinal() const
-    { return 0; }
-    virtual void do_set_ordinal(unsigned ordinal)
-    { BOOST_ASSERT_MSG(false, "node has no ordinal!"); }
+    virtual const hierarchy_type* get_children() const = 0;
+    virtual composite_node<abstract_node>* get_parent() const = 0;
+    virtual composite_node<abstract_node>*
+        do_change_parent(composite_node<abstract_node>* new_parent) = 0;
+//    virtual bool check_has_name() const
+//    { return false; }
+//    virtual std::string get_name() const
+//    { return "anonymous"; }
+//    virtual void do_set_name(const std::string& name)
+//    { BOOST_ASSERT_MSG(false, "node has no name!"); }
+//    virtual unsigned get_ordinal() const
+//    { return 0; }
+//    virtual void do_set_ordinal(unsigned ordinal)
+//    { BOOST_ASSERT_MSG(false, "node has no ordinal!"); }
 };
 
-inline std::ostream& operator<< (
-    std::ostream& out,
-    const abstract_node* n)
-{
-    BOOST_ASSERT_MSG(n, "null pointer!");
-    out << n->name() << ", " << n->ordinal();
-    return out;
-}
-
-template <typename T>
-struct has_ordinal
-{
-    explicit has_ordinal(unsigned ordinal)
-    :   ordinal_(ordinal) {}
-  bool operator()(const T* node) { return (node->ordinal() == ordinal_); }
-  unsigned ordinal_;
-};
+//template <typename T>
+//struct has_ordinal
+//{
+//    explicit has_ordinal(unsigned ordinal)
+//    :   ordinal_(ordinal) {}
+//  bool operator()(const T* node) { return (node->ordinal() == ordinal_); }
+//  unsigned ordinal_;
+//};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class composite_node
-:   public virtual abstract_node
-{
-public:
-    virtual ~composite_node()
-    { for (auto node : children_) delete node; }
-
-// Implementation
-private:
-    virtual const hierarchy_type* get_children() const
-    { return &children_; }
-
-protected:
-    hierarchy_type children_;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-class child_node
-:   public virtual abstract_node
-{
-public:
-    virtual ~child_node()
-    {}
-
-// Implementation
-private:
-    virtual composite_node* get_parent() const
-    { return parent_; }
-
-    virtual composite_node* do_change_parent(composite_node* new_parent)
-    {
-        composite_node* old_parent = parent_;
-        parent_ = new_parent;
-        return old_parent;
-    }
-
-protected:
-    composite_node* parent_;
-};
+//class child
+//{
+///// \name Construction
+////@{
+//    child(composite_node<abstract_node>* parent = nullptr)
+//    : parent_(parent) {}
+////@}
+//
+//// Implementation
+//private:
+//    virtual composite_node<abstract_node>* get_parent() const
+//    { return parent_; }
+//
+//    virtual composite_node<abstract_node>*
+//        do_change_parent(composite_node<abstract_node>* new_parent)
+//    {
+//        composite_node<abstract_node>* old_parent = parent_;
+//        parent_ = new_parent;
+//        return old_parent;
+//    }
+//
+//protected:
+//    composite_node<abstract_node>* parent_;
+//};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class named_node
-:   public virtual abstract_node
+class has_name
 {
 public:
 /// \name Construction
 //@{
-    named_node(const std::string& name)
+    has_name(const std::string& name)
     : name_(name) {}
 //@}
 
-    virtual ~named_node()
-    {}
-
-// Implementation
-private:
-    virtual bool check_has_name() const
-    { return true; }
-
-    virtual std::string get_name() const
+/// \name Attributes
+//@{
+    std::string name() const
     { return name_; }
 
-    virtual void do_set_name(const std::string& name)
+    void set_name(const std::string& name)
     { name_ = name; }
+//@}
 
+// Implementation
 protected:
     std::string name_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class ordinal_node
-:   public virtual abstract_node
+class ordered
 {
 public:
 /// \name Construction
 //@{
-    ordinal_node(unsigned ordinal)
+    ordered(unsigned ordinal)
     : ordinal_(ordinal) {}
 //@}
 
-    virtual ~ordinal_node()
-    {}
-
-// Implementation
-private:
-    virtual unsigned get_ordinal() const
+/// \name Attributes
+//@{
+    unsigned ordinal() const
     { return ordinal_; }
 
-    virtual void do_set_ordinal(unsigned ordinal)
+    void set_ordinal(unsigned ordinal)
     { ordinal_ = ordinal; }
+//@}
 
+// Implementation
 protected:
     unsigned ordinal_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class atom
-:   public child_node
-,   public named_node
-,   public ordinal_node
+template
+<
+    typename    T,
+    typename... Policies
+>
+class atom_node
+:   public leaf_node<T>
+,   public has_name
+,   public ordered
+,   public Policies...
 {
 public:
 /// \name Construction
 //@{
-    atom(const std::string& name, unsigned ordinal = 1)
-    : named_node(name)
-    , ordinal_node(ordinal) {}
-//@}
+//    atom_node(const std::string& name,
+//              unsigned ordinal = 1)
+//    :   has_name(name)
+//    ,   ordered(ordinal)
+//    {}
 
-    virtual ~atom()
+    atom_node(Policies&&... policies,
+              const std::string& name,
+              unsigned ordinal = 1)
+    :   Policies(policies)...
+    ,   has_name(name)
+    ,   ordered(ordinal)
     {}
+//@}
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class atom_test
-:   public abstract_node
+typedef atom_node
+<
+    abstract_node
+>
+atom;
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    typename    T,
+    typename... Policies
+>
+class molecule_node
+:   public composite_node<T>
+,   public has_name
+,   public ordered
+,   public Policies...
 {
 public:
 /// \name Construction
 //@{
-    atom_test(const std::string& name)
-    { name_ = name; }
-//@}
-
-    virtual ~atom_test()
+    molecule_node(Policies&&... policies,
+                  const std::string& name,
+                  unsigned ordinal = 1)
+    :   Policies(policies)...
+    ,   has_name(name)
+    ,   ordered(ordinal)
     {}
-
-    composite_node* parent_;
-    std::string name_;
-    unsigned ordinal_;
+//@}
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class molecule
-:   public composite_node
-,   public named_node
-,   public ordinal_node
+typedef molecule_node
+<
+    abstract_node
+>
+molecule;
+
+inline std::ostream& operator<< (
+    std::ostream& out,
+    abstract_node::node_type node)
+//template <typename T>
+//std::ostream& operator<< (
+//    std::ostream& out,
+//    typename T::node_type node)
 {
-public:
-/// \name Construction
-//@{
-    molecule(const std::string& name, unsigned ordinal = 1)
-    : named_node(name)
-    , ordinal_node(ordinal) {}
-//@}
-
-    virtual ~molecule()
-    {}
-
-    template<typename T>
-    void add(node<T> node)
-    {
-        do_add(node.get());
-        node.release();
-    }
-
-// Implementation
-private:
-    virtual void do_add(node_type node)
-    {
-        children_.push_back(node);
-    }
-};
+    BOOST_ASSERT_MSG(node, "null pointer!");
+    has_name* named = dynamic_cast<has_name*>(node);
+    ordered* numbered = dynamic_cast<ordered*>(node);
+    if (named && numbered)
+        out << named->name() << ", " << numbered->ordinal();
+    else if (named)
+        out << named->name();
+    else if (numbered)
+        out << numbered->ordinal();
+    else
+        out << node;
+    return out;
+}
 
     }    // namespace core
 }    // namespace maral
