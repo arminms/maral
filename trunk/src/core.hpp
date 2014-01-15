@@ -26,11 +26,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 
+#include <stack>
+
 #include <boost/noncopyable.hpp>
 //#include <boost/ptr_container/ptr_list.hpp>
 #include <boost/iterator/iterator_facade.hpp>
+#include <boost/range/iterator_range.hpp>
 
-#include "mtl/point.hpp"
+//#include "mtl/point.hpp"
 
 namespace maral
 {
@@ -44,18 +47,19 @@ namespace maral
     {
 
 template<class T>
-struct _Unique_if
+    struct _Unique_if
 {
     typedef std::unique_ptr<T> _Single_object;
 };
 
 template<class T>
-struct _Unique_if<T[]>
+    struct _Unique_if<T[]>
 {
     typedef std::unique_ptr<T[]> _Unknown_bound;
 };
 
-template<class T, size_t N> struct _Unique_if<T[N]>
+template<class T, size_t N>
+    struct _Unique_if<T[N]>
 {
     typedef void _Known_bound;
 };
@@ -70,27 +74,28 @@ template<class T, class... Args>
 template<class T>
     typename _Unique_if<T>::_Unknown_bound
     make_node(size_t n)
-    {
-        typedef typename std::remove_extent<T>::type U;
-        return std::unique_ptr<T>(new U[n]());
-    }
+{
+    typedef typename std::remove_extent<T>::type U;
+    return std::unique_ptr<T>(new U[n]());
+}
 
 template<class T, class... Args>
     typename _Unique_if<T>::_Known_bound
     make_node(Args&&...) = delete;
 
-template <typename T> using node = std::unique_ptr<T>;
+template <typename T>
+    using node = std::unique_ptr<T>;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename Component>
-class composite_node
+    class composite_node
 :   public Component
 {
 public:
     template<typename T>
-    void add(node<T> node)
+        void add(node<T> node)
     {
         do_add(node.get());
         node.release();
@@ -99,7 +104,7 @@ public:
 // Implementation
 protected:
     virtual ~composite_node()
-    { for (auto node : children_) delete node; }
+    {   for (auto node : children_) delete node; }
 
     composite_node<Component>* parent_;
     typename Component::hierarchy_type children_;
@@ -107,10 +112,10 @@ protected:
 private:
     virtual const typename Component::hierarchy_type*
         get_children() const
-    { return &children_; }
+    {   return &children_; }
 
     virtual composite_node<Component>* get_parent() const
-    { return parent_; }
+    {   return parent_; }
 
     virtual composite_node<Component>*
         do_change_parent(composite_node<Component>* new_parent)
@@ -129,17 +134,17 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename Component>
-class leaf_node
+    class leaf_node
 :   public Component
 {
 // Implementation
 private:
     virtual const typename Component::hierarchy_type*
         get_children() const
-    { return nullptr; }
+    {   return &empty_; }
 
     virtual composite_node<Component>* get_parent() const
-    { return parent_; }
+    {   return parent_; }
 
     virtual composite_node<Component>*
         do_change_parent(composite_node<Component>* new_parent)
@@ -151,18 +156,23 @@ private:
 
 protected:
     composite_node<Component>* parent_;
+    static typename Component::hierarchy_type empty_;
 };
+
+template <typename Component>
+    typename Component::hierarchy_type
+    leaf_node<Component>::empty_;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename Component>
-class root_node
+    class root_node
 :   public composite_node<Component>
 {
 // Implementation
 private:
     virtual composite_node<Component>* get_parent() const
-    { return nullptr; }
+    {   return nullptr; }
 
     virtual composite_node<Component>*
         do_change_parent(composite_node<Component>* new_parent)
@@ -193,12 +203,12 @@ public:
 
     class const_iterator
     :   public boost::iterator_facade
-        <
-            const_iterator
-        ,   node_type const
-        ,   boost::forward_traversal_tag
-        ,   node_type
-        >
+    <
+        const_iterator
+    ,   node_type const
+    ,   boost::forward_traversal_tag
+    ,   node_type
+    >
     {
     public:
         const_iterator()
@@ -207,7 +217,7 @@ public:
         explicit const_iterator(const node_type node, bool start_at_end = false)
         :   pos_(node->children()->cbegin())
         ,   end_pos_(node->children()->cend())
-        { if (start_at_end) pos_ = end_pos_; }
+        {   if (start_at_end) pos_ = end_pos_;  }
 
         node_type operator->()
         { return *pos_; }
@@ -219,23 +229,23 @@ public:
 
         void increment()
         {
-            if ((*pos_)->children())
+            if ((*pos_)->children()->empty())
+                ++pos_;
+            else
             {
-                lifo_.push_back(end_pos_);
-                lifo_.push_back(pos_);
+                lifo_.push(end_pos_);
+                lifo_.push(pos_);
                 end_pos_ = (*pos_)->children()->cend();
                 pos_ = (*pos_)->children()->cbegin();
             }
-            else
-                ++pos_;
 
             while (pos_ == end_pos_ && !lifo_.empty())
             {
-                pos_ = lifo_.back();
-                lifo_.pop_back();
+                pos_ = lifo_.top();
+                lifo_.pop();
                 ++pos_;
-                end_pos_ = lifo_.back();
-                lifo_.pop_back();
+                end_pos_ = lifo_.top();
+                lifo_.pop();
             }
         }
 
@@ -251,27 +261,28 @@ public:
 
         hierarchy_type::const_iterator pos_;
         hierarchy_type::const_iterator end_pos_;
-        std::list<hierarchy_type::const_iterator> lifo_;
+        std::stack<hierarchy_type::const_iterator> lifo_;
     };
 
 ////////////////////////////////////////////////////////////////////////////////
 
     template <typename T>
-    class const_type_iterator
+        class const_type_iterator
     :   public boost::iterator_facade
-        <
-            const_type_iterator<T>
-        ,   T* const
-        ,   boost::forward_traversal_tag
-        ,   T*
-        >
+    <
+        const_type_iterator<T>
+    ,   T* const
+    ,   boost::forward_traversal_tag
+    ,   T*
+    >
     {
     public:
         const_type_iterator()
         {}
 
-        explicit const_type_iterator(const node_type node,
-                                     bool start_at_end = false)
+        explicit const_type_iterator(
+            const node_type node,
+            bool start_at_end = false)
         :   pos_(node->children()->cbegin())
         ,   end_pos_(node->children()->cend())
         {
@@ -286,31 +297,31 @@ public:
 
             while (pos_ != end_pos_ && !dynamic_cast<T*>(*pos_))
             {
-                if ((*pos_)->children())
+                if ((*pos_)->children()->empty())
+                    ++pos_;
+                else
                 {
-                    lifo_.push_back(end_pos_);
-                    lifo_.push_back(pos_);
+                    lifo_.push(end_pos_);
+                    lifo_.push(pos_);
                     end_pos_ = (*pos_)->children()->cend();
                     pos_ = (*pos_)->children()->cbegin();
                 }
-                else
-                    ++pos_;
 
                 while (pos_ == end_pos_ && !lifo_.empty())
                 {
-                    pos_ = lifo_.back();
-                    lifo_.pop_back();
+                    pos_ = lifo_.top();
+                    lifo_.pop();
                     ++pos_;
-                    end_pos_ = lifo_.back();
-                    lifo_.pop_back();
+                    end_pos_ = lifo_.top();
+                    lifo_.pop();
                 }
             }
         }
 
         T* operator->()
-        { return reinterpret_cast<T*>(*pos_); }
+        {   return reinterpret_cast<T*>(*pos_);     }
         const T* operator->() const
-        { return reinterpret_cast<T*>(*pos_); }
+        {   return reinterpret_cast<T*>(*pos_);     }
 
     private:
         friend class boost::iterator_core_access;
@@ -319,23 +330,23 @@ public:
         {
             do
             {
-                if ((*pos_)->children())
+                if ((*pos_)->children()->empty())
+                    ++pos_;
+                else
                 {
-                    lifo_.push_back(end_pos_);
-                    lifo_.push_back(pos_);
+                    lifo_.push(end_pos_);
+                    lifo_.push(pos_);
                     end_pos_ = (*pos_)->children()->cend();
                     pos_ = (*pos_)->children()->cbegin();
                 }
-                else
-                    ++pos_;
 
                 while (pos_ == end_pos_ && !lifo_.empty())
                 {
-                    pos_ = lifo_.back();
-                    lifo_.pop_back();
+                    pos_ = lifo_.top();
+                    lifo_.pop();
                     ++pos_;
-                    end_pos_ = lifo_.back();
-                    lifo_.pop_back();
+                    end_pos_ = lifo_.top();
+                    lifo_.pop();
                 }
             } while (pos_ != end_pos_ && !dynamic_cast<T*>(*pos_));
         }
@@ -352,121 +363,7 @@ public:
 
         hierarchy_type::const_iterator pos_;
         hierarchy_type::const_iterator end_pos_;
-        std::list<hierarchy_type::const_iterator> lifo_;
-    };
-
-////////////////////////////////////////////////////////////////////////////////
-
-    template <typename T, typename U>
-    class const_filter_iterator
-    :   public boost::iterator_facade
-        <
-            const_filter_iterator<T, U>
-        ,   T* const
-        ,   boost::forward_traversal_tag
-        ,   T*
-        >
-    {
-    public:
-        const_filter_iterator()
-        {}
-
-        explicit const_filter_iterator(const node_type node,
-                                     U f,
-                                     bool start_at_end = false)
-        :   pos_(node->children()->cbegin())
-        ,   end_pos_(node->children()->cend())
-        ,   f_(f)
-        {
-            if (start_at_end)
-            {
-                pos_ = end_pos_;
-                return;
-            }
-
-            if (pos_ == end_pos_)
-                return;
-
-            while (pos_ != end_pos_
-                && !dynamic_cast<T*>(*pos_)
-                && !f_(reinterpret_cast<T*>(*pos_)))
-            {
-                if ((*pos_)->children())
-                {
-                    lifo_.push_back(end_pos_);
-                    lifo_.push_back(pos_);
-                    end_pos_ = (*pos_)->children()->cend();
-                    pos_ = (*pos_)->children()->cbegin();
-                }
-                else
-                    ++pos_;
-
-                while (pos_ == end_pos_ && !lifo_.empty())
-                {
-                    pos_ = lifo_.back();
-                    lifo_.pop_back();
-                    ++pos_;
-                    end_pos_ = lifo_.back();
-                    lifo_.pop_back();
-                }
-            }
-        }
-
-        explicit const_filter_iterator(const node_type node,
-                                     bool start_at_end = false)
-        :   end_pos_(node->children()->cend())
-        ,   pos_(end_pos_)
-        {}
-
-        T* operator->()
-        { return reinterpret_cast<T*>(*pos_); }
-        const T* operator->() const
-        { return reinterpret_cast<T*>(*pos_); }
-
-    private:
-        friend class boost::iterator_core_access;
-
-        void increment()
-        {
-            do
-            {
-                if ((*pos_)->children())
-                {
-                    lifo_.push_back(end_pos_);
-                    lifo_.push_back(pos_);
-                    end_pos_ = (*pos_)->children()->cend();
-                    pos_ = (*pos_)->children()->cbegin();
-                }
-                else
-                    ++pos_;
-
-                while (pos_ == end_pos_ && !lifo_.empty())
-                {
-                    pos_ = lifo_.back();
-                    lifo_.pop_back();
-                    ++pos_;
-                    end_pos_ = lifo_.back();
-                    lifo_.pop_back();
-                }
-            } while (pos_ != end_pos_
-                &&   !dynamic_cast<T*>(*pos_)
-                &&   !f_(reinterpret_cast<T*>(*pos_)));
-        }
-
-        bool equal(const_filter_iterator const& other) const
-        {
-            return (this->pos_ == other.pos_);
-        }
-
-        T* const dereference() const
-        {
-            return reinterpret_cast<T*>(*pos_);
-        }
-
-        hierarchy_type::const_iterator pos_;
-        hierarchy_type::const_iterator end_pos_;
-        U f_;
-        std::list<hierarchy_type::const_iterator> lifo_;
+        std::stack<hierarchy_type::const_iterator> lifo_;
     };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -475,48 +372,6 @@ public:
 
 /// \name Attributes
 //@{
-    template<typename T>
-    const_type_iterator<T> begin() const
-    {
-        const_type_iterator<T> itr(const_cast<node_type>(this));
-        return itr;
-    }
-
-    template<typename T>
-    const_type_iterator<T> end() const
-    {
-        const_type_iterator<T> itr(const_cast<node_type>(this), true);
-        return itr;
-    }
-
-    template<typename T, typename U>
-    const_filter_iterator<T, U> begin(U f) const
-    {
-        const_filter_iterator<T, U> itr(const_cast<node_type>(this), f);
-        return itr;
-    }
-
-    template<typename T, typename U>
-    const_filter_iterator<T, U> end(U f) const
-    {
-        const_filter_iterator<T, U> itr(const_cast<node_type>(this), f, true);
-        return itr;
-    }
-
-//    template<typename T>
-//    const_node_iterator<T> cbegin() const
-//    {
-//        const_node_iterator<T> itr(const_cast<node_type>(this));
-//        return itr;
-//    }
-//
-//    template<typename T>
-//    const_node_iterator<T> cend() const
-//    {
-//        const_node_iterator<T> itr(const_cast<node_type>(this), true);
-//        return itr;
-//    }
-
     const_iterator begin() const
     {
         const_iterator itr(const_cast<node_type>(this));
@@ -529,17 +384,31 @@ public:
         return itr;
     }
 
-//    const_iterator cbegin() const
-//    {
-//        const_iterator itr(const_cast<node_type>(this));
-//        return itr;
-//    }
-//
-//    const_iterator cend() const
-//    {
-//        const_iterator itr(const_cast<node_type>(this), true);
-//        return itr;
-//    }
+    boost::iterator_range< const_iterator > range()
+    {
+        return make_iterator_range(begin(), end());
+    }
+
+    template < typename Type >
+        const_type_iterator<Type> begin() const
+    {
+        const_type_iterator<Type> itr(const_cast<node_type>(this));
+        return itr;
+    }
+
+    template < typename Type >
+        const_type_iterator<Type> end() const
+    {
+        const_type_iterator<Type> itr(const_cast<node_type>(this), true);
+        return itr;
+    }
+
+    template < typename Type >
+        boost::iterator_range< const_type_iterator<Type> >
+            range()
+    {
+        return make_iterator_range(begin<Type>(), end<Type>());
+    }
 
     int operator[](unsigned idx)
     {
@@ -556,14 +425,14 @@ public:
 //    }
 
     const hierarchy_type* children() const
-    { return get_children(); }
+    {   return get_children();  }
 
     composite_node<abstract_node>* parent() const
-    { return parent(); }
+    {   return parent(); }
 
     composite_node<abstract_node>*
         change_parent(composite_node<abstract_node>* new_parent)
-    { return do_change_parent(new_parent); }
+    {   return do_change_parent(new_parent); }
 
 //    bool has_name() const
 //    { return check_has_name(); }
@@ -646,16 +515,16 @@ public:
 /// \name Construction
 //@{
     has_name(const std::string& name)
-    : name_(name) {}
+    :   name_(name) {}
 //@}
 
 /// \name Attributes
 //@{
     std::string name() const
-    { return name_; }
+    {   return name_;   }
 
     void set_name(const std::string& name)
-    { name_ = name; }
+    {   name_ = name;   }
 //@}
 
 // Implementation
@@ -677,10 +546,10 @@ public:
 /// \name Attributes
 //@{
     unsigned ordinal() const
-    { return ordinal_; }
+    {   return ordinal_;    }
 
     void set_ordinal(unsigned ordinal)
-    { ordinal_ = ordinal; }
+    {   ordinal_ = ordinal; }
 //@}
 
 // Implementation
@@ -695,7 +564,7 @@ template
     typename    T,
     typename... Policies
 >
-class atom_node
+    class atom_node
 :   public leaf_node<T>
 ,   public has_name
 ,   public ordered
@@ -735,7 +604,7 @@ template
     typename    T,
     typename... Policies
 >
-class molecule_node
+    class molecule_node
 :   public composite_node<T>
 ,   public has_name
 ,   public ordered
@@ -744,9 +613,10 @@ class molecule_node
 public:
 /// \name Construction
 //@{
-    molecule_node(Policies&&... policies,
-                  const std::string& name,
-                  unsigned ordinal = 1)
+    molecule_node(
+        Policies&&... policies,
+        const std::string& name,
+        unsigned ordinal = 1)
     :   Policies(policies)...
     ,   has_name(name)
     ,   ordered(ordinal)
@@ -760,7 +630,7 @@ typedef molecule_node
 <
     abstract_node
 >
-molecule;
+    molecule;
 
 inline std::ostream& operator<< (
     std::ostream& out,
@@ -783,6 +653,12 @@ inline std::ostream& operator<< (
         out << node;
     return out;
 }
+
+//struct is_even
+//{
+//    bool operator()(const atom* atm) const
+//    {   return atm->ordinal() % 2 == 0; }
+//};
 
     }    // namespace core
 }    // namespace maral
