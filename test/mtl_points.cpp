@@ -1,7 +1,7 @@
 // $Id$
 //------------------------------------------------------------------------------
 
-#define BOOST_TEST_MODULE MTL
+#define BOOST_TEST_MODULE Maral Master Test Suite
 #ifdef _WIN32
     #define BOOST_TEST_ALTERNATIVE_INIT_API
 #else
