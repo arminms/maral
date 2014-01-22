@@ -14,7 +14,7 @@
 //    point_ops.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//    This file contains inlines for all operations related to points.
+//    This file contains implementation for all operations related to points.
 //------------------------------------------------------------------------------
 
 /// \ingroup pnt2ops

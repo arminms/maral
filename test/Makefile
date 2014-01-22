@@ -61,18 +61,17 @@ LDFLAGS_MAKEFILE =
 OBJDIR_MAKEFILE = .objs
 DEP_MAKEFILE = 
 
-OBJ_DEBUG = $(OBJDIR_DEBUG)/maral_core.o \
+OBJ_DEBUG = $(OBJDIR_DEBUG)/maral_h_model.o \
 	$(OBJDIR_DEBUG)/mtl_matrices.o \
 	$(OBJDIR_DEBUG)/mtl_points.o \
 	$(OBJDIR_DEBUG)/mtl_vectors.o
 
-OBJ_RELEASE = $(OBJDIR_RELEASE)/maral_core.o \
+OBJ_RELEASE = $(OBJDIR_RELEASE)/maral_h_model.o \
 	$(OBJDIR_RELEASE)/mtl_matrices.o \
 	$(OBJDIR_RELEASE)/mtl_points.o \
 	$(OBJDIR_RELEASE)/mtl_vectors.o
 
-OBJ_PROFILE = $(OBJDIR_PROFILE)/maral_core.o \
-	$(OBJDIR_PROFILE)/mtl_matrices.o \
+OBJ_PROFILE = $(OBJDIR_PROFILE)/mtl_matrices.o \
 	$(OBJDIR_PROFILE)/mtl_points.o \
 	$(OBJDIR_PROFILE)/mtl_vectors.o
 
@@ -91,8 +90,8 @@ debug: before_debug out_debug after_debug
 out_debug: $(OBJ_DEBUG) $(DEP_DEBUG)
 	$(LD) $(LDFLAGS_DEBUG) $(LIBDIR_DEBUG) $(OBJ_DEBUG) $(LIB_DEBUG) -o $(OUT_DEBUG)
 
-$(OBJDIR_DEBUG)/maral_core.o: maral_core.cpp
-	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c maral_core.cpp -o $(OBJDIR_DEBUG)/maral_core.o
+$(OBJDIR_DEBUG)/maral_h_model.o: maral_h_model.cpp
+	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c maral_h_model.cpp -o $(OBJDIR_DEBUG)/maral_h_model.o
 
 $(OBJDIR_DEBUG)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_DEBUG) $(INC_DEBUG) -c mtl_matrices.cpp -o $(OBJDIR_DEBUG)/mtl_matrices.o
@@ -119,8 +118,8 @@ release: before_release out_release after_release
 out_release: $(OBJ_RELEASE) $(DEP_RELEASE)
 	$(LD) $(LDFLAGS_RELEASE) $(LIBDIR_RELEASE) $(OBJ_RELEASE) $(LIB_RELEASE) -o $(OUT_RELEASE)
 
-$(OBJDIR_RELEASE)/maral_core.o: maral_core.cpp
-	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c maral_core.cpp -o $(OBJDIR_RELEASE)/maral_core.o
+$(OBJDIR_RELEASE)/maral_h_model.o: maral_h_model.cpp
+	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c maral_h_model.cpp -o $(OBJDIR_RELEASE)/maral_h_model.o
 
 $(OBJDIR_RELEASE)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_RELEASE) $(INC_RELEASE) -c mtl_matrices.cpp -o $(OBJDIR_RELEASE)/mtl_matrices.o
@@ -147,9 +146,6 @@ profile: before_profile out_profile after_profile
 out_profile: $(OBJ_PROFILE) $(DEP_PROFILE)
 	$(LD) $(LDFLAGS_PROFILE) $(LIBDIR_PROFILE) $(OBJ_PROFILE) $(LIB_PROFILE) -o $(OUT_PROFILE)
 
-$(OBJDIR_PROFILE)/maral_core.o: maral_core.cpp
-	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c maral_core.cpp -o $(OBJDIR_PROFILE)/maral_core.o
-
 $(OBJDIR_PROFILE)/mtl_matrices.o: mtl_matrices.cpp
 	$(CXX) $(CFLAGS_PROFILE) $(INC_PROFILE) -c mtl_matrices.cpp -o $(OBJDIR_PROFILE)/mtl_matrices.o
 
@@ -171,7 +167,16 @@ after_makefile:
 
 makefile: before_makefile after_makefile
 
-maral_core.cpp: ../src/core.hpp
+maral_h_model.cpp: ../src/node.hpp \
+	../src/hierarchical.hpp \
+	../src/policies.hpp \
+	../src/atom.hpp \
+	../src/molecule.hpp \
+	../src/output.hpp
+
+../src/hierarchical.hpp: ../src/hierarchical.ipp
+
+../src/output.hpp: ../src/output.ipp
 
 mtl_points.cpp: mtl_data.hpp
 

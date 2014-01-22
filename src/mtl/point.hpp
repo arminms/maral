@@ -19,11 +19,6 @@
 #ifndef MARAL_MTL_POINT_HPP_INCLUDED_
 #define MARAL_MTL_POINT_HPP_INCLUDED_
 
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
-
 namespace maral {
 
     namespace mtl {
@@ -253,7 +248,7 @@ typedef point3<float> point3f;
 typedef point3<double> point3d;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
 #include "point.ipp"
 

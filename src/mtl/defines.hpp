@@ -19,11 +19,6 @@
 #ifndef MARAL_MTL_DEFINES_HPP_INCLUDED_
 #define MARAL_MTL_DEFINES_HPP_INCLUDED_
 
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief The namespace for \b Maral.
 ///
@@ -70,7 +65,7 @@ const double PIUNDER180  = 5.72957795130823E+001;
 /// \endcond
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
 #include "defines.ipp"
 
