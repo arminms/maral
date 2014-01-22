@@ -20,11 +20,6 @@
 #ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
 #define MARAL_MTL_VECTOR_HPP_INCLUDED_
 
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
-
 namespace maral {
     namespace mtl {
 
@@ -256,7 +251,7 @@ typedef vector3<float> vector3f;
 typedef vector3<double> vector3d;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
 #include "vector.ipp"
 

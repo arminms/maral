@@ -73,11 +73,23 @@
 		<Unit filename="install.txt">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/core.hpp">
+		<Unit filename="src/atom.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/hierarchical.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/hierarchical.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/maral.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/molecule.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -146,6 +158,22 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/mtl/vector_ops.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/node.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/output.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/output.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/policies.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

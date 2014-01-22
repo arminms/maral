@@ -11,10 +11,11 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//    output.ipp
+//    mtl/output.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//    This file contains inlines for all output stream operators.
+//    This file contains implementation for all output stream operators of
+//    maral::mtl.
 //------------------------------------------------------------------------------
 
 /// \ingroup Output

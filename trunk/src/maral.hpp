@@ -32,7 +32,12 @@
 #include <boost/assert.hpp>
 
 #include "mtl/mtl.hpp"
-#include "core.hpp"
+#include "node.hpp"
+#include "hierarchical.hpp"
+#include "policies.hpp"
+#include "atom.hpp"
+#include "molecule.hpp"
+#include "output.hpp"
 
 #endif    // MARAL_MARAL_HPP_INCLUDED_
 

@@ -10,26 +10,24 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file mtl.hpp
-/// \brief Include file for some frequently used mathematical defines.
+/// \file output.hpp
+/// \brief Include file for outputing maral classes to the output stream.
 ///
-/// \b mtl_defines.hpp is the include file for some frequently used
-/// mathematical constansts and handy templated inlines.
+/// \b output.hpp is the header file for all output stream operators of maral
+/// classes.
 
-#ifndef MARAL_MTL_HPP_INCLUDED_
-#define MARAL_MTL_HPP_INCLUDED_
+#ifndef MARAL_OUTPUT_HPP_INCLUDED_
+#define MARAL_OUTPUT_HPP_INCLUDED_
+
+namespace maral
+{
 
 ////////////////////////////////////////////////////////////////////////////////
-// Includes
+// Implementation
 
-#include "defines.hpp"
-#include "point.hpp"
-#include "vector.hpp"
-#include "point_ops.hpp"
-#include "vector_ops.hpp"
-#include "matrix.hpp"
-#include "matrix_ops.hpp"
-#include "output.hpp"
+    #include "output.ipp"
 
-#endif    // MARAL_MTL_HPP_INCLUDED_
+}    // namespace maral
+
+#endif // MARAL_OUTPUT_HPP_INCLUDED_
 

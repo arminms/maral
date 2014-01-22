@@ -14,7 +14,7 @@
 //    vector_ops.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//    This file contains inlines for all operations related to vectors.
+//    This file contains implementation for all operations related to vectors.
 //------------------------------------------------------------------------------
 
 /// \ingroup vec2ops

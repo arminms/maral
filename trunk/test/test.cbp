@@ -71,10 +71,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="maral_core.cpp">
+		<Unit filename="maral_h_model.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Profile" />
 		</Unit>
 		<Unit filename="mtl_data.hpp">
 			<Option target="Debug" />

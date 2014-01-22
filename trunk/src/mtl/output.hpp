@@ -10,20 +10,15 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file output.hpp
+/// \file mtl/output.hpp
 /// \brief Include file for outputing maral::mtl classes to the output
 /// stream.
 ///
-/// \b output.hpp is the header file for all output stream operators
+/// \b mtl/output.hpp is the header file for all output stream operators
 /// of maral::mtl classes.
 
 #ifndef MARAL_MTL_OUTPUT_HPP_INCLUDED_
 #define MARAL_MTL_OUTPUT_HPP_INCLUDED_
-
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
 
 namespace maral
 {
@@ -31,7 +26,7 @@ namespace maral
     {
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
     #include "output.ipp"
 

@@ -14,7 +14,7 @@
 //    matrix_ops.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//    This file contains inlines for all operations related to matrices.
+//    This file contains implementation for all operations related to matrices.
 //------------------------------------------------------------------------------
 
 /// \ingroup mtx22ops

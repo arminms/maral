@@ -19,18 +19,13 @@
 #ifndef MARAL_MTL_MATRIX_OPS_HPP_INCLUDED_
 #define MARAL_MTL_MATRIX_OPS_HPP_INCLUDED_
 
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
-
 namespace maral
 {
     namespace mtl
     {
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
         #include "matrix_ops.ipp"
 

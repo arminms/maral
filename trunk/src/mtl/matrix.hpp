@@ -19,11 +19,6 @@
 #ifndef MARAL_MTL_MATRIX_HPP_INCLUDED_
 #define MARAL_MTL_MATRIX_HPP_INCLUDED_
 
-// MS compatible compilers support #pragma once
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
-#endif
-
 namespace maral {
 
     namespace mtl {
@@ -461,7 +456,7 @@ typedef matrix44<float> matrix44f;
 typedef matrix44<double> matrix44d;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inlines
+// Implementation
 
 #include "matrix.ipp"
 
