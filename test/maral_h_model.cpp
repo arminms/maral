@@ -2,6 +2,8 @@
 //------------------------------------------------------------------------------
 
 #include <iostream>
+#include <list>
+#include <ratio>
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
@@ -9,18 +11,28 @@
 #include <boost/range/adaptors.hpp>
 #include <boost/range/algorithm.hpp>
 
+#include <mtl/point.hpp>
+#include <traits.hpp>
 #include <node.hpp>
 #include <hierarchical.hpp>
 #include <policies.hpp>
 #include <atom.hpp>
 #include <molecule.hpp>
-#include <output.hpp>
+#include <inserters.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace maral;
+using namespace maral::mtl;
 //using namespace maral::model;
 
-typedef atom_h_node<model::hierarchical> atom;
+typedef atom_h_node
+<
+    model::hierarchical
+,   mtl::point3<float>
+//,   policies::ordered<unsigned>
+//,   std::vector<float>
+> atom;
+
 typedef molecule_h_node<model::hierarchical> molecule;
 
 //typedef boost::mpl::list<int,float,double,long double> test_types;
@@ -78,9 +90,9 @@ BOOST_AUTO_TEST_CASE( Size_Test )
     BOOST_CHECK(sizeof(model::composite_node<hierarchical>) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
     BOOST_CHECK(sizeof(model::root_node<hierarchical>) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(policies::has_name) == sizeof(std::string));
-    BOOST_CHECK(sizeof(policies::ordered) == sizeof(unsigned));
-    BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
+    BOOST_CHECK(sizeof(policies::named<std::string>) == sizeof(std::string));
+    BOOST_CHECK(sizeof(policies::ordered<unsigned>) == sizeof(unsigned));
+//    BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(molecule) == (6 * sizeof(atm)));
 }
 
@@ -89,7 +101,7 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
     node<molecule> mol = make_node<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
     BOOST_CHECK(dynamic_cast<model::composite_node<hierarchical>*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<policies::has_name*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<policies::named<std::string>*>(mol.get()));
     BOOST_CHECK(dynamic_cast<model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<model::root_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
@@ -231,8 +243,15 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, ROOT_INIT )
 //    boost::copy(*root, back_inserter(nodes));
     boost::copy(root->range(), back_inserter(nodes));
     BOOST_CHECK( 18 == boost::size(nodes) );
+
+// the following call prints pointer addresses, why?!
+//    boost::copy(nodes
+//                | boost::adaptors::reversed,
+//                std::ostream_iterator<hierarchical*>(output, ",") );
+
     for (auto node : nodes | boost::adaptors::reversed)
         output << node << ',';
+
     BOOST_CHECK( output.is_equal(
             "inserted atom4, 4,"
             "inserted atom3, 3,"
@@ -445,6 +464,35 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, ROOT_INIT )
         "chain1, 1,"
         "residue4, 4,") );
 }
+
+BOOST_FIXTURE_TEST_CASE( Position_Policy, ROOT_INIT )
+{
+    boost::for_each(root->range<atom>(),
+//                    [](atom* atm) { atm->center().zero(); } );
+                    [](atom* atm) { (*atm)[0] = 1.0f; } );
+//                    [](atom* atm) { atm->center()[0] = 1.0f; std::cout << (*atm)[0] << std::endl; } );
+//    std::cout << std::rank<point3<float>::>::value << std::endl;
+    static_assert(std::is_base_of<policies::position<point3<float> >, atom>::value,
+                  "atom must have a position policy");
+    static_assert(std::is_base_of<policies::position<point3f>, atom>::value,
+                  "atom must have a position policy");
+//    static_assert(std::is_base_of<policies::position<point3<float> >, molecule>::value,
+//                  "molecule must have a position policy");
+//    std::cout << type_traits<point3f>::extent::den << std::endl;
+    static_assert(type_traits<point3f>::extent::den > 0, "out of range!");
+
+}
+
+//BOOST_FIXTURE_TEST_CASE( Boost_Range_Search, ROOT_INIT )
+//{
+//    std::list<hierarchical*> to_be_removed;
+//    boost::copy(*root
+//                | boost::adaptors::filtered(
+//                [](const atom* atm) { return atm->ordinal() % 2 == 0; }),
+//                std::ostream_iterator<atom*>(output, ",") );
+//    boost::copy(root->range<atom>(), back_inserter(atoms));
+//    boost::erase(*root, atoms);
+//}
 
 BOOST_AUTO_TEST_SUITE_END() // H_Model
 

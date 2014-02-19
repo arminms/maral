@@ -185,6 +185,9 @@ public:
     composite_node<abstract_node>*
         change_parent(composite_node<abstract_node>* new_parent)
     {   return do_change_parent(new_parent); }
+
+    void print(std::ostream& out) const
+    {   return do_print(out);   }
 //@}
 
 
@@ -196,6 +199,7 @@ private:
     virtual composite_node<abstract_node>* get_parent() const = 0;
     virtual composite_node<abstract_node>*
         do_change_parent(composite_node<abstract_node>* new_parent) = 0;
+    virtual void do_print(std::ostream& out) const = 0;
 };
 
 typedef abstract_node hierarchical;

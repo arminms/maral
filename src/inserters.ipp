@@ -11,11 +11,10 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//    output.ipp
+//    inserters.ipp
 //------------------------------------------------------------------------------
 // Remarks:
-//    This file contains implementation for all output stream operators of
-//    \b maral.
+//    This file contains implementation of all stream inserters for \b Maral.
 //------------------------------------------------------------------------------
 
 /// \ingroup Output
@@ -32,19 +31,21 @@
 
 inline std::ostream& operator<< (
     std::ostream& out,
-    hierarchical* node)
+    const hierarchical* node)
 {
     BOOST_ASSERT_MSG(node, "null pointer!");
-    policies::has_name* named = dynamic_cast<policies::has_name*>(node);
-    policies::ordered* numbered = dynamic_cast<policies::ordered*>(node);
-    if (named && numbered)
-        out << named->name() << ", " << numbered->ordinal();
-    else if (named)
-        out << named->name();
-    else if (numbered)
-        out << numbered->ordinal();
-    else
-        out << node;
+//    policies::named<std::string>* name =
+//        dynamic_cast<policies::named<std::string>*>(node);
+//    policies::ordered* numbered = dynamic_cast<policies::ordered*>(node);
+//    if (name && numbered)
+//        out << name->name() << ", " << numbered->ordinal();
+//    else if (name)
+//        out << name->name();
+//    else if (numbered)
+//        out << numbered->ordinal();
+//    else
+//        out << node;
+    node->print(out);
     return out;
 }
 
@@ -53,9 +54,9 @@ template
     typename    Model,
     typename... Policies
 >
-std::ostream& operator<< (
+inline std::ostream& operator<< (
     std::ostream& out,
-    atom_h_node<Model, Policies...>* atm)
+    const atom_h_node<Model, Policies...>* atm)
 {
     BOOST_ASSERT_MSG(atm, "null pointer!");
     out << atm->name() << ", " << atm->ordinal();
@@ -67,9 +68,9 @@ template
     typename    Model,
     typename... Policies
 >
-std::ostream& operator<< (
+inline std::ostream& operator<< (
     std::ostream& out,
-    molecule_h_node<Model, Policies...>* mol)
+    const molecule_h_node<Model, Policies...>* mol)
 {
     BOOST_ASSERT_MSG(mol, "null pointer!");
     out << mol->name() << ", " << mol->ordinal();

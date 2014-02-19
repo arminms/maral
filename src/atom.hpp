@@ -24,27 +24,39 @@ namespace maral
 
 template
 <
-    typename    Model,
-    typename... Policies
+    typename    Model
+,   typename    Position_Type
+,   typename... Policies
 >
     class  atom_h_node
 :   public model::leaf_node<Model>
-,   public policies::has_name
-,   public policies::ordered
+,   public policies::named<std::string>
+,   public policies::ordered<unsigned>
+,   public policies::position<Position_Type>
 ,   public Policies...
 {
+//    static_assert(
+//        std::is_same<policies::position<Position_Type>,Policies...>::value,
+//        "position policy already used :(");
+
 public:
 /// \name Construction
 //@{
     atom_h_node(
-        Policies&&... policies,
-        const std::string& name,
-        unsigned ordinal = 1)
+        Policies&&... policies
+//        type_traits<Policies&&...>::const_reference vars
+    ,   const std::string& name
+    ,   unsigned ordinal = 1
+    ,   const Position_Type& pos = Position_Type() )
     :   Policies(policies)...
-    ,   has_name(name)
+//    :   Policies(vars)...
+    ,   named(name)
     ,   ordered(ordinal)
     {}
 //@}
+
+    virtual void do_print(std::ostream& out) const
+    {   out << name() << ", " << ordinal(); }
 };
 
 }    // namespace maral

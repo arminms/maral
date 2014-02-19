@@ -7,6 +7,7 @@
 #else
     #define BOOST_TEST_DYN_LINK
 #endif    //_WIN32
+#include <fstream>
 //#define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 //#include <boost/test/included/unit_test.hpp>
@@ -345,14 +346,71 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
     BOOST_CHECK_CLOSE(angle(pnt1, pnt2, pnt3), T(0.0), SMALL);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Output, T, test_types)
+//BOOST_AUTO_TEST_CASE(Insterters)
+//{
+//    point2<float> pnt(3.141593, 938.27231);
+//    std::ofstream os("../../test/patterns/pntvec2.txt");
+//    os << pnt << std::endl << std::endl;
+//    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
+//    os << delimiters('|') << pnt << std::endl << std::endl;
+//    os << setew(7) << pnt << std::endl << std::endl;
+//    os << std::setw(15) << pnt << std::endl << std::endl;
+//    os << spaces << pnt << std::endl << std::endl;
+//    os << horizontal << pnt << std::endl << std::endl;
+//    os << separator(',') << pnt << std::endl << std::endl;
+//    os << delimiters('{', '}') << pnt << std::endl << std::endl;
+//    os << nospaces << pnt << std::endl << std::endl;
+//    os << setew(0) << pnt << std::endl << std::endl;
+//    os << std::setw(20) << pnt << std::endl << std::endl;
+//    os << delimiters('\0') << pnt << std::endl;
+//}
+
+BOOST_AUTO_TEST_CASE(Point2_Inserter)
 {
-    output_test_stream output;
-    point2<T> pnt((T)1, (T)2);
-    output << pnt;
-    BOOST_CHECK(!output.is_empty(false) );
-    BOOST_CHECK( output.check_length(5, false) );
-    BOOST_CHECK( output.is_equal("[1,2]") );
+    output_test_stream cout("../../test/patterns/pntvec2.txt", true);
+/// [point2 inserter]
+    point2<float> pnt(3.141593, 938.27231);
+
+    cout << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::fixed << std::setprecision(3)
+         << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('|') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(7) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(15) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << spaces << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << horizontal << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << separator(',') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('{', '}') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << nospaces << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(0) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(20) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('\0') << pnt << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+/// [point2 inserter]
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -761,14 +819,75 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
     BOOST_CHECK_CLOSE(torsion_angle(H6, C2, C1, H1), T(-180.0), T(0.001));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Output, T, test_types)
+BOOST_AUTO_TEST_CASE(Insterters)
 {
-    output_test_stream output;
-    point3<T> pnt((T)1, (T)2, (T)3);
-    output << pnt;
-    BOOST_CHECK(!output.is_empty(false) );
-    BOOST_CHECK( output.check_length(7, false) );
-    BOOST_CHECK( output.is_equal("[1,2,3]") );
+//    point3<float> pnt(3.141593, 938.27231, 2.718282);
+//    std::ofstream os("../../test/patterns/pntvec2.txt");
+//    std::wofstream os("../../test/patterns/pntvec2w.txt");
+//    std::basic_ofstream<wchar_t> os("../../test/patterns/pntvec3w.txt");
+//    os.imbue(std::locale("fa_IR.utf8"));
+//    os.imbue(std::locale("de_DE.utf8"));
+//    os << pnt << std::endl << std::endl;
+//    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
+//    os << delimiters('|') << pnt << std::endl << std::endl;
+//    os << setew(7) << pnt << std::endl << std::endl;
+//    os << std::setw(15) << pnt << std::endl << std::endl;
+//    os << spaces << pnt << std::endl << std::endl;
+//    os << horizontal << pnt << std::endl << std::endl;
+//    os << separator(',') << pnt << std::endl << std::endl;
+//    os << delimiters('{', '}') << pnt << std::endl << std::endl;
+//    os << nospaces << pnt << std::endl << std::endl;
+//    os << setew(0) << pnt << std::endl << std::endl;
+//    os << std::setw(25) << pnt << std::endl << std::endl;
+//    os << delimiters('\0') << pnt << std::endl;
+}
+
+BOOST_AUTO_TEST_CASE(Point3_Inserter)
+{
+    output_test_stream cout("../../test/patterns/pntvec3.txt", true);
+/// [point3 inserter]
+    point3<float> pnt(3.141593, 938.27231, 2.718282);
+
+    cout << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::fixed << std::setprecision(3)
+         << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('|') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(7) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(15) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << spaces << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << horizontal << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << separator(',') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('{', '}') << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << nospaces << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(0) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(25) << pnt << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('\0') << pnt << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+/// [point3 inserter]
 }
 
 BOOST_AUTO_TEST_SUITE_END()

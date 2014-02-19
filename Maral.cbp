@@ -17,6 +17,10 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 				</Compiler>
+				<ExtraCommands>
+					<Add after="bin/debug/test --result_code=no --report_level=no" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/release/Maral" prefix_auto="1" extension_auto="1" />
@@ -85,6 +89,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/inserters.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/inserters.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -98,6 +110,18 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/mtl/defines.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/mtl/inserters.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/mtl/inserters.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/mtl/iomanip.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -118,14 +142,6 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/mtl/mtl.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/mtl/output.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/mtl/output.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -165,15 +181,11 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/output.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/output.ipp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="src/policies.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/traits.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
