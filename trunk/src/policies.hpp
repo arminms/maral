@@ -38,52 +38,101 @@ namespace maral
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class has_name
+template <typename Type>
+    class named
 {
 public:
 /// \name Construction
 //@{
-    has_name(const std::string& name)
+    named(const Type& name)
     :   name_(name) {}
 //@}
 
 /// \name Attributes
 //@{
-    std::string name() const
+    Type name() const
     {   return name_;   }
 
-    void set_name(const std::string& name)
+    void set_name(const Type& name)
     {   name_ = name;   }
 //@}
 
 // Implementation
 protected:
-    std::string name_;
+    Type name_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class ordered
+template <typename Type>
+    class ordered
 {
 public:
 /// \name Construction
 //@{
-    ordered(unsigned ordinal)
+    ordered(Type ordinal)
     : ordinal_(ordinal) {}
 //@}
 
 /// \name Attributes
 //@{
-    unsigned ordinal() const
+    Type ordinal() const
     {   return ordinal_;    }
 
-    void set_ordinal(unsigned ordinal)
+    void set_ordinal(Type ordinal)
     {   ordinal_ = ordinal; }
 //@}
 
 // Implementation
 protected:
-    unsigned ordinal_;
+    Type ordinal_;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename Type>
+    class position
+{
+    static_assert(
+        type_traits<Type>::extent::den > 1,
+        "need a fixed-size vector type :(");
+
+public:
+/// \name Construction
+//@{
+    position()
+    {}
+
+    position(const Type& pos)
+    : pos_(pos)
+    {}
+//@}
+
+/// \name Attributes
+//@{
+    Type& center()
+    {   return pos_;    }
+
+    Type get_center() const
+    {   return pos_;    }
+
+    void set_center(const Type& pos)
+    {   pos_ = pos; }
+//@}
+
+/// \name Operators
+//@{
+    typename type_traits<Type>::reference operator[]
+        (const unsigned idx)
+    {   return pos_[idx];   }
+//    typename type_traits<Type>::value_type operator[]
+//        (const unsigned idx) const;
+//    {   return pos_[idx]; }
+//@}
+
+// Implementation
+protected:
+    Type pos_;
 };
 
     }    // namespace policies

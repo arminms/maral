@@ -19,9 +19,7 @@
 #ifndef MARAL_MTL_POINT_HPP_INCLUDED_
 #define MARAL_MTL_POINT_HPP_INCLUDED_
 
-namespace maral {
-
-    namespace mtl {
+namespace maral { namespace mtl {
 
 // forward declarations
 template <typename T> class vector2;
@@ -120,6 +118,11 @@ template <typename T>
 class point3
 {
 public:
+//    typedef point3<T> self_type;
+//    typedef T value_type;
+//    typedef const T& const_reference;
+//    typedef T& reference;
+
 /// \name Construction
 //@{
     point3();
@@ -252,7 +255,6 @@ typedef point3<double> point3d;
 
 #include "point.ipp"
 
-    }    // namespace mtl
-}    // namespace maral
+}}    // namespace mtl // namespace maral
 
 #endif    // MARAL_MTL_POINT_HPP_INCLUDED_

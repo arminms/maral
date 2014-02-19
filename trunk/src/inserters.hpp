@@ -10,27 +10,25 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file mtl/output.hpp
-/// \brief Include file for outputing maral::mtl classes to the output
-/// stream.
+/// \file inserters.hpp
+/// \brief Include file for stream insterters for \b Maral classes.
 ///
-/// \b mtl/output.hpp is the header file for all output stream operators
-/// of maral::mtl classes.
+/// \b inserters.hpp is the header file for all output stream operators of maral
+/// classes.
 
-#ifndef MARAL_MTL_OUTPUT_HPP_INCLUDED_
-#define MARAL_MTL_OUTPUT_HPP_INCLUDED_
+#ifndef MARAL_INSERTERS_HPP_INCLUDED_
+#define MARAL_INSERTERS_HPP_INCLUDED_
 
-namespace maral
-{
-    namespace mtl
-    {
+//#include <sstream>
+
+namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-    #include "output.ipp"
+#include "inserters.ipp"
 
-    }    // namespace mtl
 }    // namespace maral
 
-#endif // MARAL_MTL_OUTPUT_HPP_INCLUDED_
+#endif // MARAL_INSERTERS_HPP_INCLUDED_
+

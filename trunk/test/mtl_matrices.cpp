@@ -1,10 +1,12 @@
 // $Id$
 //------------------------------------------------------------------------------
 
+
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
+#include <fstream>
 #include <mtl/mtl.hpp>
 
 using boost::test_tools::output_test_stream;
@@ -303,14 +305,78 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpInvertUnary, T, float_types)
     BOOST_CHECK(invert(t) == r);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_Output, T, test_types)
+//BOOST_AUTO_TEST_CASE(Insterters)
+//{
+//    matrix22<int> mtx { 1,2,3,4 };
+//    matrix22<float> mtx { 3.141593, 938.27231, 939.56563, 2.718282 };
+//
+//    std::ofstream os("../../test/patterns/matrix22.txt");
+//    os << separator(',') << mtx << std::endl << std::endl;
+//    os << std::fixed << std::setprecision(3)
+//       << mtx << std::endl << std::endl;
+//    os << delimiters('|') << mtx << std::endl << std::endl;
+//    os << setew(7) << mtx << std::endl << std::endl;
+//    os << std::setw(25) << mtx << std::endl << std::endl;
+//    os << spaces << mtx << std::endl << std::endl;
+//    os << horizontal << mtx << std::endl << std::endl;
+//    os << setew(0) << mtx << std::endl << std::endl;
+//    os << delimiters('{', '}') << mtx << std::endl << std::endl;
+//    os << rowmajor << mtx << std::endl << std::endl;
+//    os << colmajor << nospaces << mtx << std::endl << std::endl;
+//    os << separator(' ') << mtx << std::endl << std::endl;
+//    os << std::setw(35) << mtx << std::endl << std::endl;
+//    os << delimiters('\0') << mtx << std::endl;
+//}
+
+BOOST_AUTO_TEST_CASE(Mat22_Inserter)
 {
-    output_test_stream output;
-    matrix22<T> m { 0,1,2,3 };
-    output << m;
-    BOOST_CHECK(!output.is_empty(false) );
-    BOOST_CHECK( output.check_length(16, false) );
-    BOOST_CHECK( output.is_equal("| 0 2 |\n| 1 3 |\n") );
+    output_test_stream cout("../../test/patterns/matrix22.txt", true);
+/// [matrix22 inserter]
+    matrix22<float> mtx { 3.141593, 938.27231, 939.56563, 2.718282 };
+
+    cout << separator(',') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::fixed << std::setprecision(3)
+       << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('|') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(7) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(25) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << spaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << horizontal << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(0) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('{', '}') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << rowmajor << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << colmajor << nospaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << separator(' ') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(35) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('\0') << mtx << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+/// [matrix22 inserter]
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -690,14 +756,89 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_OpInvertUnary, T, float_types)
     BOOST_CHECK(is_equal(invert(t), r, T(SMALL)));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_Output, T, test_types)
+//BOOST_AUTO_TEST_CASE(Insterters)
+//{
+//    matrix33<int> mtx { 1,2,3,4,5,6,7,8,9 };
+//
+//    matrix33<float> mtx
+//    {
+//         3.141593, 938.27231,  8.617365,
+//           6.0221,  2.718282, 939.56563,
+//        931.49432,  1.672623,  0.577216
+//    };
+//
+//    std::ofstream os("../../test/patterns/matrix33.txt");
+//    os << separator(',') << mtx << std::endl << std::endl;
+//    os << std::fixed << std::setprecision(3)
+//       << mtx << std::endl << std::endl;
+//    os << delimiters('|') << mtx << std::endl << std::endl;
+//    os << setew(7) << mtx << std::endl << std::endl;
+//    os << std::setw(30) << mtx << std::endl << std::endl;
+//    os << spaces << mtx << std::endl << std::endl;
+//    os << horizontal << mtx << std::endl << std::endl;
+//    os << setew(0) << mtx << std::endl << std::endl;
+//    os << delimiters('{', '}') << mtx << std::endl << std::endl;
+//    os << rowmajor << mtx << std::endl << std::endl;
+//    os << colmajor << nospaces << mtx << std::endl << std::endl;
+//    os << separator(' ') << mtx << std::endl << std::endl;
+//    os << std::setw(65) << mtx << std::endl << std::endl;
+//    os << delimiters('\0') << mtx << std::endl;
+//}
+
+BOOST_AUTO_TEST_CASE(Mat33_Inserter)
 {
-    output_test_stream output;
-    matrix33<T> m { 1,2,3,4,5,6,7,8,9 };
-    output << m;
-    BOOST_CHECK(!output.is_empty(false) );
-    BOOST_CHECK( output.check_length(30, false) );
-    BOOST_CHECK( output.is_equal("| 1 4 7 |\n| 2 5 8 |\n| 3 6 9 |\n") );
+    output_test_stream cout("../../test/patterns/matrix33.txt", true);
+/// [matrix33 inserter]
+    matrix33<float> mtx
+    {
+         3.141593, 938.27231,  8.617365,
+           6.0221,  2.718282, 939.56563,
+        931.49432,  1.672623,  0.577216
+    };
+
+    cout << separator(',') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::fixed << std::setprecision(3)
+       << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('|') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(7) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(30) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << spaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << horizontal << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(0) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('{', '}') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << rowmajor << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << colmajor << nospaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << separator(' ') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(65) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('\0') << mtx << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+/// [matrix33 inserter]
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -1208,14 +1349,91 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpInvertUnary, T, float_types)
     BOOST_CHECK(is_equal(invert(t), r, T(SMALL)));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_Output, T, test_types)
+//BOOST_AUTO_TEST_CASE(Insterters)
+//{
+//    matrix44<int> mtx { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
+//
+//    matrix44<float> mtx
+//    {
+//         3.141593, 938.27231,  8.617365,  1.674929,
+//           6.0221,  2.718282, 939.56563,  8.314510,
+//        931.49432,  1.672623,  0.577216, 54.722391,
+//         96.48530, 57.883882,  20.67834,  1.618034
+//    };
+//
+//    std::ofstream os("../../test/patterns/matrix44.txt");
+//    os << separator(',') << mtx << std::endl << std::endl;
+//    os << std::fixed << std::setprecision(3)
+//       << mtx << std::endl << std::endl;
+//    os << delimiters('|') << mtx << std::endl << std::endl;
+//    os << setew(7) << mtx << std::endl << std::endl;
+//    os << std::setw(40) << mtx << std::endl << std::endl;
+//    os << spaces << mtx << std::endl << std::endl;
+//    os << horizontal << mtx << std::endl << std::endl;
+//    os << setew(0) << mtx << std::endl << std::endl;
+//    os << delimiters('{', '}') << mtx << std::endl << std::endl;
+//    os << rowmajor << mtx << std::endl << std::endl;
+//    os << colmajor << nospaces << mtx << std::endl << std::endl;
+//    os << separator(' ') << mtx << std::endl << std::endl;
+//    os << std::setw(115) << mtx << std::endl << std::endl;
+//    os << delimiters('\0') << mtx << std::endl;
+//}
+
+BOOST_AUTO_TEST_CASE(Mat44_Inserter)
 {
-    output_test_stream output;
-    matrix44<T> m { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
-    output << m;
-    BOOST_CHECK(!output.is_empty(false) );
-    BOOST_CHECK( output.check_length(55, false) );
-    BOOST_CHECK( output.is_equal("| 1 5 9 13 |\n| 2 6 10 14 |\n| 3 7 11 15 |\n| 4 8 12 16 |\n") );
+    output_test_stream cout("../../test/patterns/matrix44.txt", true);
+/// [matrix44 inserter]
+    matrix44<float> mtx
+    {
+         3.141593, 938.27231,  8.617365,  1.674929,
+           6.0221,  2.718282, 939.56563,  8.314510,
+        931.49432,  1.672623,  0.577216, 54.722391,
+         96.48530, 57.883882,  20.67834,  1.618034
+    };
+
+    cout << separator(',') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::fixed << std::setprecision(3)
+       << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('|') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(7) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(40) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << spaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << horizontal << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << setew(0) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('{', '}') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << rowmajor << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << colmajor << nospaces << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << separator(' ') << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << std::setw(115) << mtx << std::endl << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+
+    cout << delimiters('\0') << mtx << std::endl;
+    BOOST_CHECK( cout.match_pattern() );
+/// [matrix44 inserter]
 }
 
 BOOST_AUTO_TEST_SUITE_END()

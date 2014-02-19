@@ -30,8 +30,8 @@ template
 >
     class molecule_h_node
 :   public model::composite_node<Model>
-,   public policies::has_name
-,   public policies::ordered
+,   public policies::named<std::string>
+,   public policies::ordered<unsigned>
 ,   public Policies...
 {
 public:
@@ -42,10 +42,13 @@ public:
         const std::string& name,
         unsigned ordinal = 1)
     :   Policies(policies)...
-    ,   has_name(name)
+    ,   named(name)
     ,   ordered(ordinal)
     {}
 //@}
+
+    virtual void do_print(std::ostream& out) const
+    {   out << name() << ", " << ordinal(); }
 };
 
 }    // namespace maral

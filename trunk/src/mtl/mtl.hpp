@@ -29,7 +29,7 @@
 #include "vector_ops.hpp"
 #include "matrix.hpp"
 #include "matrix_ops.hpp"
-#include "output.hpp"
+#include "inserters.hpp"
 
 #endif    // MARAL_MTL_HPP_INCLUDED_
 

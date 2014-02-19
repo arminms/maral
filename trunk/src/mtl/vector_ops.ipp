@@ -454,13 +454,13 @@ inline vector2<T>& reflect(
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \a result after getting the result of the operation.
 /// \param result Reference to a vector that receives the result.
-/// \param lerpVal The value to interpolate between \a from and \a to.
-/// \param from The vector at \a lerpVal 0.
-/// \param to The vector at \a lerpVal 1.
-/// \pre   \a lerpVal is a value between 0 and 1 that interpolates
+/// \param lerp_val The value to interpolate between \a from and \a to.
+/// \param from The vector at \a lerp_val 0.
+/// \param to The vector at \a lerp_val 1.
+/// \pre   \a lerp_val is a value between 0 and 1 that interpolates
 /// between \a from and \a to.
 /// \pre   Only works with float types (e.g. vector2i is not acceptable)
-/// \post  Undefined if \a lerpVal < 0 or \a lerpVal > 1.
+/// \post  Undefined if \a lerp_val < 0 or \a lerp_val > 1.
 /// \remarks
 /// Linearly interpolates between two vectors. For convenience reference to \a
 /// result is returned. In this way, it can be used as a parameter for another
@@ -469,15 +469,15 @@ inline vector2<T>& reflect(
 template<typename T>
 inline vector2<T>& lerp(
     vector2<T>& result,
-    const T& lerpVal,
+    const T& lerp_val,
     const vector2<T>& from,
     const vector2<T>& to)
 {
     result[0] = to[0] - from[0];
-    result[0] *= lerpVal;
+    result[0] *= lerp_val;
     result[0] += from[0];
     result[1] = to[1] - from[1];
-    result[1] *= lerpVal;
+    result[1] *= lerp_val;
     result[1] += from[1];
     return result;
 }

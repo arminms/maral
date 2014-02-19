@@ -37,7 +37,7 @@
 #include "policies.hpp"
 #include "atom.hpp"
 #include "molecule.hpp"
-#include "output.hpp"
+#include "inserters.hpp"
 
 #endif    // MARAL_MARAL_HPP_INCLUDED_
 
