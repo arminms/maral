@@ -167,16 +167,17 @@ after_makefile:
 
 makefile: before_makefile after_makefile
 
-maral_h_model.cpp: ../src/node.hpp \
+maral_h_model.cpp: ../src/traits.hpp \
+	../src/node.hpp \
 	../src/hierarchical.hpp \
 	../src/policies.hpp \
 	../src/atom.hpp \
 	../src/molecule.hpp \
-	../src/output.hpp
+	../src/inserters.hpp
 
 ../src/hierarchical.hpp: ../src/hierarchical.ipp
 
-../src/output.hpp: ../src/output.ipp
+../src/inserters.hpp: ../src/inserters.ipp
 
 mtl_points.cpp: mtl_data.hpp
 
