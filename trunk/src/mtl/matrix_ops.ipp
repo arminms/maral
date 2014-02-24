@@ -37,10 +37,10 @@ inline bool operator== (
     const matrix22<T>& m2)
 {
     return (
-        m1.data_[0] == m2.data_[0] &&
-        m1.data_[1] == m2.data_[1] &&
-        m1.data_[2] == m2.data_[2] &&
-        m1.data_[3] == m2.data_[3]);
+        m1(0) == m2(0) &&
+        m1(1) == m2(1) &&
+        m1(2) == m2(2) &&
+        m1(3) == m2(3) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,10 +59,10 @@ inline bool operator!= (
     const matrix22<T>& m2)
 {
     return (
-        m1.data_[0] != m2.data_[0] ||
-        m1.data_[1] != m2.data_[1] ||
-        m1.data_[2] != m2.data_[2] ||
-        m1.data_[3] != m2.data_[3]);
+        m1(0) != m2(0) ||
+        m1(1) != m2(1) ||
+        m1(2) != m2(2) ||
+        m1(3) != m2(3) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,10 +85,10 @@ inline bool is_equal(
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        std::abs(m1.data_[0] - m2.data_[0]) <= eps &&
-        std::abs(m1.data_[1] - m2.data_[1]) <= eps &&
-        std::abs(m1.data_[2] - m2.data_[2]) <= eps &&
-        std::abs(m1.data_[3] - m2.data_[3]) <= eps);
+        std::abs(m1(0) - m2(0)) <= eps &&
+        std::abs(m1(1) - m2(1)) <= eps &&
+        std::abs(m1(2) - m2(2)) <= eps &&
+        std::abs(m1(3) - m2(3)) <= eps );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,17 +113,17 @@ inline matrix22<T>& mult(
     matrix22<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret.data_[0] += lhs.data_[0] * rhs.data_[0];
-    ret.data_[0] += lhs.data_[2] * rhs.data_[1];
+    ret(0) += lhs(0) * rhs(0);
+    ret(0) += lhs(2) * rhs(1);
 
-    ret.data_[1] += lhs.data_[1] * rhs.data_[0];
-    ret.data_[1] += lhs.data_[3] * rhs.data_[1];
+    ret(1) += lhs(1) * rhs(0);
+    ret(1) += lhs(3) * rhs(1);
 
-    ret.data_[2] += lhs.data_[0] * rhs.data_[2];
-    ret.data_[2] += lhs.data_[2] * rhs.data_[3];
+    ret(2) += lhs(0) * rhs(2);
+    ret(2) += lhs(2) * rhs(3);
 
-    ret.data_[3] += lhs.data_[1] * rhs.data_[2];
-    ret.data_[3] += lhs.data_[3] * rhs.data_[3];
+    ret(3) += lhs(1) * rhs(2);
+    ret(3) += lhs(3) * rhs(3);
 
     return r = ret;
 }
@@ -222,7 +222,7 @@ template<typename T>
 inline matrix22<T>& transpose(
     matrix22<T>& r)
 {
-    std::swap(r.data_[1], r.data_[2]);
+    std::swap(r(1), r(2));
     return r;
 }
 
@@ -241,8 +241,8 @@ inline matrix22<T>& transpose(
     matrix22<T>& r,
     const matrix22<T>& s)
 {
-    r.data_[0] = s.data_[0]; r.data_[1] = s.data_[2];
-    r.data_[2] = s.data_[1]; r.data_[3] = s.data_[3];
+    r(0) = s(0); r(1) = s(2);
+    r(2) = s(1); r(3) = s(3);
     return r;
 }
 
@@ -258,7 +258,7 @@ template<typename T>
 inline T determinant(
     const matrix22<T>& m)
 {
-    return ((m.data_[0]*m.data_[3]) - (m.data_[1]*m.data_[2]));
+    return ( (m(0)*m(3)) - (m(1)*m(2)) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -277,13 +277,13 @@ inline matrix22<T>& invert(
     matrix22<T>& r,
     const matrix22<T>& s)
 {
-    T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
+    T det = ( (s(0)*s(3)) - (s(1)*s(2)) );
     BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
-    r.data_[0] =  s.data_[3] * one_over_det;
-    r.data_[1] = -s.data_[1] * one_over_det;
-    r.data_[2] = -s.data_[2] * one_over_det;
-    r.data_[3] =  s.data_[0] * one_over_det;
+    r(0) =  s(3) * one_over_det;
+    r(1) = -s(1) * one_over_det;
+    r(2) = -s(2) * one_over_det;
+    r(3) =  s(0) * one_over_det;
     return r;
 }
 
@@ -326,15 +326,15 @@ inline bool operator== (
     const matrix33<T>& m2)
 {
     return (
-        m1.data_[0] == m2.data_[0] &&
-        m1.data_[1] == m2.data_[1] &&
-        m1.data_[2] == m2.data_[2] &&
-        m1.data_[3] == m2.data_[3] &&
-        m1.data_[4] == m2.data_[4] &&
-        m1.data_[5] == m2.data_[5] &&
-        m1.data_[6] == m2.data_[6] &&
-        m1.data_[7] == m2.data_[7] &&
-        m1.data_[8] == m2.data_[8]);
+        m1(0) == m2(0) &&
+        m1(1) == m2(1) &&
+        m1(2) == m2(2) &&
+        m1(3) == m2(3) &&
+        m1(4) == m2(4) &&
+        m1(5) == m2(5) &&
+        m1(6) == m2(6) &&
+        m1(7) == m2(7) &&
+        m1(8) == m2(8));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -353,15 +353,15 @@ inline bool operator!= (
     const matrix33<T>& m2)
 {
     return (
-        m1.data_[0] != m2.data_[0] ||
-        m1.data_[1] != m2.data_[1] ||
-        m1.data_[2] != m2.data_[2] ||
-        m1.data_[3] != m2.data_[3] ||
-        m1.data_[4] != m2.data_[4] ||
-        m1.data_[5] != m2.data_[5] ||
-        m1.data_[6] != m2.data_[6] ||
-        m1.data_[7] != m2.data_[7] ||
-        m1.data_[8] != m2.data_[8]);
+        m1(0) != m2(0) ||
+        m1(1) != m2(1) ||
+        m1(2) != m2(2) ||
+        m1(3) != m2(3) ||
+        m1(4) != m2(4) ||
+        m1(5) != m2(5) ||
+        m1(6) != m2(6) ||
+        m1(7) != m2(7) ||
+        m1(8) != m2(8));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -384,15 +384,15 @@ inline bool is_equal(
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        std::abs(m1.data_[0] - m2.data_[0]) <= eps &&
-        std::abs(m1.data_[1] - m2.data_[1]) <= eps &&
-        std::abs(m1.data_[2] - m2.data_[2]) <= eps &&
-        std::abs(m1.data_[3] - m2.data_[3]) <= eps &&
-        std::abs(m1.data_[4] - m2.data_[4]) <= eps &&
-        std::abs(m1.data_[5] - m2.data_[5]) <= eps &&
-        std::abs(m1.data_[6] - m2.data_[6]) <= eps &&
-        std::abs(m1.data_[7] - m2.data_[7]) <= eps &&
-        std::abs(m1.data_[8] - m2.data_[8]) <= eps);
+        std::abs(m1(0) - m2(0)) <= eps &&
+        std::abs(m1(1) - m2(1)) <= eps &&
+        std::abs(m1(2) - m2(2)) <= eps &&
+        std::abs(m1(3) - m2(3)) <= eps &&
+        std::abs(m1(4) - m2(4)) <= eps &&
+        std::abs(m1(5) - m2(5)) <= eps &&
+        std::abs(m1(6) - m2(6)) <= eps &&
+        std::abs(m1(7) - m2(7)) <= eps &&
+        std::abs(m1(8) - m2(8)) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -417,41 +417,41 @@ inline matrix33<T>& mult(
     matrix33<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret.data_[0] += lhs.data_[0] * rhs.data_[0];
-    ret.data_[0] += lhs.data_[3] * rhs.data_[1];
-    ret.data_[0] += lhs.data_[6] * rhs.data_[2];
+    ret(0) += lhs(0) * rhs(0);
+    ret(0) += lhs(3) * rhs(1);
+    ret(0) += lhs(6) * rhs(2);
 
-    ret.data_[1] += lhs.data_[1] * rhs.data_[0];
-    ret.data_[1] += lhs.data_[4] * rhs.data_[1];
-    ret.data_[1] += lhs.data_[7] * rhs.data_[2];
+    ret(1) += lhs(1) * rhs(0);
+    ret(1) += lhs(4) * rhs(1);
+    ret(1) += lhs(7) * rhs(2);
 
-    ret.data_[2] += lhs.data_[2] * rhs.data_[0];
-    ret.data_[2] += lhs.data_[5] * rhs.data_[1];
-    ret.data_[2] += lhs.data_[8] * rhs.data_[2];
+    ret(2) += lhs(2) * rhs(0);
+    ret(2) += lhs(5) * rhs(1);
+    ret(2) += lhs(8) * rhs(2);
 
-    ret.data_[3] += lhs.data_[0] * rhs.data_[3];
-    ret.data_[3] += lhs.data_[3] * rhs.data_[4];
-    ret.data_[3] += lhs.data_[6] * rhs.data_[5];
+    ret(3) += lhs(0) * rhs(3);
+    ret(3) += lhs(3) * rhs(4);
+    ret(3) += lhs(6) * rhs(5);
 
-    ret.data_[4] += lhs.data_[1] * rhs.data_[3];
-    ret.data_[4] += lhs.data_[4] * rhs.data_[4];
-    ret.data_[4] += lhs.data_[7] * rhs.data_[5];
+    ret(4) += lhs(1) * rhs(3);
+    ret(4) += lhs(4) * rhs(4);
+    ret(4) += lhs(7) * rhs(5);
 
-    ret.data_[5] += lhs.data_[2] * rhs.data_[3];
-    ret.data_[5] += lhs.data_[5] * rhs.data_[4];
-    ret.data_[5] += lhs.data_[8] * rhs.data_[5];
+    ret(5) += lhs(2) * rhs(3);
+    ret(5) += lhs(5) * rhs(4);
+    ret(5) += lhs(8) * rhs(5);
 
-    ret.data_[6] += lhs.data_[0] * rhs.data_[6];
-    ret.data_[6] += lhs.data_[3] * rhs.data_[7];
-    ret.data_[6] += lhs.data_[6] * rhs.data_[8];
+    ret(6) += lhs(0) * rhs(6);
+    ret(6) += lhs(3) * rhs(7);
+    ret(6) += lhs(6) * rhs(8);
 
-    ret.data_[7] += lhs.data_[1] * rhs.data_[6];
-    ret.data_[7] += lhs.data_[4] * rhs.data_[7];
-    ret.data_[7] += lhs.data_[7] * rhs.data_[8];
+    ret(7) += lhs(1) * rhs(6);
+    ret(7) += lhs(4) * rhs(7);
+    ret(7) += lhs(7) * rhs(8);
 
-    ret.data_[8] += lhs.data_[2] * rhs.data_[6];
-    ret.data_[8] += lhs.data_[5] * rhs.data_[7];
-    ret.data_[8] += lhs.data_[8] * rhs.data_[8];
+    ret(8) += lhs(2) * rhs(6);
+    ret(8) += lhs(5) * rhs(7);
+    ret(8) += lhs(8) * rhs(8);
 
     return r = ret;
 }
@@ -550,9 +550,9 @@ template<typename T>
 inline matrix33<T>& transpose(
     matrix33<T>& r)
 {
-    std::swap(r.data_[1], r.data_[3]);
-    std::swap(r.data_[2], r.data_[6]);
-    std::swap(r.data_[5], r.data_[7]);
+    std::swap(r(1), r(3));
+    std::swap(r(2), r(6));
+    std::swap(r(5), r(7));
     return r;
 }
 
@@ -571,9 +571,9 @@ inline matrix33<T>& transpose(
     matrix33<T>& r,
     const matrix33<T>& s)
 {
-    r.data_[0] = s.data_[0]; r.data_[1] = s.data_[3]; r.data_[2] = s.data_[6];
-    r.data_[3] = s.data_[1]; r.data_[4] = s.data_[4]; r.data_[5] = s.data_[7];
-    r.data_[6] = s.data_[2]; r.data_[7] = s.data_[5]; r.data_[8] = s.data_[8];
+    r(0) = s(0); r(1) = s(3); r(2) = s(6);
+    r(3) = s(1); r(4) = s(4); r(5) = s(7);
+    r(6) = s(2); r(7) = s(5); r(8) = s(8);
     return r;
 }
 
@@ -589,9 +589,9 @@ template<typename T>
 inline T determinant(
     const matrix33<T>& m)
 {
-    return ((((m.data_[3]*m.data_[7]) - (m.data_[6]*m.data_[4])) * m.data_[2]) +
-            (((m.data_[6]*m.data_[1]) - (m.data_[0]*m.data_[7])) * m.data_[5]) +
-            (((m.data_[0]*m.data_[4]) - (m.data_[3]*m.data_[1])) * m.data_[8]));
+    return ((((m(3)*m(7)) - (m(6)*m(4))) * m(2)) +
+            (((m(6)*m(1)) - (m(0)*m(7))) * m(5)) +
+            (((m(0)*m(4)) - (m(3)*m(1))) * m(8)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -613,15 +613,15 @@ inline matrix33<T>& invert(
     T det = determinant(s);
     BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
-    r.data_[0] = ((s.data_[4]*s.data_[8])-(s.data_[7]*s.data_[5]))*one_over_det;
-    r.data_[1] = ((s.data_[7]*s.data_[2])-(s.data_[1]*s.data_[8]))*one_over_det;
-    r.data_[2] = ((s.data_[1]*s.data_[5])-(s.data_[4]*s.data_[2]))*one_over_det;
-    r.data_[3] = ((s.data_[6]*s.data_[5])-(s.data_[3]*s.data_[8]))*one_over_det;
-    r.data_[4] = ((s.data_[0]*s.data_[8])-(s.data_[6]*s.data_[2]))*one_over_det;
-    r.data_[5] = ((s.data_[3]*s.data_[2])-(s.data_[0]*s.data_[5]))*one_over_det;
-    r.data_[6] = ((s.data_[3]*s.data_[7])-(s.data_[6]*s.data_[4]))*one_over_det;
-    r.data_[7] = ((s.data_[6]*s.data_[1])-(s.data_[0]*s.data_[7]))*one_over_det;
-    r.data_[8] = ((s.data_[0]*s.data_[4])-(s.data_[3]*s.data_[1]))*one_over_det;
+    r(0) = ((s(4)*s(8))-(s(7)*s(5)))*one_over_det;
+    r(1) = ((s(7)*s(2))-(s(1)*s(8)))*one_over_det;
+    r(2) = ((s(1)*s(5))-(s(4)*s(2)))*one_over_det;
+    r(3) = ((s(6)*s(5))-(s(3)*s(8)))*one_over_det;
+    r(4) = ((s(0)*s(8))-(s(6)*s(2)))*one_over_det;
+    r(5) = ((s(3)*s(2))-(s(0)*s(5)))*one_over_det;
+    r(6) = ((s(3)*s(7))-(s(6)*s(4)))*one_over_det;
+    r(7) = ((s(6)*s(1))-(s(0)*s(7)))*one_over_det;
+    r(8) = ((s(0)*s(4))-(s(3)*s(1)))*one_over_det;
     return r;
 }
 
@@ -665,22 +665,22 @@ inline bool operator== (
     const matrix44<T>& m2)
 {
     return (
-        m1.data_ [0] == m2.data_ [0] &&
-        m1.data_ [1] == m2.data_ [1] &&
-        m1.data_ [2] == m2.data_ [2] &&
-        m1.data_ [3] == m2.data_ [3] &&
-        m1.data_ [4] == m2.data_ [4] &&
-        m1.data_ [5] == m2.data_ [5] &&
-        m1.data_ [6] == m2.data_ [6] &&
-        m1.data_ [7] == m2.data_ [7] &&
-        m1.data_ [8] == m2.data_ [8] &&
-        m1.data_ [9] == m2.data_ [9] &&
-        m1.data_[10] == m2.data_[10] &&
-        m1.data_[11] == m2.data_[11] &&
-        m1.data_[12] == m2.data_[12] &&
-        m1.data_[13] == m2.data_[13] &&
-        m1.data_[14] == m2.data_[14] &&
-        m1.data_[15] == m2.data_[15]);
+        m1 (0) == m2 (0) &&
+        m1 (1) == m2 (1) &&
+        m1 (2) == m2 (2) &&
+        m1 (3) == m2 (3) &&
+        m1 (4) == m2 (4) &&
+        m1 (5) == m2 (5) &&
+        m1 (6) == m2 (6) &&
+        m1 (7) == m2 (7) &&
+        m1 (8) == m2 (8) &&
+        m1 (9) == m2 (9) &&
+        m1(10) == m2(10) &&
+        m1(11) == m2(11) &&
+        m1(12) == m2(12) &&
+        m1(13) == m2(13) &&
+        m1(14) == m2(14) &&
+        m1(15) == m2(15));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -699,22 +699,22 @@ inline bool operator!= (
     const matrix44<T>& m2)
 {
     return (
-        m1.data_ [0] != m2.data_ [0] ||
-        m1.data_ [1] != m2.data_ [1] ||
-        m1.data_ [2] != m2.data_ [2] ||
-        m1.data_ [3] != m2.data_ [3] ||
-        m1.data_ [4] != m2.data_ [4] ||
-        m1.data_ [5] != m2.data_ [5] ||
-        m1.data_ [6] != m2.data_ [6] ||
-        m1.data_ [7] != m2.data_ [7] ||
-        m1.data_ [8] != m2.data_ [8] ||
-        m1.data_ [9] != m2.data_ [9] ||
-        m1.data_[10] != m2.data_[10] ||
-        m1.data_[11] != m2.data_[11] ||
-        m1.data_[12] != m2.data_[12] ||
-        m1.data_[13] != m2.data_[13] ||
-        m1.data_[14] != m2.data_[14] ||
-        m1.data_[15] != m2.data_[15]);
+        m1 (0) != m2 (0) ||
+        m1 (1) != m2 (1) ||
+        m1 (2) != m2 (2) ||
+        m1 (3) != m2 (3) ||
+        m1 (4) != m2 (4) ||
+        m1 (5) != m2 (5) ||
+        m1 (6) != m2 (6) ||
+        m1 (7) != m2 (7) ||
+        m1 (8) != m2 (8) ||
+        m1 (9) != m2 (9) ||
+        m1(10) != m2(10) ||
+        m1(11) != m2(11) ||
+        m1(12) != m2(12) ||
+        m1(13) != m2(13) ||
+        m1(14) != m2(14) ||
+        m1(15) != m2(15));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -737,22 +737,22 @@ inline bool is_equal(
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        std::abs(m1.data_ [0] - m2.data_ [0]) <= eps &&
-        std::abs(m1.data_ [1] - m2.data_ [1]) <= eps &&
-        std::abs(m1.data_ [2] - m2.data_ [2]) <= eps &&
-        std::abs(m1.data_ [3] - m2.data_ [3]) <= eps &&
-        std::abs(m1.data_ [4] - m2.data_ [4]) <= eps &&
-        std::abs(m1.data_ [5] - m2.data_ [5]) <= eps &&
-        std::abs(m1.data_ [6] - m2.data_ [6]) <= eps &&
-        std::abs(m1.data_ [7] - m2.data_ [7]) <= eps &&
-        std::abs(m1.data_ [8] - m2.data_ [8]) <= eps &&
-        std::abs(m1.data_ [9] - m2.data_ [9]) <= eps &&
-        std::abs(m1.data_[10] - m2.data_[10]) <= eps &&
-        std::abs(m1.data_[11] - m2.data_[11]) <= eps &&
-        std::abs(m1.data_[12] - m2.data_[12]) <= eps &&
-        std::abs(m1.data_[13] - m2.data_[13]) <= eps &&
-        std::abs(m1.data_[14] - m2.data_[14]) <= eps &&
-        std::abs(m1.data_[15] - m2.data_[15]) <= eps);
+        std::abs(m1 (0) - m2 (0)) <= eps &&
+        std::abs(m1 (1) - m2 (1)) <= eps &&
+        std::abs(m1 (2) - m2 (2)) <= eps &&
+        std::abs(m1 (3) - m2 (3)) <= eps &&
+        std::abs(m1 (4) - m2 (4)) <= eps &&
+        std::abs(m1 (5) - m2 (5)) <= eps &&
+        std::abs(m1 (6) - m2 (6)) <= eps &&
+        std::abs(m1 (7) - m2 (7)) <= eps &&
+        std::abs(m1 (8) - m2 (8)) <= eps &&
+        std::abs(m1 (9) - m2 (9)) <= eps &&
+        std::abs(m1(10) - m2(10)) <= eps &&
+        std::abs(m1(11) - m2(11)) <= eps &&
+        std::abs(m1(12) - m2(12)) <= eps &&
+        std::abs(m1(13) - m2(13)) <= eps &&
+        std::abs(m1(14) - m2(14)) <= eps &&
+        std::abs(m1(15) - m2(15)) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -777,85 +777,85 @@ inline matrix44<T>& mult(
     matrix44<T> ret;    // prevents aliasing
     ret.zero();
 
-    ret.data_ [0] += lhs.data_ [0] * rhs.data_ [0];
-    ret.data_ [0] += lhs.data_ [4] * rhs.data_ [1];
-    ret.data_ [0] += lhs.data_ [8] * rhs.data_ [2];
-    ret.data_ [0] += lhs.data_[12] * rhs.data_ [3];
+    ret (0) += lhs (0) * rhs (0);
+    ret (0) += lhs (4) * rhs (1);
+    ret (0) += lhs (8) * rhs (2);
+    ret (0) += lhs(12) * rhs (3);
 
-    ret.data_ [1] += lhs.data_ [1] * rhs.data_ [0];
-    ret.data_ [1] += lhs.data_ [5] * rhs.data_ [1];
-    ret.data_ [1] += lhs.data_ [9] * rhs.data_ [2];
-    ret.data_ [1] += lhs.data_[13] * rhs.data_ [3];
+    ret (1) += lhs (1) * rhs (0);
+    ret (1) += lhs (5) * rhs (1);
+    ret (1) += lhs (9) * rhs (2);
+    ret (1) += lhs(13) * rhs (3);
 
-    ret.data_ [2] += lhs.data_ [2] * rhs.data_ [0];
-    ret.data_ [2] += lhs.data_ [6] * rhs.data_ [1];
-    ret.data_ [2] += lhs.data_[10] * rhs.data_ [2];
-    ret.data_ [2] += lhs.data_[14] * rhs.data_ [3];
+    ret (2) += lhs (2) * rhs (0);
+    ret (2) += lhs (6) * rhs (1);
+    ret (2) += lhs(10) * rhs (2);
+    ret (2) += lhs(14) * rhs (3);
 
-    ret.data_ [3] += lhs.data_ [3] * rhs.data_ [0];
-    ret.data_ [3] += lhs.data_ [7] * rhs.data_ [1];
-    ret.data_ [3] += lhs.data_[11] * rhs.data_ [2];
-    ret.data_ [3] += lhs.data_[15] * rhs.data_ [3];
+    ret (3) += lhs (3) * rhs (0);
+    ret (3) += lhs (7) * rhs (1);
+    ret (3) += lhs(11) * rhs (2);
+    ret (3) += lhs(15) * rhs (3);
 
-    ret.data_ [4] += lhs.data_ [0] * rhs.data_ [4];
-    ret.data_ [4] += lhs.data_ [4] * rhs.data_ [5];
-    ret.data_ [4] += lhs.data_ [8] * rhs.data_ [6];
-    ret.data_ [4] += lhs.data_[12] * rhs.data_ [7];
+    ret (4) += lhs (0) * rhs (4);
+    ret (4) += lhs (4) * rhs (5);
+    ret (4) += lhs (8) * rhs (6);
+    ret (4) += lhs(12) * rhs (7);
 
-    ret.data_ [5] += lhs.data_ [1] * rhs.data_ [4];
-    ret.data_ [5] += lhs.data_ [5] * rhs.data_ [5];
-    ret.data_ [5] += lhs.data_ [9] * rhs.data_ [6];
-    ret.data_ [5] += lhs.data_[13] * rhs.data_ [7];
+    ret (5) += lhs (1) * rhs (4);
+    ret (5) += lhs (5) * rhs (5);
+    ret (5) += lhs (9) * rhs (6);
+    ret (5) += lhs(13) * rhs (7);
 
-    ret.data_ [6] += lhs.data_ [2] * rhs.data_ [4];
-    ret.data_ [6] += lhs.data_ [6] * rhs.data_ [5];
-    ret.data_ [6] += lhs.data_[10] * rhs.data_ [6];
-    ret.data_ [6] += lhs.data_[14] * rhs.data_ [7];
+    ret (6) += lhs (2) * rhs (4);
+    ret (6) += lhs (6) * rhs (5);
+    ret (6) += lhs(10) * rhs (6);
+    ret (6) += lhs(14) * rhs (7);
 
-    ret.data_ [7] += lhs.data_ [3] * rhs.data_ [4];
-    ret.data_ [7] += lhs.data_ [7] * rhs.data_ [5];
-    ret.data_ [7] += lhs.data_[11] * rhs.data_ [6];
-    ret.data_ [7] += lhs.data_[15] * rhs.data_ [7];
+    ret (7) += lhs (3) * rhs (4);
+    ret (7) += lhs (7) * rhs (5);
+    ret (7) += lhs(11) * rhs (6);
+    ret (7) += lhs(15) * rhs (7);
 
-    ret.data_ [8] += lhs.data_ [0] * rhs.data_ [8];
-    ret.data_ [8] += lhs.data_ [4] * rhs.data_ [9];
-    ret.data_ [8] += lhs.data_ [8] * rhs.data_[10];
-    ret.data_ [8] += lhs.data_[12] * rhs.data_[11];
+    ret (8) += lhs (0) * rhs (8);
+    ret (8) += lhs (4) * rhs (9);
+    ret (8) += lhs (8) * rhs(10);
+    ret (8) += lhs(12) * rhs(11);
 
-    ret.data_ [9] += lhs.data_ [1] * rhs.data_ [8];
-    ret.data_ [9] += lhs.data_ [5] * rhs.data_ [9];
-    ret.data_ [9] += lhs.data_ [9] * rhs.data_[10];
-    ret.data_ [9] += lhs.data_[13] * rhs.data_[11];
+    ret (9) += lhs (1) * rhs (8);
+    ret (9) += lhs (5) * rhs (9);
+    ret (9) += lhs (9) * rhs(10);
+    ret (9) += lhs(13) * rhs(11);
 
-    ret.data_[10] += lhs.data_ [2] * rhs.data_ [8];
-    ret.data_[10] += lhs.data_ [6] * rhs.data_ [9];
-    ret.data_[10] += lhs.data_[10] * rhs.data_[10];
-    ret.data_[10] += lhs.data_[14] * rhs.data_[11];
+    ret(10) += lhs (2) * rhs (8);
+    ret(10) += lhs (6) * rhs (9);
+    ret(10) += lhs(10) * rhs(10);
+    ret(10) += lhs(14) * rhs(11);
 
-    ret.data_[11] += lhs.data_ [3] * rhs.data_ [8];
-    ret.data_[11] += lhs.data_ [7] * rhs.data_ [9];
-    ret.data_[11] += lhs.data_[11] * rhs.data_[10];
-    ret.data_[11] += lhs.data_[15] * rhs.data_[11];
+    ret(11) += lhs (3) * rhs (8);
+    ret(11) += lhs (7) * rhs (9);
+    ret(11) += lhs(11) * rhs(10);
+    ret(11) += lhs(15) * rhs(11);
 
-    ret.data_[12] += lhs.data_ [0] * rhs.data_[12];
-    ret.data_[12] += lhs.data_ [4] * rhs.data_[13];
-    ret.data_[12] += lhs.data_ [8] * rhs.data_[14];
-    ret.data_[12] += lhs.data_[12] * rhs.data_[15];
+    ret(12) += lhs (0) * rhs(12);
+    ret(12) += lhs (4) * rhs(13);
+    ret(12) += lhs (8) * rhs(14);
+    ret(12) += lhs(12) * rhs(15);
 
-    ret.data_[13] += lhs.data_ [1] * rhs.data_[12];
-    ret.data_[13] += lhs.data_ [5] * rhs.data_[13];
-    ret.data_[13] += lhs.data_ [9] * rhs.data_[14];
-    ret.data_[13] += lhs.data_[13] * rhs.data_[15];
+    ret(13) += lhs (1) * rhs(12);
+    ret(13) += lhs (5) * rhs(13);
+    ret(13) += lhs (9) * rhs(14);
+    ret(13) += lhs(13) * rhs(15);
 
-    ret.data_[14] += lhs.data_ [2] * rhs.data_[12];
-    ret.data_[14] += lhs.data_ [6] * rhs.data_[13];
-    ret.data_[14] += lhs.data_[10] * rhs.data_[14];
-    ret.data_[14] += lhs.data_[14] * rhs.data_[15];
+    ret(14) += lhs (2) * rhs(12);
+    ret(14) += lhs (6) * rhs(13);
+    ret(14) += lhs(10) * rhs(14);
+    ret(14) += lhs(14) * rhs(15);
 
-    ret.data_[15] += lhs.data_ [3] * rhs.data_[12];
-    ret.data_[15] += lhs.data_ [7] * rhs.data_[13];
-    ret.data_[15] += lhs.data_[11] * rhs.data_[14];
-    ret.data_[15] += lhs.data_[15] * rhs.data_[15];
+    ret(15) += lhs (3) * rhs(12);
+    ret(15) += lhs (7) * rhs(13);
+    ret(15) += lhs(11) * rhs(14);
+    ret(15) += lhs(15) * rhs(15);
 
     return r = ret;
 }
@@ -954,12 +954,12 @@ template<typename T>
 inline matrix44<T>& transpose(
     matrix44<T>& r)
 {
-    std::swap(r.data_ [1], r.data_ [4]);
-    std::swap(r.data_ [2], r.data_ [8]);
-    std::swap(r.data_ [3], r.data_[12]);
-    std::swap(r.data_ [6], r.data_ [9]);
-    std::swap(r.data_ [7], r.data_[13]);
-    std::swap(r.data_[11], r.data_[14]);
+    std::swap(r (1), r (4));
+    std::swap(r (2), r (8));
+    std::swap(r (3), r(12));
+    std::swap(r (6), r (9));
+    std::swap(r (7), r(13));
+    std::swap(r(11), r(14));
     return r;
 }
 
@@ -978,14 +978,14 @@ inline matrix44<T>& transpose(
     matrix44<T>& r,
     const matrix44<T>& s)
 {
-    r.data_ [0] = s.data_ [0]; r.data_ [1] = s.data_ [4];
-    r.data_ [2] = s.data_ [8]; r.data_ [3] = s.data_[12];
-    r.data_ [4] = s.data_ [1]; r.data_ [5] = s.data_ [5];
-    r.data_ [6] = s.data_ [9]; r.data_ [7] = s.data_[13];
-    r.data_ [8] = s.data_ [2]; r.data_ [9] = s.data_ [6];
-    r.data_[10] = s.data_[10]; r.data_[11] = s.data_[14];
-    r.data_[12] = s.data_ [3]; r.data_[13] = s.data_ [7];
-    r.data_[14] = s.data_[11]; r.data_[15] = s.data_[15];
+    r (0) = s (0); r (1) = s (4);
+    r (2) = s (8); r (3) = s(12);
+    r (4) = s (1); r (5) = s (5);
+    r (6) = s (9); r (7) = s(13);
+    r (8) = s (2); r (9) = s (6);
+    r(10) = s(10); r(11) = s(14);
+    r(12) = s (3); r(13) = s (7);
+    r(14) = s(11); r(15) = s(15);
     return r;
 }
 
@@ -1003,22 +1003,22 @@ inline T determinant(
 {
     return
         (((
-        (((m.data_[10]*m.data_[15])-(m.data_[14]*m.data_[11]))*m.data_ [5]) +
-        (((m.data_[14]*m.data_ [7])-(m.data_ [6]*m.data_[15]))*m.data_ [9]) +
-        (((m.data_ [6]*m.data_[11])-(m.data_[10]*m.data_ [7]))*m.data_[13]))
-          *m.data_ [0]) - ((
-        (((m.data_[10]*m.data_[15])-(m.data_[14]*m.data_[11]))*m.data_ [1]) +
-        (((m.data_[14]*m.data_ [3])-(m.data_ [2]*m.data_[15]))*m.data_ [9]) +
-        (((m.data_ [2]*m.data_[11])-(m.data_[10]*m.data_ [3]))*m.data_[13]))
-          *m.data_ [4]) + ((
-        (((m.data_ [6]*m.data_[15])-(m.data_[14]*m.data_ [7]))*m.data_ [1]) +
-        (((m.data_[14]*m.data_ [3])-(m.data_ [2]*m.data_[15]))*m.data_ [5]) +
-        (((m.data_ [2]*m.data_ [7])-(m.data_ [6]*m.data_ [3]))*m.data_[13]))
-          *m.data_ [8]) - ((
-        (((m.data_ [6]*m.data_[11])-(m.data_[10]*m.data_ [7]))*m.data_ [1]) +
-        (((m.data_[10]*m.data_ [3])-(m.data_ [2]*m.data_[11]))*m.data_ [5]) +
-        (((m.data_ [2]*m.data_ [7])-(m.data_ [6]*m.data_ [3]))*m.data_ [9]))
-          *m.data_[12]
+        (((m(10)*m(15))-(m(14)*m(11)))*m (5)) +
+        (((m(14)*m (7))-(m (6)*m(15)))*m (9)) +
+        (((m (6)*m(11))-(m(10)*m (7)))*m(13)))
+          *m (0)) - ((
+        (((m(10)*m(15))-(m(14)*m(11)))*m (1)) +
+        (((m(14)*m (3))-(m (2)*m(15)))*m (9)) +
+        (((m (2)*m(11))-(m(10)*m (3)))*m(13)))
+          *m (4)) + ((
+        (((m (6)*m(15))-(m(14)*m (7)))*m (1)) +
+        (((m(14)*m (3))-(m (2)*m(15)))*m (5)) +
+        (((m (2)*m (7))-(m (6)*m (3)))*m(13)))
+          *m (8)) - ((
+        (((m (6)*m(11))-(m(10)*m (7)))*m (1)) +
+        (((m(10)*m (3))-(m (2)*m(11)))*m (5)) +
+        (((m (2)*m (7))-(m (6)*m (3)))*m (9)))
+          *m(12)
         ));
 }
 
@@ -1041,102 +1041,102 @@ inline matrix44<T>& invert(
     T det = determinant(s);
     BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
-    r.data_ [0] = ((s.data_ [5]*s.data_[10]*s.data_[15]) +
-                   (s.data_ [9]*s.data_[14]*s.data_ [7]) +
-                   (s.data_[13]*s.data_ [6]*s.data_[11]) -
-                   (s.data_ [5]*s.data_[14]*s.data_[11]) -
-                   (s.data_ [9]*s.data_ [6]*s.data_[15]) -
-                   (s.data_[13]*s.data_[10]*s.data_ [7])) * one_over_det;
-    r.data_ [1] = ((s.data_ [1]*s.data_[14]*s.data_[11]) +
-                   (s.data_ [9]*s.data_ [2]*s.data_[15]) +
-                   (s.data_[13]*s.data_[10]*s.data_ [3]) -
-                   (s.data_ [1]*s.data_[10]*s.data_[15]) -
-                   (s.data_ [9]*s.data_[14]*s.data_ [3]) -
-                   (s.data_[13]*s.data_ [2]*s.data_[11])) * one_over_det;
-    r.data_ [2] = ((s.data_ [1]*s.data_ [6]*s.data_[15]) +
-                   (s.data_ [5]*s.data_[14]*s.data_ [3]) +
-                   (s.data_[13]*s.data_ [2]*s.data_ [7]) -
-                   (s.data_ [1]*s.data_[14]*s.data_ [7]) -
-                   (s.data_ [5]*s.data_ [2]*s.data_[15]) -
-                   (s.data_[13]*s.data_ [6]*s.data_ [3])) * one_over_det;
-    r.data_ [3] = ((s.data_ [1]*s.data_[10]*s.data_ [7]) +
-                   (s.data_ [5]*s.data_ [2]*s.data_[11]) +
-                   (s.data_ [9]*s.data_ [6]*s.data_ [3]) -
-                   (s.data_ [1]*s.data_ [6]*s.data_[11]) -
-                   (s.data_ [5]*s.data_[10]*s.data_ [3]) -
-                   (s.data_ [9]*s.data_ [2]*s.data_ [7])) * one_over_det;
-    r.data_ [4] = ((s.data_ [4]*s.data_[14]*s.data_[11]) +
-                   (s.data_ [8]*s.data_ [6]*s.data_[15]) +
-                   (s.data_[12]*s.data_[10]*s.data_ [7]) -
-                   (s.data_ [4]*s.data_[10]*s.data_[15]) -
-                   (s.data_ [8]*s.data_[14]*s.data_ [7]) -
-                   (s.data_[12]*s.data_ [6]*s.data_[11])) * one_over_det;
-    r.data_ [5] = ((s.data_ [0]*s.data_[10]*s.data_[15]) +
-                   (s.data_ [8]*s.data_[14]*s.data_ [3]) +
-                   (s.data_[12]*s.data_ [2]*s.data_[11]) -
-                   (s.data_ [0]*s.data_[14]*s.data_[11]) -
-                   (s.data_ [8]*s.data_ [2]*s.data_[15]) -
-                   (s.data_[12]*s.data_[10]*s.data_ [3])) * one_over_det;
-    r.data_ [6] = ((s.data_ [0]*s.data_[14]*s.data_ [7]) +
-                   (s.data_ [4]*s.data_ [2]*s.data_[15]) +
-                   (s.data_[12]*s.data_ [6]*s.data_ [3]) -
-                   (s.data_ [0]*s.data_ [6]*s.data_[15]) -
-                   (s.data_ [4]*s.data_[14]*s.data_ [3]) -
-                   (s.data_[12]*s.data_ [2]*s.data_ [7])) * one_over_det;
-    r.data_ [7] = ((s.data_ [0]*s.data_ [6]*s.data_[11]) +
-                   (s.data_ [4]*s.data_[10]*s.data_ [3]) +
-                   (s.data_ [8]*s.data_ [2]*s.data_ [7]) -
-                   (s.data_ [0]*s.data_[10]*s.data_ [7]) -
-                   (s.data_ [4]*s.data_ [2]*s.data_[11]) -
-                   (s.data_ [8]*s.data_ [6]*s.data_ [3])) * one_over_det;
-    r.data_ [8] = ((s.data_ [4]*s.data_ [9]*s.data_[15]) +
-                   (s.data_ [8]*s.data_[13]*s.data_ [7]) +
-                   (s.data_[12]*s.data_ [5]*s.data_[11]) -
-                   (s.data_ [4]*s.data_[13]*s.data_[11]) -
-                   (s.data_ [8]*s.data_ [5]*s.data_[15]) -
-                   (s.data_[12]*s.data_ [9]*s.data_ [7])) * one_over_det;
-    r.data_ [9] = ((s.data_ [0]*s.data_[13]*s.data_[11]) +
-                   (s.data_ [8]*s.data_ [1]*s.data_[15]) +
-                   (s.data_[12]*s.data_ [9]*s.data_ [3]) -
-                   (s.data_ [0]*s.data_ [9]*s.data_[15]) -
-                   (s.data_ [8]*s.data_[13]*s.data_ [3]) -
-                   (s.data_[12]*s.data_ [1]*s.data_[11])) * one_over_det;
-    r.data_[10] = ((s.data_ [0]*s.data_ [5]*s.data_[15]) +
-                   (s.data_ [4]*s.data_[13]*s.data_ [3]) +
-                   (s.data_[12]*s.data_ [1]*s.data_ [7]) -
-                   (s.data_ [0]*s.data_[13]*s.data_ [7]) -
-                   (s.data_ [4]*s.data_ [1]*s.data_[15]) -
-                   (s.data_[12]*s.data_ [5]*s.data_ [3])) * one_over_det;
-    r.data_[11] = ((s.data_ [0]*s.data_ [9]*s.data_ [7]) +
-                   (s.data_ [4]*s.data_ [1]*s.data_[11]) +
-                   (s.data_ [8]*s.data_ [5]*s.data_ [3]) -
-                   (s.data_ [0]*s.data_ [5]*s.data_[11]) -
-                   (s.data_ [4]*s.data_ [9]*s.data_ [3]) -
-                   (s.data_ [8]*s.data_ [1]*s.data_ [7])) * one_over_det;
-    r.data_[12] = ((s.data_ [4]*s.data_[13]*s.data_[10]) +
-                   (s.data_ [8]*s.data_ [5]*s.data_[14]) +
-                   (s.data_[12]*s.data_ [9]*s.data_ [6]) -
-                   (s.data_ [4]*s.data_ [9]*s.data_[14]) -
-                   (s.data_ [8]*s.data_[13]*s.data_ [6]) -
-                   (s.data_[12]*s.data_ [5]*s.data_[10])) * one_over_det;
-    r.data_[13] = ((s.data_ [0]*s.data_ [9]*s.data_[14]) +
-                   (s.data_ [8]*s.data_[13]*s.data_ [2]) +
-                   (s.data_[12]*s.data_ [1]*s.data_[10]) -
-                   (s.data_ [0]*s.data_[13]*s.data_[10]) -
-                   (s.data_ [8]*s.data_ [1]*s.data_[14]) -
-                   (s.data_[12]*s.data_ [9]*s.data_ [2])) * one_over_det;
-    r.data_[14] = ((s.data_ [0]*s.data_[13]*s.data_ [6]) +
-                   (s.data_ [4]*s.data_ [1]*s.data_[14]) +
-                   (s.data_[12]*s.data_ [5]*s.data_ [2]) -
-                   (s.data_ [0]*s.data_ [5]*s.data_[14]) -
-                   (s.data_ [4]*s.data_[13]*s.data_ [2]) -
-                   (s.data_[12]*s.data_ [1]*s.data_ [6])) * one_over_det;
-    r.data_[15] = ((s.data_ [0]*s.data_ [5]*s.data_[10]) +
-                   (s.data_ [4]*s.data_ [9]*s.data_ [2]) +
-                   (s.data_ [8]*s.data_ [1]*s.data_ [6]) -
-                   (s.data_ [0]*s.data_ [9]*s.data_ [6]) -
-                   (s.data_ [4]*s.data_ [1]*s.data_[10]) -
-                   (s.data_ [8]*s.data_ [5]*s.data_ [2])) * one_over_det;
+    r (0) = ((s (5)*s(10)*s(15)) +
+                   (s (9)*s(14)*s (7)) +
+                   (s(13)*s (6)*s(11)) -
+                   (s (5)*s(14)*s(11)) -
+                   (s (9)*s (6)*s(15)) -
+                   (s(13)*s(10)*s (7))) * one_over_det;
+    r (1) = ((s (1)*s(14)*s(11)) +
+                   (s (9)*s (2)*s(15)) +
+                   (s(13)*s(10)*s (3)) -
+                   (s (1)*s(10)*s(15)) -
+                   (s (9)*s(14)*s (3)) -
+                   (s(13)*s (2)*s(11))) * one_over_det;
+    r (2) = ((s (1)*s (6)*s(15)) +
+                   (s (5)*s(14)*s (3)) +
+                   (s(13)*s (2)*s (7)) -
+                   (s (1)*s(14)*s (7)) -
+                   (s (5)*s (2)*s(15)) -
+                   (s(13)*s (6)*s (3))) * one_over_det;
+    r (3) = ((s (1)*s(10)*s (7)) +
+                   (s (5)*s (2)*s(11)) +
+                   (s (9)*s (6)*s (3)) -
+                   (s (1)*s (6)*s(11)) -
+                   (s (5)*s(10)*s (3)) -
+                   (s (9)*s (2)*s (7))) * one_over_det;
+    r (4) = ((s (4)*s(14)*s(11)) +
+                   (s (8)*s (6)*s(15)) +
+                   (s(12)*s(10)*s (7)) -
+                   (s (4)*s(10)*s(15)) -
+                   (s (8)*s(14)*s (7)) -
+                   (s(12)*s (6)*s(11))) * one_over_det;
+    r (5) = ((s (0)*s(10)*s(15)) +
+                   (s (8)*s(14)*s (3)) +
+                   (s(12)*s (2)*s(11)) -
+                   (s (0)*s(14)*s(11)) -
+                   (s (8)*s (2)*s(15)) -
+                   (s(12)*s(10)*s (3))) * one_over_det;
+    r (6) = ((s (0)*s(14)*s (7)) +
+                   (s (4)*s (2)*s(15)) +
+                   (s(12)*s (6)*s (3)) -
+                   (s (0)*s (6)*s(15)) -
+                   (s (4)*s(14)*s (3)) -
+                   (s(12)*s (2)*s (7))) * one_over_det;
+    r (7) = ((s (0)*s (6)*s(11)) +
+                   (s (4)*s(10)*s (3)) +
+                   (s (8)*s (2)*s (7)) -
+                   (s (0)*s(10)*s (7)) -
+                   (s (4)*s (2)*s(11)) -
+                   (s (8)*s (6)*s (3))) * one_over_det;
+    r (8) = ((s (4)*s (9)*s(15)) +
+                   (s (8)*s(13)*s (7)) +
+                   (s(12)*s (5)*s(11)) -
+                   (s (4)*s(13)*s(11)) -
+                   (s (8)*s (5)*s(15)) -
+                   (s(12)*s (9)*s (7))) * one_over_det;
+    r (9) = ((s (0)*s(13)*s(11)) +
+                   (s (8)*s (1)*s(15)) +
+                   (s(12)*s (9)*s (3)) -
+                   (s (0)*s (9)*s(15)) -
+                   (s (8)*s(13)*s (3)) -
+                   (s(12)*s (1)*s(11))) * one_over_det;
+    r(10) = ((s (0)*s (5)*s(15)) +
+                   (s (4)*s(13)*s (3)) +
+                   (s(12)*s (1)*s (7)) -
+                   (s (0)*s(13)*s (7)) -
+                   (s (4)*s (1)*s(15)) -
+                   (s(12)*s (5)*s (3))) * one_over_det;
+    r(11) = ((s (0)*s (9)*s (7)) +
+                   (s (4)*s (1)*s(11)) +
+                   (s (8)*s (5)*s (3)) -
+                   (s (0)*s (5)*s(11)) -
+                   (s (4)*s (9)*s (3)) -
+                   (s (8)*s (1)*s (7))) * one_over_det;
+    r(12) = ((s (4)*s(13)*s(10)) +
+                   (s (8)*s (5)*s(14)) +
+                   (s(12)*s (9)*s (6)) -
+                   (s (4)*s (9)*s(14)) -
+                   (s (8)*s(13)*s (6)) -
+                   (s(12)*s (5)*s(10))) * one_over_det;
+    r(13) = ((s (0)*s (9)*s(14)) +
+                   (s (8)*s(13)*s (2)) +
+                   (s(12)*s (1)*s(10)) -
+                   (s (0)*s(13)*s(10)) -
+                   (s (8)*s (1)*s(14)) -
+                   (s(12)*s (9)*s (2))) * one_over_det;
+    r(14) = ((s (0)*s(13)*s (6)) +
+                   (s (4)*s (1)*s(14)) +
+                   (s(12)*s (5)*s (2)) -
+                   (s (0)*s (5)*s(14)) -
+                   (s (4)*s(13)*s (2)) -
+                   (s(12)*s (1)*s (6))) * one_over_det;
+    r(15) = ((s (0)*s (5)*s(10)) +
+                   (s (4)*s (9)*s (2)) +
+                   (s (8)*s (1)*s (6)) -
+                   (s (0)*s (9)*s (6)) -
+                   (s (4)*s (1)*s(10)) -
+                   (s (8)*s (5)*s (2))) * one_over_det;
     return r;
 }
 

@@ -25,28 +25,28 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_InitListConstruct, T, test_types)
 {
 //    matrix22<T> zero {}; // because of a bug in g++ > 4.5
     matrix22<T> zero {0};
-    BOOST_CHECK_EQUAL(zero.data_[0], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[1], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[2], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[3], T(0));
+    BOOST_CHECK_EQUAL(zero(0), T(0));
+    BOOST_CHECK_EQUAL(zero(1), T(0));
+    BOOST_CHECK_EQUAL(zero(2), T(0));
+    BOOST_CHECK_EQUAL(zero(3), T(0));
 
     matrix22<T> iden { T(1), T(0), T(0), T(1) };
-    BOOST_CHECK_EQUAL(iden.data_[0], T(1));
-    BOOST_CHECK_EQUAL(iden.data_[1], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[2], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[3], T(1));
+    BOOST_CHECK_EQUAL(iden(0), T(1));
+    BOOST_CHECK_EQUAL(iden(1), T(0));
+    BOOST_CHECK_EQUAL(iden(2), T(0));
+    BOOST_CHECK_EQUAL(iden(3), T(1));
 
     matrix22<T> first { T(1) };
-    BOOST_CHECK_EQUAL(first.data_[0], T(1));
-    BOOST_CHECK_EQUAL(first.data_[1], T(0));
-    BOOST_CHECK_EQUAL(first.data_[2], T(0));
-    BOOST_CHECK_EQUAL(first.data_[3], T(0));
+    BOOST_CHECK_EQUAL(first(0), T(1));
+    BOOST_CHECK_EQUAL(first(1), T(0));
+    BOOST_CHECK_EQUAL(first(2), T(0));
+    BOOST_CHECK_EQUAL(first(3), T(0));
 
     matrix22<T> third { T(1), T(2), T(3) };
-    BOOST_CHECK_EQUAL(third.data_[0], T(1));
-    BOOST_CHECK_EQUAL(third.data_[1], T(2));
-    BOOST_CHECK_EQUAL(third.data_[2], T(3));
-    BOOST_CHECK_EQUAL(third.data_[3], T(0));
+    BOOST_CHECK_EQUAL(third(0), T(1));
+    BOOST_CHECK_EQUAL(third(1), T(2));
+    BOOST_CHECK_EQUAL(third(2), T(3));
+    BOOST_CHECK_EQUAL(third(3), T(0));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_CopyConstruct, T, test_types)
@@ -126,7 +126,17 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_GetData, T, test_types)
     BOOST_CHECK_EQUAL(data[3], T(4));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_ParaOp, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_ParaOpIdx, T, test_types)
+{
+    matrix22<T> m { 0,1,2,3 };
+
+    BOOST_CHECK_EQUAL(m(0), T(0));
+    BOOST_CHECK_EQUAL(m(1), T(1));
+    BOOST_CHECK_EQUAL(m(2), T(2));
+    BOOST_CHECK_EQUAL(m(3), T(3));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_ParaOpRC, T, test_types)
 {
     matrix22<T> m { 0,1,2,3 };
 
@@ -448,48 +458,48 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_InitListConstruct, T, test_types)
 {
 //    matrix33<T> zero {}; // because of a bug in g++ > 4.5
     matrix33<T> zero {0};
-    BOOST_CHECK_EQUAL(zero.data_[0], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[1], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[2], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[3], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[4], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[5], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[6], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[7], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[8], T(0));
+    BOOST_CHECK_EQUAL(zero(0), T(0));
+    BOOST_CHECK_EQUAL(zero(1), T(0));
+    BOOST_CHECK_EQUAL(zero(2), T(0));
+    BOOST_CHECK_EQUAL(zero(3), T(0));
+    BOOST_CHECK_EQUAL(zero(4), T(0));
+    BOOST_CHECK_EQUAL(zero(5), T(0));
+    BOOST_CHECK_EQUAL(zero(6), T(0));
+    BOOST_CHECK_EQUAL(zero(7), T(0));
+    BOOST_CHECK_EQUAL(zero(8), T(0));
 
     matrix33<T> iden { T(1), T(0), T(0), T(0), T(1), T(0), T(0), T(0), T(1) };
-    BOOST_CHECK_EQUAL(iden.data_[0], T(1));
-    BOOST_CHECK_EQUAL(iden.data_[1], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[2], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[3], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[4], T(1));
-    BOOST_CHECK_EQUAL(iden.data_[5], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[6], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[7], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[8], T(1));
+    BOOST_CHECK_EQUAL(iden(0), T(1));
+    BOOST_CHECK_EQUAL(iden(1), T(0));
+    BOOST_CHECK_EQUAL(iden(2), T(0));
+    BOOST_CHECK_EQUAL(iden(3), T(0));
+    BOOST_CHECK_EQUAL(iden(4), T(1));
+    BOOST_CHECK_EQUAL(iden(5), T(0));
+    BOOST_CHECK_EQUAL(iden(6), T(0));
+    BOOST_CHECK_EQUAL(iden(7), T(0));
+    BOOST_CHECK_EQUAL(iden(8), T(1));
 
     matrix33<T> first { T(1) };
-    BOOST_CHECK_EQUAL(first.data_[0], T(1));
-    BOOST_CHECK_EQUAL(first.data_[1], T(0));
-    BOOST_CHECK_EQUAL(first.data_[2], T(0));
-    BOOST_CHECK_EQUAL(first.data_[3], T(0));
-    BOOST_CHECK_EQUAL(first.data_[4], T(0));
-    BOOST_CHECK_EQUAL(first.data_[5], T(0));
-    BOOST_CHECK_EQUAL(first.data_[6], T(0));
-    BOOST_CHECK_EQUAL(first.data_[7], T(0));
-    BOOST_CHECK_EQUAL(first.data_[8], T(0));
+    BOOST_CHECK_EQUAL(first(0), T(1));
+    BOOST_CHECK_EQUAL(first(1), T(0));
+    BOOST_CHECK_EQUAL(first(2), T(0));
+    BOOST_CHECK_EQUAL(first(3), T(0));
+    BOOST_CHECK_EQUAL(first(4), T(0));
+    BOOST_CHECK_EQUAL(first(5), T(0));
+    BOOST_CHECK_EQUAL(first(6), T(0));
+    BOOST_CHECK_EQUAL(first(7), T(0));
+    BOOST_CHECK_EQUAL(first(8), T(0));
 
     matrix33<T> eighth { T(1), T(2), T(3), T(4), T(5), T(6), T(7), T(8) };
-    BOOST_CHECK_EQUAL(eighth.data_[0], T(1));
-    BOOST_CHECK_EQUAL(eighth.data_[1], T(2));
-    BOOST_CHECK_EQUAL(eighth.data_[2], T(3));
-    BOOST_CHECK_EQUAL(eighth.data_[3], T(4));
-    BOOST_CHECK_EQUAL(eighth.data_[4], T(5));
-    BOOST_CHECK_EQUAL(eighth.data_[5], T(6));
-    BOOST_CHECK_EQUAL(eighth.data_[6], T(7));
-    BOOST_CHECK_EQUAL(eighth.data_[7], T(8));
-    BOOST_CHECK_EQUAL(eighth.data_[8], T(0));
+    BOOST_CHECK_EQUAL(eighth(0), T(1));
+    BOOST_CHECK_EQUAL(eighth(1), T(2));
+    BOOST_CHECK_EQUAL(eighth(2), T(3));
+    BOOST_CHECK_EQUAL(eighth(3), T(4));
+    BOOST_CHECK_EQUAL(eighth(4), T(5));
+    BOOST_CHECK_EQUAL(eighth(5), T(6));
+    BOOST_CHECK_EQUAL(eighth(6), T(7));
+    BOOST_CHECK_EQUAL(eighth(7), T(8));
+    BOOST_CHECK_EQUAL(eighth(8), T(0));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_CopyConstruct, T, test_types)
@@ -594,7 +604,22 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_GetData, T, test_types)
     BOOST_CHECK_EQUAL(data[8], T(9));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_ParaOp, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_ParaOpIdx, T, test_types)
+{
+    matrix33<T> m { 1,2,3,4,5,6,7,8,9 };
+
+    BOOST_CHECK_EQUAL(m(0), T(1));
+    BOOST_CHECK_EQUAL(m(1), T(2));
+    BOOST_CHECK_EQUAL(m(2), T(3));
+    BOOST_CHECK_EQUAL(m(3), T(4));
+    BOOST_CHECK_EQUAL(m(4), T(5));
+    BOOST_CHECK_EQUAL(m(5), T(6));
+    BOOST_CHECK_EQUAL(m(6), T(7));
+    BOOST_CHECK_EQUAL(m(7), T(8));
+    BOOST_CHECK_EQUAL(m(8), T(9));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_ParaOpRC, T, test_types)
 {
     matrix33<T> m { 1,2,3,4,5,6,7,8,9 };
 
@@ -981,80 +1006,80 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_InitListConstruct, T, test_types)
 {
 //    matrix44<T> zero {}; // because of a bug in g++ > 4.5
     matrix44<T> zero {0};
-    BOOST_CHECK_EQUAL(zero.data_ [0], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [1], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [2], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [3], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [4], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [5], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [6], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [7], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [8], T(0));
-    BOOST_CHECK_EQUAL(zero.data_ [9], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[10], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[11], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[12], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[13], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[14], T(0));
-    BOOST_CHECK_EQUAL(zero.data_[15], T(0));
+    BOOST_CHECK_EQUAL(zero (0), T(0));
+    BOOST_CHECK_EQUAL(zero (1), T(0));
+    BOOST_CHECK_EQUAL(zero (2), T(0));
+    BOOST_CHECK_EQUAL(zero (3), T(0));
+    BOOST_CHECK_EQUAL(zero (4), T(0));
+    BOOST_CHECK_EQUAL(zero (5), T(0));
+    BOOST_CHECK_EQUAL(zero (6), T(0));
+    BOOST_CHECK_EQUAL(zero (7), T(0));
+    BOOST_CHECK_EQUAL(zero (8), T(0));
+    BOOST_CHECK_EQUAL(zero (9), T(0));
+    BOOST_CHECK_EQUAL(zero(10), T(0));
+    BOOST_CHECK_EQUAL(zero(11), T(0));
+    BOOST_CHECK_EQUAL(zero(12), T(0));
+    BOOST_CHECK_EQUAL(zero(13), T(0));
+    BOOST_CHECK_EQUAL(zero(14), T(0));
+    BOOST_CHECK_EQUAL(zero(15), T(0));
 
     matrix44<T> iden { T(1), T(0), T(0), T(0), T(0), T(1), T(0), T(0),
                        T(0), T(0), T(1), T(0), T(0), T(0), T(0), T(1) };
-    BOOST_CHECK_EQUAL(iden.data_ [0], T(1));
-    BOOST_CHECK_EQUAL(iden.data_ [1], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [2], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [3], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [4], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [5], T(1));
-    BOOST_CHECK_EQUAL(iden.data_ [6], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [7], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [8], T(0));
-    BOOST_CHECK_EQUAL(iden.data_ [9], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[10], T(1));
-    BOOST_CHECK_EQUAL(iden.data_[11], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[12], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[13], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[14], T(0));
-    BOOST_CHECK_EQUAL(iden.data_[15], T(1));
+    BOOST_CHECK_EQUAL(iden (0), T(1));
+    BOOST_CHECK_EQUAL(iden (1), T(0));
+    BOOST_CHECK_EQUAL(iden (2), T(0));
+    BOOST_CHECK_EQUAL(iden (3), T(0));
+    BOOST_CHECK_EQUAL(iden (4), T(0));
+    BOOST_CHECK_EQUAL(iden (5), T(1));
+    BOOST_CHECK_EQUAL(iden (6), T(0));
+    BOOST_CHECK_EQUAL(iden (7), T(0));
+    BOOST_CHECK_EQUAL(iden (8), T(0));
+    BOOST_CHECK_EQUAL(iden (9), T(0));
+    BOOST_CHECK_EQUAL(iden(10), T(1));
+    BOOST_CHECK_EQUAL(iden(11), T(0));
+    BOOST_CHECK_EQUAL(iden(12), T(0));
+    BOOST_CHECK_EQUAL(iden(13), T(0));
+    BOOST_CHECK_EQUAL(iden(14), T(0));
+    BOOST_CHECK_EQUAL(iden(15), T(1));
 
     matrix44<T> first { T(1) };
-    BOOST_CHECK_EQUAL(first.data_ [0], T(1));
-    BOOST_CHECK_EQUAL(first.data_ [1], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [2], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [3], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [4], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [5], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [6], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [7], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [8], T(0));
-    BOOST_CHECK_EQUAL(first.data_ [9], T(0));
-    BOOST_CHECK_EQUAL(first.data_[10], T(0));
-    BOOST_CHECK_EQUAL(first.data_[11], T(0));
-    BOOST_CHECK_EQUAL(first.data_[12], T(0));
-    BOOST_CHECK_EQUAL(first.data_[13], T(0));
-    BOOST_CHECK_EQUAL(first.data_[14], T(0));
-    BOOST_CHECK_EQUAL(first.data_[15], T(0));
+    BOOST_CHECK_EQUAL(first (0), T(1));
+    BOOST_CHECK_EQUAL(first (1), T(0));
+    BOOST_CHECK_EQUAL(first (2), T(0));
+    BOOST_CHECK_EQUAL(first (3), T(0));
+    BOOST_CHECK_EQUAL(first (4), T(0));
+    BOOST_CHECK_EQUAL(first (5), T(0));
+    BOOST_CHECK_EQUAL(first (6), T(0));
+    BOOST_CHECK_EQUAL(first (7), T(0));
+    BOOST_CHECK_EQUAL(first (8), T(0));
+    BOOST_CHECK_EQUAL(first (9), T(0));
+    BOOST_CHECK_EQUAL(first(10), T(0));
+    BOOST_CHECK_EQUAL(first(11), T(0));
+    BOOST_CHECK_EQUAL(first(12), T(0));
+    BOOST_CHECK_EQUAL(first(13), T(0));
+    BOOST_CHECK_EQUAL(first(14), T(0));
+    BOOST_CHECK_EQUAL(first(15), T(0));
 
     matrix44<T> sixteenth { T (1), T (2), T (3), T (4),
                             T (5), T (6), T (7), T (8),
                             T (9), T(10), T(11), T(12),
                             T(13), T(14), T(15), T(16) };
-    BOOST_CHECK_EQUAL(sixteenth.data_ [0], T (1));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [1], T (2));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [2], T (3));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [3], T (4));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [4], T (5));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [5], T (6));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [6], T (7));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [7], T (8));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [8], T (9));
-    BOOST_CHECK_EQUAL(sixteenth.data_ [9], T(10));
-    BOOST_CHECK_EQUAL(sixteenth.data_[10], T(11));
-    BOOST_CHECK_EQUAL(sixteenth.data_[11], T(12));
-    BOOST_CHECK_EQUAL(sixteenth.data_[12], T(13));
-    BOOST_CHECK_EQUAL(sixteenth.data_[13], T(14));
-    BOOST_CHECK_EQUAL(sixteenth.data_[14], T(15));
-    BOOST_CHECK_EQUAL(sixteenth.data_[15], T(16));
+    BOOST_CHECK_EQUAL(sixteenth (0), T (1));
+    BOOST_CHECK_EQUAL(sixteenth (1), T (2));
+    BOOST_CHECK_EQUAL(sixteenth (2), T (3));
+    BOOST_CHECK_EQUAL(sixteenth (3), T (4));
+    BOOST_CHECK_EQUAL(sixteenth (4), T (5));
+    BOOST_CHECK_EQUAL(sixteenth (5), T (6));
+    BOOST_CHECK_EQUAL(sixteenth (6), T (7));
+    BOOST_CHECK_EQUAL(sixteenth (7), T (8));
+    BOOST_CHECK_EQUAL(sixteenth (8), T (9));
+    BOOST_CHECK_EQUAL(sixteenth (9), T(10));
+    BOOST_CHECK_EQUAL(sixteenth(10), T(11));
+    BOOST_CHECK_EQUAL(sixteenth(11), T(12));
+    BOOST_CHECK_EQUAL(sixteenth(12), T(13));
+    BOOST_CHECK_EQUAL(sixteenth(13), T(14));
+    BOOST_CHECK_EQUAL(sixteenth(14), T(15));
+    BOOST_CHECK_EQUAL(sixteenth(15), T(16));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_CopyConstruct, T, test_types)
@@ -1196,7 +1221,29 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_GetData, T, test_types)
     BOOST_CHECK_EQUAL(data[15], T(16));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_ParaOp, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_ParaOpIdx, T, test_types)
+{
+    matrix44<T> m { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
+
+    BOOST_CHECK_EQUAL(m( 0), T (1));
+    BOOST_CHECK_EQUAL(m( 1), T (2));
+    BOOST_CHECK_EQUAL(m( 2), T (3));
+    BOOST_CHECK_EQUAL(m( 3), T (4));
+    BOOST_CHECK_EQUAL(m( 4), T (5));
+    BOOST_CHECK_EQUAL(m( 5), T (6));
+    BOOST_CHECK_EQUAL(m( 6), T (7));
+    BOOST_CHECK_EQUAL(m( 7), T (8));
+    BOOST_CHECK_EQUAL(m( 8), T (9));
+    BOOST_CHECK_EQUAL(m( 9), T(10));
+    BOOST_CHECK_EQUAL(m(10), T(11));
+    BOOST_CHECK_EQUAL(m(11), T(12));
+    BOOST_CHECK_EQUAL(m(12), T(13));
+    BOOST_CHECK_EQUAL(m(13), T(14));
+    BOOST_CHECK_EQUAL(m(14), T(15));
+    BOOST_CHECK_EQUAL(m(15), T(16));
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_ParaOpRC, T, test_types)
 {
     matrix44<T> m { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
 

@@ -116,6 +116,9 @@ public:
 
 /// \name Operators
 //@{
+    T& operator() (const unsigned idx);
+    const T& operator() (const unsigned idx) const;
+
     T& operator() (const unsigned row, const unsigned column);
     const T& operator() (const unsigned row, const unsigned column) const;
 
@@ -124,11 +127,13 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Matrix's data in column major order
     ///
     /// Matrix's data in column major order as four consecutive values in
-    /// memory. Please use matrix22::operator()(const unsigned,const unsigned)
+    /// memory. As it is a private member, use
+    /// matrix22::operator()(const unsigned),
+    /// matrix22::operator()(const unsigned,const unsigned)
     /// or matrix22::operator[] instead of direct access.
     T data_[4];
 };
@@ -226,6 +231,9 @@ public:
 
 /// \name Operators
 //@{
+    T& operator() (const unsigned idx);
+    const T& operator() (const unsigned idx) const;
+
     T& operator() (const unsigned row, const unsigned column);
     const T& operator() (const unsigned row, const unsigned column) const;
 
@@ -234,11 +242,13 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Matrix's data in column major order
     ///
-    /// Matrix's data in column major order as nine consecutive values in
-    /// memory. Please use matrix33::operator()(const unsigned,const unsigned)
+    /// Matrix's data in column major order as four consecutive values in
+    /// memory. As it is a private member, use
+    /// matrix33::operator()(const unsigned),
+    /// matrix33::operator()(const unsigned,const unsigned)
     /// or matrix33::operator[] instead of direct access.
     T data_[9];
 };
@@ -336,6 +346,9 @@ public:
 
 /// \name Operators
 //@{
+    T& operator() (const unsigned idx);
+    const T& operator() (const unsigned idx) const;
+
     T& operator() (const unsigned row, const unsigned column);
     const T& operator() (const unsigned row, const unsigned column) const;
 
@@ -344,11 +357,13 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Matrix's data in column major order
     ///
-    /// Matrix's data in column major order as sixteen consecutive values in
-    /// memory. Please use matrix44::operator()(const unsigned,const unsigned)
+    /// Matrix's data in column major order as four consecutive values in
+    /// memory. As it is a private member, use
+    /// matrix44::operator()(const unsigned),
+    /// matrix44::operator()(const unsigned,const unsigned)
     /// or matrix44::operator[] instead of direct access.
     T data_[16];
 };

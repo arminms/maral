@@ -155,12 +155,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_GetData, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_BracketOp, T, test_types)
 {
+    point2<T> ref((T)1, (T)2);
     point2<T> pnt;
 
     pnt[0] = (T)1;
-    BOOST_CHECK_EQUAL(pnt.data_[0], (T)1);
     pnt[1] = (T)2;
-    BOOST_CHECK_EQUAL(pnt.data_[1], (T)2);
+    BOOST_CHECK(ref == pnt);
 
     BOOST_CHECK_EQUAL(pnt[0], (T)1);
     BOOST_CHECK_EQUAL(pnt[1], (T)2);
@@ -631,14 +631,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_GetData, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_BracketOp, T, test_types)
 {
+    point3<T> ref((T)1, (T)2, (T)3);
     point3<T> pnt;
 
     pnt[0] = (T)1;
-    BOOST_CHECK_EQUAL(pnt.data_[0], (T)1);
     pnt[1] = (T)2;
-    BOOST_CHECK_EQUAL(pnt.data_[1], (T)2);
     pnt[2] = (T)3;
-    BOOST_CHECK_EQUAL(pnt.data_[2], (T)3);
+    BOOST_CHECK(ref == pnt);
 
     BOOST_CHECK_EQUAL(pnt[0], (T)1);
     BOOST_CHECK_EQUAL(pnt[1], (T)2);

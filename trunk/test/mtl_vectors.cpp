@@ -148,12 +148,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_GetData, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_BracketOp, T, test_types)
 {
+    vector2<T> ref((T)1, (T)2);
     vector2<T> vec;
 
     vec[0] = (T)1;
-    BOOST_CHECK_EQUAL(vec.data_[0], (T)1);
     vec[1] = (T)2;
-    BOOST_CHECK_EQUAL(vec.data_[1], (T)2);
+    BOOST_CHECK(ref == vec);
 
     BOOST_CHECK_EQUAL(vec[0], (T)1);
     BOOST_CHECK_EQUAL(vec[1], (T)2);
@@ -720,14 +720,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_GetData, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_BracketOp, T, test_types)
 {
+    vector3<T> ref((T)1, (T)2, (T)3);
     vector3<T> vec;
 
     vec[0] = (T)1;
-    BOOST_CHECK_EQUAL(vec.data_[0], (T)1);
     vec[1] = (T)2;
-    BOOST_CHECK_EQUAL(vec.data_[1], (T)2);
     vec[2] = (T)3;
-    BOOST_CHECK_EQUAL(vec.data_[2], (T)3);
+    BOOST_CHECK(ref == vec);
 
     BOOST_CHECK_EQUAL(vec[0], (T)1);
     BOOST_CHECK_EQUAL(vec[1], (T)2);

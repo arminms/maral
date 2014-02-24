@@ -275,6 +275,43 @@ inline const T* matrix22<T>::get_data() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 4
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used on either the right (r-value) or the left (l-value) of an
+/// assignment statement. In debug builds, function asserts if \a idx is not in
+/// the range 0-3.
+
+template <typename T>
+inline T& matrix22<T>::operator() (
+    const unsigned idx)
+{
+    BOOST_ASSERT_MSG(idx < 4, "out of range!");
+    return data_[idx];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 4
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used only on the right (r-value) of an assignment statement. In debug
+/// builds, function asserts if \a idx is not in the range 0-3.
+
+template <typename T>
+inline const T& matrix22<T>::operator() (
+    const unsigned idx) const
+{
+    BOOST_ASSERT_MSG(idx < 4, "out of range!");
+    return data_[idx];
+}
+
+////////////////////////////////////////////////////////////////////////////////
 /// \return Reference to an arbitrary type (int, float, double, ...) at the
 /// specified \a row and \a column.
 /// \param row The zero-based index of the row to access.
@@ -618,6 +655,43 @@ template <typename T>
 inline const T* matrix33<T>::get_data() const
 {
     return data_;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 9
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used on either the right (r-value) or the left (l-value) of an
+/// assignment statement. In debug builds, function asserts if \a idx is not in
+/// the range 0-8.
+
+template <typename T>
+inline T& matrix33<T>::operator() (
+    const unsigned idx)
+{
+    BOOST_ASSERT_MSG(idx < 9, "out of range!");
+    return data_[idx];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 9
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used only on the right (r-value) of an assignment statement. In debug
+/// builds, function asserts if \a idx is not in the range 0-8.
+
+template <typename T>
+inline const T& matrix33<T>::operator() (
+    const unsigned idx) const
+{
+    BOOST_ASSERT_MSG(idx < 9, "out of range!");
+    return data_[idx];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -988,6 +1062,43 @@ template <typename T>
 inline const T* matrix44<T>::get_data() const
 {
     return data_;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 16
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used on either the right (r-value) or the left (l-value) of an
+/// assignment statement. In debug builds, function asserts if \a idx is not in
+/// the range 0-15.
+
+template <typename T>
+inline T& matrix44<T>::operator() (
+    const unsigned idx)
+{
+    BOOST_ASSERT_MSG(idx < 16, "out of range!");
+    return data_[idx];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return Reference to an arbitrary type (int, float, double, ...) containing
+/// specified component.
+/// \param idx The zero-based index of the component to access.
+/// \pre idx < 9
+/// \remarks
+/// This overloaded operator returns the value of the specified component. It
+/// can be used only on the right (r-value) of an assignment statement. In debug
+/// builds, function asserts if \a idx is not in the range 0-15.
+
+template <typename T>
+inline const T& matrix44<T>::operator() (
+    const unsigned idx) const
+{
+    BOOST_ASSERT_MSG(idx < 16, "out of range!");
+    return data_[idx];
 }
 
 ////////////////////////////////////////////////////////////////////////////////
