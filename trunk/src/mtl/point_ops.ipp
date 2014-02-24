@@ -73,10 +73,10 @@ template<typename T>
 inline bool is_equal(
     const point2<T>& p1,
     const point2<T>& p2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
-    return (abs(p1[0] - p2[0]) <= eps && abs(p1[1] - p2[1]) <= eps);
+    return (std::abs(p1[0] - p2[0]) <= eps && std::abs(p1[1] - p2[1]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -430,12 +430,12 @@ template<typename T>
 inline bool is_equal(
     const point3<T>& p1,
     const point3<T>& p2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
-    return (abs(p1[0] - p2[0]) <= eps &&
-        abs(p1[1] - p2[1]) <= eps &&
-        abs(p1[2] - p2[2]) <= eps );
+    return (std::abs(p1[0] - p2[0]) <= eps &&
+            std::abs(p1[1] - p2[1]) <= eps &&
+            std::abs(p1[2] - p2[2]) <= eps );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -684,7 +684,7 @@ inline T distance(
     v[1] = p2[1] - p1[1];
     v[2] = p2[2] - p1[2];
     T r = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
-    return (r > T(0) ? sqrt(r) : T(0));
+    return (r > T(0) ? std::sqrt(r) : T(0));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -735,8 +735,8 @@ inline T angle(
         (r2[0]*r2[0] + r2[1]*r2[1] + r2[2]*r2[2]);
     return (len_sq < SMALL ?
         T(0.0) :
-        radian2degree(acos(
-            (r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) / sqrt(len_sq) ) ) );
+        radian2degree(std::acos(
+            (r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) / std::sqrt(len_sq) ) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -792,8 +792,8 @@ inline T torsion_angle(
         return T(0.0);
     else
     {
-        T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / sqrt(len_sq);
-        T angle = radian2degree(acos(rad));
+        T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / std::sqrt(len_sq);
+        T angle = radian2degree(std::acos(rad));
         T dot = c2x*x1 + c2y*y1 + c2z*z1;
         return (dot > T(0.0) ? angle : -angle);
     }

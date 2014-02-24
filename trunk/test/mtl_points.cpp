@@ -29,7 +29,15 @@ BOOST_AUTO_TEST_SUITE( Points )
 
 BOOST_AUTO_TEST_SUITE( Pnt2 )
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(point2_Constructors, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_RvalueRef, T, test_types)
+{
+    point2<T> pnt = point2<T>().zero();
+    BOOST_CHECK(pnt == point2<T>().zero());
+    BOOST_CHECK_EQUAL(pnt[0], (T)0);
+    BOOST_CHECK_EQUAL(pnt[1], (T)0);
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Constructors, T, test_types)
 {
     point2<T> pnt((T)1, (T)2);
 
@@ -203,6 +211,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(pnt1, pnt2, T(20.1)));
         BOOST_CHECK( is_equal(pnt1, pnt2, T(22.0)));
     }
+
+    pnt1.set(3.141593, 938.27231);
+    pnt2.set(3.14159,  938.272);
+
+    BOOST_CHECK(!is_equal(pnt1, pnt2, T(0)) );
+    BOOST_CHECK(!is_equal(pnt1, pnt2, T(0.0001)) );
+    BOOST_CHECK( is_equal(pnt1, pnt2, T(0.0005)) );
+    BOOST_CHECK( is_equal(pnt1, pnt2, T(0.001)) );
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpPlusEq, T, test_types)
@@ -353,9 +369,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
 //    os << pnt << std::endl << std::endl;
 //    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
 //    os << delimiters('|') << pnt << std::endl << std::endl;
-//    os << setew(7) << pnt << std::endl << std::endl;
+//    os << setew(7) << delimiters('[', ']') << pnt << std::endl << std::endl;
 //    os << std::setw(15) << pnt << std::endl << std::endl;
-//    os << spaces << pnt << std::endl << std::endl;
+//    os << spaces << delimiters('|') << pnt << std::endl << std::endl;
 //    os << horizontal << pnt << std::endl << std::endl;
 //    os << separator(',') << pnt << std::endl << std::endl;
 //    os << delimiters('{', '}') << pnt << std::endl << std::endl;
@@ -367,7 +383,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
 
 BOOST_AUTO_TEST_CASE(Point2_Inserter)
 {
-    output_test_stream cout("../../test/patterns/pntvec2.txt", true);
+    output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
 /// [point2 inserter]
     point2<float> pnt(3.141593, 938.27231);
 
@@ -381,13 +397,14 @@ BOOST_AUTO_TEST_CASE(Point2_Inserter)
     cout << delimiters('|') << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << setew(7) << pnt << std::endl << std::endl;
+    cout << setew(7) << delimiters('[', ']')
+         << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << std::setw(15) << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << spaces << pnt << std::endl << std::endl;
+    cout << spaces << delimiters('|') << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << horizontal << pnt << std::endl << std::endl;
@@ -411,6 +428,54 @@ BOOST_AUTO_TEST_CASE(Point2_Inserter)
     cout << delimiters('\0') << pnt << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 /// [point2 inserter]
+}
+
+BOOST_AUTO_TEST_CASE(Point2_Extractor)
+{
+    std::ifstream cin(PATTERNS_FOLDER"pntvec2.txt");
+/// [point2 extractor]
+    point2<float> pnt(3.141593, 938.27231);
+    point2<float> ext;
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('[', ']') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> horizontal >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> separator(',') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('{', '}') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('\0') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+/// [point2 extractor]
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -609,28 +674,36 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpEqualityCompare, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpIsEqual, T, float_types)
 {
-    point3<T> point1(1.0, 2.0, 3.0);
-    point3<T> point2(point1);
+    point3<T> pnt1(1.0, 2.0, 3.0);
+    point3<T> pnt2(pnt1);
     T eps(0.0);
 
     for(eps=(T)0.0; eps<(T)10.0; eps += (T)0.05)
     {
-        BOOST_CHECK(is_equal(point1, point2, eps));
-        BOOST_CHECK_CLOSE(point1[0], point2[0], eps);
-        BOOST_CHECK_CLOSE(point1[1], point2[1], eps);
-        BOOST_CHECK_CLOSE(point1[2], point2[2], eps);
+        BOOST_CHECK(is_equal(pnt1, pnt2, eps));
+        BOOST_CHECK_CLOSE(pnt1[0], pnt2[0], eps);
+        BOOST_CHECK_CLOSE(pnt1[1], pnt2[1], eps);
+        BOOST_CHECK_CLOSE(pnt1[2], pnt2[2], eps);
     }
 
-    point1.set(1.0f, 1.0f, 1.0f);
+    pnt1.set(1.0f, 1.0f, 1.0f);
     for(unsigned elt=0; elt<3; elt++)
     {
-        point2 = point1;
-        point2[elt] = (T)21.0;
-        BOOST_CHECK(!is_equal(point1, point2, T(10.0)));
-        BOOST_CHECK(!is_equal(point1, point2, T(19.9)));
-        BOOST_CHECK( is_equal(point1, point2, T(20.1)));
-        BOOST_CHECK( is_equal(point1, point2, T(22.0)));
+        pnt2 = pnt1;
+        pnt2[elt] = (T)21.0;
+        BOOST_CHECK(!is_equal(pnt1, pnt2, T(10.0)));
+        BOOST_CHECK(!is_equal(pnt1, pnt2, T(19.9)));
+        BOOST_CHECK( is_equal(pnt1, pnt2, T(20.1)));
+        BOOST_CHECK( is_equal(pnt1, pnt2, T(22.0)));
     }
+
+    pnt1.set(3.141593, 938.27231, 2.718282);
+    pnt2.set(3.14159,  938.272, 2.71828);
+
+    BOOST_CHECK(!is_equal(pnt1, pnt2, T(0)) );
+    BOOST_CHECK(!is_equal(pnt1, pnt2, T(0.0001)) );
+    BOOST_CHECK( is_equal(pnt1, pnt2, T(0.0005)) );
+    BOOST_CHECK( is_equal(pnt1, pnt2, T(0.001)) );
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpPlusEq, T, test_types)
@@ -819,20 +892,20 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
     BOOST_CHECK_CLOSE(torsion_angle(H6, C2, C1, H1), T(-180.0), T(0.001));
 }
 
-BOOST_AUTO_TEST_CASE(Insterters)
-{
+//BOOST_AUTO_TEST_CASE(Insterters)
+//{
 //    point3<float> pnt(3.141593, 938.27231, 2.718282);
-//    std::ofstream os("../../test/patterns/pntvec2.txt");
-//    std::wofstream os("../../test/patterns/pntvec2w.txt");
-//    std::basic_ofstream<wchar_t> os("../../test/patterns/pntvec3w.txt");
+//    std::ofstream os(PATTERNS_FOLDER"pntvec3.txt");
+//    std::wofstream os(PATTERNS_FOLDER"pntvec3w.txt");
+//    std::basic_ofstream<wchar_t> os(PATTERNS_FOLDER"pntvec3w.txt");
 //    os.imbue(std::locale("fa_IR.utf8"));
 //    os.imbue(std::locale("de_DE.utf8"));
 //    os << pnt << std::endl << std::endl;
 //    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
 //    os << delimiters('|') << pnt << std::endl << std::endl;
-//    os << setew(7) << pnt << std::endl << std::endl;
+//    os << setew(7) << delimiters('[', ']') << pnt << std::endl << std::endl;
 //    os << std::setw(15) << pnt << std::endl << std::endl;
-//    os << spaces << pnt << std::endl << std::endl;
+//    os << spaces << delimiters('|') << pnt << std::endl << std::endl;
 //    os << horizontal << pnt << std::endl << std::endl;
 //    os << separator(',') << pnt << std::endl << std::endl;
 //    os << delimiters('{', '}') << pnt << std::endl << std::endl;
@@ -840,11 +913,11 @@ BOOST_AUTO_TEST_CASE(Insterters)
 //    os << setew(0) << pnt << std::endl << std::endl;
 //    os << std::setw(25) << pnt << std::endl << std::endl;
 //    os << delimiters('\0') << pnt << std::endl;
-}
+//}
 
 BOOST_AUTO_TEST_CASE(Point3_Inserter)
 {
-    output_test_stream cout("../../test/patterns/pntvec3.txt", true);
+    output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
 /// [point3 inserter]
     point3<float> pnt(3.141593, 938.27231, 2.718282);
 
@@ -858,13 +931,14 @@ BOOST_AUTO_TEST_CASE(Point3_Inserter)
     cout << delimiters('|') << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << setew(7) << pnt << std::endl << std::endl;
+    cout << setew(7) << delimiters('[', ']')
+         << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << std::setw(15) << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << spaces << pnt << std::endl << std::endl;
+    cout << spaces << delimiters('|') << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << horizontal << pnt << std::endl << std::endl;
@@ -888,6 +962,54 @@ BOOST_AUTO_TEST_CASE(Point3_Inserter)
     cout << delimiters('\0') << pnt << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 /// [point3 inserter]
+}
+
+BOOST_AUTO_TEST_CASE(Point3_Extractor)
+{
+    std::ifstream cin(PATTERNS_FOLDER"pntvec3.txt");
+/// [point3 extractor]
+    point3<float> pnt(3.141593, 938.27231, 2.718282);
+    point3<float> ext;
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('[', ']') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> horizontal >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> separator(',') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('{', '}') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+
+    cin >> delimiters('\0') >> ext.zero();
+    BOOST_CHECK( is_equal(pnt, ext) );
+/// [point3 extractor]
 }
 
 BOOST_AUTO_TEST_SUITE_END()

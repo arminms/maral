@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //                                  MARAL
@@ -10,27 +11,28 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file mtl.hpp
-/// \brief Include file for some frequently used mathematical defines.
+/// \file mtl/extractors.hpp
+/// \brief Include file for stream extractors for maral::mtl classes.
 ///
-/// \b mtl_defines.hpp is the include file for some frequently used
-/// mathematical constansts and handy templated inlines.
+/// \b mtl/extractors.hpp is the header file for all stream extractors for
+/// maral::mtl classes.
 
-#ifndef MARAL_MTL_HPP_INCLUDED_
-#define MARAL_MTL_HPP_INCLUDED_
+#ifndef MARAL_MTL_EXTRACTORS_HPP_INCLUDED_
+#define MARAL_MTL_EXTRACTORS_HPP_INCLUDED_
+
+#include <iomanip>
+
+#ifndef MARAL_MTL_IOMANIP_HPP_INCLUDED_
+#include "iomanip.hpp"
+#endif // MARAL_MTL_IOMANIP_HPP_INCLUDED_
+
+namespace maral { namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
-// Includes
+// Implementation
 
-#include "defines.hpp"
-#include "point.hpp"
-#include "vector.hpp"
-#include "point_ops.hpp"
-#include "vector_ops.hpp"
-#include "matrix.hpp"
-#include "matrix_ops.hpp"
-#include "inserters.hpp"
-#include "extractors.hpp"
+#include "extractors.ipp"
 
-#endif    // MARAL_MTL_HPP_INCLUDED_
+}}    // namespace mtl // namespace maral
 
+#endif // MARAL_MTL_EXTRACTORS_HPP_INCLUDED_

@@ -179,6 +179,8 @@ maral_h_model.cpp: ../src/traits.hpp \
 
 ../src/inserters.hpp: ../src/inserters.ipp
 
+mtl_matrices.cpp: mtl_data.hpp
+
 mtl_points.cpp: mtl_data.hpp
 
 mtl_vectors.cpp: mtl_data.hpp

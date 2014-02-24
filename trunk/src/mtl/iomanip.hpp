@@ -54,26 +54,26 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// Zero-argument Output Stream Manipulator Template
+// Zero-argument Input/Output Stream Manipulator Template
 
 template <typename Argument, int Id>
-class zero_arg_omanip
+class zero_arg_iomanip
 {
 public:
     enum { id = Id };
 
-    zero_arg_omanip(const Argument& arg = true)
+    zero_arg_iomanip(const Argument& arg = true)
     :   arg_(arg)
     {}
 
     static long get(std::ios_base& ios)
-    {   return zero_arg_omanip::flag(ios);  }
+    {   return zero_arg_iomanip::flag(ios);  }
 
     static void set(std::ios_base& ios)
-    {   zero_arg_omanip::flag(ios) = 1;    }
+    {   zero_arg_iomanip::flag(ios) = 1;    }
 
     static void unset(std::ios_base& ios)
-    {   zero_arg_omanip::flag(ios) = 0;    }
+    {   zero_arg_iomanip::flag(ios) = 0;    }
 
 private:
     const Argument arg_;
@@ -86,9 +86,9 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// Orientation Output Stream Manipulators
+// Orientation Input/Output Stream Manipulators
 
-typedef zero_arg_omanip<bool, 0> orientation;
+typedef zero_arg_iomanip<bool, 0> orientation;
 
 template<typename CharT, typename Traits>
 inline
@@ -108,10 +108,28 @@ horizontal(std::basic_ostream<CharT, Traits>& os)
     return os;
 }
 
+template<typename CharT, typename Traits>
+inline
+std::basic_istream<CharT, Traits>&
+vertical(std::basic_istream<CharT, Traits>& is)
+{
+    orientation::unset(is);
+    return is;
+}
+
+template<typename CharT, typename Traits>
+inline
+std::basic_istream<CharT, Traits>&
+horizontal(std::basic_istream<CharT, Traits>& is)
+{
+    orientation::set(is);
+    return is;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Space Output Stream Manipulator
 
-typedef zero_arg_omanip<bool, 1> space;
+typedef zero_arg_iomanip<bool, 1> space;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \return \p os after manipulating the output.
@@ -138,9 +156,9 @@ nospaces(std::basic_ostream<CharT, Traits>& os)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Order Majority Output Stream Manipulators
+// Order Majority Input/Output Stream Manipulators
 
-typedef zero_arg_omanip<bool, 2> order;
+typedef zero_arg_iomanip<bool, 2> order;
 
 template<typename CharT, typename Traits>
 inline
@@ -158,6 +176,24 @@ rowmajor(std::basic_ostream<CharT, Traits>& os)
 {
     order::set(os);
     return os;
+}
+
+template<typename CharT, typename Traits>
+inline
+std::basic_istream<CharT, Traits>&
+colmajor(std::basic_istream<CharT, Traits>& is)
+{
+    order::unset(is);
+    return is;
+}
+
+template<typename CharT, typename Traits>
+inline
+std::basic_istream<CharT, Traits>&
+rowmajor(std::basic_istream<CharT, Traits>& is)
+{
+    order::set(is);
+    return is;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,8 +242,65 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 // One-argument Output Stream Manipulators
 
-typedef one_arg_omanip<char, 0> separator;
 typedef one_arg_omanip<char, 1> setew;
+
+////////////////////////////////////////////////////////////////////////////////
+// One-argument Input/Output Stream Manipulator Template
+
+template <typename Argument, int Id>
+class one_arg_iomanip
+{
+    static_assert(
+        std::is_integral<Argument>(),
+        "need an integral type :(");
+
+public:
+    enum { id = Id };
+
+    one_arg_iomanip(const Argument& arg)
+    :   arg_(arg)
+    {}
+
+    static long get(std::ios_base& ios)
+    {   return one_arg_iomanip::flag(ios);  }
+
+    static void set(std::ios_base& ios, long flag)
+    {   one_arg_iomanip::flag(ios) = flag;    }
+
+private:
+    const Argument arg_;
+
+    template<typename CharT, typename Traits>
+    friend std::basic_ostream<CharT,Traits>&
+    operator << (
+        std::basic_ostream<CharT,Traits>& os
+    ,   const one_arg_iomanip& ioman)
+    {
+        set(os, long(ioman.arg_));
+        return os;
+    }
+
+    template<typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator >> (
+        std::basic_istream<CharT,Traits>& is
+    ,   const one_arg_iomanip& ioman)
+    {
+        set(is, long(ioman.arg_));
+        return is;
+    }
+
+    static long& flag(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// One-argument Input/Output Stream Manipulators
+
+typedef one_arg_iomanip<char, 0> separator;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Two-arguments Output Stream Manipulator Template
@@ -270,8 +363,6 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 // One-argument Output Stream Manipulators
 
-typedef two_arg_omanip<char,char,0> delimiters;
-
 /// @}
 
 /// \ingroup imanip
@@ -323,6 +414,80 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 // One-argument Input Stream Manipulators
+
+////////////////////////////////////////////////////////////////////////////////
+// Two-arguments Output Stream Manipulator Template
+
+template <typename Arg1, typename Arg2, int Id>
+class two_arg_iomanip
+{
+    static_assert(
+        std::is_integral<Arg1>() && std::is_integral<Arg2>(),
+        "need an integral type :(");
+
+public:
+    enum { id = Id };
+
+    two_arg_iomanip(const Arg1& arg1, const Arg2& arg2 = 0)
+    :   arg1_(arg1)
+    ,   arg2_(arg2 ? arg2 : arg1)
+    {}
+
+    static long get_1st(std::ios_base& ios)
+    {   return two_arg_iomanip::flag1(ios);  }
+
+    static void set_1st(std::ios_base& ios, long flag)
+    {   two_arg_iomanip::flag1(ios) = flag;    }
+
+    static long get_2nd(std::ios_base& ios)
+    {   return two_arg_iomanip::flag2(ios);  }
+
+    static void set_2nd(std::ios_base& ios, long flag)
+    {   two_arg_iomanip::flag2(ios) = flag;    }
+
+private:
+    const Arg1 arg1_;
+    const Arg2 arg2_;
+
+    template<typename CharT, typename Traits>
+    friend std::basic_ostream<CharT,Traits>&
+    operator << (
+        std::basic_ostream<CharT,Traits>& os
+    ,   const two_arg_iomanip& ioman)
+    {
+        set_1st(os, long(ioman.arg1_));
+        set_2nd(os, long(ioman.arg2_));
+        return os;
+    }
+
+    template<typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator >> (
+        std::basic_istream<CharT,Traits>& is
+    ,   const two_arg_iomanip& ioman)
+    {
+        set_1st(is, long(ioman.arg1_));
+        set_2nd(is, long(ioman.arg2_));
+        return is;
+    }
+
+    static long& flag1(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+
+    static long& flag2(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Two-argument Input/Output Stream Manipulators
+
+typedef two_arg_iomanip<char,char,0> delimiters;
 
 /// @}
 }}    // namespace mtl // namespace maral

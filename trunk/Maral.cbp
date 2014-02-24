@@ -113,6 +113,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/mtl/extractors.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/mtl/extractors.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/mtl/inserters.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

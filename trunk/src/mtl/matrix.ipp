@@ -827,8 +827,8 @@ inline matrix44<T>::matrix44(
 {
     BOOST_ASSERT_MSG(vals.size() <= 16, "out of range initializer list!");
     unsigned count = 0;
-    for (auto it=vals.begin(); it != vals.end(); ++it)
-        data_[count++] = *it;
+    for (auto val : vals)
+        data_[count++] = val;
     if (count < 16)
         for (register unsigned i = count; i < 16; ++i)
             data_[i] = T(0);

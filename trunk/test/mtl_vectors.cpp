@@ -5,6 +5,7 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
+#include <fstream>
 #include <mtl/mtl.hpp>
 
 #include "mtl_data.hpp"
@@ -203,6 +204,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(vec1, vec2, T(20.1)));
         BOOST_CHECK( is_equal(vec1, vec2, T(22.0)));
     }
+
+
+    vec1.set(3.141593, 938.27231);
+    vec2.set(3.14159,  938.272);
+
+    BOOST_CHECK(!is_equal(vec1, vec2, T(0)) );
+    BOOST_CHECK(!is_equal(vec1, vec2, T(0.0001)) );
+    BOOST_CHECK( is_equal(vec1, vec2, T(0.0005)) );
+    BOOST_CHECK( is_equal(vec1, vec2, T(0.001)) );
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpPlusEq, T, test_types)
@@ -451,7 +461,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLerp, T, float_types)
 
 BOOST_AUTO_TEST_CASE(Vector2_Inserter)
 {
-    output_test_stream cout("../../test/patterns/pntvec2.txt", true);
+    output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
 /// [vector2 inserter]
     vector2<float> vec(3.141593, 938.27231);
 
@@ -465,13 +475,14 @@ BOOST_AUTO_TEST_CASE(Vector2_Inserter)
     cout << delimiters('|') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << setew(7) << vec << std::endl << std::endl;
+    cout << setew(7) << delimiters('[', ']')
+         << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << std::setw(15) << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << spaces << vec << std::endl << std::endl;
+    cout << spaces << delimiters('|') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << horizontal << vec << std::endl << std::endl;
@@ -495,6 +506,54 @@ BOOST_AUTO_TEST_CASE(Vector2_Inserter)
     cout << delimiters('\0') << vec << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 /// [vector2 inserter]
+}
+
+BOOST_AUTO_TEST_CASE(Vector2_Extractor)
+{
+    std::ifstream cin(PATTERNS_FOLDER"pntvec2.txt");
+/// [vector2 extractor]
+    vector2<float> vec(3.141593, 938.27231);
+    vector2<float> ext;
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('[', ']') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> horizontal >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> separator(',') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('{', '}') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('\0') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+/// [vector2 extractor]
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -704,6 +763,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpEqualityCompare, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpIsEqual, T, float_types)
 {
+//    vector3<T> vec1 {1.0, 2.0, 3.0};
     vector3<T> vec1(1.0, 2.0, 3.0);
     vector3<T> vec2(vec1);
     T eps(0.0);
@@ -725,6 +785,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(vec1, vec2, T(20.1)));
         BOOST_CHECK( is_equal(vec1, vec2, T(22.0)));
     }
+
+    vec1.set(3.141593, 938.27231, 2.718282);
+    vec2.set(3.14159,  938.272, 2.71828);
+
+    BOOST_CHECK(!is_equal(vec1, vec2, T(0)) );
+    BOOST_CHECK(!is_equal(vec1, vec2, T(0.0001)) );
+    BOOST_CHECK( is_equal(vec1, vec2, T(0.0005)) );
+    BOOST_CHECK( is_equal(vec1, vec2, T(0.001)) );
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpPlusEq, T, test_types)
@@ -1103,50 +1171,99 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Linear_Algebra_Identities, T, float_types)
 
 BOOST_AUTO_TEST_CASE(Vector3_Inserter)
 {
-    output_test_stream cout("../../test/patterns/pntvec3.txt", true);
+    output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
 /// [vector3 inserter]
-    vector3<float> pnt(3.141593, 938.27231, 2.718282);
+    vector3<float> vec(3.141593, 938.27231, 2.718282);
 
-    cout << pnt << std::endl << std::endl;
+    cout << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
     cout << std::fixed << std::setprecision(3)
-         << pnt << std::endl << std::endl;
+         << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << delimiters('|') << pnt << std::endl << std::endl;
+    cout << delimiters('|') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << setew(7) << pnt << std::endl << std::endl;
+    cout << setew(7)  << delimiters('[', ']')
+         << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << std::setw(15) << pnt << std::endl << std::endl;
+    cout << std::setw(15) << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << spaces << pnt << std::endl << std::endl;
+    cout << spaces << delimiters('|') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << horizontal << pnt << std::endl << std::endl;
+    cout << horizontal << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << separator(',') << pnt << std::endl << std::endl;
+    cout << separator(',') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << delimiters('{', '}') << pnt << std::endl << std::endl;
+    cout << delimiters('{', '}') << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << nospaces << pnt << std::endl << std::endl;
+    cout << nospaces << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << setew(0) << pnt << std::endl << std::endl;
+    cout << setew(0) << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << std::setw(25) << pnt << std::endl << std::endl;
+    cout << std::setw(25) << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 
-    cout << delimiters('\0') << pnt << std::endl;
+    cout << delimiters('\0') << vec << std::endl;
     BOOST_CHECK( cout.match_pattern() );
 /// [vector3 inserter]
+}
+
+BOOST_AUTO_TEST_CASE(Vector3_Extractor)
+{
+    std::ifstream cin(PATTERNS_FOLDER"pntvec3.txt");
+/// [vector3 extractor]
+    vector3<float> vec(3.141593, 938.27231, 2.718282);
+    vector3<float> ext;
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('[', ']') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('|') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> horizontal >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> separator(',') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('{', '}') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+
+    cin >> delimiters('\0') >> ext.zero();
+    BOOST_CHECK( is_equal(vec, ext) );
+/// [vector3 extractor]
 }
 
 BOOST_AUTO_TEST_SUITE_END()

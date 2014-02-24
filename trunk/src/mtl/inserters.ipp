@@ -51,7 +51,7 @@
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const point2<Type>& pnt)
 {
@@ -134,7 +134,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const vector2<Type>& vec)
 {
@@ -218,7 +218,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const point3<Type>& pnt)
 {
@@ -316,7 +316,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const vector3<Type>& vec)
 {
@@ -418,7 +418,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const matrix22<Type>& mtx)
 {
@@ -527,7 +527,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const matrix33<Type>& mtx)
 {
@@ -684,7 +684,7 @@ operator<< (
 template<typename CharT, typename Traits, typename Type>
 inline
 std::basic_ostream<CharT,Traits>&
-operator<< (
+operator << (
     std::basic_ostream<CharT,Traits>& bos,
     const matrix44<Type>& mtx)
 {
@@ -768,7 +768,7 @@ operator<< (
             << skip_if_null<CharT>(spc)
             << std::setw(ew)
             << mtx(3, 3)
-            << skip_if_null<CharT>(sep)
+            << skip_if_null<CharT>(spc)
             << skip_if_null<CharT>(brc);
     }
     else    // vertical
