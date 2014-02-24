@@ -73,10 +73,10 @@ template<typename T>
 inline bool is_equal(
     const vector2<T>& v1,
     const vector2<T>& v2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
-    return (abs(v1[0] - v2[0]) <= eps && abs(v1[1] - v2[1]) <= eps);
+    return (std::abs(v1[0] - v2[0]) <= eps && std::abs(v1[1] - v2[1]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -380,9 +380,11 @@ inline T angle(
     const vector2<T>& v2)
 {
     T len_sq = (v1[0]*v1[0] + v1[1]*v1[1]) * (v2[0]*v2[0] + v2[1]*v2[1]);
-    return (len_sq == T(0.0f) ?
-        T(0.0f) :
-        radian2degree(acos( (v1[0]*v2[0] + v1[1]*v2[1]) / sqrt(len_sq) ) ) );
+    return (len_sq == T(0.0f)
+            ? T(0.0f)
+            : radian2degree(
+                            std::acos( (v1[0]*v2[0] + v1[1]*v2[1]) /
+                            std::sqrt(len_sq) ) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -403,7 +405,7 @@ inline void normalize(
     T len_sq = v[0]*v[0] + v[1]*v[1];
     if (len_sq > T(0))
     {
-        T one_over_len = T(1) / sqrt(len_sq);
+        T one_over_len = T(1) / std::sqrt(len_sq);
         v[0] *= one_over_len;
         v[1] *= one_over_len;
     }
@@ -421,7 +423,7 @@ inline void normalize(
 template<typename T>
 inline bool is_normalized(
     const vector2<T>& v,
-    const T eps = (T)SMALL)
+    const T eps = T(0.0005) )
 {
     return is_equal(length_sq(v), T(1.0), eps);
 }
@@ -540,12 +542,12 @@ template<typename T>
 inline bool is_equal(
     const vector3<T>& v1,
     const vector3<T>& v2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
-    return (abs(v1[0] - v2[0]) <= eps &&
-            abs(v1[1] - v2[1]) <= eps &&
-            abs(v1[2] - v2[2]) <= eps);
+    return (std::abs(v1[0] - v2[0]) <= eps &&
+            std::abs(v1[1] - v2[1]) <= eps &&
+            std::abs(v1[2] - v2[2]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -815,7 +817,7 @@ inline T length(
     const vector3<T>& v)
 {
     T r = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
-    return (r > T(0) ? sqrt(r) : T(0.0f));
+    return (r > T(0) ? std::sqrt(r) : T(0.0f));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -851,12 +853,16 @@ inline T angle(
     const vector3<T>& v1,
     const vector3<T>& v2)
 {
-    T len_sq = (v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2]) *
+    T len_sq =
+        (v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2])
+        *
         (v2[0]*v2[0] + v2[1]*v2[1] + v2[2]*v2[2]);
-    return (len_sq < SMALL ?
-        T(0.0) :
-        radian2degree(acos(
-            (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]) / sqrt(len_sq) ) ) );
+    return (len_sq < SMALL
+            ? T(0.0)
+            : radian2degree(
+                            std::acos(
+                            (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]) /
+                            std::sqrt(len_sq) ) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -875,7 +881,7 @@ inline void normalize(
     T len_sq = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
     if (len_sq > T(0))
     {
-        T one_over_len = T(1) / sqrt(len_sq);
+        T one_over_len = T(1) / std::sqrt(len_sq);
         v[0] *= one_over_len;
         v[1] *= one_over_len;
         v[2] *= one_over_len;
@@ -894,7 +900,7 @@ inline void normalize(
 template<typename T>
 inline bool is_normalized(
     const vector3<T>& v,
-    const T eps = (T)SMALL)
+    const T eps = T(0.0005) )
 {
     return is_equal(length_sq(v), T(1.0), eps);
 }
@@ -1049,8 +1055,8 @@ inline T torsion_angle(
         return T(0.0);
     else
     {
-        T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / sqrt(len_sq);
-        T angle = radian2degree(acos(rad));
+        T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / std::sqrt(len_sq);
+        T angle = radian2degree(std::acos(rad));
         T dot = c2x*v1[0] + c2y*v1[1] + c2z*v1[2];
         return (dot > T(0.0) ? angle : -angle);
     }

@@ -81,14 +81,14 @@ template<typename T>
 inline bool is_equal(
     const matrix22<T>& m1,
     const matrix22<T>& m2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        abs(m1.data_[0] - m2.data_[0]) <= eps &&
-        abs(m1.data_[1] - m2.data_[1]) <= eps &&
-        abs(m1.data_[2] - m2.data_[2]) <= eps &&
-        abs(m1.data_[3] - m2.data_[3]) <= eps);
+        std::abs(m1.data_[0] - m2.data_[0]) <= eps &&
+        std::abs(m1.data_[1] - m2.data_[1]) <= eps &&
+        std::abs(m1.data_[2] - m2.data_[2]) <= eps &&
+        std::abs(m1.data_[3] - m2.data_[3]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ inline matrix22<T>& invert(
     const matrix22<T>& s)
 {
     T det = ((s.data_[0]*s.data_[3]) - (s.data_[1]*s.data_[2]));
-    BOOST_ASSERT_MSG(abs(det) > SMALL, "not invertible!");
+    BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
     r.data_[0] =  s.data_[3] * one_over_det;
     r.data_[1] = -s.data_[1] * one_over_det;
@@ -380,19 +380,19 @@ template<typename T>
 inline bool is_equal(
     const matrix33<T>& m1,
     const matrix33<T>& m2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        abs(m1.data_[0] - m2.data_[0]) <= eps &&
-        abs(m1.data_[1] - m2.data_[1]) <= eps &&
-        abs(m1.data_[2] - m2.data_[2]) <= eps &&
-        abs(m1.data_[3] - m2.data_[3]) <= eps &&
-        abs(m1.data_[4] - m2.data_[4]) <= eps &&
-        abs(m1.data_[5] - m2.data_[5]) <= eps &&
-        abs(m1.data_[6] - m2.data_[6]) <= eps &&
-        abs(m1.data_[7] - m2.data_[7]) <= eps &&
-        abs(m1.data_[8] - m2.data_[8]) <= eps);
+        std::abs(m1.data_[0] - m2.data_[0]) <= eps &&
+        std::abs(m1.data_[1] - m2.data_[1]) <= eps &&
+        std::abs(m1.data_[2] - m2.data_[2]) <= eps &&
+        std::abs(m1.data_[3] - m2.data_[3]) <= eps &&
+        std::abs(m1.data_[4] - m2.data_[4]) <= eps &&
+        std::abs(m1.data_[5] - m2.data_[5]) <= eps &&
+        std::abs(m1.data_[6] - m2.data_[6]) <= eps &&
+        std::abs(m1.data_[7] - m2.data_[7]) <= eps &&
+        std::abs(m1.data_[8] - m2.data_[8]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -611,7 +611,7 @@ inline matrix33<T>& invert(
     const matrix33<T>& s)
 {
     T det = determinant(s);
-    BOOST_ASSERT_MSG(abs(det) > SMALL, "not invertible!");
+    BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
     r.data_[0] = ((s.data_[4]*s.data_[8])-(s.data_[7]*s.data_[5]))*one_over_det;
     r.data_[1] = ((s.data_[7]*s.data_[2])-(s.data_[1]*s.data_[8]))*one_over_det;
@@ -733,26 +733,26 @@ template<typename T>
 inline bool is_equal(
     const matrix44<T>& m1,
     const matrix44<T>& m2,
-    const T eps)
+    const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= 0, "negative tolerance!");
     return (
-        abs(m1.data_ [0] - m2.data_ [0]) <= eps &&
-        abs(m1.data_ [1] - m2.data_ [1]) <= eps &&
-        abs(m1.data_ [2] - m2.data_ [2]) <= eps &&
-        abs(m1.data_ [3] - m2.data_ [3]) <= eps &&
-        abs(m1.data_ [4] - m2.data_ [4]) <= eps &&
-        abs(m1.data_ [5] - m2.data_ [5]) <= eps &&
-        abs(m1.data_ [6] - m2.data_ [6]) <= eps &&
-        abs(m1.data_ [7] - m2.data_ [7]) <= eps &&
-        abs(m1.data_ [8] - m2.data_ [8]) <= eps &&
-        abs(m1.data_ [9] - m2.data_ [9]) <= eps &&
-        abs(m1.data_[10] - m2.data_[10]) <= eps &&
-        abs(m1.data_[11] - m2.data_[11]) <= eps &&
-        abs(m1.data_[12] - m2.data_[12]) <= eps &&
-        abs(m1.data_[13] - m2.data_[13]) <= eps &&
-        abs(m1.data_[14] - m2.data_[14]) <= eps &&
-        abs(m1.data_[15] - m2.data_[15]) <= eps);
+        std::abs(m1.data_ [0] - m2.data_ [0]) <= eps &&
+        std::abs(m1.data_ [1] - m2.data_ [1]) <= eps &&
+        std::abs(m1.data_ [2] - m2.data_ [2]) <= eps &&
+        std::abs(m1.data_ [3] - m2.data_ [3]) <= eps &&
+        std::abs(m1.data_ [4] - m2.data_ [4]) <= eps &&
+        std::abs(m1.data_ [5] - m2.data_ [5]) <= eps &&
+        std::abs(m1.data_ [6] - m2.data_ [6]) <= eps &&
+        std::abs(m1.data_ [7] - m2.data_ [7]) <= eps &&
+        std::abs(m1.data_ [8] - m2.data_ [8]) <= eps &&
+        std::abs(m1.data_ [9] - m2.data_ [9]) <= eps &&
+        std::abs(m1.data_[10] - m2.data_[10]) <= eps &&
+        std::abs(m1.data_[11] - m2.data_[11]) <= eps &&
+        std::abs(m1.data_[12] - m2.data_[12]) <= eps &&
+        std::abs(m1.data_[13] - m2.data_[13]) <= eps &&
+        std::abs(m1.data_[14] - m2.data_[14]) <= eps &&
+        std::abs(m1.data_[15] - m2.data_[15]) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1039,7 +1039,7 @@ inline matrix44<T>& invert(
     const matrix44<T>& s)
 {
     T det = determinant(s);
-    BOOST_ASSERT_MSG(abs(det) > SMALL, "not invertible!");
+    BOOST_ASSERT_MSG(std::abs(det) > SMALL, "not invertible!");
     T one_over_det = T(1) / det;
     r.data_ [0] = ((s.data_ [5]*s.data_[10]*s.data_[15]) +
                    (s.data_ [9]*s.data_[14]*s.data_ [7]) +

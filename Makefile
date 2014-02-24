@@ -72,6 +72,7 @@ before_debug:
 	test -d bin/debug || mkdir -p bin/debug
 
 after_debug: 
+	bin/debug/test --result_code=no --report_level=no
 
 debug: before_debug out_debug after_debug
 
