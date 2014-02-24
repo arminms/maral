@@ -87,12 +87,12 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Point's data
     ///
-    /// Point's data as two consecutive values in memory. Please use
-    /// point2::operator[] instead of direct access which in debug builds
-    /// asserts when index is not less than 2.
+    /// Point's data as two consecutive values in memory. As it is a private
+    /// member, use point2::operator[] instead of direct access which in debug
+    /// builds asserts when index is not less than 2.
     T data_[2];
 };
 
@@ -166,12 +166,12 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Point's data
     ///
-    /// Point's data as three consecutive values in memory. Please use
-    /// point3::operator[] instead of direct access which in debug builds
-    /// asserts when index is not less than 3.
+    /// Point's data as two consecutive values in memory. As it is a private
+    /// member, use point3::operator[] instead of direct access which in debug
+    /// builds asserts when index is not less than 3.
     T data_[3];
 };
 

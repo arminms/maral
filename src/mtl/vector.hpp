@@ -90,12 +90,12 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Vector's data
     ///
-    /// Vector's data as two consecutive values in memory. Please use
-    /// vector2::operator[] instead of direct access which in debug builds
-    /// asserts when index is not less than 2.
+    /// Vector's data as two consecutive values in memory. As it is a private
+    /// member, use vector2::operator[] instead of direct access which in debug
+    /// builds asserts when index is not less than 2.
     T data_[2];
 };
 
@@ -166,12 +166,12 @@ public:
 //@}
 
 // Implementation
-
+private:
     /// \brief Vector's data
     ///
-    /// Vector's data as three consecutive values in memory. Please use
-    /// vector3::operator[] instead of direct access which in debug builds
-    /// asserts when index is not less than 3.
+    /// Vector's data as two consecutive values in memory. As it is a private
+    /// member, use vector3::operator[] instead of direct access which in debug
+    /// builds asserts when index is not less than 3.
     T data_[3];
 };
 
