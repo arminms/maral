@@ -255,6 +255,6 @@ typedef point3<double> point3d;
 
 #include "point.ipp"
 
-}}    // namespace mtl // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_MTL_POINT_HPP_INCLUDED_

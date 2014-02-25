@@ -345,7 +345,7 @@ inline T distance_sq(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Angle in degrees formed between three points.
+/// \return Angle formed between three points in radians.
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \param p3 Reference to the third point.
@@ -353,10 +353,13 @@ inline T distance_sq(
 /// \remarks
 /// This function finds the angle formed between the vector from point \a p2 to
 /// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
-/// degrees.
+/// radians. You can use units::to_degrees for converting to degrees.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
 /// \see angle(const vector2<T>&,const vector2<T>&)
+/// \par Example:
+///
+/// \snippet mtl_points.cpp point2 angle
 
 template<typename T>
 inline T angle(
@@ -364,12 +367,16 @@ inline T angle(
     const point2<T>& p2,
     const point2<T>& p3)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     vector2<T> r1(p2, p1);
     vector2<T> r2(p2, p3);
     T len_sq = (r1[0]*r1[0] + r1[1]*r1[1]) * (r2[0]*r2[0] + r2[1]*r2[1]);
     return (len_sq < SMALL ?
         T(0.0f) :
-        radian2degree(acos( (r1[0]*r2[0] + r1[1]*r2[1]) / sqrt(len_sq) ) ) );
+        std::acos( (r1[0]*r2[0] + r1[1]*r2[1]) / std::sqrt(len_sq) ) );
 }
 
 /// @}
@@ -710,7 +717,7 @@ inline T distance_sq(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Angle in degrees formed between three points.
+/// \return Angle formed between three points in radians.
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \param p3 Reference to the third point.
@@ -718,10 +725,13 @@ inline T distance_sq(
 /// \remarks
 /// This function finds the angle formed between the vector from point \a p2 to
 /// \a p1 and the vector from point \a p2 to \a p3 and returns the result in
-/// degrees.
+/// radians. You can use units::to_degrees for converting to degrees.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
 /// \see angle(const vector3<T>&,const vector3<T>&)
+/// \par Example:
+///
+/// \snippet mtl_points.cpp point3 angle
 
 template<typename T>
 inline T angle(
@@ -729,18 +739,22 @@ inline T angle(
     const point3<T>& p2,
     const point3<T>& p3)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     vector3<T> r1(p2, p1);
     vector3<T> r2(p2, p3);
     T len_sq = (r1[0]*r1[0] + r1[1]*r1[1] + r1[2]*r1[2]) *
         (r2[0]*r2[0] + r2[1]*r2[1] + r2[2]*r2[2]);
     return (len_sq < SMALL ?
         T(0.0) :
-        radian2degree(std::acos(
-            (r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) / std::sqrt(len_sq) ) ) );
+        std::acos(
+            (r1[0]*r2[0] + r1[1]*r2[1] + r1[2]*r2[2]) / std::sqrt(len_sq) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Torsion angle in degrees formed between four points.
+/// \return Torsion angle formed between four points in radians.
 /// \param p1 Reference to the first point.
 /// \param p2 Reference to the second point.
 /// \param p3 Reference to the third point.
@@ -756,8 +770,12 @@ inline T angle(
 /// to this definition if one looks along the vector \a p2 -> \a p3, then
 /// torsion angle is clockwise rotation of up to 180° necessary to bring the
 /// vector \a p2 -> \a p1 into an eclipsed position with the \a p3 -> \a p4
-/// vector.
+/// vector. You can use units::to_degrees for converting the result
+/// to degrees.
 /// \see torsion_angle(const vector3<T>&,const vector3<T>&,const vector3<T>&)
+/// \par Example:
+///
+/// \snippet mtl_points.cpp point3 torsion angle
 
 template<typename T>
 inline T torsion_angle(
@@ -766,6 +784,10 @@ inline T torsion_angle(
     const point3<T>& p3,
     const point3<T>& p4)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     // 1st vector
     T x1 = p1[0] - p2[0];
     T y1 = p1[1] - p2[1];
@@ -793,9 +815,9 @@ inline T torsion_angle(
     else
     {
         T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / std::sqrt(len_sq);
-        T angle = radian2degree(std::acos(rad));
+        T ang = std::acos(rad);
         T dot = c2x*x1 + c2y*y1 + c2z*z1;
-        return (dot > T(0.0) ? angle : -angle);
+        return (dot > T(0.0) ? ang : -ang);
     }
 }
 

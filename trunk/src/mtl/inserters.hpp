@@ -32,6 +32,6 @@ namespace maral { namespace mtl {
 
 #include "inserters.ipp"
 
-}}    // namespace mtl // namespace maral
+}}    // namespaces
 
 #endif // MARAL_MTL_INSERTERS_HPP_INCLUDED_

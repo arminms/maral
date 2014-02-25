@@ -18,8 +18,7 @@
 #ifndef MARAL_NODE_HPP_INCLUDED_
 #define MARAL_NODE_HPP_INCLUDED_
 
-namespace maral
-{
+namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -26,8 +26,7 @@
 /// In order to work with \b Maral this namespace must be used (i.e by
 /// \a using keyword or scope operator (maral::...)
 
-namespace maral
-{
+namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Namespace for the \b Mtl (maral::mtl).
@@ -42,8 +41,7 @@ namespace maral
 /// command can be used to bring all of the \b Mtl functionality into
 /// the local scope.
 
-    namespace mtl
-    {
+namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Frequently used constants
@@ -56,11 +54,6 @@ const float  SMALLREV    = 1.0E+5;
 const float  CMPERR      = 0.00001f;
 const float  CMPERRSQ    = 1.0E-10f;
 const float  CMPERRSQAPX = 1.0E-9f;
-const float  PIUNDER180F = 5.72957795130823E+001f;
-const float  FPI         = 3.141593f;
-const double PI          = 3.14159265358979323846;
-const double PIOVER180   = 1.74532925199433E-002;
-const double PIUNDER180  = 5.72957795130823E+001;
 
 /// \endcond
 
@@ -69,7 +62,6 @@ const double PIUNDER180  = 5.72957795130823E+001;
 
 #include "defines.ipp"
 
-    }    // namespace mtl
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_MTL_DEFINES_HPP_INCLUDED_

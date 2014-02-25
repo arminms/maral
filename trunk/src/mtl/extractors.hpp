@@ -33,6 +33,6 @@ namespace maral { namespace mtl {
 
 #include "extractors.ipp"
 
-}}    // namespace mtl // namespace maral
+}}    // namespaces
 
 #endif // MARAL_MTL_EXTRACTORS_HPP_INCLUDED_

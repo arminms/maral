@@ -20,8 +20,7 @@
 #ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
 #define MARAL_MTL_VECTOR_HPP_INCLUDED_
 
-namespace maral {
-    namespace mtl {
+namespace maral { namespace mtl {
 
 template <typename T> class point2;
 template <typename T> class point3;
@@ -255,7 +254,6 @@ typedef vector3<double> vector3d;
 
 #include "vector.ipp"
 
-    }    // namespace mtl
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_MTL_VECTOR_HPP_INCLUDED_

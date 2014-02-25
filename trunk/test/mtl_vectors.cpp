@@ -6,8 +6,9 @@
 #include <boost/mpl/list.hpp>
 
 #include <fstream>
-#include <mtl/mtl.hpp>
 
+#include <mtl/mtl.hpp>
+#include <units.hpp>
 #include "mtl_data.hpp"
 
 using boost::test_tools::output_test_stream;
@@ -365,17 +366,28 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLength, T, float_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpAngle, T, float_types)
 {
+/// [vector2 angle]
+    namespace mu = maral::units;
+
     vector2<T> vec1(1, 0);
     vector2<T> vec2(0, 1);
 
-    BOOST_CHECK_CLOSE(angle(vec1, vec2), 90.0f, SMALL);
+    auto ang = mu::radians( angle(vec1, vec2) );
+    BOOST_CHECK_CLOSE( mu::to_degrees(ang).value(), 90.0f, SMALL );
+
     vec2.set(1, 1);
-    BOOST_CHECK_CLOSE(angle(vec1, vec2), 45.0f, SMALL);
+    ang = mu::radians( angle(vec1, vec2) );
+    BOOST_CHECK_CLOSE( mu::to_degrees(ang).value(), 45.0f, SMALL );
+
     vec1.set(3, 0);
     vec2.set(3, 3);
-    BOOST_CHECK_CLOSE(angle(vec1, vec2), 45.0f, SMALL);
+    ang = mu::radians( angle(vec1, vec2) );
+    BOOST_CHECK_CLOSE( mu::to_degrees(ang).value(), 45.0f, SMALL );
+
     vec2.set(0, 0);
-    BOOST_CHECK_CLOSE(angle(vec1, vec2), 0.0f, SMALL);
+    ang = mu::radians( angle(vec1, vec2) );
+    BOOST_CHECK_CLOSE( mu::to_degrees(ang).value(), 0.0f, SMALL );
+/// [vector2 angle]
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpNormalize, T, float_types)
@@ -961,25 +973,36 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpLength, T, float_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
 {
+/// [vector3 angle]
+    namespace mu = maral::units;
+
     point3<T> p1(1, 1, 0);
     point3<T> p2(1, 0, 0);
     point3<T> p3(2, 0, 1);
     vector3<T> v1(p2, p1);
     vector3<T> v2(p2, p3);
 
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(90.0), SMALL);
+    auto ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(90.0), SMALL);
+
     p1.set(2, 0, 0);
     v1 = vector3<T>(p2, p1);
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(45.0), SMALL);
+    ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(45.0), SMALL);
+
     p1.set(0, 0, 0);
     v1 = vector3<T>(p2, p1);
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(135.0), SMALL);
+    ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(135.0), SMALL);
+
     v1.set(0, 0, 0);
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(0.0), SMALL);
+    ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(0.0), SMALL);
 
     v1.set(2, -3, 4);
     v2.set(5, 2, 1);
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(74.26280), SMALL);
+    ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(74.26280), SMALL);
 
     DEFINE_ETHYL;
     point3<T> C1;
@@ -990,8 +1013,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
     H1.set(&ETHYL[6]);
     v1 = vector3<T>(C1, C2);
     v2 = vector3<T>(C1, H1);
-    BOOST_CHECK_CLOSE(angle(v1, v2), T(109.640722), SMALL);
-    BOOST_CHECK_CLOSE(angle(v2, v1), T(109.640722), SMALL);
+    ang = mu::radians( angle(v1, v2) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(109.640722), SMALL);
+    ang = mu::radians( angle(v2, v1) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(109.640722), SMALL);
+/// [vector3 angle]
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpNormalize, T, float_types)
@@ -1108,6 +1134,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpCross, T, float_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
 {
+/// [vector3 torsion angle]
+    namespace mu = maral::units;
+
     DEFINE_ETHYL;
     point3<T> C1;
     C1.set(&ETHYL[0]);
@@ -1126,16 +1155,24 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
     vector3<T> C1C2(C1, C2);
     vector3<T> C2C1(C2, C1);
     vector3<T> C2H4(C2, H4);
-    BOOST_CHECK_CLOSE(torsion_angle(C1H1, C1C2, C2H4), T(-60.0), T(0.001));
-    BOOST_CHECK_CLOSE(torsion_angle(C2H4, C2C1, C1H1), T(-60.0), T(0.001));
+
+    auto ang = mu::radians( torsion_angle(C1H1, C1C2, C2H4) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-60.0), T(0.001));
+    ang = mu::radians( torsion_angle(C2H4, C2C1, C1H1) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-60.0), T(0.001));
 
     vector3<T> C2H5(C2, H5);
-    BOOST_CHECK_CLOSE(torsion_angle(C1H1, C1C2, C2H5), T(60.0), T(0.001));
-    BOOST_CHECK_CLOSE(torsion_angle(C2H5, C2C1, C1H1), T(60.0), T(0.001));
+    ang = mu::radians( torsion_angle(C1H1, C1C2, C2H5) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(60.0), T(0.001));
+    ang = mu::radians( torsion_angle(C2H5, C2C1, C1H1) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(60.0), T(0.001));
 
     vector3<T> C2H6(C2, H6);
-    BOOST_CHECK_CLOSE(torsion_angle(C1H1, C1C2, C2H6), T(-180.0), T(0.001));
-    BOOST_CHECK_CLOSE(torsion_angle(C2H6, C2C1, C1H1), T(-180.0), T(0.001));
+    ang = mu::radians( torsion_angle(C1H1, C1C2, C2H6) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-180.0), T(0.001));
+    ang = mu::radians( torsion_angle(C2H6, C2C1, C1H1) );
+    BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-180.0), T(0.001));
+/// [vector3 torsion angle]
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Linear_Algebra_Identities, T, float_types)
