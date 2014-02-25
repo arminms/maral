@@ -490,6 +490,6 @@ private:
 typedef two_arg_iomanip<char,char,0> delimiters;
 
 /// @}
-}}    // namespace mtl // namespace maral
+}}    // namespaces
 
 #endif // MARAL_MTL_IOMANIP_HPP_INCLUDED_

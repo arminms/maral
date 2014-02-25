@@ -29,8 +29,7 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
 
-namespace maral
-{
+namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Namespace for the different \b data \b models supported by \b Maral.
@@ -40,8 +39,7 @@ namespace maral
 /// which manner data can be stored, organized and manipulated. Two major data
 /// models supported by \b Maral are \b hierarchical and \b relational.
 
-    namespace model
-    {
+namespace model {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -209,7 +207,7 @@ typedef abstract_node hierarchical;
 
 #include "hierarchical.ipp"
 
-    }    // namespace model
+}    // namespace model
 
 typedef model::abstract_node hierarchical;
 

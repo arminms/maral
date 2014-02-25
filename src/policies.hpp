@@ -19,8 +19,7 @@
 #ifndef MARAL_POLICIES_HPP_INCLUDED_
 #define MARAL_POLICIES_HPP_INCLUDED_
 
-namespace maral
-{
+namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Namespace for the different \b policy classes defined by \b Maral.
@@ -33,8 +32,7 @@ namespace maral
 /// achieve a combinatorial set of behaviors by using small core of elemenatry
 /// components.
 
-    namespace policies
-    {
+namespace policies {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -135,9 +133,7 @@ protected:
     Type pos_;
 };
 
-    }    // namespace policies
-
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_POLICIES_HPP_INCLUDED_
 

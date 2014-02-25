@@ -364,27 +364,32 @@ inline T length_sq(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Angle in degrees formed between two vectors.
+/// \return Angle formed between two vectors in radians.
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
 /// \pre Only works with float types (e.g. vector2i is not acceptable)
 /// \remarks
 /// This function finds the angle formed between two vectors and returns the
-/// result in degrees.
+/// result in radians. You can use units::to_degrees for converting to degrees.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
+/// \par Example:
+///
+/// \snippet mtl_vectors.cpp vector2 angle
 
 template<typename T>
 inline T angle(
     const vector2<T>& v1,
     const vector2<T>& v2)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     T len_sq = (v1[0]*v1[0] + v1[1]*v1[1]) * (v2[0]*v2[0] + v2[1]*v2[1]);
     return (len_sq == T(0.0f)
             ? T(0.0f)
-            : radian2degree(
-                            std::acos( (v1[0]*v2[0] + v1[1]*v2[1]) /
-                            std::sqrt(len_sq) ) ) );
+            : std::acos( (v1[0]*v2[0] + v1[1]*v2[1]) / std::sqrt(len_sq) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -837,32 +842,37 @@ inline T length_sq(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Angle in degrees formed between two vectors.
+/// \return Angle formed between two vectors in radians.
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
 /// \pre Only works with float types (e.g. vector3i is not acceptable).
 /// \remarks
 /// This function finds the angle formed between two vectors and returns the
-/// result in degrees.
+/// result in radians. You can use units::to_degrees for converting to degrees.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
 /// \see angle(const point3<T>&,const point3<T>&,const point3<T>&)
+/// \par Example:
+///
+/// \snippet mtl_vectors.cpp vector3 angle
 
 template<typename T>
 inline T angle(
     const vector3<T>& v1,
     const vector3<T>& v2)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     T len_sq =
         (v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2])
         *
         (v2[0]*v2[0] + v2[1]*v2[1] + v2[2]*v2[2]);
     return (len_sq < SMALL
             ? T(0.0)
-            : radian2degree(
-                            std::acos(
-                            (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]) /
-                            std::sqrt(len_sq) ) ) );
+            : std::acos( (v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2])
+                         / std::sqrt(len_sq) ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1016,7 +1026,7 @@ inline vector3<T> cross(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Torsion angle in degrees formed between three vectors.
+/// \return Torsion angle formed between three vectors in radians.
 /// \param v1 Reference to the first vector.
 /// \param v2 Reference to the second vector.
 /// \param v3 Reference to the third vector.
@@ -1030,10 +1040,14 @@ inline vector3<T> cross(
 /// conformation to a torsion angle of 180 degrees. According to this definition
 /// if one looks along the vector \a v2, then torsion angle is clockwise rotation
 /// of up to 180° necessary to bring the vector \a v1 into an eclipsed position
-/// with the \a v3 vector.
+/// with the \a v3 vector. You can use units::to_degrees for converting the
+/// result to degrees.
 /// \image html angle_point.svg
 /// \image rtf angle_point.svg
 /// \see torsion_angle(const point3<T>&,const point3<T>&,const point3<T>&,const point3<T>&)
+/// \par Example:
+///
+/// \snippet mtl_vectors.cpp vector3 torsion angle
 
 template<typename T>
 inline T torsion_angle(
@@ -1041,6 +1055,10 @@ inline T torsion_angle(
     const vector3<T>& v2,
     const vector3<T>& v3)
 {
+    static_assert(
+        std::is_floating_point<T>(),
+        "need a float type :(");
+
     // 1st cross product
     T c1x = v2[1]*v1[2] - v2[2]*v1[1];
     T c1y = v2[2]*v1[0] - v2[0]*v1[2];
@@ -1055,10 +1073,9 @@ inline T torsion_angle(
         return T(0.0);
     else
     {
-        T rad = (c1x*c2x + c1y*c2y + c1z*c2z) / std::sqrt(len_sq);
-        T angle = radian2degree(std::acos(rad));
+        T ang = std::acos( (c1x*c2x + c1y*c2y + c1z*c2z) / std::sqrt(len_sq) );
         T dot = c2x*v1[0] + c2y*v1[1] + c2z*v1[2];
-        return (dot > T(0.0) ? angle : -angle);
+        return (dot > T(0.0) ? ang : -ang);
     }
 }
 

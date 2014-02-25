@@ -19,9 +19,7 @@
 #ifndef MARAL_MTL_MATRIX_HPP_INCLUDED_
 #define MARAL_MTL_MATRIX_HPP_INCLUDED_
 
-namespace maral {
-
-    namespace mtl {
+namespace maral { namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Abstracts a 2x2 matrix (ordered in memory by column).
@@ -475,8 +473,7 @@ typedef matrix44<double> matrix44d;
 
 #include "matrix.ipp"
 
-    }    // namespace mtl
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_MTL_MATRIX_HPP_INCLUDED_
 

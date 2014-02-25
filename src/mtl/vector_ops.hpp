@@ -19,17 +19,13 @@
 #ifndef MARAL_MTL_VECTOR_OPS_HPP_INCLUDED_
 #define MARAL_MTL_VECTOR_OPS_HPP_INCLUDED_
 
-namespace maral
-{
-    namespace mtl
-    {
+namespace maral { namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
     #include "vector_ops.ipp"
 
-    }    // namespace mtl
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_MTL_VECTOR_OPS_HPP_INCLUDED_

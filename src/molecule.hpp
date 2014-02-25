@@ -20,8 +20,7 @@
 #ifndef MARAL_MOLECULE_HPP_INCLUDED_
 #define MARAL_MOLECULE_HPP_INCLUDED_
 
-namespace maral
-{
+namespace maral {
 
 template
 <

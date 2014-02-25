@@ -19,8 +19,7 @@
 #ifndef MARAL_ATOM_HPP_INCLUDED_
 #define MARAL_ATOM_HPP_INCLUDED_
 
-namespace maral
-{
+namespace maral {
 
 template
 <
