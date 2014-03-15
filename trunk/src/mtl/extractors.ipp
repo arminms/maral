@@ -53,7 +53,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     point2<Type>& pnt)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -116,7 +117,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     point3<Type>& pnt)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -181,7 +183,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     vector2<Type>& vec)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -244,7 +247,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     vector3<Type>& vec)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -311,7 +315,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix22<Type>& mtx)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -397,7 +402,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix33<Type>& mtx)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -485,7 +491,8 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix44<Type>& mtx)
 {
-    constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    //constexpr auto max = std::numeric_limits<std::streamsize>::max();
+    auto max = std::numeric_limits<std::streamsize>::max();
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));

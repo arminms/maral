@@ -1,16 +1,10 @@
 // $Id$
 //------------------------------------------------------------------------------
 
-#define BOOST_TEST_MODULE Maral Master Test Suite
-#ifdef _WIN32
-    #define BOOST_TEST_ALTERNATIVE_INIT_API
-#else
-    #define BOOST_TEST_DYN_LINK
-#endif    //_WIN32
 #include <fstream>
-//#define BOOST_TEST_MAIN
+
+#define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
-//#include <boost/test/included/unit_test.hpp>
 //#include <boost/test/test_case_template.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>

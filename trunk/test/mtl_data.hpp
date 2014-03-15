@@ -1,8 +1,8 @@
 // $Id$
 //------------------------------------------------------------------------------
 
-#define PATTERNS_FOLDER "../../test/patterns/"
-//#define PATTERNS_FOLDER "patterns/"
+//#define PATTERNS_FOLDER "../../../patterns/"
+#define PATTERNS_FOLDER "patterns/"
 
 // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
 // tabulated form SCF calculation in a Guassian basis set, John Wiley & Sons,

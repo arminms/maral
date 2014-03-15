@@ -37,11 +37,11 @@ public:
 /// \name Construction
 //@{
     molecule_h_node(
-        Policies&&... policies,
+        //Policies&&... policies,
         const std::string& name,
         unsigned ordinal = 1)
-    :   Policies(policies)...
-    ,   named(name)
+    //:   Policies(policies)...
+    :   named(name)
     ,   ordered(ordinal)
     {}
 //@}

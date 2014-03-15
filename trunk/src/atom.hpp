@@ -42,14 +42,14 @@ public:
 /// \name Construction
 //@{
     atom_h_node(
-        Policies&&... policies
+        //Policies&&... policies
 //        type_traits<Policies&&...>::const_reference vars
-    ,   const std::string& name
+        const std::string& name
     ,   unsigned ordinal = 1
     ,   const Position_Type& pos = Position_Type() )
-    :   Policies(policies)...
+    //:   Policies(policies)...
 //    :   Policies(vars)...
-    ,   named(name)
+    :   named(name)
     ,   ordered(ordinal)
     {}
 //@}

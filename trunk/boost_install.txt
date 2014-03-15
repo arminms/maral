@@ -54,20 +54,20 @@ bootstrap.bat
 .\b2 install --prefix="C:\Program Files\boost\build"
 cd ..\..\..\
 
-"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc address-model=64 --variant=debug,release --link=shared,static --threading=multi stage
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc address-model=64 --variant=debug,release --link=shared,static --threading=multi stage
 
 or with static link to C++ library:
-"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc address-model=64 --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
 
 or for complete build:
-"C:\Program Files\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
+"C:\Program Files\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc address-model=64 --build-type=complete stage
 
 copy stage to :\Program Files\boost\boost_1_55_0\lib
 
-mklink /D "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost" "C:\Program Files\boost\boost_1_55_0\include\boost"
+mklink /D "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\boost" "C:\Program Files\boost\boost_1_55_0\include\boost"
 
 To remove the link:
-rmdir "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\boost"
+rmdir "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\boost"
 
 
 WINDOWS x86
@@ -80,12 +80,12 @@ bootstrap.bat
 .\b2 install --prefix="C:\Program Files (x86)\boost\build"
 cd ..\..\..\
 
-"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static --threading=multi stage
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc --variant=debug,release --link=shared,static --threading=multi stage
 
 or with static link to C++ library:
-"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc --variant=debug,release --link=shared,static runtime-link=shared,static --threading=multi stage
 
 or for complete build:
-"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 toolset=msvc --build-type=complete stage
+"C:\Program Files (x86)\boost\build\bin\b2.exe" -j 4 define=_ITERATOR_DEBUG_LEVEL=0 toolset=msvc --build-type=complete stage
 
 copy stage to C:\Program Files (x86)\boost\boost_1_55_0\lib

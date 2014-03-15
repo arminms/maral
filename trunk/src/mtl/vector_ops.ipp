@@ -383,7 +383,7 @@ inline T angle(
     const vector2<T>& v2)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     T len_sq = (v1[0]*v1[0] + v1[1]*v1[1]) * (v2[0]*v2[0] + v2[1]*v2[1]);
@@ -430,7 +430,8 @@ inline bool is_normalized(
     const vector2<T>& v,
     const T eps = T(0.0005) )
 {
-    return is_equal(length_sq(v), T(1.0), eps);
+    BOOST_ASSERT_MSG(eps >= static_cast<T>(0), "negative tolerance!");
+    return (std::abs(length_sq(v) - T(1.0)) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -862,7 +863,7 @@ inline T angle(
     const vector3<T>& v2)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     T len_sq =
@@ -912,7 +913,8 @@ inline bool is_normalized(
     const vector3<T>& v,
     const T eps = T(0.0005) )
 {
-    return is_equal(length_sq(v), T(1.0), eps);
+    BOOST_ASSERT_MSG(eps >= static_cast<T>(0), "negative tolerance!");
+    return (std::abs(length_sq(v) - T(1.0)) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1056,7 +1058,7 @@ inline T torsion_angle(
     const vector3<T>& v3)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     // 1st cross product

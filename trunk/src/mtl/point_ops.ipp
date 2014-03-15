@@ -368,7 +368,7 @@ inline T angle(
     const point2<T>& p3)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     vector2<T> r1(p2, p1);
@@ -740,7 +740,7 @@ inline T angle(
     const point3<T>& p3)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     vector3<T> r1(p2, p1);
@@ -785,7 +785,7 @@ inline T torsion_angle(
     const point3<T>& p4)
 {
     static_assert(
-        std::is_floating_point<T>(),
+        std::is_floating_point<T>::value,
         "need a float type :(");
 
     // 1st vector
