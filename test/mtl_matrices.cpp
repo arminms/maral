@@ -1,14 +1,14 @@
 // $Id$
 //------------------------------------------------------------------------------
 
+#include <fstream>
 
+#define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
-#include <fstream>
 #include <mtl/mtl.hpp>
-
 #include "mtl_data.hpp"
 
 using boost::test_tools::output_test_stream;
@@ -213,8 +213,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat22_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(mtx1, mtx2, T(22.0)));
     }
 
-    mtx1 = { 3.141593, 938.27231, 939.56563, 2.718282 };
-    mtx2 = { 3.142, 938.272, 939.566, 2.718 };
+    mtx1 = { 3.141593f, 938.27231f, 939.56563f, 2.718282f };
+    mtx2 = { 3.142f, 938.272f, 939.566f, 2.718f };
 
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0)) );
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0.0001)) );
@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_CASE(Mat22_Inserter)
 {
     output_test_stream cout(PATTERNS_FOLDER"matrix22.txt", true);
 /// [matrix22 inserter]
-    matrix22<float> mtx { 3.141593, 938.27231, 939.56563, 2.718282 };
+    matrix22<float> mtx { 3.141593f, 938.27231f, 939.56563f, 2.718282f };
 
     cout << separator(',') << mtx << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
@@ -404,7 +404,7 @@ BOOST_AUTO_TEST_CASE(Mat22_Extractor)
 {
     std::ifstream cin(PATTERNS_FOLDER"matrix22.txt");
 /// [matrix22 extractor]
-    matrix22<float> mtx { 3.141593, 938.27231, 939.56563, 2.718282 };
+    matrix22<float> mtx { 3.141593f, 938.27231f, 939.56563f, 2.718282f };
     matrix22<float> ext;
 
     cin >> separator(',') >> ext.zero();
@@ -711,13 +711,13 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(mtx1, mtx2, T(22.0)));
     }
 
-    mtx1 = { 3.141593, 938.27231,  8.617365,
-               6.0221,  2.718282, 939.56563,
-            931.49432,  1.672623,  0.577216 };
+    mtx1 = { 3.141593f, 938.27231f,  8.617365f,
+               6.0221f,  2.718282f, 939.56563f,
+            931.49432f,  1.672623f,  0.577216f };
 
-    mtx2 = {  3.142, 938.272,   8.617,
-              6.022,   2.718, 939.566,
-            931.494,   1.673,   0.577 };
+    mtx2 = {  3.142f, 938.272f,   8.617f,
+              6.022f,   2.718f, 939.566f,
+            931.494f,   1.673f,   0.577f };
 
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0)) );
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0.0001)) );
@@ -840,8 +840,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_OpDeterminant, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat33_OpInvert, T, float_types)
 {
-    matrix33<T> t { -4,0,1,-3,2,4,3,-2,-1 };
-    matrix33<T> r { -0.25,0.083,0.083,-0.375,-0.042,-0.542,0.0,0.333,0.333 };
+    matrix33<T> t{ T(-4), T(0), T(1), T(-3), T(2), T(4), T(3), T(-2), T(-1) };
+    matrix33<T> r{  T(-0.25),  T(0.083),  T(0.083),
+                   T(-0.375), T(-0.042), T(-0.542),
+                      T(0.0),  T(0.333),  T(0.333) };
 
     matrix33<T> m;
     invert(m, t);
@@ -891,9 +893,9 @@ BOOST_AUTO_TEST_CASE(Mat33_Inserter)
 /// [matrix33 inserter]
     matrix33<float> mtx
     {
-         3.141593, 938.27231,  8.617365,
-           6.0221,  2.718282, 939.56563,
-        931.49432,  1.672623,  0.577216
+         3.141593f, 938.27231f,  8.617365f,
+           6.0221f,  2.718282f, 939.56563f,
+        931.49432f,  1.672623f,  0.577216f
     };
 
     cout << separator(',') << mtx << std::endl << std::endl;
@@ -948,9 +950,9 @@ BOOST_AUTO_TEST_CASE(Mat33_Extractor)
 /// [matrix33 extractor]
     matrix33<float> mtx
     {
-         3.141593, 938.27231,  8.617365,
-           6.0221,  2.718282, 939.56563,
-        931.49432,  1.672623,  0.577216
+         3.141593f, 938.27231f,  8.617365f,
+           6.0221f,  2.718282f, 939.56563f,
+        931.49432f,  1.672623f,  0.577216f
     };
     matrix33<float> ext;
 
@@ -1359,15 +1361,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(mtx1, mtx2, T(22.0)));
     }
 
-    mtx1 = { 3.141593, 938.27231,  8.617365,  1.674929,
-               6.0221,  2.718282, 939.56563,  8.314510,
-            931.49432,  1.672623,  0.577216, 54.722391,
-             96.48530, 57.883882,  20.67834,  1.618034 };
+    mtx1 = { 3.141593f, 938.27231f,  8.617365f,  1.674929f,
+               6.0221f,  2.718282f, 939.56563f,  8.314510f,
+            931.49432f,  1.672623f,  0.577216f, 54.722391f,
+             96.48530f, 57.883882f,  20.67834f,  1.618034f };
 
-    mtx2 = {  3.142, 938.272,   8.617,  1.675,
-              6.022,   2.718, 939.566,  8.315,
-            931.494,   1.673,   0.577, 54.722,
-             96.485,  57.884,  20.678,  1.618 };
+    mtx2 = {  3.142f, 938.272f,   8.617f,  1.675f,
+              6.022f,   2.718f, 939.566f,  8.315f,
+            931.494f,   1.673f,   0.577f, 54.722f,
+             96.485f,  57.884f,  20.678f,  1.618f };
 
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0)) );
     BOOST_CHECK(!is_equal(mtx1, mtx2, T(0.0001)) );
@@ -1525,9 +1527,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpDeterminant, T, test_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpInvert, T, float_types)
 {
-    matrix44<T> t { -5,0,-3,1,6,1,4,6,0,-1,-5,0,0,2,1,3 };
-    matrix44<T> r { -0.2,0,0.133,0.067,-0.353,-0.294,0.118,0.706,0.071,
-                     0.059,-0.224,-0.141,0.212,0.176,-0.004,-0.09 };
+    matrix44<T> t { -5.,0.f,-3.f,1.f,6.f,1.f,4.f,6.f,0.f,-1.f,-5.f,0.f,0.f,2.f,1.f,3.f };
+    matrix44<T> r { -0.2f,0.f,0.133f,0.067f,-0.353f,-0.294f,0.118f,0.706f,0.071f,
+                     0.059f,-0.224f,-0.141f,0.212f,0.176f,-0.004f,-0.09f };
 
     matrix44<T> m;
     invert(m, t);
@@ -1537,8 +1539,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpInvert, T, float_types)
 BOOST_AUTO_TEST_CASE_TEMPLATE(Mat44_OpInvertUnary, T, float_types)
 {
     matrix44<T> t { 3,1,4,5,0,2,0,0,2,0,6,2,-1,-2,-3,0 };
-    matrix44<T> r { 0.6,-2.5,-1.5,-2.2,0,0.5,0,0,-0.2,
-                    0.5,0.5,0.4,0,1.0,0.5,1.0 };
+    matrix44<T> r { 0.6f,-2.5f,-1.5f,-2.2f,0.f,0.5f,0.f,0.f,-0.2f,
+                    0.5f,0.5f,0.4f,0.f,1.0f,0.5f,1.0f };
 
     BOOST_CHECK(is_equal(invert(t), r, T(SMALL)));
 }
@@ -1579,10 +1581,10 @@ BOOST_AUTO_TEST_CASE(Mat44_Inserter)
 /// [matrix44 inserter]
     matrix44<float> mtx
     {
-         3.141593, 938.27231,  8.617365,  1.674929,
-           6.0221,  2.718282, 939.56563,  8.314510,
-        931.49432,  1.672623,  0.577216, 54.722391,
-         96.48530, 57.883882,  20.67834,  1.618034
+         3.141593f, 938.27231f,  8.617365f,  1.674929f,
+           6.0221f,  2.718282f, 939.56563f,  8.314510f,
+        931.49432f,  1.672623f,  0.577216f, 54.722391f,
+         96.48530f, 57.883882f,  20.67834f,  1.618034f
     };
 
     cout << separator(',') << mtx << std::endl << std::endl;
@@ -1637,10 +1639,10 @@ BOOST_AUTO_TEST_CASE(Mat33_Extractor)
 /// [matrix44 extractor]
     matrix44<float> mtx
     {
-         3.141593, 938.27231,  8.617365,  1.674929,
-           6.0221,  2.718282, 939.56563,  8.314510,
-        931.49432,  1.672623,  0.577216, 54.722391,
-         96.48530, 57.883882,  20.67834,  1.618034
+         3.141593f, 938.27231f,  8.617365f,  1.674929f,
+           6.0221f,  2.718282f, 939.56563f,  8.314510f,
+        931.49432f,  1.672623f,  0.577216f, 54.722391f,
+         96.48530f, 57.883882f,  20.67834f,  1.618034f
     };
     matrix44<float> ext;
 

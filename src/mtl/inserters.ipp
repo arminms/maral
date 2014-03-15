@@ -78,7 +78,7 @@ operator << (
             << skip_if_null<CharT>(brc);
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -161,7 +161,7 @@ operator << (
             << skip_if_null<CharT>(brc);
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -249,7 +249,7 @@ operator << (
             << skip_if_null<CharT>(brc);
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -347,7 +347,7 @@ operator << (
             << skip_if_null<CharT>(brc);
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -434,7 +434,7 @@ operator << (
 
     if (orientation::get(bos))
     {
-        bool row_major = static_cast<bool>(order::get(bos));
+        bool row_major = (0 != order::get(bos));
         str << skip_if_null<CharT>(bro)
             << skip_if_null<CharT>(spc)
             << std::setw(ew)
@@ -457,7 +457,7 @@ operator << (
     }
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -543,7 +543,7 @@ operator << (
 
     if (orientation::get(bos))
     {
-        bool row_major = static_cast<bool>(order::get(bos));
+        bool row_major = (0 != order::get(bos));
         str << skip_if_null<CharT>(bro)
             << skip_if_null<CharT>(spc)
             << std::setw(ew)
@@ -587,7 +587,7 @@ operator << (
     }
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 
@@ -700,7 +700,7 @@ operator << (
 
     if (orientation::get(bos))
     {
-        bool row_major = static_cast<bool>(order::get(bos));
+        bool row_major = (0 != order::get(bos));
         str << skip_if_null<CharT>(bro)
             << skip_if_null<CharT>(spc)
             << std::setw(ew)
@@ -773,7 +773,7 @@ operator << (
     }
     else    // vertical
     {
-        int w = bos.width();
+        auto w = bos.width();
         std::basic_ostringstream<CharT,Traits> row;
         row.copyfmt(str);
 

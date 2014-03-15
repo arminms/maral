@@ -31,7 +31,7 @@ template <typename Argument>
 class skip_if_null
 {
     static_assert(
-        std::is_integral<Argument>(),
+        std::is_integral<Argument>::value,
         "need an integral type :(");
 
 public:
@@ -203,7 +203,7 @@ template <typename Argument, int Id>
 class one_arg_omanip
 {
     static_assert(
-        std::is_integral<Argument>(),
+        std::is_integral<Argument>::value,
         "need an integral type :(");
 
 public:
@@ -251,7 +251,7 @@ template <typename Argument, int Id>
 class one_arg_iomanip
 {
     static_assert(
-        std::is_integral<Argument>(),
+        std::is_integral<Argument>::value,
         "need an integral type :(");
 
 public:
@@ -309,7 +309,7 @@ template <typename Arg1, typename Arg2, int Id>
 class two_arg_omanip
 {
     static_assert(
-        std::is_integral<Arg1>() && std::is_integral<Arg2>(),
+	std::is_integral<Arg1>::value && std::is_integral<Arg2>::value,
         "need an integral type :(");
 
 public:
@@ -376,7 +376,7 @@ template <typename Argument, int Id>
 class one_arg_imanip
 {
     static_assert(
-        std::is_integral<Argument>(),
+	std::is_integral<Argument>::value,
         "need an integral type :(");
 
 public:
@@ -422,7 +422,7 @@ template <typename Arg1, typename Arg2, int Id>
 class two_arg_iomanip
 {
     static_assert(
-        std::is_integral<Arg1>() && std::is_integral<Arg2>(),
+	std::is_integral<Arg1>::value && std::is_integral<Arg2>::value,
         "need an integral type :(");
 
 public:

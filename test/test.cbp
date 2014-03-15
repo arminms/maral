@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../bin/debug/test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -22,7 +22,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="../bin/release/test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -39,7 +39,7 @@
 				</Linker>
 			</Target>
 			<Target title="Profile">
-				<Option output="../bin/profile/test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/profile/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/profile/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -70,6 +70,7 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-Wno-unused-local-typedefs" />
 		</Compiler>
 		<Unit filename="maral_h_model.cpp">
 			<Option target="Debug" />
@@ -101,7 +102,7 @@
 			<debugger />
 			<lib_finder disable_auto="1" />
 			<DoxyBlocks>
-				<comment_style block="0" line="0" />
+				<comment_style block="5" line="2" />
 				<doxyfile_project />
 				<doxyfile_build />
 				<doxyfile_warnings />

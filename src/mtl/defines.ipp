@@ -33,15 +33,15 @@
 /// A handy inline template function that test for equality within
 /// some tolerance.
 
-template<typename T>
-inline bool is_equal(
-    const T& a,
-    const T& b,
-    const T& tolerance = T(0.0005) )
-{
-    BOOST_ASSERT_MSG(tolerance >= static_cast<T>(0), "negative tolerance!");
-    return (std::abs(a - b) <= tolerance);
-}
+//template<typename T>
+//inline bool is_equal(
+//    const T& a,
+//    const T& b,
+//    const T& tolerance = T(0.0005) )
+//{
+//    BOOST_ASSERT_MSG(tolerance >= static_cast<T>(0), "negative tolerance!");
+//    return (std::abs(a - b) <= tolerance);
+//}
 
 //template <typename T>
 //inline T abs(T v)
