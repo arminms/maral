@@ -95,8 +95,8 @@ BOOST_AUTO_TEST_CASE( Size_Test )
     BOOST_CHECK(sizeof(model::root_node<hierarchical>) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(policies::named<std::string>) == sizeof(std::string));
     BOOST_CHECK(sizeof(policies::ordered<unsigned>) == sizeof(unsigned));
-//    BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(molecule) == (6 * sizeof(atm)));
+    //BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
+    //BOOST_CHECK(sizeof(molecule) == (6 * sizeof(atm)));
 }
 
 BOOST_AUTO_TEST_CASE( Dynamic_Casts )

@@ -105,11 +105,7 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/mtl/defines.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/mtl/defines.ipp">
+		<Unit filename="src/mtl/constants.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

@@ -10,7 +10,8 @@
 
 #include <mtl/mtl.hpp>
 #include <units.hpp>
-#include "mtl_data.hpp"
+
+#define PATTERNS_FOLDER "patterns/"
 
 using boost::test_tools::output_test_stream;
 using namespace maral::mtl;
@@ -18,7 +19,37 @@ using namespace maral::mtl;
 typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
 
-BOOST_AUTO_TEST_SUITE( Vectors )
+template<typename T>
+struct INIT_ETHAN
+{
+    INIT_ETHAN()
+    {
+
+        // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
+        // tabulated form SCF calculation in a Guassian basis set, John Wiley
+        // & Sons, p T-74, 1972
+        ethan[0] = T(0.00000000); ethan[1] = T(0.00000000);
+        ethan[2] = T(0.00000000); // [0]  C1       H6
+        ethan[3] = T(0.00000000); ethan[4] = T(0.00000000);
+        ethan[5] = T(2.91589999); // [3]  C2       |
+        ethan[6] = T(1.69855762); ethan[7] = T(-0.98066292);
+        ethan[8] = T(-0.69996772); // [6]  H1  H5 - C2 - H4
+        ethan[9] = T(-1.69855762); ethan[10] = T(-0.98066792);
+        ethan[11] = T(-0.69996772); // [9]  H2       |
+        ethan[12] = T(0.00000000); ethan[13] = T(1.96132584);
+        ethan[14] = T(-0.69996772); // [12] H3  H2 - C1 - H3
+        ethan[15] = T(1.69855762); ethan[16] = T(0.98066292);
+        ethan[17] = T(3.61586168); // [15] H4       |
+        ethan[18] = T(0.00000000); ethan[19] = T(-1.96132579);
+        ethan[20] = T(3.61586168); // [18] H5       H1
+        ethan[21] = T(-1.69855762); ethan[22] = T(0.98066292);
+        ethan[23] = T(3.61586168); // [21] H6
+    }
+
+    T ethan[24];
+};
+
+BOOST_AUTO_TEST_SUITE(Vectors)
 
 BOOST_AUTO_TEST_SUITE( Vec2 )
 
@@ -208,8 +239,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpIsEqual, T, float_types)
     }
 
 
-    vec1.set(3.141593, 938.27231);
-    vec2.set(3.14159,  938.272);
+    vec1.set( T(3.141593), T(938.27231) );
+    vec2.set(  T(3.14159),   T(938.272) );
 
     BOOST_CHECK(!is_equal(vec1, vec2, T(0)) );
     BOOST_CHECK(!is_equal(vec1, vec2, T(0.0001)) );
@@ -472,11 +503,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLerp, T, float_types)
     BOOST_CHECK_CLOSE(expected_result4[1], res4[1], eps);
 }
 
-BOOST_AUTO_TEST_CASE(Vector2_Inserter)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Inserter, T, float_types)
 {
     output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
 /// [vector2 inserter]
-    vector2<float> vec(3.141593, 938.27231);
+    vector2<T> vec( T(3.141593), T(938.27231) );
 
     cout << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
@@ -521,12 +552,12 @@ BOOST_AUTO_TEST_CASE(Vector2_Inserter)
 /// [vector2 inserter]
 }
 
-BOOST_AUTO_TEST_CASE(Vector2_Extractor)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Extractor, T, float_types)
 {
     std::ifstream cin(PATTERNS_FOLDER"pntvec2.txt");
 /// [vector2 extractor]
-    vector2<float> vec(3.141593, 938.27231);
-    vector2<float> ext;
+    vector2<T> vec( T(3.141593), T(938.27231) );
+    vector2<T> ext;
 
     cin >> ext.zero();
     BOOST_CHECK( is_equal(vec, ext) );
@@ -798,8 +829,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(vec1, vec2, T(22.0)));
     }
 
-    vec1.set(3.141593, 938.27231, 2.718282);
-    vec2.set(3.14159,  938.272, 2.71828);
+    vec1.set(T(3.141593), T(938.27231), T(2.718282) );
+    vec2.set( T(3.14159),   T(938.272),  T(2.71828) );
 
     BOOST_CHECK(!is_equal(vec1, vec2, T(0)) );
     BOOST_CHECK(!is_equal(vec1, vec2, T(0.0001)) );
@@ -972,7 +1003,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpLength, T, float_types)
     BOOST_CHECK_CLOSE(len, ans, T(SMALL));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types, INIT_ETHAN<T>)
 {
 /// [vector3 angle]
     namespace mu = maral::units;
@@ -1005,13 +1036,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types)
     ang = mu::radians( angle(v1, v2) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(74.26280), SMALL);
 
-    DEFINE_ETHYL;
     point3<T> C1;
-    C1.set(&ETHYL[0]);
+    C1.set(&ethan[0]);
     point3<T> C2;
-    C2.set(&ETHYL[3]);
+    C2.set(&ethan[3]);
     point3<T> H1;
-    H1.set(&ETHYL[6]);
+    H1.set(&ethan[6]);
     v1 = vector3<T>(C1, C2);
     v2 = vector3<T>(C1, H1);
     ang = mu::radians( angle(v1, v2) );
@@ -1133,24 +1163,23 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpCross, T, float_types)
     BOOST_CHECK(is_equal(cross(v2, v1), vector3<T>(-v3), T(0.001f) ) );
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types, INIT_ETHAN<T>)
 {
 /// [vector3 torsion angle]
     namespace mu = maral::units;
 
-    DEFINE_ETHYL;
     point3<T> C1;
-    C1.set(&ETHYL[0]);
+    C1.set(&ethan[0]);
     point3<T> C2;
-    C2.set(&ETHYL[3]);
+    C2.set(&ethan[3]);
     point3<T> H1;
-    H1.set(&ETHYL[6]);
+    H1.set(&ethan[6]);
     point3<T> H4;
-    H4.set(&ETHYL[15]);
+    H4.set(&ethan[15]);
     point3<T> H5;
-    H5.set(&ETHYL[18]);
+    H5.set(&ethan[18]);
     point3<T> H6;
-    H6.set(&ETHYL[21]);
+    H6.set(&ethan[21]);
 
     vector3<T> C1H1(C1, H1);
     vector3<T> C1C2(C1, C2);
@@ -1206,11 +1235,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Linear_Algebra_Identities, T, float_types)
     BOOST_CHECK(dot(v1, cross(v1, v2)) == T(0));
 }
 
-BOOST_AUTO_TEST_CASE(Vector3_Inserter)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Inserter, T, float_types)
 {
     output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
 /// [vector3 inserter]
-    vector3<float> vec(3.141593, 938.27231, 2.718282);
+    vector3<T> vec( T(3.141593), T(938.27231), T(2.718282) );
 
     cout << vec << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
@@ -1255,12 +1284,12 @@ BOOST_AUTO_TEST_CASE(Vector3_Inserter)
 /// [vector3 inserter]
 }
 
-BOOST_AUTO_TEST_CASE(Vector3_Extractor)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Extractor, T, float_types)
 {
     std::ifstream cin(PATTERNS_FOLDER"pntvec3.txt");
 /// [vector3 extractor]
-    vector3<float> vec(3.141593, 938.27231, 2.718282);
-    vector3<float> ext;
+    vector3<T> vec( T(3.141593), T(938.27231), T(2.718282) );
+    vector3<T> ext;
 
     cin >> ext.zero();
     BOOST_CHECK( is_equal(vec, ext) );

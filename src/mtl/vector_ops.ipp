@@ -300,8 +300,16 @@ inline vector2<T>& middle(
     const vector2<T>& v1,
     const vector2<T>& v2)
 {
-    r[0] = (v1[0] + v2[0]) * (T)HALF;
-    r[1] = (v1[1] + v2[1]) * (T)HALF;
+    static_assert(
+        std::is_floating_point<T>::value,
+        "need a float type :(");
+#ifdef _MSC_VER
+    const T half = T(1) / T(2);
+#else
+    constexpr T half = T(1) / T(2);
+#endif  //_MSC_VER
+    r[0] = (v1[0] + v2[0]) * half;
+    r[1] = (v1[1] + v2[1]) * half;
     return r;
 }
 
@@ -779,9 +787,17 @@ inline vector3<T>& middle(
     const vector3<T>& v1,
     const vector3<T>& v2)
 {
-    r[0] = (v1[0] + v2[0]) * (T)HALF;
-    r[1] = (v1[1] + v2[1]) * (T)HALF;
-    r[2] = (v1[2] + v2[2]) * (T)HALF;
+    static_assert(
+        std::is_floating_point<T>::value,
+        "need a float type :(");
+#ifdef _MSC_VER
+    const T half = T(1) / T(2);
+#else
+    constexpr T half = T(1) / T(2);
+#endif  //_MSC_VER
+    r[0] = (v1[0] + v2[0]) * half;
+    r[1] = (v1[1] + v2[1]) * half;
+    r[2] = (v1[2] + v2[2]) * half;
     return r;
 }
 

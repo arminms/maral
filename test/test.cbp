@@ -72,29 +72,21 @@
 			<Add option="-fexceptions" />
 			<Add option="-Wno-unused-local-typedefs" />
 		</Compiler>
-		<Unit filename="maral_h_model.cpp">
+		<Unit filename="test_h_model.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="mtl_data.hpp">
+		<Unit filename="test_mtl_matrices.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Profile" />
 		</Unit>
-		<Unit filename="mtl_matrices.cpp">
+		<Unit filename="test_mtl_points.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Profile" />
 		</Unit>
-		<Unit filename="mtl_points.cpp">
+		<Unit filename="test_mtl_vectors.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="Profile" />
-		</Unit>
-		<Unit filename="mtl_vectors.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-			<Option target="Profile" />
 		</Unit>
 		<Extensions>
 			<envvars />
