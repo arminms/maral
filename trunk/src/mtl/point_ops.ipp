@@ -296,8 +296,16 @@ inline point2<T>& middle(
     const point2<T>& p1,
     const point2<T>& p2)
 {
-    r[0] = (p1[0] + p2[0]) * (T)HALF;
-    r[1] = (p1[1] + p2[1]) * (T)HALF;
+    static_assert(
+        std::is_floating_point<T>::value,
+        "need a float type :(");
+#ifdef _MSC_VER
+    const T half = T(1) / T(2);
+#else
+    constexpr T half = T(1) / T(2);
+#endif  //_MSC_VER
+    r[0] = (p1[0] + p2[0]) * half;
+    r[1] = (p1[1] + p2[1]) * half;
     return r;
 }
 
@@ -666,9 +674,17 @@ inline point3<T>& middle(
     const point3<T>& p1,
     const point3<T>& p2)
 {
-    r[0] = (p1[0] + p2[0]) * (T)HALF;
-    r[1] = (p1[1] + p2[1]) * (T)HALF;
-    r[2] = (p1[2] + p2[2]) * (T)HALF;
+    static_assert(
+        std::is_floating_point<T>::value,
+        "need a float type :(");
+#ifdef _MSC_VER
+    const T half = T(1) / T(2);
+#else
+    constexpr T half = T(1) / T(2);
+#endif  //_MSC_VER
+    r[0] = (p1[0] + p2[0]) * half;
+    r[1] = (p1[1] + p2[1]) * half;
+    r[2] = (p1[2] + p2[2]) * half;
     return r;
 }
 

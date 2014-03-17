@@ -10,14 +10,14 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file defines.hpp
-/// \brief Include file for some frequently used mathematical defines.
+/// \file constants.hpp
+/// \brief Include file for some frequently used mathematical constants.
 ///
-/// \b defines.hpp is the include file for some frequently used
-/// mathematical constansts and handy templated inlines.
+/// \b constants.hpp is the include file for some frequently used mathematical
+/// constants.
 
-#ifndef MARAL_MTL_DEFINES_HPP_INCLUDED_
-#define MARAL_MTL_DEFINES_HPP_INCLUDED_
+#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#define MARAL_MTL_CONSTANTS_HPP_INCLUDED_
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief The namespace for \b Maral.
@@ -48,20 +48,11 @@ namespace mtl {
 
 /// \cond Consts
 
-const float  HALF        = 0.5f;
 const float  SMALL       = 0.00001f;
 const float  SMALLREV    = 1.0E+5;
-const float  CMPERR      = 0.00001f;
-const float  CMPERRSQ    = 1.0E-10f;
-const float  CMPERRSQAPX = 1.0E-9f;
 
 /// \endcond
 
-////////////////////////////////////////////////////////////////////////////////
-// Implementation
-
-#include "defines.ipp"
-
 }}    // namespaces
 
-#endif    // MARAL_MTL_DEFINES_HPP_INCLUDED_
+#endif    // MARAL_MTL_CONSTANTS_HPP_INCLUDED_

@@ -5,13 +5,13 @@
 
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
-//#include <boost/test/test_case_template.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/mpl/list.hpp>
 
 #include <mtl/mtl.hpp>
 #include <units.hpp>
-#include "mtl_data.hpp"
+
+#define PATTERNS_FOLDER "patterns/"
 
 using boost::test_tools::output_test_stream;
 using namespace maral::mtl;
@@ -19,7 +19,37 @@ using namespace maral::mtl;
 typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
 
-BOOST_AUTO_TEST_SUITE( Points )
+template<typename T>
+struct INIT_ETHAN
+{
+    INIT_ETHAN()
+    {
+
+        // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
+        // tabulated form SCF calculation in a Guassian basis set, John Wiley
+        // & Sons, p T-74, 1972
+        ethan [0] = T( 0.00000000); ethan [1] = T( 0.00000000);
+        ethan [2] = T( 0.00000000); // [0]  C1       H6
+        ethan [3] = T( 0.00000000); ethan [4] = T( 0.00000000);
+        ethan [5] = T( 2.91589999); // [3]  C2       |
+        ethan [6] = T( 1.69855762); ethan [7] = T(-0.98066292);
+        ethan [8] = T(-0.69996772); // [6]  H1  H5 - C2 - H4
+        ethan [9] = T(-1.69855762); ethan[10] = T(-0.98066792);
+        ethan[11] = T(-0.69996772); // [9]  H2       |
+        ethan[12] = T( 0.00000000); ethan[13] = T( 1.96132584);
+        ethan[14] = T(-0.69996772); // [12] H3  H2 - C1 - H3
+        ethan[15] = T( 1.69855762); ethan[16] = T( 0.98066292);
+        ethan[17] = T( 3.61586168); // [15] H4       |
+        ethan[18] = T( 0.00000000); ethan[19] = T(-1.96132579);
+        ethan[20] = T( 3.61586168); // [18] H5       H1
+        ethan[21] = T(-1.69855762); ethan[22] = T( 0.98066292);
+        ethan[23] = T( 3.61586168); // [21] H6
+    }
+
+    T ethan[24];
+};
+
+BOOST_AUTO_TEST_SUITE(Points)
 
 BOOST_AUTO_TEST_SUITE( Pnt2 )
 
@@ -206,8 +236,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(pnt1, pnt2, T(22.0)));
     }
 
-    pnt1.set(3.141593, 938.27231);
-    pnt2.set(3.14159,  938.272);
+    pnt1.set( T(3.141593), T(938.27231) );
+    pnt2.set(  T(3.14159),   T(938.272) );
 
     BOOST_CHECK(!is_equal(pnt1, pnt2, T(0)) );
     BOOST_CHECK(!is_equal(pnt1, pnt2, T(0.0001)) );
@@ -384,11 +414,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
 //    os << delimiters('\0') << pnt << std::endl;
 //}
 
-BOOST_AUTO_TEST_CASE(Point2_Inserter)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Inserter, T, float_types)
 {
     output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
 /// [point2 inserter]
-    point2<float> pnt(3.141593, 938.27231);
+    point2<T> pnt( T(3.141593), T(938.27231) );
 
     cout << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
@@ -433,12 +463,12 @@ BOOST_AUTO_TEST_CASE(Point2_Inserter)
 /// [point2 inserter]
 }
 
-BOOST_AUTO_TEST_CASE(Point2_Extractor)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Extractor, T, float_types)
 {
     std::ifstream cin(PATTERNS_FOLDER"pntvec2.txt");
 /// [point2 extractor]
-    point2<float> pnt(3.141593, 938.27231);
-    point2<float> ext;
+    point2<T> pnt( T(3.141593), T(938.27231) );
+    point2<T> ext;
 
     cin >> ext.zero();
     BOOST_CHECK( is_equal(pnt, ext) );
@@ -699,8 +729,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpIsEqual, T, float_types)
         BOOST_CHECK( is_equal(pnt1, pnt2, T(22.0)));
     }
 
-    pnt1.set(3.141593, 938.27231, 2.718282);
-    pnt2.set(3.14159,  938.272, 2.71828);
+    pnt1.set( T(3.141593), T(938.27231), T(2.718282) );
+    pnt2.set(  T(3.14159),   T(938.272),  T(2.71828) );
 
     BOOST_CHECK(!is_equal(pnt1, pnt2, T(0)) );
     BOOST_CHECK(!is_equal(pnt1, pnt2, T(0.0001)) );
@@ -847,7 +877,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpDistanceSq, T, test_types)
     BOOST_CHECK_EQUAL(distance_sq(pnt1, pnt2), T(12));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, INIT_ETHAN<T>)
 {
 /// [point3 angle]
     namespace mu = maral::units;
@@ -872,13 +902,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types)
     ang = mu::radians( angle(pnt1, pnt2, pnt3) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(135.0), SMALL);
 
-    DEFINE_ETHYL;
     point3<T> C1;
-    C1.set(&ETHYL[0]);
+    C1.set(&ethan[0]);
     point3<T> C2;
-    C2.set(&ETHYL[3]);
+    C2.set(&ethan[3]);
     point3<T> H1;
-    H1.set(&ETHYL[6]);
+    H1.set(&ethan[6]);
     ang = mu::radians( angle(C2, C1, H1) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), 109.640722, SMALL);
     ang = mu::radians( angle(H1, C1, C2) );
@@ -886,24 +915,23 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types)
 /// [point3 angle]
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types, INIT_ETHAN<T>)
 {
 /// [point3 torsion angle]
     namespace mu = maral::units;
 
-    DEFINE_ETHYL;
     point3<T> C1;
-    C1.set(&ETHYL[0]);
+    C1.set(&ethan[0]);
     point3<T> C2;
-    C2.set(&ETHYL[3]);
+    C2.set(&ethan[3]);
     point3<T> H1;
-    H1.set(&ETHYL[6]);
+    H1.set(&ethan[6]);
     point3<T> H4;
-    H4.set(&ETHYL[15]);
+    H4.set(&ethan[15]);
     point3<T> H5;
-    H5.set(&ETHYL[18]);
+    H5.set(&ethan[18]);
     point3<T> H6;
-    H6.set(&ETHYL[21]);
+    H6.set(&ethan[21]);
 
     auto ang = mu::radians( torsion_angle(H1, C1, C2, H4) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-60.0), T(0.001));
@@ -948,11 +976,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types)
 //    os << delimiters('\0') << pnt << std::endl;
 //}
 
-BOOST_AUTO_TEST_CASE(Point3_Inserter)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Inserter, T, float_types)
 {
     output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
 /// [point3 inserter]
-    point3<float> pnt(3.141593, 938.27231, 2.718282);
+    point3<T> pnt( T(3.141593), T(938.27231), T(2.718282) );
 
     cout << pnt << std::endl << std::endl;
     BOOST_CHECK( cout.match_pattern() );
@@ -997,12 +1025,12 @@ BOOST_AUTO_TEST_CASE(Point3_Inserter)
 /// [point3 inserter]
 }
 
-BOOST_AUTO_TEST_CASE(Point3_Extractor)
+BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Extractor, T, float_types)
 {
     std::ifstream cin(PATTERNS_FOLDER"pntvec3.txt");
 /// [point3 extractor]
-    point3<float> pnt(3.141593, 938.27231, 2.718282);
-    point3<float> ext;
+    point3<T> pnt( T(3.141593), T(938.27231), T(2.718282) );
+    point3<T> ext;
 
     cin >> ext.zero();
     BOOST_CHECK( is_equal(pnt, ext) );

@@ -11,10 +11,9 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file mtl.hpp
-/// \brief Include file for some frequently used mathematical defines.
+/// \brief Include file for the whole maral::mtl namespace.
 ///
-/// \b mtl_defines.hpp is the include file for some frequently used
-/// mathematical constansts and handy templated inlines.
+/// \b mtl.hpp is the include file for the whole maral::mtl namespace.
 
 #ifndef MARAL_MTL_HPP_INCLUDED_
 #define MARAL_MTL_HPP_INCLUDED_
@@ -22,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 
-#include "defines.hpp"
+#include "constants.hpp"
 #include "point.hpp"
 #include "vector.hpp"
 #include "point_ops.hpp"
