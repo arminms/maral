@@ -20,9 +20,11 @@ typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
 
 template<typename T>
-struct INIT_ETHAN
+struct ETHAN
 {
-    INIT_ETHAN()
+    T ethan[24];
+
+    ETHAN()
     {
 
         // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
@@ -45,8 +47,6 @@ struct INIT_ETHAN
         ethan[21] = T(-1.69855762); ethan[22] = T( 0.98066292);
         ethan[23] = T( 3.61586168); // [21] H6
     }
-
-    T ethan[24];
 };
 
 BOOST_AUTO_TEST_SUITE(Points)
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Constructors, T, test_types)
     point2<T> pnt((T)1, (T)2);
 
     BOOST_CHECK_EQUAL(pnt[0], (T)1);
-    BOOST_CHECK_EQUAL(pnt[1], (T)2);
+    BOOST_CHECK_EQUAL(pnt[1], (T)3);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_VectorExplicit, T, test_types)
@@ -877,7 +877,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpDistanceSq, T, test_types)
     BOOST_CHECK_EQUAL(distance_sq(pnt1, pnt2), T(12));
 }
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, INIT_ETHAN<T>)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, ETHAN<T>)
 {
 /// [point3 angle]
     namespace mu = maral::units;
@@ -903,11 +903,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, INIT_ETHAN<T>)
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(135.0), SMALL);
 
     point3<T> C1;
-    C1.set(&ethan[0]);
+    C1.set(&ETHAN<T>::ethan[0]);
     point3<T> C2;
-    C2.set(&ethan[3]);
+    C2.set(&ETHAN<T>::ethan[3]);
     point3<T> H1;
-    H1.set(&ethan[6]);
+    H1.set(&ETHAN<T>::ethan[6]);
     ang = mu::radians( angle(C2, C1, H1) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), 109.640722, SMALL);
     ang = mu::radians( angle(H1, C1, C2) );
@@ -915,23 +915,23 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, INIT_ETHAN<T>)
 /// [point3 angle]
 }
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types, INIT_ETHAN<T>)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types, ETHAN<T>)
 {
 /// [point3 torsion angle]
     namespace mu = maral::units;
 
     point3<T> C1;
-    C1.set(&ethan[0]);
+    C1.set(&ETHAN<T>::ethan[0]);
     point3<T> C2;
-    C2.set(&ethan[3]);
+    C2.set(&ETHAN<T>::ethan[3]);
     point3<T> H1;
-    H1.set(&ethan[6]);
+    H1.set(&ETHAN<T>::ethan[6]);
     point3<T> H4;
-    H4.set(&ethan[15]);
+    H4.set(&ETHAN<T>::ethan[15]);
     point3<T> H5;
-    H5.set(&ethan[18]);
+    H5.set(&ETHAN<T>::ethan[18]);
     point3<T> H6;
-    H6.set(&ethan[21]);
+    H6.set(&ETHAN<T>::ethan[21]);
 
     auto ang = mu::radians( torsion_angle(H1, C1, C2, H4) );
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(-60.0), T(0.001));
