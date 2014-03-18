@@ -20,33 +20,33 @@ typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
 
 template<typename T>
-struct INIT_ETHAN
+struct ETHAN
 {
-    INIT_ETHAN()
+    T ethan[24];
+
+    ETHAN()
     {
 
         // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
         // tabulated form SCF calculation in a Guassian basis set, John Wiley
         // & Sons, p T-74, 1972
-        ethan[0] = T(0.00000000); ethan[1] = T(0.00000000);
-        ethan[2] = T(0.00000000); // [0]  C1       H6
-        ethan[3] = T(0.00000000); ethan[4] = T(0.00000000);
-        ethan[5] = T(2.91589999); // [3]  C2       |
-        ethan[6] = T(1.69855762); ethan[7] = T(-0.98066292);
-        ethan[8] = T(-0.69996772); // [6]  H1  H5 - C2 - H4
-        ethan[9] = T(-1.69855762); ethan[10] = T(-0.98066792);
+        ethan [0] = T (0.00000000); ethan [1] = T (0.00000000);
+        ethan [2] = T (0.00000000); // [0]  C1       H6
+        ethan [3] = T (0.00000000); ethan [4] = T (0.00000000);
+        ethan [5] = T (2.91589999); // [3]  C2       |
+        ethan [6] = T (1.69855762); ethan [7] = T(-0.98066292);
+        ethan [8] = T(-0.69996772); // [6]  H1  H5 - C2 - H4
+        ethan [9] = T(-1.69855762); ethan[10] = T(-0.98066792);
         ethan[11] = T(-0.69996772); // [9]  H2       |
-        ethan[12] = T(0.00000000); ethan[13] = T(1.96132584);
+        ethan[12] = T (0.00000000); ethan[13] = T (1.96132584);
         ethan[14] = T(-0.69996772); // [12] H3  H2 - C1 - H3
-        ethan[15] = T(1.69855762); ethan[16] = T(0.98066292);
-        ethan[17] = T(3.61586168); // [15] H4       |
-        ethan[18] = T(0.00000000); ethan[19] = T(-1.96132579);
-        ethan[20] = T(3.61586168); // [18] H5       H1
-        ethan[21] = T(-1.69855762); ethan[22] = T(0.98066292);
-        ethan[23] = T(3.61586168); // [21] H6
+        ethan[15] = T (1.69855762); ethan[16] = T (0.98066292);
+        ethan[17] = T (3.61586168); // [15] H4       |
+        ethan[18] = T (0.00000000); ethan[19] = T(-1.96132579);
+        ethan[20] = T (3.61586168); // [18] H5       H1
+        ethan[21] = T(-1.69855762); ethan[22] = T (0.98066292);
+        ethan[23] = T (3.61586168); // [21] H6
     }
-
-    T ethan[24];
 };
 
 BOOST_AUTO_TEST_SUITE(Vectors)
@@ -1003,7 +1003,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpLength, T, float_types)
     BOOST_CHECK_CLOSE(len, ans, T(SMALL));
 }
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types, INIT_ETHAN<T>)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types, ETHAN<T>)
 {
 /// [vector3 angle]
     namespace mu = maral::units;
@@ -1037,11 +1037,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpAngle, T, float_types, INIT_ETHAN<T>)
     BOOST_CHECK_CLOSE(mu::to_degrees(ang).value(), T(74.26280), SMALL);
 
     point3<T> C1;
-    C1.set(&ethan[0]);
+    C1.set(&ETHAN<T>::ethan[0]);
     point3<T> C2;
-    C2.set(&ethan[3]);
+    C2.set(&ETHAN<T>::ethan[3]);
     point3<T> H1;
-    H1.set(&ethan[6]);
+    H1.set(&ETHAN<T>::ethan[6]);
     v1 = vector3<T>(C1, C2);
     v2 = vector3<T>(C1, H1);
     ang = mu::radians( angle(v1, v2) );
@@ -1163,23 +1163,23 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_OpCross, T, float_types)
     BOOST_CHECK(is_equal(cross(v2, v1), vector3<T>(-v3), T(0.001f) ) );
 }
 
-BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types, INIT_ETHAN<T>)
+BOOST_FIXTURE_TEST_CASE_TEMPLATE(Vector3_OpTorsionAngle, T, float_types, ETHAN<T>)
 {
 /// [vector3 torsion angle]
     namespace mu = maral::units;
 
     point3<T> C1;
-    C1.set(&ethan[0]);
+    C1.set(&ETHAN<T>::ethan[0]);
     point3<T> C2;
-    C2.set(&ethan[3]);
+    C2.set(&ETHAN<T>::ethan[3]);
     point3<T> H1;
-    H1.set(&ethan[6]);
+    H1.set(&ETHAN<T>::ethan[6]);
     point3<T> H4;
-    H4.set(&ethan[15]);
+    H4.set(&ETHAN<T>::ethan[15]);
     point3<T> H5;
-    H5.set(&ethan[18]);
+    H5.set(&ETHAN<T>::ethan[18]);
     point3<T> H6;
-    H6.set(&ethan[21]);
+    H6.set(&ETHAN<T>::ethan[21]);
 
     vector3<T> C1H1(C1, H1);
     vector3<T> C1C2(C1, C2);
