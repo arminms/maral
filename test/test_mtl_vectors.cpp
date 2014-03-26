@@ -6,6 +6,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/mpl/list.hpp>
 
 #include <mtl/mtl.hpp>
@@ -15,6 +16,7 @@
 
 using boost::test_tools::output_test_stream;
 using namespace maral::mtl;
+namespace utrc = boost::unit_test::runtime_config;
 
 typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
@@ -26,7 +28,6 @@ struct ETHAN
 
     ETHAN()
     {
-
         // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
         // tabulated form SCF calculation in a Guassian basis set, John Wiley
         // & Sons, p T-74, 1972
@@ -505,7 +506,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLerp, T, float_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_Inserter, T, float_types)
 {
-    output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
+    output_test_stream cout(
+        PATTERNS_FOLDER"pntvec2.txt",
+        !utrc::save_pattern() );
 /// [vector2 inserter]
     vector2<T> vec( T(3.141593), T(938.27231) );
 
@@ -1237,7 +1240,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Linear_Algebra_Identities, T, float_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Vector3_Inserter, T, float_types)
 {
-    output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
+    output_test_stream cout(
+        PATTERNS_FOLDER"pntvec3.txt",
+        !utrc::save_pattern() );
 /// [vector3 inserter]
     vector3<T> vec( T(3.141593), T(938.27231), T(2.718282) );
 

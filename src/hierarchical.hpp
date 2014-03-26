@@ -25,6 +25,8 @@
 
 #include <stack>
 
+#include <boost/config.hpp>
+#include <boost/detail/workaround.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
@@ -48,11 +50,46 @@ template <typename Component>
 :   public Component
 {
 public:
+    composite_node()
+    :   Component()
+    ,   parent_(nullptr)
+    {}
+
     template<typename T>
         void add(node<T> node)
     {
         do_add(node.get());
         node.release();
+    }
+
+    template<typename T>
+        node<T> remove(T* node)
+    {
+        do_remove(node);
+        std::unique_ptr<T> free_node(node);
+        return free_node;
+    }
+
+    template<typename Iterator>
+    Iterator erase(Iterator& pos)
+    {
+        typename Component::node_type node = *pos;
+        BOOST_ASSERT_MSG(node, "null pointer!");
+        if (this == node->parent())
+        {
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
+            pos = children_.erase(pos);
+#else
+            // because of libstdc++ bug 57158
+            // this is the only workaround and becuase it's a linear time
+            // algorithm, must be replaced as soon as the bug is fixed
+            typename std::list<typename Component::node_type>::iterator itr(children_.begin());
+            std::advance(itr, std::distance<typename Component::hierarchy_type::const_iterator>(itr, pos));
+            pos = children_.erase(itr);
+#endif  //BOOST_MSVC
+            node->change_parent(nullptr);
+        }
+        return pos;
     }
 
 // Implementation
@@ -74,14 +111,27 @@ private:
     virtual composite_node<Component>*
         do_change_parent(composite_node<Component>* new_parent)
     {
-        composite_node<Component>* old_parent = parent_;
+        auto old_parent = parent_;
         parent_ = new_parent;
         return old_parent;
     }
 
     virtual void do_add(typename Component::node_type node)
     {
+        BOOST_ASSERT_MSG(node, "null pointer!");
+//        if (node->change_parent(this))
+        node->change_parent(this);
         children_.push_back(node);
+    }
+
+    virtual void do_remove(typename Component::node_type node)
+    {
+        BOOST_ASSERT_MSG(node, "null pointer!");
+        if ( this == node->parent() )
+        {
+            children_.remove(node);
+            node->change_parent(nullptr);
+        }
     }
 };
 
@@ -91,6 +141,12 @@ template <typename Component>
     class leaf_node
 :   public Component
 {
+public:
+    leaf_node()
+    :   Component()
+    ,   parent_(nullptr)
+    {}
+
 // Implementation
 private:
     virtual const typename Component::hierarchy_type*
@@ -103,7 +159,7 @@ private:
     virtual composite_node<Component>*
         do_change_parent(composite_node<Component>* new_parent)
     {
-        composite_node<Component>* old_parent = parent_;
+        auto old_parent = parent_;
         parent_ = new_parent;
         return old_parent;
     }
@@ -178,7 +234,7 @@ public:
     {   return get_children();  }
 
     composite_node<abstract_node>* parent() const
-    {   return parent(); }
+    {   return get_parent(); }
 
     composite_node<abstract_node>*
         change_parent(composite_node<abstract_node>* new_parent)

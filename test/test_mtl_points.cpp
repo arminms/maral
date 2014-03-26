@@ -6,6 +6,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/mpl/list.hpp>
 
 #include <mtl/mtl.hpp>
@@ -15,6 +16,7 @@
 
 using boost::test_tools::output_test_stream;
 using namespace maral::mtl;
+namespace utrc = boost::unit_test::runtime_config;
 
 typedef boost::mpl::list<int,float,double,long double> test_types;
 typedef boost::mpl::list<float,double,long double> float_types;
@@ -26,7 +28,6 @@ struct ETHAN
 
     ETHAN()
     {
-
         // Ref: Snyder L.C., Basch H. Molecular wave functions and properties:
         // tabulated form SCF calculation in a Guassian basis set, John Wiley
         // & Sons, p T-74, 1972
@@ -66,7 +67,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Constructors, T, test_types)
     point2<T> pnt((T)1, (T)2);
 
     BOOST_CHECK_EQUAL(pnt[0], (T)1);
-    BOOST_CHECK_EQUAL(pnt[1], (T)3);
+    BOOST_CHECK_EQUAL(pnt[1], (T)2);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_VectorExplicit, T, test_types)
@@ -395,28 +396,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
 /// [point2 angle]
 }
 
-//BOOST_AUTO_TEST_CASE(Insterters)
-//{
-//    point2<float> pnt(3.141593, 938.27231);
-//    std::ofstream os("../../test/patterns/pntvec2.txt");
-//    os << pnt << std::endl << std::endl;
-//    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
-//    os << delimiters('|') << pnt << std::endl << std::endl;
-//    os << setew(7) << delimiters('[', ']') << pnt << std::endl << std::endl;
-//    os << std::setw(15) << pnt << std::endl << std::endl;
-//    os << spaces << delimiters('|') << pnt << std::endl << std::endl;
-//    os << horizontal << pnt << std::endl << std::endl;
-//    os << separator(',') << pnt << std::endl << std::endl;
-//    os << delimiters('{', '}') << pnt << std::endl << std::endl;
-//    os << nospaces << pnt << std::endl << std::endl;
-//    os << setew(0) << pnt << std::endl << std::endl;
-//    os << std::setw(20) << pnt << std::endl << std::endl;
-//    os << delimiters('\0') << pnt << std::endl;
-//}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_Inserter, T, float_types)
 {
-    output_test_stream cout(PATTERNS_FOLDER"pntvec2.txt", true);
+    output_test_stream cout(
+        PATTERNS_FOLDER"pntvec2.txt",
+        !utrc::save_pattern() );
 /// [point2 inserter]
     point2<T> pnt( T(3.141593), T(938.27231) );
 
@@ -953,32 +937,11 @@ BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpTorsionAngle, T, float_types, ETHAN<T>
 /// [point3 torsion angle]
 }
 
-//BOOST_AUTO_TEST_CASE(Insterters)
-//{
-//    point3<float> pnt(3.141593, 938.27231, 2.718282);
-//    std::ofstream os(PATTERNS_FOLDER"pntvec3.txt");
-//    std::wofstream os(PATTERNS_FOLDER"pntvec3w.txt");
-//    std::basic_ofstream<wchar_t> os(PATTERNS_FOLDER"pntvec3w.txt");
-//    os.imbue(std::locale("fa_IR.utf8"));
-//    os.imbue(std::locale("de_DE.utf8"));
-//    os << pnt << std::endl << std::endl;
-//    os << std::fixed << std::setprecision(3) << pnt << std::endl << std::endl;
-//    os << delimiters('|') << pnt << std::endl << std::endl;
-//    os << setew(7) << delimiters('[', ']') << pnt << std::endl << std::endl;
-//    os << std::setw(15) << pnt << std::endl << std::endl;
-//    os << spaces << delimiters('|') << pnt << std::endl << std::endl;
-//    os << horizontal << pnt << std::endl << std::endl;
-//    os << separator(',') << pnt << std::endl << std::endl;
-//    os << delimiters('{', '}') << pnt << std::endl << std::endl;
-//    os << nospaces << pnt << std::endl << std::endl;
-//    os << setew(0) << pnt << std::endl << std::endl;
-//    os << std::setw(25) << pnt << std::endl << std::endl;
-//    os << delimiters('\0') << pnt << std::endl;
-//}
-
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_Inserter, T, float_types)
 {
-    output_test_stream cout(PATTERNS_FOLDER"pntvec3.txt", true);
+    output_test_stream cout(
+        PATTERNS_FOLDER"pntvec3.txt",
+        !utrc::save_pattern() );
 /// [point3 inserter]
     point3<T> pnt( T(3.141593), T(938.27231), T(2.718282) );
 

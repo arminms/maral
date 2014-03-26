@@ -69,6 +69,7 @@
     <ClInclude Include="src\inserters.hpp" />
     <ClInclude Include="src\maral.hpp" />
     <ClInclude Include="src\molecule.hpp" />
+    <ClInclude Include="src\mtl\constants.hpp" />
     <ClInclude Include="src\mtl\extractors.hpp" />
     <ClInclude Include="src\mtl\inserters.hpp" />
     <ClInclude Include="src\mtl\iomanip.hpp" />

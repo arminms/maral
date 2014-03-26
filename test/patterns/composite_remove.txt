@@ -1,0 +1,18 @@
+inserted atom1, 1
+inserted atom2, 2
+inserted atom3, 3
+inserted atom4, 4
+empty molecule, 1
+residue1, 1
+atom1, 1
+atom2, 2
+atom3, 3
+atom4, 4
+residue2, 2
+atom5, 5
+atom6, 6
+atom7, 7
+chain1, 1
+residue4, 4
+atom8, 8
+atom9, 9
