@@ -42,6 +42,11 @@ public:
     const node_type operator->() const
     { return *pos_; }
 
+    void operator= (const hierarchy_type::const_iterator pos)
+    { pos_ = pos; }
+    operator hierarchy_type::const_iterator() const
+    { return pos_; }
+
 private:
     friend class boost::iterator_core_access;
 
@@ -140,6 +145,15 @@ public:
     {   return reinterpret_cast<T*>(*pos_);     }
     const T* operator->() const
     {   return reinterpret_cast<T*>(*pos_);     }
+
+    void operator= (const hierarchy_type::const_iterator pos)
+    {
+        pos_ = pos;
+        if (pos_ != end_pos_ && !dynamic_cast<T*>(*pos_))
+            increment();
+    }
+    operator hierarchy_type::const_iterator() const
+    { return pos_; }
 
 private:
     friend class boost::iterator_core_access;

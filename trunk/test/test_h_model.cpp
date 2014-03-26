@@ -1,15 +1,17 @@
 // $Id$
 //------------------------------------------------------------------------------
 
-#define BOOST_TEST_MODULE Maral Master Test Suite
+#include <fstream>
 
 #include <iostream>
 #include <list>
 #include <ratio>
 
+#define BOOST_TEST_MODULE Maral Master Test Suite
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
 //#include <boost/mpl/list.hpp>
 #include <boost/range/adaptors.hpp>
 #include <boost/range/algorithm.hpp>
@@ -23,10 +25,13 @@
 #include <molecule.hpp>
 #include <inserters.hpp>
 
+#define PATTERNS_FOLDER "patterns/"
+
 using boost::test_tools::output_test_stream;
 using namespace maral;
 using namespace maral::mtl;
 //using namespace maral::model;
+namespace utrc = boost::unit_test::runtime_config;
 
 typedef atom_h_node
 <
@@ -37,9 +42,6 @@ typedef atom_h_node
 > atom;
 
 typedef molecule_h_node<model::hierarchical> molecule;
-
-//typedef boost::mpl::list<int,float,double,long double> test_types;
-//typedef boost::mpl::list<float,double,long double> float_types;
 
 struct ROOT_INIT
 {
@@ -110,7 +112,7 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
 }
 
-BOOST_AUTO_TEST_CASE( Make_Node )
+BOOST_AUTO_TEST_CASE( Composite_Add )
 {
     node<molecule> root = make_node<molecule>("root");
 
@@ -129,6 +131,76 @@ BOOST_AUTO_TEST_CASE( Make_Node )
     root->add(std::move(make_node<atom>("atom4", 4)));
 
     BOOST_CHECK(4 == root->children()->size());
+}
+
+BOOST_FIXTURE_TEST_CASE( Composite_Remove, ROOT_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"composite_remove.txt",
+        !utrc::save_pattern());
+
+    std::list<atom*> to_be_removed;
+    boost::copy(
+        root->range<atom>()
+        |   boost::adaptors::filtered(
+        [=] (const atom* atm)
+            { return (atm->parent() == root.get()); }),
+        back_inserter(to_be_removed) );
+
+    for (auto atm : to_be_removed)
+    {
+        cout << atm << std::endl;
+        BOOST_CHECK(cout.match_pattern());
+        root->remove(atm);
+    }
+
+    for (auto node : *root)
+    {
+        cout << node << std::endl;
+        BOOST_CHECK(cout.match_pattern());
+    }
+}
+
+BOOST_FIXTURE_TEST_CASE( Composite_Erase, ROOT_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"composite_erase.txt",
+        !utrc::save_pattern());
+
+    auto pos = root->begin<atom>();
+    while (pos != root->end<atom>())
+    {
+        auto atom = *pos;
+        if (root.get() == atom->parent())
+        {
+            //root->erase(pos++);
+            pos = root->erase(pos);
+            delete atom;
+        }
+        else
+            ++pos;
+    }
+
+    for (auto node : *root)
+    {
+        cout << node << std::endl;
+        BOOST_CHECK(cout.match_pattern());
+    }
+
+    auto itr = root->begin();
+    while (itr != root->end())
+    {
+        auto node = *itr;
+        if (root.get() == node->parent())
+        {
+            itr = root->erase(itr);
+            delete node;
+        }
+        else
+            ++itr;
+    }
+
+    BOOST_CHECK(0 == root->children()->size());
 }
 
 BOOST_FIXTURE_TEST_CASE( Node_Iterator, ROOT_INIT )
