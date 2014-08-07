@@ -82,6 +82,7 @@
     <ClInclude Include="src\mtl\vector_ops.hpp" />
     <ClInclude Include="src\node.hpp" />
     <ClInclude Include="src\policies.hpp" />
+    <ClInclude Include="src\root.hpp" />
     <ClInclude Include="src\traits.hpp" />
     <ClInclude Include="src\units.hpp" />
   </ItemGroup>
@@ -98,6 +99,5 @@
     <None Include="src\mtl\vector_ops.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

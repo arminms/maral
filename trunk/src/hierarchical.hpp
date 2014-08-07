@@ -14,8 +14,8 @@
 /// \brief Include file for all objects acting as a \b node in the molecular
 /// hierarchy.
 ///
-/// \b hierarchical.hpp is the include file for all objects acting as a \b node in the
-/// molecular hierarchy.
+/// \b hierarchical.hpp is the include file for all objects acting as a \b node
+/// in the molecular hierarchy.
 
 #ifndef MARAL_HIERARCHICAL_HPP_INCLUDED_
 #define MARAL_HIERARCHICAL_HPP_INCLUDED_
@@ -25,8 +25,6 @@
 
 #include <stack>
 
-#include <boost/config.hpp>
-#include <boost/detail/workaround.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
@@ -46,8 +44,8 @@ namespace model {
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename Component>
-    class composite_node
-:   public Component
+class composite_node
+    : public Component
 {
 public:
     composite_node()
@@ -56,17 +54,43 @@ public:
     {}
 
     template<typename T>
-        void add(node<T> node)
+    void add(node<T> node)
     {
         do_add(node.get());
         node.release();
     }
 
-    template<typename T>
-        node<T> remove(T* node)
+    //template<typename T>
+    //void add(node<T> nodes, std::size_t size)
+    //{
+    //    for (auto i = 0; i < size; ++i)
+    //        do_add(&nodes[i]);
+    //    nodes.release();
+    //}
+
+    template<typename ConstIterator, typename T>
+    void insert(
+        ConstIterator pos
+    ,   node<T> node)
     {
-        do_remove(node);
-        std::unique_ptr<T> free_node(node);
+        typename Component::node_type node_ptr = node.release();
+        BOOST_ASSERT_MSG(node_ptr, "null pointer!");
+        node_ptr->change_parent(this);
+#if BOOST_WORKAROUND(__GLIBCXX__, BOOST_TESTED_AT(20130909))
+        typename std::list<typename Component::node_type>::iterator itr(children_.begin());
+        std::advance(itr, std::distance<typename Component::hierarchy_type::const_iterator>(itr, pos));
+        children_.insert(itr, node_ptr);
+#else
+        children_.insert(pos, node_ptr);
+#endif  //__GLIBCXX__
+    }
+
+    template<typename T>
+    node<T> remove(T* node)
+    {
+        std::unique_ptr<T> free_node(nullptr);
+        if (do_remove(node))
+            free_node.reset(node);
         return free_node;
     }
 
@@ -75,27 +99,29 @@ public:
     {
         typename Component::node_type node = *pos;
         BOOST_ASSERT_MSG(node, "null pointer!");
-        if (this == node->parent())
+        if (this == node->parent()
+        &&  node->change_parent(nullptr))
         {
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
-            pos = children_.erase(pos);
-#else
-            // because of libstdc++ bug 57158
-            // this is the only workaround and becuase it's a linear time
+#if BOOST_WORKAROUND(__GLIBCXX__, BOOST_TESTED_AT(20130909))
+            // because of libstdc++ bug #57158
+            // this is the only workaround and because it's a linear time
             // algorithm, must be replaced as soon as the bug is fixed
             typename std::list<typename Component::node_type>::iterator itr(children_.begin());
             std::advance(itr, std::distance<typename Component::hierarchy_type::const_iterator>(itr, pos));
             pos = children_.erase(itr);
-#endif  //BOOST_MSVC
-            node->change_parent(nullptr);
+#else
+            pos = children_.erase(pos);
+#endif  //__GLIBCXX__
         }
         return pos;
     }
 
-// Implementation
+    // Implementation
 protected:
     virtual ~composite_node()
-    {   for (auto node : children_) delete node; }
+    {
+        for (auto node : children_) delete node;
+    }
 
     composite_node<Component>* parent_;
     typename Component::hierarchy_type children_;
@@ -103,35 +129,39 @@ protected:
 private:
     virtual const typename Component::hierarchy_type*
         get_children() const
-    {   return &children_; }
+    {
+            return &children_;
+    }
 
     virtual composite_node<Component>* get_parent() const
-    {   return parent_; }
+    {
+        return parent_;
+    }
 
-    virtual composite_node<Component>*
+    virtual bool
         do_change_parent(composite_node<Component>* new_parent)
     {
-        auto old_parent = parent_;
-        parent_ = new_parent;
-        return old_parent;
+            parent_ = new_parent;
+            return true;
     }
 
     virtual void do_add(typename Component::node_type node)
     {
         BOOST_ASSERT_MSG(node, "null pointer!");
-//        if (node->change_parent(this))
-        node->change_parent(this);
-        children_.push_back(node);
+        if (node->change_parent(this))
+            children_.push_back(node);
     }
 
-    virtual void do_remove(typename Component::node_type node)
+    virtual bool do_remove(typename Component::node_type node)
     {
         BOOST_ASSERT_MSG(node, "null pointer!");
-        if ( this == node->parent() )
+        if (this == node->parent()
+        &&  node->change_parent(nullptr))
         {
             children_.remove(node);
-            node->change_parent(nullptr);
+            return true;
         }
+        return false;
     }
 };
 
@@ -156,12 +186,11 @@ private:
     virtual composite_node<Component>* get_parent() const
     {   return parent_; }
 
-    virtual composite_node<Component>*
+    virtual bool
         do_change_parent(composite_node<Component>* new_parent)
     {
-        auto old_parent = parent_;
         parent_ = new_parent;
-        return old_parent;
+        return true;
     }
 
 protected:
@@ -184,11 +213,11 @@ private:
     virtual composite_node<Component>* get_parent() const
     {   return nullptr; }
 
-    virtual composite_node<Component>*
+    virtual bool
         do_change_parent(composite_node<Component>* new_parent)
     {
         BOOST_ASSERT_MSG(false, "root node has no parent!");
-        return nullptr;
+        return false;
     }
 };
 
@@ -236,14 +265,12 @@ public:
     composite_node<abstract_node>* parent() const
     {   return get_parent(); }
 
-    composite_node<abstract_node>*
-        change_parent(composite_node<abstract_node>* new_parent)
+    bool change_parent(composite_node<abstract_node>* new_parent)
     {   return do_change_parent(new_parent); }
 
     void print(std::ostream& out) const
     {   return do_print(out);   }
 //@}
-
 
 // Implementation
     virtual ~abstract_node() {};
@@ -251,8 +278,8 @@ public:
 private:
     virtual const hierarchy_type* get_children() const = 0;
     virtual composite_node<abstract_node>* get_parent() const = 0;
-    virtual composite_node<abstract_node>*
-        do_change_parent(composite_node<abstract_node>* new_parent) = 0;
+    virtual bool do_change_parent(
+           composite_node<abstract_node>* new_parent) = 0;
     virtual void do_print(std::ostream& out) const = 0;
 };
 
@@ -270,4 +297,3 @@ typedef model::abstract_node hierarchical;
 }    // namespace maral
 
 #endif    // MARAL_HIERARCHICAL_HPP_INCLUDED_
-

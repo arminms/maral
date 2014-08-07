@@ -4,22 +4,16 @@
 	<Project>
 		<Option title="Test" />
 		<Option pch_mode="2" />
-		<Option compiler="gcc" />
+		<Option compiler="clang" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/debug/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="../src" />
-					<Add directory="../boost/include" />
 				</Compiler>
-				<Linker>
-					<Add library="boost_unit_test_framework" />
-					<Add directory="../boost/lib" />
-				</Linker>
 				<ExtraCommands>
 					<Add after="bin/debug/test --result_code=no --report_level=no" />
 					<Mode after="always" />
@@ -29,53 +23,52 @@
 				<Option output="bin/release/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../src" />
-					<Add directory="../boost/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="boost_unit_test_framework" />
-					<Add directory="../boost/lib" />
 				</Linker>
 			</Target>
 			<Target title="Profile">
 				<Option output="bin/profile/test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/profile/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="clang" />
 				<Compiler>
 					<Add option="-pg" />
 					<Add option="-g" />
-					<Add directory="../src" />
-					<Add directory="../boost/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
-					<Add library="boost_unit_test_framework" />
-					<Add directory="../boost/lib" />
 				</Linker>
 			</Target>
 			<Target title="Makefile">
 				<Option type="4" />
-				<Option compiler="gcc" />
+				<Option compiler="clang" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<ExtraCommands>
-					<Add before="cbp2make --local -in test.cbp -out Makefile --wrap-objects --with-deps" />
+					<Add before="cbp2make --global -in test.cbp -out Makefile --wrap-objects --with-deps" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
+			<Add option="-stdlib=libc++" />
+			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
-			<Add option="-Wno-unused-local-typedefs" />
+			<Add directory="../src" />
+			<Add directory="../boost/clang_libc++/include" />
 		</Compiler>
+		<Linker>
+			<Add option="-lc++ -lstdc++" />
+			<Add library="boost_unit_test_framework" />
+			<Add directory="../boost/clang_libc++/lib" />
+		</Linker>
 		<Unit filename="test_h_model.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />

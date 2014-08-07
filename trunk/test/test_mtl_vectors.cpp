@@ -374,14 +374,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLength, T, float_types)
 
     BOOST_CHECK_CLOSE(length(v1), T(1.0f), T(SMALL));
     BOOST_CHECK_CLOSE(length(v2), T(1.0f), T(SMALL));
-    BOOST_CHECK_CLOSE(length_sq(v1), T(1.0f), T(SMALL));
-    BOOST_CHECK_CLOSE(length_sq(v2), T(1.0f), T(SMALL));
+    BOOST_CHECK_CLOSE(length2(v1), T(1.0f), T(SMALL));
+    BOOST_CHECK_CLOSE(length2(v2), T(1.0f), T(SMALL));
 
     v1.set(2.0f, 4.0f);
     v2.set(12.0f, -2.0f);
 
     ans = 4.0f + 16.0f;
-    len = length_sq(v1);
+    len = length2(v1);
     BOOST_CHECK_CLOSE(len, ans, T(SMALL));
 
     ans = sqrt(ans);
@@ -389,7 +389,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Vector2_OpLength, T, float_types)
     BOOST_CHECK_CLOSE(len, ans, T(SMALL));
 
     ans = 144.0f + 4.0f;
-    len = length_sq(v2);
+    len = length2(v2);
     BOOST_CHECK_CLOSE(len, ans, T(SMALL));
 
     ans = sqrt(ans);

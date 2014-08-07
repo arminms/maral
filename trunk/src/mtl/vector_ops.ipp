@@ -303,11 +303,11 @@ inline vector2<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     const T half = T(1) / T(2);
 #else
     constexpr T half = T(1) / T(2);
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     r[0] = (v1[0] + v2[0]) * half;
     r[1] = (v1[1] + v2[1]) * half;
     return r;
@@ -344,7 +344,7 @@ inline T dot(
 /// \remarks
 /// This function computes the length (AKA \a magnitude or \a norm) of the
 /// given vector.
-/// \see length_sq(const vector2<T>&)
+/// \see length2(const vector2<T>&)
 
 template<typename T>
 inline T length(
@@ -365,7 +365,7 @@ inline T length(
 /// \see length(const vector2<T>&)
 
 template<typename T>
-inline T length_sq(
+inline T length2(
     const vector2<T>& v)
 {
     return (v[0]*v[0] + v[1]*v[1]);
@@ -439,7 +439,7 @@ inline bool is_normalized(
     const T eps = T(0.0005) )
 {
     BOOST_ASSERT_MSG(eps >= static_cast<T>(0), "negative tolerance!");
-    return (std::abs(length_sq(v) - T(1.0)) <= eps);
+    return (std::abs(length2(v) - T(1.0)) <= eps);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -790,11 +790,11 @@ inline vector3<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     const T half = T(1) / T(2);
 #else
     constexpr T half = T(1) / T(2);
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     r[0] = (v1[0] + v2[0]) * half;
     r[1] = (v1[1] + v2[1]) * half;
     r[2] = (v1[2] + v2[2]) * half;

@@ -34,48 +34,72 @@ inline std::ostream& operator<< (
     const hierarchical* node)
 {
     BOOST_ASSERT_MSG(node, "null pointer!");
-//    policies::named<std::string>* name =
-//        dynamic_cast<policies::named<std::string>*>(node);
-//    policies::ordered* numbered = dynamic_cast<policies::ordered*>(node);
-//    if (name && numbered)
-//        out << name->name() << ", " << numbered->ordinal();
-//    else if (name)
-//        out << name->name();
-//    else if (numbered)
-//        out << numbered->ordinal();
-//    else
-//        out << node;
     node->print(out);
     return out;
 }
 
-template
-<
-    typename    Model,
-    typename... Policies
->
-inline std::ostream& operator<< (
-    std::ostream& out,
-    const atom_h_node<Model, Policies...>* atm)
-{
-    BOOST_ASSERT_MSG(atm, "null pointer!");
-    out << atm->name() << ", " << atm->ordinal();
-    return out;
-}
-
-template
-<
-    typename    Model,
-    typename... Policies
->
-inline std::ostream& operator<< (
-    std::ostream& out,
-    const molecule_h_node<Model, Policies...>* mol)
-{
-    BOOST_ASSERT_MSG(mol, "null pointer!");
-    out << mol->name() << ", " << mol->ordinal();
-    return out;
-}
+//template
+//<
+//    typename    Model
+//,   typename    PositionType
+//,   typename... Policies
+//>
+//inline std::ostream& operator<< (
+//    std::ostream& out,
+//    const atom_h_node<Model, PositionType, Policies...>* atm)
+//{
+//    BOOST_ASSERT_MSG(atm, "null pointer!");
+//    auto parent = atm->parent();
+//    std::string trail = (parent->children()->back() == atm)
+//                      ? "---\\"
+//                      : "---+";
+//    while (parent)
+//    {
+//        auto prev_parent = parent;
+//        parent = parent->parent();
+//        if (parent)
+//            trail += (parent->children()->back() == prev_parent)
+//                   ? "    "
+//                   : "   |";
+//    }
+//    boost::reverse(trail);
+//    out << trail
+//        << std::setw(5) << atm->ordinal() << ". "
+//        << std::setw(4) << atm->name() << ' '
+//        << mtl::horizontal
+//        << atm->get_center();
+//    return out;
+//}
+//
+//template
+//<
+//    typename    Model,
+//    typename... Policies
+//>
+//inline std::ostream& operator<< (
+//    std::ostream& out,
+//    const molecule_h_node<Model, Policies...>* mol)
+//{
+//    BOOST_ASSERT_MSG(mol, "null pointer!");
+//    auto parent = mol->parent();
+//    std::string trail = (parent->children()->back() == mol)
+//                      ? "---\\"
+//                      : "---+";
+//    while (parent)
+//    {
+//        auto prev_parent = parent;
+//        parent = parent->parent();
+//        if (parent)
+//            trail += (parent->children()->back() == prev_parent)
+//                   ? "    "
+//                   : "   |";
+//    }
+//    boost::reverse(trail);
+//    out << trail
+//        << std::setw(4) << mol->ordinal() << ". "
+//        << mol->name();
+//    return out;
+//}
 
 /// @}
 

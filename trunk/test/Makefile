@@ -5,47 +5,46 @@
 
 WORKDIR = `pwd`
 
-CC = gcc
-CXX = g++
+CC = clang
+CXX = clang++
 AR = ar
-LD = g++
-WINDRES = windres
+LD = clang++
 
-INC = 
-CFLAGS = -std=c++11 -Wall -fexceptions -Wno-unused-local-typedefs
+INC = -I../src -I../boost/clang_libc++/include
+CFLAGS = -Wall -stdlib=libc++ -std=c++11 -fexceptions
 RESINC = 
-LIBDIR = 
-LIB = 
-LDFLAGS = 
+LIBDIR = -L../boost/clang_libc++/lib
+LIB = -lboost_unit_test_framework
+LDFLAGS = -lc++ -lstdc++
 
-INC_DEBUG = $(INC) -I../src -I../boost/include
+INC_DEBUG = $(INC)
 CFLAGS_DEBUG = $(CFLAGS) -g
 RESINC_DEBUG = $(RESINC)
 RCFLAGS_DEBUG = $(RCFLAGS)
-LIBDIR_DEBUG = $(LIBDIR) -L../boost/lib
-LIB_DEBUG = $(LIB)-lboost_unit_test_framework
+LIBDIR_DEBUG = $(LIBDIR)
+LIB_DEBUG = $(LIB)
 LDFLAGS_DEBUG = $(LDFLAGS)
 OBJDIR_DEBUG = obj/debug
 DEP_DEBUG = 
 OUT_DEBUG = bin/debug/test
 
-INC_RELEASE = $(INC) -I../src -I../boost/include
+INC_RELEASE = $(INC)
 CFLAGS_RELEASE = $(CFLAGS) -O2 -DNDEBUG
 RESINC_RELEASE = $(RESINC)
 RCFLAGS_RELEASE = $(RCFLAGS)
-LIBDIR_RELEASE = $(LIBDIR) -L../boost/lib
-LIB_RELEASE = $(LIB)-lboost_unit_test_framework
+LIBDIR_RELEASE = $(LIBDIR)
+LIB_RELEASE = $(LIB)
 LDFLAGS_RELEASE = $(LDFLAGS) -s
 OBJDIR_RELEASE = obj/release
 DEP_RELEASE = 
 OUT_RELEASE = bin/release/test
 
-INC_PROFILE = $(INC) -I../src -I../boost/include
+INC_PROFILE = $(INC)
 CFLAGS_PROFILE = $(CFLAGS) -pg -g
 RESINC_PROFILE = $(RESINC)
 RCFLAGS_PROFILE = $(RCFLAGS)
-LIBDIR_PROFILE = $(LIBDIR) -L../boost/lib
-LIB_PROFILE = $(LIB)-lboost_unit_test_framework
+LIBDIR_PROFILE = $(LIBDIR)
+LIB_PROFILE = $(LIB)
 LDFLAGS_PROFILE = $(LDFLAGS) -pg
 OBJDIR_PROFILE = obj/profile
 DEP_PROFILE = 
@@ -82,6 +81,7 @@ before_debug:
 	test -d $(OBJDIR_DEBUG) || mkdir -p $(OBJDIR_DEBUG)
 
 after_debug: 
+	bin/debug/test --result_code=no --report_level=no
 
 debug: before_debug out_debug after_debug
 
@@ -153,22 +153,6 @@ before_makefile:
 after_makefile: 
 
 makefile: before_makefile after_makefile
-
-test_h_model.cpp: ../src/traits.hpp \
-	../src/node.hpp \
-	../src/hierarchical.hpp \
-	../src/policies.hpp \
-	../src/atom.hpp \
-	../src/molecule.hpp \
-	../src/inserters.hpp
-
-../src/hierarchical.hpp: ../src/hierarchical.ipp
-
-../src/inserters.hpp: ../src/inserters.ipp
-
-test_mtl_points.cpp: ../src/units.hpp
-
-test_mtl_vectors.cpp: ../src/units.hpp
 
 .PHONY: before_debug after_debug clean_debug before_release after_release clean_release before_profile after_profile clean_profile before_makefile after_makefile
 

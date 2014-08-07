@@ -19,6 +19,8 @@
 #ifndef MARAL_MTL_POINT_OPS_HPP_INCLUDED_
 #define MARAL_MTL_POINT_OPS_HPP_INCLUDED_
 
+#include <cmath>
+
 #ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
 #include "constants.hpp"
 #endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
