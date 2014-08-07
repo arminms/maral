@@ -82,6 +82,14 @@ private:
         return *pos_;
     }
 
+
+    void advance(difference_type n)
+    {
+        BOOST_ASSERT_MSG(n >= 0, "negative advance not supported!");
+        for (auto i = 0; i < n; ++i)
+            increment();
+    }
+
     hierarchy_type::const_iterator pos_;
     hierarchy_type::const_iterator end_pos_;
     std::stack<hierarchy_type::const_iterator> lifo_;
@@ -191,6 +199,13 @@ private:
     T* const dereference() const
     {
         return reinterpret_cast<T*>(*pos_);
+    }
+
+    void advance(const_iterator::difference_type n)
+    {
+        BOOST_ASSERT_MSG(n >= 0, "negative advance not supported!");
+        for (auto i = 0; i < n; ++i)
+            increment();
     }
 
     hierarchy_type::const_iterator pos_;

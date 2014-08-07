@@ -20,6 +20,8 @@
 #ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
 #define MARAL_MTL_VECTOR_HPP_INCLUDED_
 
+#include <cmath>
+
 namespace maral { namespace mtl {
 
 template <typename T> class point2;

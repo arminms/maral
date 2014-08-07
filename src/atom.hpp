@@ -24,14 +24,14 @@ namespace maral {
 template
 <
     typename    Model
-,   typename    Position_Type
+,   typename    PositionType
 ,   typename... Policies
 >
     class  atom_h_node
 :   public model::leaf_node<Model>
 ,   public policies::named<std::string>
 ,   public policies::ordered<unsigned>
-,   public policies::position<Position_Type>
+,   public policies::position<PositionType>
 ,   public Policies...
 {
 //    static_assert(
@@ -44,18 +44,39 @@ public:
     atom_h_node(
         //Policies&&... policies
 //        type_traits<Policies&&...>::const_reference vars
-        const std::string& name
+        const std::string& name = ""
     ,   unsigned ordinal = 1
-    ,   const Position_Type& pos = Position_Type() )
-    //:   Policies(policies)...
+    ,   const PositionType& pos = PositionType().zero() )
+//    :   Policies(policies)...
 //    :   Policies(vars)...
     :   named(name)
     ,   ordered(ordinal)
+    ,   policies::position<PositionType>(pos)
     {}
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {   out << name() << ", " << ordinal(); }
+    {
+        auto parent = model::leaf_node<Model>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << std::setw(5) << ordinal() << ". "
+            << std::setw(4) << name() << ' '
+            << mtl::horizontal
+            << policies::position<PositionType>::get_center();
+    }
 };
 
 }    // namespace maral

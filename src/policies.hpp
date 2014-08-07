@@ -99,10 +99,10 @@ public:
 /// \name Construction
 //@{
     position()
-    {}
+    {   pos_.zero();    }
 
     position(const Type& pos)
-    : pos_(pos)
+    :   pos_(pos)
     {}
 //@}
 

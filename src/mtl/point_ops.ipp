@@ -299,11 +299,11 @@ inline point2<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     const T half = T(1) / T(2);
 #else
     constexpr T half = T(1) / T(2);
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     r[0] = (p1[0] + p2[0]) * half;
     r[1] = (p1[1] + p2[1]) * half;
     return r;
@@ -316,7 +316,7 @@ inline point2<T>& middle(
 /// \pre Only works with float types (e.g. point2i is not acceptable)
 /// \remarks
 /// This function finds distance between two given points.
-/// \see distance_sq(const point2<T>&, const point2<T>&)
+/// \see distance2(const point2<T>&, const point2<T>&)
 
 template<typename T>
 inline T distance(
@@ -342,7 +342,7 @@ inline T distance(
 /// \see distance(const point2<T>&, const point2<T>&)
 
 template<typename T>
-inline T distance_sq(
+inline T distance2(
     const point2<T>& p1,
     const point2<T>& p2)
 {
@@ -677,11 +677,11 @@ inline point3<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
     const T half = T(1) / T(2);
 #else
     constexpr T half = T(1) / T(2);
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     r[0] = (p1[0] + p2[0]) * half;
     r[1] = (p1[1] + p2[1]) * half;
     r[2] = (p1[2] + p2[2]) * half;
@@ -695,7 +695,7 @@ inline point3<T>& middle(
 /// \pre Only works with float types (e.g. point3i is not acceptable)
 /// \remarks
 /// This function finds distance between two given points.
-/// \see distance_sq(const point3<T>&, const point3<T>&)
+/// \see distance2(const point3<T>&, const point3<T>&)
 
 template<typename T>
 inline T distance(
@@ -721,7 +721,7 @@ inline T distance(
 /// \see distance(const point3<T>&, const point3<T>&)
 
 template<typename T>
-inline T distance_sq(
+inline T distance2(
     const point3<T>& p1,
     const point3<T>& p2)
 {

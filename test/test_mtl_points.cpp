@@ -371,7 +371,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpDistanceSq, T, test_types)
     point2<T> point1((T)3, (T)4);
     point2<T> point2((T)1, (T)2);
 
-    BOOST_CHECK_EQUAL(distance_sq(point1, point2), T(8));
+    BOOST_CHECK_EQUAL(distance2(point1, point2), T(8));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(Point2_OpAngle, T, float_types)
@@ -858,7 +858,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(Point3_OpDistanceSq, T, test_types)
     point3<T> pnt1((T)3, (T)4, (T)3);
     point3<T> pnt2((T)1, (T)2, (T)5);
 
-    BOOST_CHECK_EQUAL(distance_sq(pnt1, pnt2), T(12));
+    BOOST_CHECK_EQUAL(distance2(pnt1, pnt2), T(12));
 }
 
 BOOST_FIXTURE_TEST_CASE_TEMPLATE(Point3_OpAngle, T, float_types, ETHAN<T>)

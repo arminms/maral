@@ -189,6 +189,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/root.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/traits.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

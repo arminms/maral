@@ -53,11 +53,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     point2<Type>& pnt)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -120,11 +120,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     point3<Type>& pnt)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -189,11 +189,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     vector2<Type>& vec)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -256,11 +256,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     vector3<Type>& vec)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -327,11 +327,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix22<Type>& mtx)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -417,11 +417,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix33<Type>& mtx)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));
@@ -509,11 +509,11 @@ operator >> (
     std::basic_istream<CharT,Traits>& bis,
     matrix44<Type>& mtx)
 {
-#ifdef _MSC_VER
+#if BOOST_WORKAROUND(BOOST_MSVC, BOOST_TESTED_AT(1800))
     const auto max = std::numeric_limits<std::streamsize>::max();
 #else
     constexpr auto max = std::numeric_limits<std::streamsize>::max();
-#endif  //_MSC_VER
+#endif  //BOOST_MSVC
     CharT bro = static_cast<CharT>(delimiters::get_1st(bis));
     CharT brc = static_cast<CharT>(delimiters::get_2nd(bis));
     CharT sep = static_cast<CharT>(separator::get(bis));

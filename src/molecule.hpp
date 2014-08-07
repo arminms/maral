@@ -20,7 +20,38 @@
 #ifndef MARAL_MOLECULE_HPP_INCLUDED_
 #define MARAL_MOLECULE_HPP_INCLUDED_
 
+#include <type_traits>
+
 namespace maral {
+
+//template
+//<
+//    typename    Model,
+//    typename    StringType,
+//    typename    OrdinalType,
+//    typename    FloatType,
+//    template    <class> class VectorType,
+//    typename... Policies
+//>
+//class molecule_h_node
+//    : public model::composite_node<Model>
+//    , public policies::named<StringType>
+//    , public Policies...
+//{
+//public:
+//    typedef StringType string_type;
+//    typedef VectorType ordinal_type;
+//    typedef FloatType float_type;
+//    typedef VectorType vector_type;
+//
+///// \name Construction
+////@{
+//    molecule_h_node(
+//        const StringType& name)
+//    :   policies::named<StringType>(name)
+//    {}
+////@}
+//};
 
 template
 <
@@ -47,7 +78,42 @@ public:
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {   out << name() << ", " << ordinal(); }
+    {
+        auto parent = model::composite_node<Model>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << std::setw(4) << ordinal() << ". "
+            << name();
+
+        print_position(out,
+            std::is_base_of<policies::position<mtl::point3f>,
+                molecule_h_node<Model, Policies...> >());
+    }
+
+private:
+    //template<typename T>
+    void print_position(std::ostream& out, std::true_type) const
+    {
+        out << mtl::horizontal << mtl::delimiters('[', ']') << mtl::separator(' ')
+            << ' ' << policies::position<mtl::point3f>::get_center();
+    }
+
+    //template<typename T>
+    void print_position(std::ostream& out, std::false_type) const
+    {
+    }
 };
 
 }    // namespace maral

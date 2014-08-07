@@ -5,7 +5,10 @@ tar jxvf boost_1_55_0.tar.bz2
 
 cd boost_1_55_0
 ./bootstrap.sh --prefix=MARAL_FOLDER/boost
-./b2 install
+./b2 -j 4 install
+
+for clang and libc++:
+./b2 -j 4 toolset=clang cxxflags="-stdlib=libc++" linkflags="-stdlib=libc++" install
 
 .bashrc <- export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:MARAL_FOLDER/boost/lib
 
@@ -41,11 +44,20 @@ cd boost_1_55_0
 ./bootstrap.sh --prefix=MARAL_FOLDER/boost
 ./b2 install
 
+for clang and libc++:
+./b2 -j 2 toolset=clang cxxflags="-stdlib=libc++" linkflags="-stdlib=libc++" install
+
 .profile <- export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH:MARAL_FOLDER/boost/lib
 
 
 WINDOWS x64
 ===========
+First method -- download binary package from:
+	http://sourceforge.net/projects/boost/files/boost-binaries/
+	
+Second method:
+
+A good article for building boost using Visual Studio: http://www.codeproject.com/Articles/11597/Building-Boost-libraries-for-Visual-Studio
 
 unzip archive
 copy boost folder to C:\Program Files\boost\boost_1_55_0\include
