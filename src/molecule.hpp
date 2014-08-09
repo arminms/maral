@@ -24,34 +24,76 @@
 
 namespace maral {
 
-//template
-//<
-//    typename    Model,
-//    typename    StringType,
-//    typename    OrdinalType,
-//    typename    FloatType,
-//    template    <class> class VectorType,
-//    typename... Policies
-//>
-//class molecule_h_node
-//    : public model::composite_node<Model>
-//    , public policies::named<StringType>
-//    , public Policies...
-//{
-//public:
-//    typedef StringType string_type;
-//    typedef VectorType ordinal_type;
-//    typedef FloatType float_type;
-//    typedef VectorType vector_type;
-//
-///// \name Construction
-////@{
-//    molecule_h_node(
-//        const StringType& name)
-//    :   policies::named<StringType>(name)
-//    {}
-////@}
-//};
+template
+<
+    template <class> class PolicyType
+,   typename ParamType
+,   typename ArgType
+>
+struct triad
+{
+    typedef PolicyType<ParamType> policy_type;
+    typedef ParamType param_type;
+    typedef ArgType arg_type;
+};
+
+template
+<
+    class    Model
+,   class ...Triad
+>
+class molecule_base
+:   public model::composite_node<Model>
+,   public Triad...
+{
+public:
+    virtual void do_print(std::ostream& out) const
+    {}
+};
+
+template
+<
+    class   Model
+,   template <class> class Pt
+,   class   Pp
+,   class   Pa
+,   template <template <class> class, class, class> class ...Triad
+>
+class molecule_base<Model, Triad<Pt, Pp, Pa>...>
+:   public model::composite_node<Model>
+,   public Triad<Pt, Pp, Pa>::policy_type...
+{
+public:
+/// \name Construction
+//@{
+    molecule_base(
+        const typename Triad<Pt, Pp, Pa>::arg_type&... args)
+    :   Triad<Pt, Pp, Pa>::policy_type(args)...
+    {}
+//@}
+
+    virtual void do_print(std::ostream& out) const
+    {
+        using namespace policies;
+        auto parent = model::composite_node<Model>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << std::setw(4) << this->ordinal() << ". "
+            << this->name();
+    }
+};
 
 template
 <
