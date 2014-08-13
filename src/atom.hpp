@@ -24,6 +24,7 @@ namespace maral {
 template
 <
     typename    Model
+//,   typename    StringType
 ,   typename    PositionType
 ,   typename... Policies
 >

@@ -55,12 +55,22 @@ typedef molecule_h_node
 //,   policies::position<point3f>
 > molecule;
 
-typedef root_h_node
+typedef root_base
 <
     model::hierarchical
+,   policies::named<std::string>
 ,   std::string
-//,   policies::position<point3f>
+,   policies::ordered<unsigned>
+,   unsigned
+,   policies::position<point3f>
 > root;
+
+//typedef root_h_node
+//<
+//    model::hierarchical
+//,   std::string
+////,   policies::position<point3f>
+//> root;
 
 struct CRN_INIT
 {
@@ -128,9 +138,9 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
     auto rt = make_node<root>("root");
-//    rt->name() = "new root";
-//    rt->center() = { 1.0f, 1.0f, 1.0f };
-//    std::cout << rt.get() << std::endl;
+    rt->name() = "new root";
+    rt->center() = { 1.0f, 1.0f, 1.0f };
+    std::cout << rt.get() << std::endl;
 
     node<atom> atom1(new atom("atom1"));
     rt->add(std::move(atom1));
