@@ -11,13 +11,18 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file matrix.hpp
-/// \brief Include file for all classes representing matrices.
+/// \brief Include file for all classes representing matrices and  matrix types
+/// operations.
 ///
 /// \b matrix.hpp is the include file for matrix22f, matrix22d, matrix33f,
-/// matrix33d, matrix44f and matrix44f classes.
+/// matrix33d, matrix44f and matrix44f classes and all the operations on them. 
 
 #ifndef MARAL_MTL_MATRIX_HPP_INCLUDED_
 #define MARAL_MTL_MATRIX_HPP_INCLUDED_
+
+#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#include "constants.hpp"
+#endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
 
 namespace maral { namespace mtl {
 
@@ -472,8 +477,8 @@ typedef matrix44<double> matrix44d;
 // Implementation
 
 #include "matrix.ipp"
+#include "matrix_ops.ipp"
 
 }}    // namespaces
 
 #endif    // MARAL_MTL_MATRIX_HPP_INCLUDED_
-

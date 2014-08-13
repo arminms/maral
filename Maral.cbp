@@ -137,10 +137,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/mtl/matrix_ops.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="src/mtl/matrix_ops.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -157,10 +153,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/mtl/point_ops.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="src/mtl/point_ops.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -170,10 +162,6 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/mtl/vector.ipp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/mtl/vector_ops.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

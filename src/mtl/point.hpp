@@ -11,13 +11,21 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file point.hpp
-/// \brief Include file for all classes representing points.
+/// \brief Include file for all classes representing points and all point types
+/// operations.
 ///
-/// \b point.hpp is the include file for point2i, point2f, point2d,
-/// point3i, point3f, point3d, point4i, point4f and point4d classes.
+/// \b point.hpp is the include file for point2i, point2f, point2d, point3i,
+/// point3f, point3d, point4i, point4f and point4d classes and all the
+/// operations on them.
 
 #ifndef MARAL_MTL_POINT_HPP_INCLUDED_
 #define MARAL_MTL_POINT_HPP_INCLUDED_
+
+#include <cmath>
+
+#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#include "constants.hpp"
+#endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
 
 namespace maral { namespace mtl {
 
@@ -118,11 +126,6 @@ template <typename T>
 class point3
 {
 public:
-//    typedef point3<T> self_type;
-//    typedef T value_type;
-//    typedef const T& const_reference;
-//    typedef T& reference;
-
 /// \name Construction
 //@{
     point3();
@@ -254,6 +257,7 @@ typedef point3<double> point3d;
 // Implementation
 
 #include "point.ipp"
+#include "point_ops.ipp"
 
 }}    // namespaces
 

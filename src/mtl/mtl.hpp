@@ -24,10 +24,7 @@
 #include "constants.hpp"
 #include "point.hpp"
 #include "vector.hpp"
-#include "point_ops.hpp"
-#include "vector_ops.hpp"
 #include "matrix.hpp"
-#include "matrix_ops.hpp"
 #include "inserters.hpp"
 #include "extractors.hpp"
 

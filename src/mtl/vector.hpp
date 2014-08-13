@@ -11,16 +11,21 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file vector.hpp
-/// \brief Include file for all classes representing vectors.
+/// \brief Include file for all classes representing vectors and vector types
+/// operations.
 ///
 /// \b vector.hpp is the include file for vector2i, vector2f,
-/// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and
-/// vector4d classes.
+/// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and vector4d
+/// classes and all the operations on them.
 
 #ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
 #define MARAL_MTL_VECTOR_HPP_INCLUDED_
 
 #include <cmath>
+
+#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#include "constants.hpp"
+#endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
 
 namespace maral { namespace mtl {
 
@@ -255,6 +260,7 @@ typedef vector3<double> vector3d;
 // Implementation
 
 #include "vector.ipp"
+#include "vector_ops.ipp"
 
 }}    // namespaces
 
