@@ -60,9 +60,9 @@ typedef root_base
     model::hierarchical
 ,   policies::named<std::string>
 ,   std::string
-,   policies::ordered<unsigned>
-,   unsigned
-,   policies::position<point3f>
+//,   policies::ordered<unsigned>
+//,   unsigned
+//,   policies::position<point3f>
 > root;
 
 //typedef root_h_node
@@ -138,8 +138,8 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
     auto rt = make_node<root>("root");
-    rt->name() = "new root";
-    rt->center() = { 1.0f, 1.0f, 1.0f };
+    //rt->name() = "new root";
+    //rt->center() = { 1.0f, 1.0f, 1.0f };
     std::cout << rt.get() << std::endl;
 
     node<atom> atom1(new atom("atom1"));

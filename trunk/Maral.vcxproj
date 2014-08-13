@@ -74,12 +74,9 @@
     <ClInclude Include="src\mtl\inserters.hpp" />
     <ClInclude Include="src\mtl\iomanip.hpp" />
     <ClInclude Include="src\mtl\matrix.hpp" />
-    <ClInclude Include="src\mtl\matrix_ops.hpp" />
     <ClInclude Include="src\mtl\mtl.hpp" />
     <ClInclude Include="src\mtl\point.hpp" />
-    <ClInclude Include="src\mtl\point_ops.hpp" />
     <ClInclude Include="src\mtl\vector.hpp" />
-    <ClInclude Include="src\mtl\vector_ops.hpp" />
     <ClInclude Include="src\node.hpp" />
     <ClInclude Include="src\policies.hpp" />
     <ClInclude Include="src\root.hpp" />
