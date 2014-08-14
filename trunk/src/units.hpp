@@ -16,8 +16,8 @@
 /// \b units.hpp is the include file that defines all quantities that have
 /// units.
 
-#ifndef MARAL_UNITS_HPP_INCLUDED_
-#define MARAL_UNITS_HPP_INCLUDED_
+#ifndef MARAL_UNITS_HPP
+#define MARAL_UNITS_HPP
 
 #include <boost/units/systems/si/plane_angle.hpp>
 #include <boost/units/systems/angle/degrees.hpp>
@@ -184,4 +184,4 @@ angle_in_gradians<Type> to_gradians(
 
 }}    // namespaces
 
-#endif    // MARAL_UNITS_HPP_INCLUDED_
+#endif    // MARAL_UNITS_HPP

@@ -16,8 +16,8 @@
 /// \b constants.hpp is the include file for some frequently used mathematical
 /// constants.
 
-#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
-#define MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#ifndef MARAL_MTL_CONSTANTS_HPP
+#define MARAL_MTL_CONSTANTS_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief The namespace for \b Maral.
@@ -55,4 +55,4 @@ const float  SMALLREV    = 1.0E+5;
 
 }}    // namespaces
 
-#endif    // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#endif    // MARAL_MTL_CONSTANTS_HPP

@@ -16,8 +16,8 @@
 /// \b root.hpp is the include file that defines \b root nodes of different \b
 /// data \b models (e.g. root_h_node, root_r_node, root_n_node, etc).
 
-#ifndef MARAL_ROOT_HPP_INCLUDED_
-#define MARAL_ROOT_HPP_INCLUDED_
+#ifndef MARAL_ROOT_HPP
+#define MARAL_ROOT_HPP
 
 namespace maral {
 
@@ -147,4 +147,4 @@ public:
 
 }    // namespace maral
 
-#endif    // MARAL_ROOT_HPP_INCLUDED_
+#endif    // MARAL_ROOT_HPP

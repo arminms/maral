@@ -17,8 +17,8 @@
 /// \b hierarchical.hpp is the include file for all objects acting as a \b node
 /// in the molecular hierarchy.
 
-#ifndef MARAL_HIERARCHICAL_HPP_INCLUDED_
-#define MARAL_HIERARCHICAL_HPP_INCLUDED_
+#ifndef MARAL_HIERARCHICAL_HPP
+#define MARAL_HIERARCHICAL_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
@@ -296,4 +296,4 @@ typedef model::abstract_node hierarchical;
 
 }    // namespace maral
 
-#endif    // MARAL_HIERARCHICAL_HPP_INCLUDED_
+#endif    // MARAL_HIERARCHICAL_HPP

@@ -15,8 +15,8 @@
 ///
 /// \b mtl.hpp is the include file for the whole maral::mtl namespace.
 
-#ifndef MARAL_MTL_HPP_INCLUDED_
-#define MARAL_MTL_HPP_INCLUDED_
+#ifndef MARAL_MTL_HPP
+#define MARAL_MTL_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
@@ -28,5 +28,5 @@
 #include "inserters.hpp"
 #include "extractors.hpp"
 
-#endif    // MARAL_MTL_HPP_INCLUDED_
+#endif    // MARAL_MTL_HPP
 

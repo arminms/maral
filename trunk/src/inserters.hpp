@@ -16,8 +16,8 @@
 /// \b inserters.hpp is the header file for all output stream operators of maral
 /// classes.
 
-#ifndef MARAL_INSERTERS_HPP_INCLUDED_
-#define MARAL_INSERTERS_HPP_INCLUDED_
+#ifndef MARAL_INSERTERS_HPP
+#define MARAL_INSERTERS_HPP
 
 //#include <sstream>
 
@@ -30,5 +30,5 @@ namespace maral {
 
 }    // namespace maral
 
-#endif // MARAL_INSERTERS_HPP_INCLUDED_
+#endif // MARAL_INSERTERS_HPP
 

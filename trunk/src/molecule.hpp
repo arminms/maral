@@ -17,8 +17,8 @@
 /// different \b data \b models (e.g. molecule_h_node, molecule_r_node,
 /// molecule_n_node, etc).
 
-#ifndef MARAL_MOLECULE_HPP_INCLUDED_
-#define MARAL_MOLECULE_HPP_INCLUDED_
+#ifndef MARAL_MOLECULE_HPP
+#define MARAL_MOLECULE_HPP
 
 #include <type_traits>
 
@@ -160,4 +160,4 @@ private:
 
 }    // namespace maral
 
-#endif    // MARAL_MOLECULE_HPP_INCLUDED_
+#endif    // MARAL_MOLECULE_HPP

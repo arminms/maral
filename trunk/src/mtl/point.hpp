@@ -18,14 +18,14 @@
 /// point3f, point3d, point4i, point4f and point4d classes and all the
 /// operations on them.
 
-#ifndef MARAL_MTL_POINT_HPP_INCLUDED_
-#define MARAL_MTL_POINT_HPP_INCLUDED_
+#ifndef MARAL_MTL_POINT_HPP
+#define MARAL_MTL_POINT_HPP
 
 #include <cmath>
 
-#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#ifndef MARAL_MTL_CONSTANTS_HPP
 #include "constants.hpp"
-#endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#endif // MARAL_MTL_CONSTANTS_HPP
 
 namespace maral { namespace mtl {
 
@@ -261,4 +261,4 @@ typedef point3<double> point3d;
 
 }}    // namespaces
 
-#endif    // MARAL_MTL_POINT_HPP_INCLUDED_
+#endif    // MARAL_MTL_POINT_HPP

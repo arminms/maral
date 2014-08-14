@@ -18,8 +18,8 @@
 /// typedefs that implement the input/output stream manipulators used by
 /// inserters and extractors of maral::mtl's point, vector, matrix, ... classes.
 
-#ifndef MARAL_MTL_IOMANIP_HPP_INCLUDED_
-#define MARAL_MTL_IOMANIP_HPP_INCLUDED_
+#ifndef MARAL_MTL_IOMANIP_HPP
+#define MARAL_MTL_IOMANIP_HPP
 
 namespace maral { namespace mtl {
 
@@ -492,4 +492,4 @@ typedef two_arg_iomanip<char,char,0> delimiters;
 /// @}
 }}    // namespaces
 
-#endif // MARAL_MTL_IOMANIP_HPP_INCLUDED_
+#endif // MARAL_MTL_IOMANIP_HPP

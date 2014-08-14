@@ -18,14 +18,14 @@
 /// vector2d, vector3i, vector3f, vector3d, vector4i, vector4f and vector4d
 /// classes and all the operations on them.
 
-#ifndef MARAL_MTL_VECTOR_HPP_INCLUDED_
-#define MARAL_MTL_VECTOR_HPP_INCLUDED_
+#ifndef MARAL_MTL_VECTOR_HPP
+#define MARAL_MTL_VECTOR_HPP
 
 #include <cmath>
 
-#ifndef MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#ifndef MARAL_MTL_CONSTANTS_HPP
 #include "constants.hpp"
-#endif // MARAL_MTL_CONSTANTS_HPP_INCLUDED_
+#endif // MARAL_MTL_CONSTANTS_HPP
 
 namespace maral { namespace mtl {
 
@@ -264,4 +264,4 @@ typedef vector3<double> vector3d;
 
 }}    // namespaces
 
-#endif    // MARAL_MTL_VECTOR_HPP_INCLUDED_
+#endif    // MARAL_MTL_VECTOR_HPP
