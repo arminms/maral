@@ -16,14 +16,14 @@
 /// \b mtl/inserters.hpp is the header file for all stream inserters for
 /// maral::mtl classes.
 
-#ifndef MARAL_MTL_INSERTERS_HPP_INCLUDED_
-#define MARAL_MTL_INSERTERS_HPP_INCLUDED_
+#ifndef MARAL_MTL_INSERTERS_HPP
+#define MARAL_MTL_INSERTERS_HPP
 
 #include <iomanip>
 
-#ifndef MARAL_MTL_IOMANIP_HPP_INCLUDED_
+#ifndef MARAL_MTL_IOMANIP_HPP
 #include "iomanip.hpp"
-#endif // MARAL_MTL_IOMANIP_HPP_INCLUDED_
+#endif // MARAL_MTL_IOMANIP_HPP
 
 namespace maral { namespace mtl {
 
@@ -34,4 +34,4 @@ namespace maral { namespace mtl {
 
 }}    // namespaces
 
-#endif // MARAL_MTL_INSERTERS_HPP_INCLUDED_
+#endif // MARAL_MTL_INSERTERS_HPP

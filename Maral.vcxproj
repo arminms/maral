@@ -79,6 +79,9 @@
     <ClInclude Include="src\mtl\vector.hpp" />
     <ClInclude Include="src\node.hpp" />
     <ClInclude Include="src\policies.hpp" />
+    <ClInclude Include="src\policies\named.hpp" />
+    <ClInclude Include="src\policies\ordered.hpp" />
+    <ClInclude Include="src\policies\position.hpp" />
     <ClInclude Include="src\root.hpp" />
     <ClInclude Include="src\traits.hpp" />
     <ClInclude Include="src\units.hpp" />

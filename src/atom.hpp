@@ -16,8 +16,8 @@
 /// \b atom.hpp is the include file that defines \b atom nodes of different \b
 /// data \b models (e.g. atom_h_node, atom_r_node, atom_n_node, etc).
 
-#ifndef MARAL_ATOM_HPP_INCLUDED_
-#define MARAL_ATOM_HPP_INCLUDED_
+#ifndef MARAL_ATOM_HPP
+#define MARAL_ATOM_HPP
 
 namespace maral {
 
@@ -82,4 +82,4 @@ public:
 
 }    // namespace maral
 
-#endif    // MARAL_ATOM_HPP_INCLUDED_
+#endif    // MARAL_ATOM_HPP

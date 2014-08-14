@@ -15,8 +15,8 @@
 ///
 /// \b node.hpp is the include file that defines \b node and \b make_node.
 
-#ifndef MARAL_NODE_HPP_INCLUDED_
-#define MARAL_NODE_HPP_INCLUDED_
+#ifndef MARAL_NODE_HPP
+#define MARAL_NODE_HPP
 
 namespace maral {
 
@@ -64,5 +64,5 @@ template <typename T>
 
 }    // namespace maral
 
-#endif    // MARAL_NODE_HPP_INCLUDED_
+#endif    // MARAL_NODE_HPP
 

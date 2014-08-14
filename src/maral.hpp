@@ -16,8 +16,8 @@
 /// \b maral.hpp is the main include file for the \b Maral.
 /// This file must be included in all projects using \b Maral.
 
-#ifndef MARAL_MARAL_HPP_INCLUDED_
-#define MARAL_MARAL_HPP_INCLUDED_
+#ifndef MARAL_MARAL_HPP
+#define MARAL_MARAL_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
@@ -34,5 +34,5 @@
 #include "molecule.hpp"
 #include "inserters.hpp"
 
-#endif    // MARAL_MARAL_HPP_INCLUDED_
+#endif    // MARAL_MARAL_HPP
 
