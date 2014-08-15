@@ -19,6 +19,10 @@
 #ifndef MARAL_POLICIES_NAMED_HPP
 #define MARAL_POLICIES_NAMED_HPP
 
+#ifndef MARAL_TRAITS_HPP
+#include "traits.hpp"
+#endif // MARAL_TRAITS_HPP
+
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +72,26 @@ protected:
     T name_;
 };
 
-}}    // namespaces
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// Type traits
+
+template<>
+    struct policy_traits< policies::named<std::string> >
+{
+    typedef policies::named<std::string> self_type;
+    typedef std::string value_type;
+};
+
+template<>
+    struct policy_traits< policies::named<std::wstring> >
+{
+    typedef policies::named<std::wstring> self_type;
+    typedef std::wstring value_type;
+};
+
+}    // namespaces
 
 #endif    // MARAL_POLICIES_NAMED_HPP
 

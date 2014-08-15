@@ -32,7 +32,7 @@ using boost::test_tools::output_test_stream;
 using namespace maral;
 using namespace maral::mtl;
 //using namespace maral::model;
-namespace utrc = boost::unit_test::runtime_config;
+namespace butrc = boost::unit_test::runtime_config;
 
 typedef atom_h_node
 <
@@ -59,7 +59,7 @@ typedef root_base
 <
     model::hierarchical
 ,   policies::named<std::string>
-,   std::string
+//,   std::string
 //,   policies::ordered<unsigned>
 //,   unsigned
 //,   policies::position<point3f>
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE( Composite_Add )
     auto rt = make_node<root>("root");
     //rt->name() = "new root";
     //rt->center() = { 1.0f, 1.0f, 1.0f };
-    std::cout << rt.get() << std::endl;
+    //std::cout << rt.get() << std::endl;
 
     node<atom> atom1(new atom("atom1"));
     rt->add(std::move(atom1));
@@ -175,7 +175,7 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"root_tree.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     cout << rt.get() << std::endl;
     BOOST_CHECK(cout.match_pattern());
@@ -191,7 +191,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"composite_insert.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     {
         auto pos = rt->begin<atom>();
@@ -226,7 +226,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Remove, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"composite_remove.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     auto pos = rt->begin<molecule>();
     auto proline = *(++pos);
@@ -273,7 +273,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Erase, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"composite_erase.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     // erasing all atoms in the proline
     auto proline = *(++(rt->begin<molecule>()));
@@ -389,7 +389,7 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Copy, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"iterator_copy.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     std::vector<hierarchical*> nodes;
     std::copy(rt->begin(),
@@ -409,7 +409,7 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"iterator_boost_range.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     std::vector<hierarchical*> nodes;
 //    boost::copy(*rt, back_inserter(nodes));
@@ -501,7 +501,7 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"type_iterator_copy.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     std::vector<atom*> atoms;
     atoms.reserve(boost::distance(rt->range<atom>()));
@@ -537,7 +537,7 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
 {
     output_test_stream cout(
         PATTERNS_FOLDER"type_iterator_boost_range.txt",
-        !utrc::save_pattern());
+        !butrc::save_pattern());
 
     std::vector<atom*> atoms;
     atoms.reserve(13);
@@ -590,8 +590,8 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
                   "atom must have a position policy");
 //    static_assert(std::is_base_of<policies::position<point3<float> >, molecule>::value,
 //                  "molecule must have a position policy");
-//    std::cout << type_traits<point3f>::extent::den << std::endl;
-    static_assert(type_traits<point3f>::extent::den > 0, "out of range!");
+//    std::cout << pntvec_traits<point3f>::extent::den << std::endl;
+    static_assert(pntvec_traits<point3f>::extent::den > 0, "out of range!");
 
     BOOST_CHECK(13 == boost::count_if(rt->range<atom>(),
                                       [](atom* atm) { return (*atm)[0] == 1.0f; } ) );

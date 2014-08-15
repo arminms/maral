@@ -22,12 +22,12 @@
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
-// type_traits
+// pntvec_traits
 
 template<typename T>
-    struct type_traits
+    struct pntvec_traits
 {
-    typedef type_traits<T> self_type;
+    typedef pntvec_traits<T> self_type;
     typedef T value_type;
     typedef const T& const_reference;
     typedef T& reference;
@@ -38,7 +38,7 @@ template<typename T>
 // Partial Specializations
 
 template<typename T>
-    struct type_traits< mtl::point2<T> >
+    struct pntvec_traits< mtl::point2<T> >
 {
     typedef typename mtl::point2<T> self_type;
     typedef T value_type;
@@ -48,7 +48,7 @@ template<typename T>
 };
 
 template<typename T>
-    struct type_traits< mtl::point3<T> >
+    struct pntvec_traits< mtl::point3<T> >
 {
     typedef typename mtl::point3<T> self_type;
     typedef T value_type;
@@ -58,7 +58,7 @@ template<typename T>
 };
 
 template<typename T>
-    struct type_traits< mtl::vector2<T> >
+    struct pntvec_traits< mtl::vector2<T> >
 {
     typedef typename mtl::vector2<T> self_type;
     typedef T value_type;
@@ -68,7 +68,7 @@ template<typename T>
 };
 
 template<typename T>
-    struct type_traits< mtl::vector3<T> >
+    struct pntvec_traits< mtl::vector3<T> >
 {
     typedef typename mtl::vector3<T> self_type;
     typedef T value_type;
@@ -78,7 +78,7 @@ template<typename T>
 };
 
 //template<typename T>
-//    struct type_traits< std::vector<T> >
+//    struct pntvec_traits< std::vector<T> >
 //{
 //    typedef typename std::vector<T> self_type;
 //    typedef T value_type;
@@ -86,6 +86,26 @@ template<typename T>
 //    typedef T& reference;
 //    typedef std::ratio<0,0> extent;
 //};
+
+////////////////////////////////////////////////////////////////////////////////
+// node_traits
+
+template<typename T>
+    struct policy_traits
+{
+    typedef policy_traits<T> self_type;
+    typedef T value_type;
+};
+
+    ////////////////////////////////////////////////////////////////////////////////
+// node_traits
+
+template<typename T>
+    struct node_traits
+{
+    typedef node_traits<T> self_type;
+    typedef T value_type;
+};
 
 }    // namespace maral
 
