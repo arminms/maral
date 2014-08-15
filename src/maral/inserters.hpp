@@ -10,11 +10,11 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file inserters.hpp
+/// \file maral/inserters.hpp
 /// \brief Include file for stream insterters for \b Maral classes.
 ///
-/// \b inserters.hpp is the header file for all output stream operators of maral
-/// classes.
+/// \b maral/inserters.hpp is the header file for all output stream
+/// operators of maral classes.
 
 #ifndef MARAL_INSERTERS_HPP
 #define MARAL_INSERTERS_HPP
