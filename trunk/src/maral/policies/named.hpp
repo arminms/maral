@@ -20,7 +20,7 @@
 #define MARAL_POLICIES_NAMED_HPP
 
 #ifndef MARAL_TRAITS_HPP
-#include "traits.hpp"
+#include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
 namespace maral {

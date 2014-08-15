@@ -10,25 +10,29 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file inserters.hpp
-/// \brief Include file for stream insterters for \b Maral classes.
+/// \file maral.hpp
+/// \brief Main include file for the \b Maral.
 ///
-/// \b inserters.hpp is the header file for all output stream operators of maral
-/// classes.
+/// \b maral.hpp is the main include file for the \b Maral.
+/// This file must be included in all projects using \b Maral.
 
-#ifndef MARAL_INSERTERS_HPP
-#define MARAL_INSERTERS_HPP
-
-//#include <sstream>
-
-namespace maral {
+#ifndef MARAL_MARAL_HPP
+#define MARAL_MARAL_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
-// Implementation
+// Includes
 
-#include "inserters.ipp"
+#include <iostream>
 
-}    // namespace maral
+#include <boost/assert.hpp>
 
-#endif // MARAL_INSERTERS_HPP
+#include <maral/mtl/mtl.hpp>
+#include <maral/node.hpp>
+#include <maral/hierarchical.hpp>
+#include <maral/policies.hpp>
+#include <maral/atom.hpp>
+#include <maral/molecule.hpp>
+#include <maral/inserters.hpp>
+
+#endif    // MARAL_MARAL_HPP
 

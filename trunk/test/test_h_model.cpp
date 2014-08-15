@@ -16,15 +16,15 @@
 #include <boost/range/adaptors.hpp>
 #include <boost/range/algorithm.hpp>
 
-#include <mtl/mtl.hpp>
-#include <traits.hpp>
-#include <node.hpp>
-#include <hierarchical.hpp>
-#include <policies.hpp>
-#include <atom.hpp>
-#include <molecule.hpp>
-#include <root.hpp>
-#include <inserters.hpp>
+#include <maral/mtl/mtl.hpp>
+#include <maral/traits.hpp>
+#include <maral/node.hpp>
+#include <maral/hierarchical.hpp>
+#include <maral/policies.hpp>
+#include <maral/atom.hpp>
+#include <maral/molecule.hpp>
+#include <maral/root.hpp>
+#include <maral/inserters.hpp>
 
 #define PATTERNS_FOLDER "patterns/"
 

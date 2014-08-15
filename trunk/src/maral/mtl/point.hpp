@@ -24,7 +24,7 @@
 #include <cmath>
 
 #ifndef MARAL_MTL_CONSTANTS_HPP
-#include "constants.hpp"
+#include <maral/mtl/constants.hpp>
 #endif // MARAL_MTL_CONSTANTS_HPP
 
 namespace maral { namespace mtl {
@@ -256,8 +256,8 @@ typedef point3<double> point3d;
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-#include "point.ipp"
-#include "point_ops.ipp"
+#include <maral/mtl/point.ipp>
+#include <maral/mtl/point_ops.ipp>
 
 }}    // namespaces
 

@@ -10,6 +10,41 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\maral\atom.hpp" />
+    <ClInclude Include="src\maral\hierarchical.hpp" />
+    <ClInclude Include="src\maral\inserters.hpp" />
+    <ClInclude Include="src\maral\maral.hpp" />
+    <ClInclude Include="src\maral\molecule.hpp" />
+    <ClInclude Include="src\maral\mtl\constants.hpp" />
+    <ClInclude Include="src\maral\mtl\extractors.hpp" />
+    <ClInclude Include="src\maral\mtl\inserters.hpp" />
+    <ClInclude Include="src\maral\mtl\iomanip.hpp" />
+    <ClInclude Include="src\maral\mtl\matrix.hpp" />
+    <ClInclude Include="src\maral\mtl\mtl.hpp" />
+    <ClInclude Include="src\maral\mtl\point.hpp" />
+    <ClInclude Include="src\maral\mtl\vector.hpp" />
+    <ClInclude Include="src\maral\node.hpp" />
+    <ClInclude Include="src\maral\policies.hpp" />
+    <ClInclude Include="src\maral\policies\named.hpp" />
+    <ClInclude Include="src\maral\policies\ordered.hpp" />
+    <ClInclude Include="src\maral\policies\position.hpp" />
+    <ClInclude Include="src\maral\root.hpp" />
+    <ClInclude Include="src\maral\traits.hpp" />
+    <ClInclude Include="src\maral\units.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\maral\hierarchical.ipp" />
+    <None Include="src\maral\inserters.ipp" />
+    <None Include="src\maral\mtl\extractors.ipp" />
+    <None Include="src\maral\mtl\inserters.ipp" />
+    <None Include="src\maral\mtl\matrix.ipp" />
+    <None Include="src\maral\mtl\matrix_ops.ipp" />
+    <None Include="src\maral\mtl\point.ipp" />
+    <None Include="src\maral\mtl\point_ops.ipp" />
+    <None Include="src\maral\mtl\vector.ipp" />
+    <None Include="src\maral\mtl\vector_ops.ipp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A5D12735-D08B-4B53-BBE3-C28D96D7B049}</ProjectGuid>
     <RootNamespace>Maral</RootNamespace>
@@ -63,41 +98,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="src\atom.hpp" />
-    <ClInclude Include="src\hierarchical.hpp" />
-    <ClInclude Include="src\inserters.hpp" />
-    <ClInclude Include="src\maral.hpp" />
-    <ClInclude Include="src\molecule.hpp" />
-    <ClInclude Include="src\mtl\constants.hpp" />
-    <ClInclude Include="src\mtl\extractors.hpp" />
-    <ClInclude Include="src\mtl\inserters.hpp" />
-    <ClInclude Include="src\mtl\iomanip.hpp" />
-    <ClInclude Include="src\mtl\matrix.hpp" />
-    <ClInclude Include="src\mtl\mtl.hpp" />
-    <ClInclude Include="src\mtl\point.hpp" />
-    <ClInclude Include="src\mtl\vector.hpp" />
-    <ClInclude Include="src\node.hpp" />
-    <ClInclude Include="src\policies.hpp" />
-    <ClInclude Include="src\policies\named.hpp" />
-    <ClInclude Include="src\policies\ordered.hpp" />
-    <ClInclude Include="src\policies\position.hpp" />
-    <ClInclude Include="src\root.hpp" />
-    <ClInclude Include="src\traits.hpp" />
-    <ClInclude Include="src\units.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\hierarchical.ipp" />
-    <None Include="src\inserters.ipp" />
-    <None Include="src\mtl\extractors.ipp" />
-    <None Include="src\mtl\inserters.ipp" />
-    <None Include="src\mtl\matrix.ipp" />
-    <None Include="src\mtl\matrix_ops.ipp" />
-    <None Include="src\mtl\point.ipp" />
-    <None Include="src\mtl\point_ops.ipp" />
-    <None Include="src\mtl\vector.ipp" />
-    <None Include="src\mtl\vector_ops.ipp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

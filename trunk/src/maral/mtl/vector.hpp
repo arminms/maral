@@ -24,7 +24,7 @@
 #include <cmath>
 
 #ifndef MARAL_MTL_CONSTANTS_HPP
-#include "constants.hpp"
+#include <maral/mtl/constants.hpp>
 #endif // MARAL_MTL_CONSTANTS_HPP
 
 namespace maral { namespace mtl {
@@ -259,8 +259,8 @@ typedef vector3<double> vector3d;
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-#include "vector.ipp"
-#include "vector_ops.ipp"
+#include <maral/mtl/vector.ipp>
+#include <maral/mtl/vector_ops.ipp>
 
 }}    // namespaces
 

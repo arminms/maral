@@ -10,23 +10,21 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file mtl.hpp
-/// \brief Include file for the whole maral::mtl namespace.
+/// \file policies.hpp
+/// \brief Include file for \b atom nodes of different \b models.
 ///
-/// \b mtl.hpp is the include file for the whole maral::mtl namespace.
+/// \b atom.hpp is the include file that defines \b atom nodes of different \b
+/// data \b models (e.g. atom_h_node, atom_r_node, atom_n_node, etc).
 
-#ifndef MARAL_MTL_HPP
-#define MARAL_MTL_HPP
+#ifndef MARAL_POLICIES_HPP
+#define MARAL_POLICIES_HPP
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 
-#include "constants.hpp"
-#include "point.hpp"
-#include "vector.hpp"
-#include "matrix.hpp"
-#include "inserters.hpp"
-#include "extractors.hpp"
+#include <maral/policies/named.hpp>
+#include <maral/policies/ordered.hpp>
+#include <maral/policies/position.hpp>
 
-#endif    // MARAL_MTL_HPP
+#endif    // MARAL_POLICIES_HPP
 

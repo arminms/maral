@@ -288,7 +288,7 @@ typedef abstract_node hierarchical;
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-#include "hierarchical.ipp"
+#include <maral/hierarchical.ipp>
 
 }    // namespace model
 

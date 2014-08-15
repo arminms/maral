@@ -9,7 +9,7 @@
 #include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/mpl/list.hpp>
 
-#include <mtl/mtl.hpp>
+#include <maral/mtl/mtl.hpp>
 
 #define PATTERNS_FOLDER "patterns/"
 
