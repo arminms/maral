@@ -11,7 +11,7 @@
 // $Id$
 //------------------------------------------------------------------------------
 // Filename:
-//    mtl/extractors.ipp
+//    maral/mtl/extractors.ipp
 //------------------------------------------------------------------------------
 // Remarks:
 //    This file contains implementation of all stream extractors for maral::mtl

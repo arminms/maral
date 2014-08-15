@@ -11,10 +11,9 @@
 // $Id$
 //------------------------------------------------------------------------------
 /// \file traits.hpp
-/// \brief Include file for \b atom nodes of different \b models.
+/// \brief Include file for type traits templates.
 ///
-/// \b atom.hpp is the include file that defines \b atom nodes of different \b
-/// data \b models (e.g. atom_h_node, atom_r_node, atom_n_node, etc).
+/// \b traits.hpp is the include file that defines templates for type traits.
 
 #ifndef MARAL_TRAITS_HPP
 #define MARAL_TRAITS_HPP
@@ -97,7 +96,7 @@ template<typename T>
     typedef T value_type;
 };
 
-    ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // node_traits
 
 template<typename T>

@@ -1,3 +1,4 @@
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //                                  MARAL
@@ -10,21 +11,28 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file policies.hpp
-/// \brief Include file for \b atom nodes of different \b models.
+/// \file mtl/extractors.hpp
+/// \brief Include file for stream extractors for maral::mtl classes.
 ///
-/// \b atom.hpp is the include file that defines \b atom nodes of different \b
-/// data \b models (e.g. atom_h_node, atom_r_node, atom_n_node, etc).
+/// \b mtl/extractors.hpp is the header file for all stream extractors for
+/// maral::mtl classes.
 
-#ifndef MARAL_POLICIES_HPP
-#define MARAL_POLICIES_HPP
+#ifndef MARAL_MTL_EXTRACTORS_HPP
+#define MARAL_MTL_EXTRACTORS_HPP
+
+#include <iomanip>
+
+#ifndef MARAL_MTL_IOMANIP_HPP
+#include <maral/mtl/iomanip.hpp>
+#endif // MARAL_MTL_IOMANIP_HPP
+
+namespace maral { namespace mtl {
 
 ////////////////////////////////////////////////////////////////////////////////
-// Includes
+// Implementation
 
-#include "policies/named.hpp"
-#include "policies/ordered.hpp"
-#include "policies/position.hpp"
+#include <maral/mtl/extractors.ipp>
 
-#endif    // MARAL_POLICIES_HPP
+}}    // namespaces
 
+#endif // MARAL_MTL_EXTRACTORS_HPP

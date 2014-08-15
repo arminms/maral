@@ -21,7 +21,7 @@
 #define MARAL_MTL_MATRIX_HPP
 
 #ifndef MARAL_MTL_CONSTANTS_HPP
-#include "constants.hpp"
+#include <maral/mtl/constants.hpp>
 #endif // MARAL_MTL_CONSTANTS_HPP
 
 namespace maral { namespace mtl {
@@ -476,8 +476,8 @@ typedef matrix44<double> matrix44d;
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-#include "matrix.ipp"
-#include "matrix_ops.ipp"
+#include <maral/mtl/matrix.ipp>
+#include <maral/mtl/matrix_ops.ipp>
 
 }}    // namespaces
 

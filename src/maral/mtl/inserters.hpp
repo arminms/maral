@@ -22,7 +22,7 @@
 #include <iomanip>
 
 #ifndef MARAL_MTL_IOMANIP_HPP
-#include "iomanip.hpp"
+#include <maral/mtl/iomanip.hpp>
 #endif // MARAL_MTL_IOMANIP_HPP
 
 namespace maral { namespace mtl {
@@ -30,7 +30,7 @@ namespace maral { namespace mtl {
 ////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
-#include "inserters.ipp"
+#include <maral/mtl/inserters.ipp>
 
 }}    // namespaces
 
