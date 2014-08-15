@@ -44,7 +44,7 @@ public:
 //@{
     atom_h_node(
         //Policies&&... policies
-//        type_traits<Policies&&...>::const_reference vars
+//        pntvec_traits<Policies&&...>::const_reference vars
         const std::string& name = ""
     ,   unsigned ordinal = 1
     ,   const PositionType& pos = PositionType().zero() )

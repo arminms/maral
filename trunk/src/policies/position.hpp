@@ -34,7 +34,7 @@ template <typename T>
     class position
 {
     static_assert(
-        type_traits<T>::extent::den > 1,
+        pntvec_traits<T>::extent::den > 1,
         "need a fixed-size vector type :(");
 
 public:
@@ -62,10 +62,10 @@ public:
 
 /// \name Operators
 //@{
-    typename type_traits<T>::reference operator[]
+    typename pntvec_traits<T>::reference operator[]
         (const unsigned idx)
     {   return pos_[idx];   }
-//    typename type_traits<T>::value_type operator[]
+//    typename pntvec_traits<T>::value_type operator[]
 //        (const unsigned idx) const;
 //    {   return pos_[idx]; }
 //@}
