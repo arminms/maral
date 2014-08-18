@@ -16,14 +16,12 @@
 #include <boost/range/adaptors.hpp>
 #include <boost/range/algorithm.hpp>
 
-#include <maral/mtl/mtl.hpp>
-#include <maral/traits.hpp>
-#include <maral/node.hpp>
-#include <maral/hierarchical.hpp>
-#include <maral/policies.hpp>
-#include <maral/atom.hpp>
-#include <maral/molecule.hpp>
+#include <maral/mtl/inserters.hpp>
 #include <maral/root.hpp>
+#include <maral/model.hpp>
+#include <maral/molecule.hpp>
+#include <maral/submolecule.hpp>
+#include <maral/atom.hpp>
 #include <maral/inserters.hpp>
 
 #define PATTERNS_FOLDER "patterns/"
@@ -31,55 +29,51 @@
 using boost::test_tools::output_test_stream;
 using namespace maral;
 using namespace maral::mtl;
-//using namespace maral::model;
+//using namespace maral::data_model;
 namespace butrc = boost::unit_test::runtime_config;
 
-typedef atom_h_node
+typedef root_node
 <
-    model::hierarchical
-,   point3<float>
-//,   policies::ordered<unsigned>
-//,   std::vector<float>
-> atom;
-
-//typedef molecule_base
-//<
-//    model::hierarchical
-//,   triad<policies::named, std::string, std::string>
-//,   triad<policies::ordered, unsigned, unsigned>
-//> molecule;
-
-typedef molecule_h_node
-<
-    model::hierarchical
-//,   policies::position<point3f>
-> molecule;
-
-typedef root_base
-<
-    model::hierarchical
-,   policies::named<std::string>
-//,   std::string
-//,   policies::ordered<unsigned>
-//,   unsigned
-//,   policies::position<point3f>
+    data_model::hierarchical
 > root;
 
-//typedef root_h_node
-//<
-//    model::hierarchical
-//,   std::string
-////,   policies::position<point3f>
-//> root;
+typedef model_node
+<
+    data_model::hierarchical
+,   policies::named<std::string>
+> model;
+
+typedef molecule_node
+<
+    data_model::hierarchical
+,   policies::named<std::string>
+> molecule;
+
+typedef molecule_node
+<
+    data_model::hierarchical
+,   policies::named<std::string>
+,   policies::ordered<unsigned>
+> residue;
+
+typedef atom_node
+<
+    data_model::hierarchical
+,   policies::named<std::string>
+,   policies::ordered<unsigned>
+,   policies::position<point3f>
+> atom;
+
 
 struct CRN_INIT
 {
     CRN_INIT()
     {
-        rt = make_node<root>("1CRN");
-        node<molecule> chain = make_node<molecule>("A");
+        rt = make_node<root>();
+        auto crambin = make_node<model>("1CRN");
+        auto chain = make_node<molecule>("A");
 
-        node<molecule> res = make_node<molecule>("PRO", 5);
+        auto res = make_node<residue>("PRO", 5);
         res->add(std::move(make_node<atom>( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
         res->add(std::move(make_node<atom>("CA", 28, point3f(9.448f, 9.034f, 15.012f))));
         res->add(std::move(make_node<atom>( "C", 29, point3f(9.288f, 7.670f, 15.606f))));
@@ -89,7 +83,7 @@ struct CRN_INIT
         res->add(std::move(make_node<atom>("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
         chain->add(std::move(res));
 
-        res = make_node<molecule>("SER", 6);
+        res = make_node<residue>("SER", 6);
         res->add(std::move(make_node<atom>( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
         res->add(std::move(make_node<atom>("CA", 35, point3f(8.673f, 5.314f, 15.279f))));
         res->add(std::move(make_node<atom>( "C", 36, point3f(8.753f, 4.376f, 14.083f))));
@@ -98,7 +92,8 @@ struct CRN_INIT
         res->add(std::move(make_node<atom>("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
         chain->add(std::move(res));
 
-        rt->add(std::move(chain));
+        crambin->add(std::move(chain));
+        rt->add(std::move(crambin));
     }
 
     node<root> rt;
@@ -114,9 +109,9 @@ BOOST_AUTO_TEST_CASE( Size_Test )
     BOOST_CHECK(sizeof(hierarchical::node_type) == sizeof(atm));
 //    BOOST_CHECK(sizeof(hierarchical::hierarchy_type) == (2 * sizeof(atm)));
     BOOST_CHECK(sizeof(hierarchical) == sizeof atm);
-//    BOOST_CHECK(sizeof(model::composite_node<hierarchical>) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
-//    BOOST_CHECK(sizeof(model::root_node<hierarchical>) == (4 * sizeof(atm)));
+//    BOOST_CHECK(sizeof(data_model::composite_node<hierarchical>) == (4 * sizeof(atm)));
+    BOOST_CHECK(sizeof(data_model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
+//    BOOST_CHECK(sizeof(data_model::root_node<hierarchical>) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(policies::named<std::string>) == sizeof(std::string));
     BOOST_CHECK(sizeof(policies::ordered<unsigned>) == sizeof(unsigned));
 
@@ -128,16 +123,16 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
     node<molecule> mol = make_node<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<model::composite_node<hierarchical>*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<data_model::composite_node<hierarchical>*>(mol.get()));
     BOOST_CHECK(dynamic_cast<policies::named<std::string>*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
-    BOOST_CHECK(dynamic_cast<model::root_node<hierarchical>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<data_model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<data_model::root_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
 }
 
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
-    auto rt = make_node<root>("root");
+    auto rt = make_node<root>();
     //rt->name() = "new root";
     //rt->center() = { 1.0f, 1.0f, 1.0f };
     //std::cout << rt.get() << std::endl;
@@ -205,14 +200,15 @@ BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
     }
     {
         auto pos = rt->begin();
+        ++pos;
         auto parent = (*pos)->parent();
         parent->insert(pos, std::move(make_node<molecule>("B4 A")));
         ++pos;
         parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<molecule>("B4 PRO")));
+        parent->insert(pos, std::move(make_node<residue>("B4 PRO")));
         std::advance(pos, 10);
         parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<molecule>("B4 SER")));
+        parent->insert(pos, std::move(make_node<residue>("B4 SER")));
     }
     for (auto node : *rt)
     {
@@ -228,8 +224,8 @@ BOOST_FIXTURE_TEST_CASE( Composite_Remove, CRN_INIT )
         PATTERNS_FOLDER"composite_remove.txt",
         !butrc::save_pattern());
 
-    auto pos = rt->begin<molecule>();
-    auto proline = *(++pos);
+    auto pos = rt->begin<residue>();
+    auto proline = *pos;
     std::list<atom*> to_be_removed;
     boost::copy(
         rt->range<atom>()
@@ -276,7 +272,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Erase, CRN_INIT )
         !butrc::save_pattern());
 
     // erasing all atoms in the proline
-    auto proline = *(++(rt->begin<molecule>()));
+    auto proline = *(rt->begin<residue>());
 
     auto pos = proline->begin<atom>();
     while (pos != proline->end<atom>())
@@ -320,13 +316,15 @@ BOOST_FIXTURE_TEST_CASE( Node_Iterator, CRN_INIT )
 {
     auto itr = rt->begin();
 
-    molecule* mol = dynamic_cast<molecule*>(*itr);
-    BOOST_CHECK(mol->name() == "A");
-    BOOST_CHECK(mol->ordinal() == 1);
+    auto carmbin = dynamic_cast<model*>(*itr);
+    BOOST_CHECK(carmbin->name() == "1CRN");
 
-    mol = dynamic_cast<molecule*>(*(++itr));
-    BOOST_CHECK(mol->name() == "PRO");
-    BOOST_CHECK(mol->ordinal() == 5);
+    auto chain = dynamic_cast<molecule*>(*(++itr));
+    BOOST_CHECK(chain->name() == "A");
+
+    auto res = dynamic_cast<residue*>(*(++itr));
+    BOOST_CHECK(res->name() == "PRO");
+    BOOST_CHECK(res->ordinal() == 5);
 
     atom* atm = dynamic_cast<atom*>(*(++itr));
     BOOST_CHECK(atm->name() == "N");
@@ -356,9 +354,9 @@ BOOST_FIXTURE_TEST_CASE( Node_Iterator, CRN_INIT )
     BOOST_CHECK(atm->name() == "CD");
     BOOST_CHECK(atm->ordinal() == 33);
 
-    mol = dynamic_cast<molecule*>(*(++itr));
-    BOOST_CHECK(mol->name() == "SER");
-    BOOST_CHECK(mol->ordinal() == 6);
+    res = dynamic_cast<residue*>(*(++itr));
+    BOOST_CHECK(res->name() == "SER");
+    BOOST_CHECK(res->ordinal() == 6);
 
     atm = dynamic_cast<atom*>(*(++itr));
     BOOST_CHECK(atm->name() == "N");
@@ -396,7 +394,7 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Copy, CRN_INIT )
             rt->end(),
             back_inserter(nodes));
 
-    BOOST_CHECK( 16 == nodes.size() );
+    BOOST_CHECK( 17 == nodes.size() );
     for (auto node : nodes)
     {
         cout << delimiters('[', ']') << separator(' ')
@@ -414,7 +412,7 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, CRN_INIT )
     std::vector<hierarchical*> nodes;
 //    boost::copy(*rt, back_inserter(nodes));
     boost::copy(rt->range(), back_inserter(nodes));
-    BOOST_CHECK( 16 == boost::size(nodes) );
+    BOOST_CHECK( 17 == boost::size(nodes) );
 
 // the following call prints pointer addresses, why?!
 //    boost::copy(nodes
@@ -431,6 +429,20 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, CRN_INIT )
 
 BOOST_FIXTURE_TEST_CASE( Type_Iterator, CRN_INIT )
 {
+    auto crambin = rt->begin<model>();
+    BOOST_CHECK(crambin->name() == "1CRN");
+
+    auto mol = rt->begin<molecule>();
+    BOOST_CHECK(mol->name() == "A");
+
+    auto res = rt->begin<residue>();
+    BOOST_CHECK(res->name() == "PRO");
+    BOOST_CHECK(res->ordinal() == 5);
+
+    ++res;
+    BOOST_CHECK(res->name() == "SER");
+    BOOST_CHECK(res->ordinal() == 6);
+
     auto atm = rt->begin<atom>();
 
     BOOST_CHECK(atm->name() == "N");
@@ -483,18 +495,6 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator, CRN_INIT )
     ++atm;
     BOOST_CHECK(atm->name() == "OG");
     BOOST_CHECK(atm->ordinal() == 39);
-
-    auto mol = rt->begin<molecule>();
-    BOOST_CHECK(mol->name() == "A");
-    BOOST_CHECK(mol->ordinal() == 1);
-
-    ++mol;
-    BOOST_CHECK(mol->name() == "PRO");
-    BOOST_CHECK(mol->ordinal() == 5);
-
-    ++mol;
-    BOOST_CHECK(mol->name() == "SER");
-    BOOST_CHECK(mol->ordinal() == 6);
 }
 
 BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
@@ -518,17 +518,17 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
         BOOST_CHECK(cout.match_pattern());
     }
 
-    std::vector<molecule*> mols;
-    mols.reserve(boost::distance(rt->range<molecule>()));
-    std::copy(  rt->begin<molecule>(),
-                rt->end<molecule>(),
-                back_inserter(mols));
-    BOOST_CHECK( 3 == mols.size() );
+    std::vector<residue*> rsds;
+    rsds.reserve(boost::distance(rt->range<residue>()));
+    std::copy(  rt->begin<residue>(),
+                rt->end<residue>(),
+                back_inserter(rsds));
+    BOOST_CHECK( 2 == rsds.size() );
 
-    for (auto mol : mols)
+    for (auto res : rsds)
     {
         cout << delimiters('[', ']') << separator(' ')
-             << mol << std::endl;
+             << res << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -558,20 +558,20 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
                 std::ostream_iterator<atom*>(cout, "\n") );
     BOOST_CHECK(cout.match_pattern());
 
-    std::vector<molecule*> mols;
-    mols.reserve(boost::distance(rt->range<molecule>()));
-    boost::copy(rt->range<molecule>(), back_inserter(mols));
-    BOOST_CHECK( 3 == mols.size() );
+    std::vector<residue*> rsds;
+    rsds.reserve(boost::distance(rt->range<residue>()));
+    boost::copy(rt->range<residue>(), back_inserter(rsds));
+    BOOST_CHECK( 2 == rsds.size() );
 
-    boost::copy(mols | boost::adaptors::reversed,
-                std::ostream_iterator<molecule*>(cout, "\n") );
+    boost::copy(rsds | boost::adaptors::reversed,
+                std::ostream_iterator<residue*>(cout, "\n") );
     BOOST_CHECK(cout.match_pattern());
 
-    for (auto mol : rt->range<molecule>()
+    for (auto res : rt->range<residue>()
                   | boost::adaptors::uniqued)
     {
         cout << delimiters('[', ']') << separator(' ')
-             << mol << std::endl;
+             << res << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -591,7 +591,7 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //    static_assert(std::is_base_of<policies::position<point3<float> >, molecule>::value,
 //                  "molecule must have a position policy");
 //    std::cout << pntvec_traits<point3f>::extent::den << std::endl;
-    static_assert(pntvec_traits<point3f>::extent::den > 0, "out of range!");
+//    static_assert(pntvec_traits<point3f>::extent::den > 0, "out of range!");
 
     BOOST_CHECK(13 == boost::count_if(rt->range<atom>(),
                                       [](atom* atm) { return (*atm)[0] == 1.0f; } ) );

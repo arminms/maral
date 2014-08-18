@@ -15,6 +15,7 @@
     <ClInclude Include="src\maral\hierarchical.hpp" />
     <ClInclude Include="src\maral\inserters.hpp" />
     <ClInclude Include="src\maral\maral.hpp" />
+    <ClInclude Include="src\maral\model.hpp" />
     <ClInclude Include="src\maral\molecule.hpp" />
     <ClInclude Include="src\maral\mtl\constants.hpp" />
     <ClInclude Include="src\maral\mtl\extractors.hpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="src\maral\policies\ordered.hpp" />
     <ClInclude Include="src\maral\policies\position.hpp" />
     <ClInclude Include="src\maral\root.hpp" />
+    <ClInclude Include="src\maral\submolecule.hpp" />
     <ClInclude Include="src\maral\traits.hpp" />
     <ClInclude Include="src\maral\units.hpp" />
   </ItemGroup>
