@@ -19,6 +19,10 @@
 #ifndef MARAL_POLICIES_POSITION_HPP
 #define MARAL_POLICIES_POSITION_HPP
 
+#ifndef MARAL_TRAITS_HPP
+#include <maral/traits.hpp>
+#endif // MARAL_TRAITS_HPP
+
 namespace maral { namespace policies {
 
 ////////////////////////////////////////////////////////////////////////////////

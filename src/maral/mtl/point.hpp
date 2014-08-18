@@ -184,7 +184,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief 2D point composed of 2 signed integers
 ///
-/// Use Point2i to define a 2D point composed of 2 signed integer
+/// Use point2i to define a 2D point composed of 2 signed integer
 /// components. It has all the features of point2, i.e. the member
 /// functions of point2i are similar to the member functions of point2
 /// class. So, you can use the point2 reference documentation: Wherever

@@ -19,7 +19,17 @@
 #ifndef MARAL_MTL_INSERTERS_HPP
 #define MARAL_MTL_INSERTERS_HPP
 
-#include <iomanip>
+#ifndef MARAL_MTL_POINT_HPP
+#include <maral/mtl/point.hpp>
+#endif // MARAL_MTL_POINT_HPP
+
+#ifndef MARAL_MTL_VECTOR_HPP
+#include <maral/mtl/vector.hpp>
+#endif // MARAL_MTL_VECTOR_HPP
+
+#ifndef MARAL_MTL_MATRIX_HPP
+#include <maral/mtl/matrix.hpp>
+#endif // MARAL_MTL_MATRIX_HPP
 
 #ifndef MARAL_MTL_IOMANIP_HPP
 #include <maral/mtl/iomanip.hpp>

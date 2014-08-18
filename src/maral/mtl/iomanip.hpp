@@ -21,6 +21,8 @@
 #ifndef MARAL_MTL_IOMANIP_HPP
 #define MARAL_MTL_IOMANIP_HPP
 
+#include <iomanip>
+
 namespace maral { namespace mtl {
 
 /// \ingroup omanip

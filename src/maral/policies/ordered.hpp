@@ -37,7 +37,11 @@ public:
 //@{
     ordered(T ordinal)
     : ordinal_(ordinal)
-    {}
+    {
+        BOOST_STATIC_ASSERT_MSG(
+            std::is_floating_point<T>::value == false,
+            "only integral types are allowed :(");
+    }
 //@}
 
 /// \name Attributes

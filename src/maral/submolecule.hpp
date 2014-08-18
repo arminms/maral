@@ -10,13 +10,14 @@
 //------------------------------------------------------------------------------
 // $Id$
 //------------------------------------------------------------------------------
-/// \file maral/root.hpp
-/// \brief Include file for \b root node.
+/// \file maral/submolecule.hpp
+/// \brief Include file for \b submolecule node.
 ///
-/// \b maral/root.hpp is the include file that defines \b root node.
+/// \b maral/submolecule.hpp is the include file that defines \b submolecule
+/// node.
 
-#ifndef MARAL_ROOT_HPP
-#define MARAL_ROOT_HPP
+#ifndef MARAL_SUBMOLECULE_HPP
+#define MARAL_SUBMOLECULE_HPP
 
 #ifndef MARAL_HIERARCHICAL_HPP
 #include <maral/hierarchical.hpp>
@@ -38,7 +39,7 @@ template
 <
     typename ...Policies
 >
-    class  root_node
+    class  submolecule_node
 :   public Policies...
 {};
 
@@ -48,43 +49,29 @@ template
 <
     typename ...Policies
 >
-    class root_node
+    class submolecule_node
     <
         data_model::hierarchical
     ,   Policies...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public data_model::composite_node<data_model::hierarchical>
 ,   public Policies...
-{
-//public:
-//    typedef data_model::hierarchical data_model_type;
-//
-///// \name Construction
-////@{
-//    root_node(
-//        const typename policy_traits<Policies>::value_type&... args)
-//    :   Policies<typename policy_traits<Policies>::value_type>...(args)
-//    {}
-////@}
-
-    virtual void do_print(std::ostream& out) const
-    {   out << "ROOT";  }
-};
+{};
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template
 <
-    typename StringType
+    typename    StringType
 ,   typename ...Policies
 >
-    class root_node
+    class submolecule_node
     <
         data_model::hierarchical
     ,   policies::named<StringType>
     ,   Policies...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public data_model::composite_node<data_model::hierarchical>
 ,   public policies::named<StringType>
 ,   public Policies...
 {
@@ -94,14 +81,32 @@ public:
 
 /// \name Construction
 //@{
-    root_node(
-        const StringType& name = "ROOT")
+    submolecule_node(
+        const StringType& name = "SUBMOL")
     :   policies::named<StringType>(name)
     {}
 //@}
-
+private:
     virtual void do_print(std::ostream& out) const
-    {   out << policies::named<StringType>::name(); }
+    {
+        using namespace policies;
+        auto parent = data_model::composite_node<data_model_type>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << this->name();
+    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,14 +117,14 @@ template
 ,   typename    OrdinalType
 ,   typename ...Policies
 >
-    class root_node
+    class submolecule_node
     <
         data_model::hierarchical
     ,   policies::named<StringType>
     ,   policies::ordered<OrdinalType>
     ,   Policies...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public data_model::composite_node<data_model::hierarchical>
 ,   public policies::named<StringType>
 ,   public policies::ordered<OrdinalType>
 ,   public Policies...
@@ -131,17 +136,33 @@ public:
 
 /// \name Construction
 //@{
-    root_node(
-        const StringType& name = "ROOT"
+    submolecule_node(
+        const StringType& name = "SUBMOL"
     ,   OrdinalType ordinal = 1)
     :   policies::named<StringType>(name)
     ,   policies::ordered<OrdinalType>(ordinal)
     {}
 //@}
-
+private:
     virtual void do_print(std::ostream& out) const
     {
-        out << policies::ordered<OrdinalType>::ordinal() << ". "
+        using namespace policies;
+        auto parent = data_model::composite_node<data_model_type>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << std::setw(3) << policies::ordered<OrdinalType>::ordinal() << ". "
             << policies::named<StringType>::name();
     }
 };
@@ -154,14 +175,14 @@ template
 ,   typename    PositionType
 ,   typename ...Policies
 >
-    class root_node
+    class submolecule_node
     <
         data_model::hierarchical
     ,   policies::named<StringType>
     ,   policies::position<PositionType>
     ,   Policies...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public data_model::composite_node<data_model::hierarchical>
 ,   public policies::named<StringType>
 ,   public policies::position<PositionType>
 ,   public Policies...
@@ -173,17 +194,33 @@ public:
 
 /// \name Construction
 //@{
-    root_node(
-        const StringType& name = "ROOT"
+    submolecule_node(
+        const StringType& name = "SUBMOL"
     ,   const PositionType& pos = PositionType().zero())
     :   policies::named<StringType>(name)
     ,   policies::position<PositionType>(pos)
     {}
 //@}
-
+private:
     virtual void do_print(std::ostream& out) const
     {
-        out << policies::named<StringType>::name()
+        using namespace policies;
+        auto parent = data_model::composite_node<data_model_type>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << policies::named<StringType>::name() << ' '
             << mtl::horizontal
             << policies::position<PositionType>::get_center();
     }
@@ -198,7 +235,7 @@ template
 ,   typename    PositionType
 ,   typename ...Policies
 >
-    class root_node
+    class submolecule_node
     <
         data_model::hierarchical
     ,   policies::named<StringType>
@@ -206,7 +243,7 @@ template
     ,   policies::position<PositionType>
     ,   Policies...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public data_model::composite_node<data_model::hierarchical>
 ,   public policies::named<StringType>
 ,   public policies::ordered<OrdinalType>
 ,   public policies::position<PositionType>
@@ -220,8 +257,8 @@ public:
 
 /// \name Construction
 //@{
-    root_node(
-        const StringType& name = "ROOT"
+    submolecule_node(
+        const StringType& name = "SUBMOL"
     ,   OrdinalType ordinal = 1
     ,   const PositionType& pos = PositionType().zero())
     :   policies::named<StringType>(name)
@@ -229,11 +266,27 @@ public:
     ,   policies::position<PositionType>(pos)
     {}
 //@}
-
+private:
     virtual void do_print(std::ostream& out) const
     {
-        out << policies::ordered<OrdinalType>::ordinal() << ". "
-            << policies::named<StringType>::name()
+        using namespace policies;
+        auto parent = data_model::composite_node<data_model_type>::parent();
+        std::string trail = (parent->children()->back() == this)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                       ? "    "
+                       : "   |";
+        }
+        boost::reverse(trail);
+        out << trail
+            << std::setw(2) << policies::ordered<OrdinalType>::ordinal() << ". "
+            << policies::named<StringType>::name() << ' '
             << mtl::horizontal
             << policies::position<PositionType>::get_center();
     }
@@ -243,242 +296,248 @@ public:
 // Helper types
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed only of policies::named<std::string>
+/// \brief submolecule node composed only of policies::named<std::string>
 ///
-/// Convenient type to define a root node with only a name.
+/// Convenient type to define a submolecule node with only a name.
 /// \par Example:
-/// \code auto rt = make_node<root_s>("root node"); \endcode
+/// \code auto rt = make_node<submolecule_s>("submolecule node"); \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::string>
-> root_s;
+> submolecule_s;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed only of policies::named<std::wstring>
+/// \brief submolecule node composed only of policies::named<std::wstring>
 ///
-/// Convenient type to define a root node with only a name (wide version).
+/// Convenient type to define a submolecule node with only a name (wide
+/// version).
 /// \par Example:
-/// \code auto rt = make_node<root_w>("root node"); \endcode
+/// \code auto rt = make_node<submolecule_w>("submolecule node"); \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::wstring>
-> root_w;
+> submolecule_w;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::string> and
+/// \brief submolecule node composed of policies::named<std::string> and
 /// policies::ordered<unsigned>
 ///
-/// Convenient type to define a root node with name and serial number.
+/// Convenient type to define a submolecule node with name and serial number.
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_su>("root", 1);
-/// auto rt2 = make_node<root_su>();
+/// auto rt1 = make_node<submolecule_su>("SUBMOL", 1);
+/// auto rt2 = make_node<submolecule_su>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->ordinal() == rt2->ordinal();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::string>
 ,   policies::ordered<unsigned>
-> root_su;
+> submolecule_su;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::wstring> and
+/// \brief submolecule node composed of policies::named<std::wstring> and
 /// policies::ordered<unsigned>
 ///
-/// Convenient type to define a root node with name and serial number (wide
+/// Convenient type to define a submolecule node with name and serial number
+/// (wide version).
+/// \par Example:
+/// \code
+/// auto rt1 = make_node<submolecule_su>("SUBMOL", 1);
+/// auto rt2 = make_node<submolecule_su>();
+/// assert(rt1->name() == rt2->name();
+/// assert(rt1->ordinal() == rt2->ordinal();
+/// \endcode
+
+typedef submolecule_node
+<
+    data_model::hierarchical
+,   policies::named<std::wstring>
+,   policies::ordered<unsigned>
+> submolecule_wu;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief submolecule node composed of policies::named<std::string> and
+/// policies::position<mtl::point3f>
+///
+/// Convenient type to define a submolecule node with name and position.
+/// \par Example:
+/// \code
+/// auto rt1 = make_node<submolecule_s3f>("SUBMOL", point3f(0f, 0f, 0f));
+/// auto rt2 = make_node<submolecule_s3f>();
+/// assert(rt1->name() == rt2->name();
+/// assert(rt1->center() == rt2->center();
+/// \endcode
+
+typedef submolecule_node
+<
+    data_model::hierarchical
+,   policies::named<std::string>
+,   policies::position<mtl::point3f>
+> submolecule_s3f;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \brief submolecule node composed of policies::named<std::wstring> and
+/// policies::position<mtl::point3f>
+///
+/// Convenient type to define a submolecule node with name and position (wide
 /// version).
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_su>("root", 1);
-/// auto rt2 = make_node<root_su>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// \endcode
-
-typedef root_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-> root_wu;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::string> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a root node with name and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<root_s3f>("root", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<root_s3f>();
+/// auto rt1 = make_node<submolecule_w3f>("SUBMOL", point3f(0f, 0f, 0f));
+/// auto rt2 = make_node<submolecule_w3f>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::position<mtl::point3f>
-> root_s3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::wstring> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a root node with name and position (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<root_w3f>("root", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<root_w3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::wstring>
 ,   policies::position<mtl::point3f>
-> root_w3f;
+> submolecule_w3f;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::string> and
+/// \brief submolecule node composed of policies::named<std::string> and
 /// policies::position<mtl::point3d>
 ///
-/// Convenient type to define a root node with name and position.
+/// Convenient type to define a submolecule node with name and position.
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_s3d>("root", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<root_s3d>();
+/// auto rt1 = make_node<submolecule_s3d>("SUBMOL", point3d(0d, 0d, 0d));
+/// auto rt2 = make_node<submolecule_s3d>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::string>
 ,   policies::position<mtl::point3d>
-> root_s3d;
+> submolecule_s3d;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::wstring> and
+/// \brief submolecule node composed of policies::named<std::wstring> and
 /// policies::position<mtl::point3d>
 ///
-/// Convenient type to define a root node with name and position (wide version).
+/// Convenient type to define a submolecule node with name and position (wide
+/// version).
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_w3d>("root", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<root_w3d>();
+/// auto rt1 = make_node<submolecule_w3d>("SUBMOL", point3d(0.0, 0.0, 0.0));
+/// auto rt2 = make_node<submolecule_w3d>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::wstring>
 ,   policies::position<mtl::point3d>
-> root_w3d;
+> submolecule_w3d;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::string>,
+/// \brief submolecule node composed of policies::named<std::string>,
 /// policies::ordered<unsigned> and policies::position<mtl::point3f>
 ///
-/// Convenient type to define a root node with name, serial number and position.
+/// Convenient type to define a submolecule node with name, serial number and
+/// position.
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_su3f>("root", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<root_su3f>();
+/// auto rt1 = make_node<submolecule_su3f>("SUBMOL", 1, point3f(0f, 0f, 0f));
+/// auto rt2 = make_node<submolecule_su3f>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->ordinal() == rt2->ordinal();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::string>
 ,   policies::ordered<unsigned>
 ,   policies::position<mtl::point3f>
-> root_su3f;
+> submolecule_su3f;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::wstring>,
+/// \brief submolecule node composed of policies::named<std::wstring>,
 /// policies::ordered<unsigned> and policies::position<mtl::point3f>
 ///
-/// Convenient type to define a root node with name, serial number and position
+/// Convenient type to define a submolecule node with name, serial number and
+/// position
 /// (wide version).
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_wu3f>("root", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<root_wu3f>();
+/// auto rt1 = make_node<submolecule_wu3f>("SUBMOL", 1, point3f(0f, 0f, 0f));
+/// auto rt2 = make_node<submolecule_wu3f>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->ordinal() == rt2->ordinal();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::wstring>
 ,   policies::ordered<unsigned>
 ,   policies::position<mtl::point3f>
-> root_wu3f;
+> submolecule_wu3f;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::string>,
+/// \brief submolecule node composed of policies::named<std::string>,
 /// policies::ordered<unsigned> and policies::position<mtl::point3d>
 ///
-/// Convenient type to define a root node with name, serial number and position.
+/// Convenient type to define a submolecule node with name, serial number and
+/// position.
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_su3d>("root", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<root_su3d>();
+/// auto rt1 = make_node<submolecule_su3d>("SUBMOL", 1, point3d(0, 0, 0));
+/// auto rt2 = make_node<submolecule_su3d>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->ordinal() == rt2->ordinal();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::string>
 ,   policies::ordered<unsigned>
 ,   policies::position<mtl::point3d>
-> root_su3d;
+> submolecule_su3d;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief root node composed of policies::named<std::wstring>,
+/// \brief submolecule node composed of policies::named<std::wstring>,
 /// policies::ordered<unsigned> and policies::position<mtl::point3d>
 ///
-/// Convenient type to define a root node with name, serial number and position
-/// (wide version).
+/// Convenient type to define a submolecule node with name, serial number and
+/// position (wide version).
 /// \par Example:
 /// \code
-/// auto rt1 = make_node<root_wu3d>("root", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<root_wu3d>();
+/// auto rt1 = make_node<submolecule_wu3d>("SUBMOL", 1, point3d(0, 0, 0));
+/// auto rt2 = make_node<submolecule_wu3d>();
 /// assert(rt1->name() == rt2->name();
 /// assert(rt1->ordinal() == rt2->ordinal();
 /// assert(rt1->center() == rt2->center();
 /// \endcode
 
-typedef root_node
+typedef submolecule_node
 <
     data_model::hierarchical
 ,   policies::named<std::wstring>
 ,   policies::ordered<unsigned>
 ,   policies::position<mtl::point3d>
-> root_wu3d;
+> submolecule_wu3d;
 
 }    // namespace maral
 
-#endif    // MARAL_ROOT_HPP
+#endif    // MARAL_SUBMOLECULE_HPP

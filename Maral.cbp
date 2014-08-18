@@ -101,6 +101,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/model.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/molecule.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -190,6 +194,10 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/maral/root.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/submolecule.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
