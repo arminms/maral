@@ -148,7 +148,7 @@ clean_profile:
 	rm -rf bin/profile
 
 before_makefile: 
-	cbp2make --local -in test.cbp -out Makefile --wrap-objects --with-deps
+	cbp2make --global -in test.cbp -out Makefile --wrap-objects --with-deps
 
 after_makefile: 
 
