@@ -81,6 +81,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/format.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/hierarchical.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

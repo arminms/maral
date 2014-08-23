@@ -48,8 +48,8 @@ namespace data_model {
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename Component>
-class composite_node
-    : public Component
+    class composite_node
+:   public Component
 {
 public:
     composite_node()
@@ -186,6 +186,7 @@ private:
     virtual const typename Component::hierarchy_type*
         get_children() const
     {   return &empty_; }
+    //{   return get_empty(); }
 
     virtual composite_node<Component>* get_parent() const
     {   return parent_; }
@@ -196,6 +197,13 @@ private:
         parent_ = new_parent;
         return true;
     }
+
+    //static const typename Component::hierarchy_type*
+    //    get_empty()
+    //{
+    //    static typename Component::hierarchy_type empty;
+    //    return &empty;
+    //}
 
 protected:
     composite_node<Component>* parent_;

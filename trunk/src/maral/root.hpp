@@ -68,7 +68,8 @@ template
 ////@}
 
     virtual void do_print(std::ostream& out) const
-    {   out << "ROOT";  }
+    //{   out << "ROOT";  }
+    {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -114,6 +114,15 @@ template<typename T>
     typedef T value_type;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// format_traits
+
+template<typename T>
+    struct format_traits
+{
+    typedef typename T::format_type type;
+};
+
 }    // namespace maral
 
 #endif    // MARAL_TRAITS_HPP
