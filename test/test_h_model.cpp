@@ -23,6 +23,7 @@
 #include <maral/submolecule.hpp>
 #include <maral/atom.hpp>
 #include <maral/inserters.hpp>
+#include <maral/format.hpp>
 
 #define PATTERNS_FOLDER "patterns/"
 
@@ -49,6 +50,7 @@ typedef molecule_node
 ,   policies::named<std::string>
 > molecule;
 
+//typedef submolecule_node
 typedef molecule_node
 <
     data_model::hierarchical
@@ -63,6 +65,18 @@ typedef atom_node
 ,   policies::ordered<unsigned>
 ,   policies::position<point3f>
 > atom;
+
+typedef ioformat
+<
+    root
+,   model
+,   molecule
+,   residue
+,   atom
+>   format;
+
+template<> struct format_traits<root>
+{   typedef format type; };
 
 
 struct CRN_INIT
@@ -613,6 +627,13 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //    boost::copy(rt->range<atom>(), back_inserter(atoms));
 //    boost::erase(*rt, atoms);
 //}
+
+BOOST_AUTO_TEST_CASE( Format )
+{
+    auto rt = make_node<root>();
+    std::cout << format(0) << rt.get() << std::endl;
+    std::cout << format(1) << rt.get() << std::endl;
+}
 
 BOOST_AUTO_TEST_SUITE_END() // H_Model
 

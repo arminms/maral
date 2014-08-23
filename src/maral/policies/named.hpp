@@ -72,7 +72,7 @@ protected:
     T name_;
 };
 
-}
+}   // namespace policies
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Type traits
@@ -91,7 +91,7 @@ template<>
     typedef std::wstring value_type;
 };
 
-}    // namespaces
+}    // namespace maral
 
 #endif    // MARAL_POLICIES_NAMED_HPP
 
