@@ -303,11 +303,8 @@ inline vector2<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
-    const T half = T(1) / T(2);
-#else
-    constexpr T half = T(1) / T(2);
-#endif  //BOOST_MSVC
+
+    BOOST_CONSTEXPR_OR_CONST T half = T(1) / T(2);
     r[0] = (v1[0] + v2[0]) * half;
     r[1] = (v1[1] + v2[1]) * half;
     return r;
@@ -790,11 +787,8 @@ inline vector3<T>& middle(
     static_assert(
         std::is_floating_point<T>::value,
         "need a float type :(");
-#if BOOST_WORKAROUND(BOOST_MSVC, >= 1800)
-    const T half = T(1) / T(2);
-#else
-    constexpr T half = T(1) / T(2);
-#endif  //BOOST_MSVC
+
+    BOOST_CONSTEXPR_OR_CONST T half = T(1) / T(2);
     r[0] = (v1[0] + v2[0]) * half;
     r[1] = (v1[1] + v2[1]) * half;
     r[2] = (v1[2] + v2[2]) * half;
