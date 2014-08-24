@@ -15,6 +15,7 @@
     <ClInclude Include="src\maral\format.hpp" />
     <ClInclude Include="src\maral\hierarchical.hpp" />
     <ClInclude Include="src\maral\inserters.hpp" />
+    <ClInclude Include="src\maral\ioformats\tree.hpp" />
     <ClInclude Include="src\maral\maral.hpp" />
     <ClInclude Include="src\maral\model.hpp" />
     <ClInclude Include="src\maral\molecule.hpp" />
@@ -39,6 +40,7 @@
   <ItemGroup>
     <None Include="src\maral\hierarchical.ipp" />
     <None Include="src\maral\inserters.ipp" />
+    <None Include="src\maral\ioformats\tree.ipp" />
     <None Include="src\maral\mtl\extractors.ipp" />
     <None Include="src\maral\mtl\inserters.ipp" />
     <None Include="src\maral\mtl\matrix.ipp" />

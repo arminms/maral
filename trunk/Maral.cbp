@@ -101,6 +101,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/ioformats/tree.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/ioformats/tree.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/maral.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

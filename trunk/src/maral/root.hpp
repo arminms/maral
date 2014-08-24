@@ -68,7 +68,6 @@ template
 ////@}
 
     virtual void do_print(std::ostream& out) const
-    //{   out << "ROOT";  }
     {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
@@ -102,7 +101,7 @@ public:
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {   out << policies::named<StringType>::name(); }
+    {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,10 +140,7 @@ public:
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {
-        out << policies::ordered<OrdinalType>::ordinal() << ". "
-            << policies::named<StringType>::name();
-    }
+    {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -183,11 +179,7 @@ public:
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {
-        out << policies::named<StringType>::name()
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -232,12 +224,7 @@ public:
 //@}
 
     virtual void do_print(std::ostream& out) const
-    {
-        out << policies::ordered<OrdinalType>::ordinal() << ". "
-            << policies::named<StringType>::name()
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<root_node>::type::print_root(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

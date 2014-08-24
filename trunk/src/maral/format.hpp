@@ -28,31 +28,9 @@
 
 #include <boost/noncopyable.hpp>
 
+#include <maral/ioformats/tree.hpp>
+
 namespace maral {
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
->
-    class tree_format
-:   public Base<Rt,Md,Mo,Sm,At>
-{
-public:
-    tree_format()
-    :   Base<Rt,Md,Mo,Sm,At>()
-    {}
-
-private:
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const
-    {   out << "ROOT";  }
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 

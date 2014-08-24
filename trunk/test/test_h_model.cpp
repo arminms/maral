@@ -36,6 +36,9 @@ namespace butrc = boost::unit_test::runtime_config;
 typedef root_node
 <
     data_model::hierarchical
+//,   policies::named<std::string>
+//,   policies::ordered<unsigned>
+//,   policies::position<point3f>
 > root;
 
 typedef model_node
