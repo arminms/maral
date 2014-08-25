@@ -1,15 +1,23 @@
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+//
+// Copyright (C) 2014 Armin Madadkar Sobhani
+//
+// Distributed under the Boost Software License Version 1.0. (See
+// accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+//
 // $Id$
-//------------------------------------------------------------------------------
 
 #include <fstream>
-
 #include <iostream>
 #include <list>
 #include <ratio>
 
-#define BOOST_TEST_MODULE Maral Master Test Suite
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
+//#define BOOST_TEST_MODULE Maral Master Test Suite
+//#define BOOST_TEST_DYN_LINK
+//#include <boost/test/unit_test.hpp>
+#define BOOST_TEST_MAIN
+#include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
 //#include <boost/mpl/list.hpp>

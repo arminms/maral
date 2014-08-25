@@ -66,25 +66,6 @@ template
 ,   class Sm
 ,   class At
 >
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_name(
-    std::ostream& out
-,   const Rt* rt
-,   std::false_type) const
-{
-    out << "ROOT";
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
->
 inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
     std::ostream& out
 ,   const Rt* rt
@@ -92,23 +73,6 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
 {
     out << rt->ordinal() << ". ";
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
-    std::ostream& out
-,   const Rt* rt
-,   std::false_type) const
-{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -129,23 +93,6 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
     out << mtl::horizontal
         << rt->get_center();
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
-    std::ostream& out
-,   const Rt* rt
-,   std::false_type) const
-{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
