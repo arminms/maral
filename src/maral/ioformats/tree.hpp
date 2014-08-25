@@ -53,11 +53,14 @@ private:
     //virtual void do_print_atom(std::ostream& out, const At* at) const;
 
     void print_root_name(std::ostream& out, const Rt* rt, std::true_type) const;
-    void print_root_name(std::ostream& out, const Rt* rt, std::false_type) const;
     void print_root_order(std::ostream& out, const Rt* rt, std::true_type) const;
-    void print_root_order(std::ostream& out, const Rt* rt, std::false_type) const;
     void print_root_pos(std::ostream& out, const Rt* rt, std::true_type) const;
-    void print_root_pos(std::ostream& out, const Rt* rt, std::false_type) const;
+    void print_root_name(std::ostream& out, const Rt* rt, std::false_type) const
+    {   out << "ROOT";  }
+    void print_root_order(std::ostream& out, const Rt* rt, std::false_type) const
+    {}
+    void print_root_pos(std::ostream& out, const Rt* rt, std::false_type) const
+    {}
 };
 
 #if BOOST_WORKAROUND(__clang_major__, BOOST_TESTED_AT(3))
