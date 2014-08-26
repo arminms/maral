@@ -2,8 +2,8 @@
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
-// Distributed under the Boost Software License Version 1.0. (See
-// accompanying file LICENSE_1_0.txt or copy at
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 // $Id$
@@ -21,7 +21,9 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
 //#include <boost/mpl/list.hpp>
-#include <boost/range/adaptors.hpp>
+#include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/uniqued.hpp>
+#include <boost/range/adaptor/reversed.hpp>
 #include <boost/range/algorithm.hpp>
 
 #include <maral/mtl/inserters.hpp>

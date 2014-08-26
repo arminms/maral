@@ -1,7 +1,20 @@
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+//
+// Copyright (C) 2014 Armin Madadkar Sobhani
+//
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+//
 // $Id$
-//------------------------------------------------------------------------------
 
 #include <fstream>
+
+// because of inclusion of <windows.h> by header only boost::test we need
+// the following define to prevent problem with std::numeric_limits
+#   if defined(_MSC_VER)
+#       define NOMINMAX
+#   endif  //_MSC_VER
 
 //#define BOOST_TEST_DYN_LINK
 //#include <boost/test/unit_test.hpp>
