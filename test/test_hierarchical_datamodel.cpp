@@ -26,71 +26,74 @@
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/range/algorithm.hpp>
 
+//#include <maral/root.hpp>
+//#include <maral/model.hpp>
+//#include <maral/molecule.hpp>
+//#include <maral/submolecule.hpp>
+//#include <maral/atom.hpp>
+//#include <maral/format.hpp>
+
+#include <maral/bootstraps/default.hpp>
 #include <maral/mtl/inserters.hpp>
-#include <maral/root.hpp>
-#include <maral/model.hpp>
-#include <maral/molecule.hpp>
-#include <maral/submolecule.hpp>
-#include <maral/atom.hpp>
 #include <maral/inserters.hpp>
-#include <maral/format.hpp>
+
+using boost::test_tools::output_test_stream;
+namespace butrc = boost::unit_test::runtime_config;
+
+using namespace maral;
+using namespace maral::mtl;
+using namespace maral::bootstrap::default;
 
 #define PATTERNS_FOLDER "patterns/"
 
-using boost::test_tools::output_test_stream;
-using namespace maral;
-using namespace maral::mtl;
-//using namespace maral::data_model;
-namespace butrc = boost::unit_test::runtime_config;
-
-typedef root_node
-<
-    data_model::hierarchical
+//typedef root_node
+//<
+//    data_model::hierarchical
+////,   policies::named<std::string>
+////,   policies::ordered<unsigned>
+////,   policies::position<point3f>
+//> root;
+//
+//typedef model_node
+//<
+//    data_model::hierarchical
+//,   policies::named<std::string>
+//> model;
+//
+//typedef molecule_node
+//<
+//    data_model::hierarchical
+//,   policies::named<std::string>
+//> molecule;
+//
+////typedef submolecule_node
+//typedef molecule_node
+//<
+//    data_model::hierarchical
+//,   policies::named<std::string>
+//,   policies::ordered<unsigned>
+//> residue;
+//
+//typedef atom_node
+//<
+//    data_model::hierarchical
 //,   policies::named<std::string>
 //,   policies::ordered<unsigned>
 //,   policies::position<point3f>
-> root;
-
-typedef model_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-> model;
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-> molecule;
-
-//typedef submolecule_node
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-> residue;
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<point3f>
-> atom;
-
-typedef ioformat
-<
-    root
-,   model
-,   molecule
-,   residue
-,   atom
->   format;
-
-template<> struct format_traits<root>
-{   typedef format type; };
-
+//> atom;
+//
+//typedef ioformat
+//<
+//    root
+//,   model
+//,   molecule
+//,   residue
+//,   atom
+//>   format;
+//
+//template<> struct format_traits<root>
+//{   typedef format type; };
+//
 
 struct CRN_INIT
 {
