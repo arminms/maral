@@ -115,6 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_HAS_ITERATOR_DEBUGGING=0;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +123,9 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>"$(TargetDir)\$(TargetName).exe" --result_code=no --report_level=no --detect_memory_leak=1</Command>
+      <Command>cd $(SolutionDir)\test
+"$(TargetDir)\$(TargetName).exe" --result_code=no --report_level=no --detect_memory_leak=1
+</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Auto Run Test...</Message>
@@ -171,12 +174,6 @@
   <ItemGroup>
     <ClCompile Include="test_h_model.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\boost.1.56.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.56.0.0\build\native\boost.targets')" />
-    <Import Project="..\packages\boost_regex.1.56.0.0\build\native\boost_regex.targets" Condition="Exists('..\packages\boost_regex.1.56.0.0\build\native\boost_regex.targets')" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
