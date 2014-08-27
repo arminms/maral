@@ -35,7 +35,7 @@
 #include <maral/format.hpp>
 #endif // MARAL_FORMAT_HPP
 
-namespace maral { namespace bootstrap { namespace default {
+namespace maral { namespace bootstrap { namespace basic {
 
 typedef root_node
 <
@@ -80,8 +80,8 @@ typedef ioformat
 
 }}  // namespaces
 
-template<> struct format_traits<bootstrap::default::root>
-    {   typedef bootstrap::default::format type; };
+template<> struct format_traits<bootstrap::basic::root>
+    {   typedef bootstrap::basic::format type; };
 
 }   // namespace maral
 
