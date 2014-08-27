@@ -100,6 +100,7 @@ public:
     {}
 //@}
 
+private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
 };
@@ -139,6 +140,7 @@ public:
     {}
 //@}
 
+private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
 };
@@ -178,6 +180,7 @@ public:
     {}
 //@}
 
+private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
 };
@@ -223,6 +226,7 @@ public:
     {}
 //@}
 
+private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
 };

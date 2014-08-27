@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maral\atom.hpp" />
-    <ClInclude Include="src\maral\bootstraps\default.hpp" />
+    <ClInclude Include="src\maral\bootstraps\basic.hpp" />
     <ClInclude Include="src\maral\format.hpp" />
     <ClInclude Include="src\maral\has_member.hpp" />
     <ClInclude Include="src\maral\hierarchical.hpp" />
