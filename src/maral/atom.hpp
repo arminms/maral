@@ -55,7 +55,11 @@ template
     >
 :   public data_model::composite_node<data_model::hierarchical>
 ,   public Policies...
-{};
+{
+private:
+    virtual void do_print(std::ostream& out) const
+    {   format_traits<atom_node>::type::print_atom(out, this);  }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -91,29 +95,10 @@ public:
     ,   policies::position<PositionType>(pos)
     {}
 //@}
+
 private:
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::leaf_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << std::setw(4) << policies::named<StringType>::name() << ' '
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<atom_node>::type::print_atom(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,30 +141,9 @@ public:
     ,   policies::position<PositionType>(pos)
     {}
 //@}
-private:
+
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::leaf_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << std::setw(5) << policies::ordered<OrdinalType>::ordinal() << ". "
-            << std::setw(4) << policies::named<StringType>::name() << ' '
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<atom_node>::type::print_atom(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -13,25 +13,14 @@
 #include <list>
 #include <ratio>
 
-//#define BOOST_TEST_MODULE Maral Master Test Suite
-//#define BOOST_TEST_DYN_LINK
-//#include <boost/test/unit_test.hpp>
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
-//#include <boost/mpl/list.hpp>
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/adaptor/uniqued.hpp>
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/range/algorithm.hpp>
-
-//#include <maral/root.hpp>
-//#include <maral/model.hpp>
-//#include <maral/molecule.hpp>
-//#include <maral/submolecule.hpp>
-//#include <maral/atom.hpp>
-//#include <maral/format.hpp>
 
 #include <maral/mtl/inserters.hpp>
 #include <maral/bootstraps/basic.hpp>
@@ -46,55 +35,6 @@ using namespace maral::bootstrap::basic;
 
 #define PATTERNS_FOLDER "patterns/"
 
-//typedef root_node
-//<
-//    data_model::hierarchical
-////,   policies::named<std::string>
-////,   policies::ordered<unsigned>
-////,   policies::position<point3f>
-//> root;
-//
-//typedef model_node
-//<
-//    data_model::hierarchical
-//,   policies::named<std::string>
-//> model;
-//
-//typedef molecule_node
-//<
-//    data_model::hierarchical
-//,   policies::named<std::string>
-//> molecule;
-//
-////typedef submolecule_node
-//typedef molecule_node
-//<
-//    data_model::hierarchical
-//,   policies::named<std::string>
-//,   policies::ordered<unsigned>
-//> residue;
-//
-//typedef atom_node
-//<
-//    data_model::hierarchical
-//,   policies::named<std::string>
-//,   policies::ordered<unsigned>
-//,   policies::position<point3f>
-//> atom;
-//
-//typedef ioformat
-//<
-//    root
-//,   model
-//,   molecule
-//,   residue
-//,   atom
-//>   format;
-//
-//template<> struct format_traits<root>
-//{   typedef format type; };
-//
-
 struct CRN_INIT
 {
     CRN_INIT()
@@ -104,22 +44,35 @@ struct CRN_INIT
         auto chain = make_node<molecule>("A");
 
         auto res = make_node<residue>("PRO", 5);
-        res->add(std::move(make_node<atom>( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
-        res->add(std::move(make_node<atom>("CA", 28, point3f(9.448f, 9.034f, 15.012f))));
-        res->add(std::move(make_node<atom>( "C", 29, point3f(9.288f, 7.670f, 15.606f))));
-        res->add(std::move(make_node<atom>( "O", 30, point3f(9.490f, 7.519f, 16.819f))));
-        res->add(std::move(make_node<atom>("CB", 31, point3f(8.230f, 9.957f, 15.345f))));
-        res->add(std::move(make_node<atom>("CG", 32, point3f(7.338f, 9.786f, 14.114f))));
-        res->add(std::move(make_node<atom>("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
+        res->add(std::move(make_node<atom>
+            ( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
+        res->add(std::move(make_node<atom>
+            ("CA", 28, point3f(9.448f, 9.034f, 15.012f))));
+        res->add(std::move(make_node<atom>
+            ( "C", 29, point3f(9.288f, 7.670f, 15.606f))));
+        res->add(std::move(make_node<atom>
+            ( "O", 30, point3f(9.490f, 7.519f, 16.819f))));
+        res->add(std::move(make_node<atom>
+            ("CB", 31, point3f(8.230f, 9.957f, 15.345f))));
+        res->add(std::move(make_node<atom>
+            ("CG", 32, point3f(7.338f, 9.786f, 14.114f))));
+        res->add(std::move(make_node<atom>
+            ("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
         chain->add(std::move(res));
 
         res = make_node<residue>("SER", 6);
-        res->add(std::move(make_node<atom>( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
-        res->add(std::move(make_node<atom>("CA", 35, point3f(8.673f, 5.314f, 15.279f))));
-        res->add(std::move(make_node<atom>( "C", 36, point3f(8.753f, 4.376f, 14.083f))));
-        res->add(std::move(make_node<atom>( "O", 37, point3f(8.726f, 4.858f, 12.923f))));
-        res->add(std::move(make_node<atom>("CB", 38, point3f(7.340f, 5.121f, 15.996f))));
-        res->add(std::move(make_node<atom>("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
+        res->add(std::move(make_node<atom>
+            ( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
+        res->add(std::move(make_node<atom>
+            ("CA", 35, point3f(8.673f, 5.314f, 15.279f))));
+        res->add(std::move(make_node<atom>
+            ( "C", 36, point3f(8.753f, 4.376f, 14.083f))));
+        res->add(std::move(make_node<atom>
+            ( "O", 37, point3f(8.726f, 4.858f, 12.923f))));
+        res->add(std::move(make_node<atom>
+            ("CB", 38, point3f(7.340f, 5.121f, 15.996f))));
+        res->add(std::move(make_node<atom>
+            ("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
         chain->add(std::move(res));
 
         crambin->add(std::move(chain));
@@ -644,12 +597,13 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //    boost::erase(*rt, atoms);
 //}
 
-BOOST_AUTO_TEST_CASE( Format )
-{
-    auto rt = make_node<root>();
-    std::cout << format(0) << rt.get() << std::endl;
-    std::cout << format(1) << rt.get() << std::endl;
-}
+//BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
+//{
+//    std::cout << format(0) << rt.get() << std::endl;
+//    for (auto node : *rt)
+//        std::cout << delimiters('[', ']') << separator(' ')
+//             << node << std::endl;
+//}
 
 BOOST_AUTO_TEST_SUITE_END() // H_Model
 

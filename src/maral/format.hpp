@@ -54,6 +54,14 @@ public:
 private:
     virtual void do_print_root(std::ostream& out, const Rt* rt) const
     {   out << "ROOT (PDB FORMAT)";  }
+    virtual void do_print_model(std::ostream& out, const Md* md) const
+    {   out << "MDOEL (PDB FORMAT)";  }
+    virtual void do_print_mol(std::ostream& out, const Mo* mo) const
+    {   out << "Molecule (PDB FORMAT)";  }
+    virtual void do_print_submol(std::ostream& out, const Sm* sm) const
+    {   out << "Submolecule (PDB FORMAT)";  }
+    virtual void do_print_atom(std::ostream& out, const At* at) const
+    {   out << "Atom (PDB FORMAT)";  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,12 +82,24 @@ public:
     void print_root(std::ostream& out, const Rt* rt)
     {   do_print_root(out, rt);   }
 
+    void print_model(std::ostream& out, const Md* md)
+    {   do_print_model(out, md);   }
+
+    void print_mol(std::ostream& out, const Mo* mo)
+    {   do_print_mol(out, mo);   }
+
+    void print_submol(std::ostream& out, const Sm* sm)
+    {   do_print_submol(out, sm);   }
+
+    void print_atom(std::ostream& out, const At* at)
+    {   do_print_atom(out, at);   }
+
 private:
     virtual void do_print_root(std::ostream& out, const Rt* rt) const = 0;
-    //virtual void do_print_model(std::ostream& out, const Md* md) const = 0;
-    //virtual void do_print_mol(std::ostream& out, const Mo* mo) const = 0;
-    //virtual void do_print_submol(std::ostream& out, const Sm* sm) const = 0;
-    //virtual void do_print_atom(std::ostream& out, const At* at) const = 0;
+    virtual void do_print_model(std::ostream& out, const Md* md) const = 0;
+    virtual void do_print_mol(std::ostream& out, const Mo* mo) const = 0;
+    virtual void do_print_submol(std::ostream& out, const Sm* sm) const = 0;
+    virtual void do_print_atom(std::ostream& out, const At* at) const = 0;
 
     //virtual void do_scan_root(std::istream& out, Rt* rt) const = 0;
     //virtual void do_scan_model(std::istream& out, Md* md) const = 0;
@@ -132,8 +152,17 @@ public:
     static void print_root(std::ostream& out, const Rt* rt)
     {   repo_.formats_[index(out)]->print_root(out, rt);  }
 
-    //static long get(std::ios_base& ios)
-    //{   return index(ios);  }
+    static void print_model(std::ostream& out, const Md* md)
+    {   repo_.formats_[index(out)]->print_model(out, md);  }
+
+    static void print_mol(std::ostream& out, const Mo* mo)
+    {   repo_.formats_[index(out)]->print_mol(out, mo);  }
+
+    static void print_submol(std::ostream& out, const Sm* sm)
+    {   repo_.formats_[index(out)]->print_submol(out, sm);  }
+
+    static void print_atom(std::ostream& out, const At* at)
+    {   repo_.formats_[index(out)]->print_atom(out, at);  }
 
 private:
     const long id_;

@@ -56,7 +56,11 @@ template
     >
 :   public data_model::composite_node<data_model::hierarchical>
 ,   public Policies...
-{};
+{
+private:
+    virtual void do_print(std::ostream& out) const
+    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -86,27 +90,10 @@ public:
     :   policies::named<StringType>(name)
     {}
 //@}
+
 private:
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::composite_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << this->name();
-    }
+    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,28 +130,10 @@ public:
     ,   policies::ordered<OrdinalType>(ordinal)
     {}
 //@}
+
 private:
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::composite_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << std::setw(3) << policies::ordered<OrdinalType>::ordinal() << ". "
-            << policies::named<StringType>::name();
-    }
+    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,29 +170,10 @@ public:
     ,   policies::position<PositionType>(pos)
     {}
 //@}
+
 private:
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::composite_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << policies::named<StringType>::name() << ' '
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -266,30 +216,10 @@ public:
     ,   policies::position<PositionType>(pos)
     {}
 //@}
+
 private:
     virtual void do_print(std::ostream& out) const
-    {
-        using namespace policies;
-        auto parent = data_model::composite_node<data_model_type>::parent();
-        std::string trail = (parent->children()->back() == this)
-                          ? "---\\"
-                          : "---+";
-        while (parent)
-        {
-            auto prev_parent = parent;
-            parent = parent->parent();
-            if (parent)
-                trail += (parent->children()->back() == prev_parent)
-                       ? "    "
-                       : "   |";
-        }
-        boost::reverse(trail);
-        out << trail
-            << std::setw(2) << policies::ordered<OrdinalType>::ordinal() << ". "
-            << policies::named<StringType>::name() << ' '
-            << mtl::horizontal
-            << policies::position<PositionType>::get_center();
-    }
+    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

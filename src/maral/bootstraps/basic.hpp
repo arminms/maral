@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_BOOTSTRAPS_DEFAULT_HPP
-#define MARAL_BOOTSTRAPS_DEFAULT_HPP
+#ifndef MARAL_BOOTSTRAPS_BASIC_HPP
+#define MARAL_BOOTSTRAPS_BASIC_HPP
 
 #ifndef MARAL_ROOT_HPP
 #include <maral/root.hpp>
@@ -83,6 +83,18 @@ typedef ioformat
 template<> struct format_traits<bootstrap::basic::root>
     {   typedef bootstrap::basic::format type; };
 
+template<> struct format_traits<bootstrap::basic::model>
+    {   typedef bootstrap::basic::format type; };
+
+template<> struct format_traits<bootstrap::basic::molecule>
+    {   typedef bootstrap::basic::format type; };
+
+template<> struct format_traits<bootstrap::basic::residue>
+    {   typedef bootstrap::basic::format type; };
+
+template<> struct format_traits<bootstrap::basic::atom>
+    {   typedef bootstrap::basic::format type; };
+
 }   // namespace maral
 
-#endif    // MARAL_BOOTSTRAPS_DEFAULT_HPP
+#endif    // MARAL_BOOTSTRAPS_BASIC_HPP
