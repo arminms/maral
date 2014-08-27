@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="Maral.cbp" />
+		<Project filename="test/test_mtl_point.cbp" />
+		<Project filename="test/test_mtl_vector.cbp" />
+		<Project filename="test/test_mtl_matrix.cbp" />
+		<Project filename="test/test_hierarchical_datamodel.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
