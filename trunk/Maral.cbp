@@ -81,7 +81,15 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/bootstraps/basic.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/format.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/has_member.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

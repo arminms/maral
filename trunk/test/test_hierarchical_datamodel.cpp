@@ -33,8 +33,8 @@
 //#include <maral/atom.hpp>
 //#include <maral/format.hpp>
 
-#include <maral/bootstraps/default.hpp>
 #include <maral/mtl/inserters.hpp>
+#include <maral/bootstraps/basic.hpp>
 #include <maral/inserters.hpp>
 
 using boost::test_tools::output_test_stream;
@@ -42,7 +42,7 @@ namespace butrc = boost::unit_test::runtime_config;
 
 using namespace maral;
 using namespace maral::mtl;
-using namespace maral::bootstrap::default;
+using namespace maral::bootstrap::basic;
 
 #define PATTERNS_FOLDER "patterns/"
 
