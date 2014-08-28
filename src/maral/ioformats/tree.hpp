@@ -24,9 +24,19 @@
 
 #include <type_traits>
 
+#include <boost/range/algorithm/reverse.hpp>
+
+#ifndef MARAL_MTL_INSERTERS_HPP
+#include <maral/mtl/inserters.hpp>
+#endif // MARAL_MTL_INSERTERS_HPP
+
 #ifndef MARAL_HAS_MEMBER_HPP
 #include <maral/has_member.hpp>
 #endif // MARAL_HAS_MEMBER_HPP
+
+#ifndef MARAL_IOMANIP_HPP
+#include <maral/iomanip.hpp>
+#endif // MARAL_IOMANIP_HPP
 
 namespace maral {
 

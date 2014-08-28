@@ -26,10 +26,6 @@
 #include <maral/policies.hpp>
 #endif // MARAL_POLICIES_HPP
 
-#ifndef MARAL_MTL_POINT_HPP
-#include <maral/mtl/point.hpp>
-#endif // MARAL_MTL_POINT_HPP
-
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +67,11 @@ template
     class molecule_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
+    ,   policy::named<StringType>
     ,   Policies...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policies::named<StringType>
+,   public policy::named<StringType>
 ,   public Policies...
 {
 public:
@@ -86,7 +82,7 @@ public:
 //@{
     molecule_node(
         const StringType& name = "MOL")
-    :   policies::named<StringType>(name)
+    :   policy::named<StringType>(name)
     {}
 //@}
 
@@ -106,13 +102,13 @@ template
     class molecule_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
-    ,   policies::ordered<OrdinalType>
+    ,   policy::named<StringType>
+    ,   policy::ordered<OrdinalType>
     ,   Policies...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policies::named<StringType>
-,   public policies::ordered<OrdinalType>
+,   public policy::named<StringType>
+,   public policy::ordered<OrdinalType>
 ,   public Policies...
 {
 public:
@@ -125,8 +121,8 @@ public:
     molecule_node(
         const StringType& name = "MOL"
     ,   OrdinalType ordinal = 1)
-    :   policies::named<StringType>(name)
-    ,   policies::ordered<OrdinalType>(ordinal)
+    :   policy::named<StringType>(name)
+    ,   policy::ordered<OrdinalType>(ordinal)
     {}
 //@}
 
@@ -146,13 +142,13 @@ template
     class molecule_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
-    ,   policies::position<PositionType>
+    ,   policy::named<StringType>
+    ,   policy::position<PositionType>
     ,   Policies...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policies::named<StringType>
-,   public policies::position<PositionType>
+,   public policy::named<StringType>
+,   public policy::position<PositionType>
 ,   public Policies...
 {
 public:
@@ -165,8 +161,8 @@ public:
     molecule_node(
         const StringType& name = "MOL"
     ,   const PositionType& pos = PositionType().zero())
-    :   policies::named<StringType>(name)
-    ,   policies::position<PositionType>(pos)
+    :   policy::named<StringType>(name)
+    ,   policy::position<PositionType>(pos)
     {}
 //@}
 
@@ -187,15 +183,15 @@ template
     class molecule_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
-    ,   policies::ordered<OrdinalType>
-    ,   policies::position<PositionType>
+    ,   policy::named<StringType>
+    ,   policy::ordered<OrdinalType>
+    ,   policy::position<PositionType>
     ,   Policies...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policies::named<StringType>
-,   public policies::ordered<OrdinalType>
-,   public policies::position<PositionType>
+,   public policy::named<StringType>
+,   public policy::ordered<OrdinalType>
+,   public policy::position<PositionType>
 ,   public Policies...
 {
 public:
@@ -210,9 +206,9 @@ public:
         const StringType& name = "MOL"
     ,   OrdinalType ordinal = 1
     ,   const PositionType& pos = PositionType().zero())
-    :   policies::named<StringType>(name)
-    ,   policies::ordered<OrdinalType>(ordinal)
-    ,   policies::position<PositionType>(pos)
+    :   policy::named<StringType>(name)
+    ,   policy::ordered<OrdinalType>(ordinal)
+    ,   policy::position<PositionType>(pos)
     {}
 //@}
 
@@ -220,252 +216,6 @@ private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<molecule_node>::type::print_mol(out, this);  }
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// Helper types
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed only of policies::named<std::string>
-///
-/// Convenient type to define a molecule node with only a name.
-/// \par Example:
-/// \code auto rt = make_node<molecule_s>("molecule node"); \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-> molecule_s;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed only of policies::named<std::wstring>
-///
-/// Convenient type to define a molecule node with only a name (wide version).
-/// \par Example:
-/// \code auto rt = make_node<molecule_w>("molecule node"); \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-> molecule_w;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::string> and
-/// policies::ordered<unsigned>
-///
-/// Convenient type to define a molecule node with name and serial number.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_su>("MOL", 1);
-/// auto rt2 = make_node<molecule_su>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-> molecule_su;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::wstring> and
-/// policies::ordered<unsigned>
-///
-/// Convenient type to define a molecule node with name and serial number (wide
-/// version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_su>("MOL", 1);
-/// auto rt2 = make_node<molecule_su>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-> molecule_wu;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::string> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a molecule node with name and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_s3f>("MOL", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<molecule_s3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::position<mtl::point3f>
-> molecule_s3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::wstring> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a molecule node with name and position (wide
-/// version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_w3f>("MOL", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<molecule_w3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::position<mtl::point3f>
-> molecule_w3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::string> and
-/// policies::position<mtl::point3d>
-///
-/// Convenient type to define a molecule node with name and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_s3d>("MOL", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<molecule_s3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::position<mtl::point3d>
-> molecule_s3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::wstring> and
-/// policies::position<mtl::point3d>
-///
-/// Convenient type to define a molecule node with name and position (wide
-/// version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_w3d>("MOL", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<molecule_w3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::position<mtl::point3d>
-> molecule_w3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::string>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3f>
-///
-/// Convenient type to define a molecule node with name, serial number and
-/// position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_su3f>("MOL", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<molecule_su3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3f>
-> molecule_su3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::wstring>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3f>
-///
-/// Convenient type to define a molecule node with name, serial number and
-/// position
-/// (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_wu3f>("MOL", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<molecule_wu3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3f>
-> molecule_wu3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::string>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3d>
-///
-/// Convenient type to define a molecule node with name, serial number and
-/// position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_su3d>("MOL", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<molecule_su3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3d>
-> molecule_su3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief molecule node composed of policies::named<std::wstring>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3d>
-///
-/// Convenient type to define a molecule node with name, serial number and
-/// position
-/// (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<molecule_wu3d>("MOL", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<molecule_wu3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef molecule_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3d>
-> molecule_wu3d;
 
 }    // namespace maral
 

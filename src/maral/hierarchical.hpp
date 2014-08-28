@@ -298,6 +298,23 @@ private:
 typedef abstract_node hierarchical;
 
 ////////////////////////////////////////////////////////////////////////////////
+/// \return \p out after it has been written to.
+/// \param out the stream to write to.
+/// \param p the node type to output.
+/// \remarks
+/// Outputs a string representation of the given node to the
+/// given output stream.
+
+inline std::ostream& operator<< (
+    std::ostream& out,
+    const hierarchical* node)
+{
+    BOOST_ASSERT_MSG(node, "null pointer!");
+    node->print(out);
+    return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Implementation
 
 #include <maral/hierarchical.ipp>

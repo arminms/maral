@@ -36,7 +36,7 @@ namespace maral {
 /// Because you can mix and match policies, you can achieve a combinatorial set
 /// of behaviors by using small core of elemenatry components.
 
-namespace policies {
+namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural policy for assigning name to nodes.
@@ -72,22 +72,22 @@ protected:
     T name_;
 };
 
-}   // namespace policies
+}   // namespace policy
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Type traits
 
 template<>
-    struct policy_traits< policies::named<std::string> >
+    struct policy_traits< policy::named<std::string> >
 {
-    typedef policies::named<std::string> self_type;
+    typedef policy::named<std::string> self_type;
     typedef std::string value_type;
 };
 
 template<>
-    struct policy_traits< policies::named<std::wstring> >
+    struct policy_traits< policy::named<std::wstring> >
 {
-    typedef policies::named<std::wstring> self_type;
+    typedef policy::named<std::wstring> self_type;
     typedef std::wstring value_type;
 };
 

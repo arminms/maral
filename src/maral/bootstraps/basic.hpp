@@ -45,28 +45,28 @@ typedef root_node
 typedef model_node
 <
     data_model::hierarchical
-,   policies::named<std::string>
+,   policy::named<std::string>
 >   model;
 
 typedef molecule_node
 <
     data_model::hierarchical
-,   policies::named<std::string>
+,   policy::named<std::string>
 >   molecule;
 
 typedef submolecule_node
 <
     data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
+,   policy::named<std::string>
+,   policy::ordered<unsigned>
 >   residue;
 
 typedef atom_node
 <
     data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3f>
+,   policy::named<std::string>
+,   policy::ordered<unsigned>
+,   policy::position<mtl::point3f>
 >   atom;
 
 typedef ioformat

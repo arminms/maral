@@ -18,6 +18,8 @@
 #ifndef MARAL_TRAITS_HPP
 #define MARAL_TRAITS_HPP
 
+#include <ratio>
+
 #ifndef MARAL_MTL_POINT_HPP
 #include <maral/mtl/point.hpp>
 #endif // MARAL_MTL_POINT_HPP

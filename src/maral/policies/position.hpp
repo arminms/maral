@@ -23,7 +23,7 @@
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
-namespace maral { namespace policies {
+namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural policy for assigning position to nodes.
