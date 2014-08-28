@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_mtl_vector", "test\tes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_mtl_matrix", "test\test_mtl_matrix\test_mtl_matrix.vcxproj", "{5E10E774-23E9-4AC6-AFB0-185B0AB984C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_ioformat_tree", "test\test_ioformat_tree\test_ioformat_tree.vcxproj", "{7668B70B-A0BD-4280-9747-6639104D18FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -80,6 +82,17 @@ Global
 		{5E10E774-23E9-4AC6-AFB0-185B0AB984C4}.Release|Win32.Build.0 = Release|Win32
 		{5E10E774-23E9-4AC6-AFB0-185B0AB984C4}.Release|x64.ActiveCfg = Release|x64
 		{5E10E774-23E9-4AC6-AFB0-185B0AB984C4}.Release|x64.Build.0 = Release|x64
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|Win32.Build.0 = Debug|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|x64.ActiveCfg = Debug|x64
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Debug|x64.Build.0 = Debug|x64
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Release|Win32.ActiveCfg = Release|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Release|Win32.Build.0 = Release|Win32
+		{7668B70B-A0BD-4280-9747-6639104D18FB}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
