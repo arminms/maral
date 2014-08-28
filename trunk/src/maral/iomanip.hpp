@@ -48,9 +48,41 @@ using mtl::nospaces;
 using mtl::colmajor;
 using mtl::rowmajor;
 
+using orientation = mtl::orientation;
+using space = mtl::space;
+using order = mtl::order;
 using setew = mtl::setew;
 using separator = mtl::separator;
 using delimiters = mtl::delimiters;
+
+////////////////////////////////////////////////////////////////////////////////
+// Depth Output Stream Manipulator
+
+typedef zero_arg_iomanip<bool, 3> depth;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \p os after manipulating the output.
+/// \param os the stream to manipulate.
+/// \remarks
+/// Stream manipulator for sending all the children to output stream.
+
+template<typename CharT, typename Traits>
+inline
+std::basic_ostream<CharT, Traits>&
+deep(std::basic_ostream<CharT, Traits>& os)
+{
+    depth::set(os);
+    return os;
+}
+
+template<typename CharT, typename Traits>
+inline
+std::basic_ostream<CharT, Traits>&
+shallow(std::basic_ostream<CharT, Traits>& os)
+{
+    depth::unset(os);
+    return os;
+}
 
 }    // namespace maral
 

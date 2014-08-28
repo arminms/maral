@@ -8,10 +8,8 @@
 //
 // $Id$
 
-#include <fstream>
 #include <iostream>
 #include <list>
-#include <ratio>
 
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
@@ -20,17 +18,17 @@
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/adaptor/uniqued.hpp>
 #include <boost/range/adaptor/reversed.hpp>
-#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm/count_if.hpp>
+#include <boost/range/algorithm/for_each.hpp>
 
-#include <maral/mtl/inserters.hpp>
 #include <maral/bootstraps/basic.hpp>
-#include <maral/inserters.hpp>
+#include <maral/iomanip.hpp>
 
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
 
 using namespace maral;
-using namespace maral::mtl;
 using namespace maral::bootstrap::basic;
 
 #define PATTERNS_FOLDER "patterns/"
@@ -39,6 +37,7 @@ struct CRN_INIT
 {
     CRN_INIT()
     {
+        using mtl::point3f;
         rt = make_node<root>();
         auto crambin = make_node<model>("1CRN");
         auto chain = make_node<molecule>("A");
@@ -82,10 +81,6 @@ struct CRN_INIT
     node<root> rt;
 };
 
-BOOST_AUTO_TEST_SUITE( Maral )
-
-BOOST_AUTO_TEST_SUITE( H_Model )
-
 BOOST_AUTO_TEST_CASE( Size_Test )
 {
     node<atom> atm(new atom("atom1"));
@@ -95,8 +90,8 @@ BOOST_AUTO_TEST_CASE( Size_Test )
 //    BOOST_CHECK(sizeof(data_model::composite_node<hierarchical>) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(data_model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
 //    BOOST_CHECK(sizeof(data_model::root_node<hierarchical>) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(policies::named<std::string>) == sizeof(std::string));
-    BOOST_CHECK(sizeof(policies::ordered<unsigned>) == sizeof(unsigned));
+    BOOST_CHECK(sizeof(policy::named<std::string>) == sizeof(std::string));
+    BOOST_CHECK(sizeof(policy::ordered<unsigned>) == sizeof(unsigned));
 
     //BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
     //BOOST_CHECK(sizeof(molecule) == (6 * sizeof(atm)));
@@ -107,7 +102,7 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
     node<molecule> mol = make_node<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
     BOOST_CHECK(dynamic_cast<data_model::composite_node<hierarchical>*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<policies::named<std::string>*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<policy::named<std::string>*>(mol.get()));
     BOOST_CHECK(dynamic_cast<data_model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<data_model::root_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
@@ -147,22 +142,6 @@ BOOST_AUTO_TEST_CASE( Composite_Add )
     //for (auto atm : *rt)
     //    std::cout << delimiters('[', ']') << separator(' ')
     //         << atm << std::endl;
-}
-
-BOOST_FIXTURE_TEST_CASE( Root_Tree, CRN_INIT )
-{
-    output_test_stream cout(
-        PATTERNS_FOLDER"root_tree.txt",
-        !butrc::save_pattern());
-
-    cout << rt.get() << std::endl;
-    BOOST_CHECK(cout.match_pattern());
-    for (auto node : *rt)
-    {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
-        BOOST_CHECK(cout.match_pattern());
-    }
 }
 
 BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
@@ -567,11 +546,11 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
                     [](atom* atm) { atm->center() = { 1.0f, 2.0f, 3.0f }; } );
 //                    [](atom* atm) { atm->center()[0] = 1.0f; std::cout << (*atm)[0] << std::endl; } );
 //    std::cout << std::rank<point3<float>::>::value << std::endl;
-    static_assert(std::is_base_of<policies::position<point3<float> >, atom>::value,
-                  "atom must have a position policy");
-    static_assert(std::is_base_of<policies::position<point3f>, atom>::value,
-                  "atom must have a position policy");
-//    static_assert(std::is_base_of<policies::position<point3<float> >, molecule>::value,
+    //static_assert(std::is_base_of<policy::position<point3<float> >, atom>::value,
+    //              "atom must have a position policy");
+    //static_assert(std::is_base_of<policy::position<point3f>, atom>::value,
+    //              "atom must have a position policy");
+//    static_assert(std::is_base_of<policy::position<point3<float> >, molecule>::value,
 //                  "molecule must have a position policy");
 //    std::cout << pntvec_traits<point3f>::extent::den << std::endl;
 //    static_assert(pntvec_traits<point3f>::extent::den > 0, "out of range!");
@@ -604,7 +583,3 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //        std::cout << delimiters('[', ']') << separator(' ')
 //             << node << std::endl;
 //}
-
-BOOST_AUTO_TEST_SUITE_END() // H_Model
-
-BOOST_AUTO_TEST_SUITE_END() // Maral
