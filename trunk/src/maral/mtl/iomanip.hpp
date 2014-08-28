@@ -25,9 +25,8 @@
 
 namespace maral { namespace mtl {
 
-/// \ingroup omanip
-/// \name Output Stream Manipulators
-/// @{
+////////////////////////////////////////////////////////////////////////////////
+// skip_if_null manipulator
 
 template <typename Argument>
 class skip_if_null
@@ -199,6 +198,49 @@ rowmajor(std::basic_istream<CharT, Traits>& is)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// One-argument Input Stream Manipulator Template
+
+template <typename Argument, int Id>
+class one_arg_imanip
+{
+    static_assert(
+    std::is_integral<Argument>::value,
+        "need an integral type :(");
+
+public:
+    enum { id = Id };
+
+    one_arg_imanip(const Argument& arg)
+    : arg_(arg)
+    {}
+
+    static long get(std::ios_base& ios)
+    {   return one_arg_imanip::flag(ios);  }
+
+    static void set(std::ios_base& ios, long flag)
+    {   one_arg_imanip::flag(ios) = flag;    }
+
+private:
+    const Argument arg_;
+
+    template<typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator<< (
+        std::basic_istream<CharT,Traits>& is
+    ,   const one_arg_imanip& iman)
+    {
+        set(is, long(iman.arg_));
+        return is;
+    }
+
+    static long& flag(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // One-argument Output Stream Manipulator Template
 
 template <typename Argument, int Id>
@@ -363,62 +405,7 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// One-argument Output Stream Manipulators
-
-/// @}
-
-/// \ingroup imanip
-/// \name Input Stream Manipulators
-/// @{
-
-////////////////////////////////////////////////////////////////////////////////
-// One-argument Input Stream Manipulator Template
-
-template <typename Argument, int Id>
-class one_arg_imanip
-{
-    static_assert(
-    std::is_integral<Argument>::value,
-        "need an integral type :(");
-
-public:
-    enum { id = Id };
-
-    one_arg_imanip(const Argument& arg)
-    : arg_(arg)
-    {}
-
-    static long get(std::ios_base& ios)
-    {   return one_arg_imanip::flag(ios);  }
-
-    static void set(std::ios_base& ios, long flag)
-    {   one_arg_imanip::flag(ios) = flag;    }
-
-private:
-    const Argument arg_;
-
-    template<typename CharT, typename Traits>
-    friend std::basic_istream<CharT,Traits>&
-    operator<< (
-        std::basic_istream<CharT,Traits>& is
-    ,   const one_arg_imanip& iman)
-    {
-        set(is, long(iman.arg_));
-        return is;
-    }
-
-    static long& flag(std::ios_base& ios)
-    {
-        static const int iword_idx = std::ios_base::xalloc();
-        return ios.iword(iword_idx);
-    }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-// One-argument Input Stream Manipulators
-
-////////////////////////////////////////////////////////////////////////////////
-// Two-arguments Output Stream Manipulator Template
+// Two-arguments Input/Output Stream Manipulator Template
 
 template <typename Arg1, typename Arg2, int Id>
 class two_arg_iomanip

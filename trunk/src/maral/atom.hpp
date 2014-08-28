@@ -26,10 +26,6 @@
 #include <maral/policies.hpp>
 #endif // MARAL_POLICIES_HPP
 
-#ifndef MARAL_MTL_POINT_HPP
-#include <maral/mtl/point.hpp>
-#endif // MARAL_MTL_POINT_HPP
-
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,13 +68,13 @@ template
     class atom_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
-    ,   policies::position<PositionType>
+    ,   policy::named<StringType>
+    ,   policy::position<PositionType>
     ,   Policies...
     >
 :   public data_model::leaf_node<data_model::hierarchical>
-,   public policies::named<StringType>
-,   public policies::position<PositionType>
+,   public policy::named<StringType>
+,   public policy::position<PositionType>
 ,   public Policies...
 {
 public:
@@ -91,8 +87,8 @@ public:
     atom_node(
         const StringType& name = "ATOM"
     ,   const PositionType& pos = PositionType().zero())
-    :   policies::named<StringType>(name)
-    ,   policies::position<PositionType>(pos)
+    :   policy::named<StringType>(name)
+    ,   policy::position<PositionType>(pos)
     {}
 //@}
 
@@ -113,15 +109,15 @@ template
     class atom_node
     <
         data_model::hierarchical
-    ,   policies::named<StringType>
-    ,   policies::ordered<OrdinalType>
-    ,   policies::position<PositionType>
+    ,   policy::named<StringType>
+    ,   policy::ordered<OrdinalType>
+    ,   policy::position<PositionType>
     ,   Policies...
     >
 :   public data_model::leaf_node<data_model::hierarchical>
-,   public policies::named<StringType>
-,   public policies::ordered<OrdinalType>
-,   public policies::position<PositionType>
+,   public policy::named<StringType>
+,   public policy::ordered<OrdinalType>
+,   public policy::position<PositionType>
 ,   public Policies...
 {
 public:
@@ -136,188 +132,15 @@ public:
         const StringType& name = "ATOM"
     ,   OrdinalType ordinal = 1
     ,   const PositionType& pos = PositionType().zero())
-    :   policies::named<StringType>(name)
-    ,   policies::ordered<OrdinalType>(ordinal)
-    ,   policies::position<PositionType>(pos)
+    :   policy::named<StringType>(name)
+    ,   policy::ordered<OrdinalType>(ordinal)
+    ,   policy::position<PositionType>(pos)
     {}
 //@}
 
     virtual void do_print(std::ostream& out) const
     {   format_traits<atom_node>::type::print_atom(out, this);  }
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// Helper types
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::string> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a atom node with name and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_s3f>("ATOM", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<atom_s3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::position<mtl::point3f>
-> atom_s3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::wstring> and
-/// policies::position<mtl::point3f>
-///
-/// Convenient type to define a atom node with name and position (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_w3f>("ATOM", point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<atom_w3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::position<mtl::point3f>
-> atom_w3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::string> and
-/// policies::position<mtl::point3d>
-///
-/// Convenient type to define a atom node with name and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_s3d>("ATOM", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<atom_s3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::position<mtl::point3d>
-> atom_s3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::wstring> and
-/// policies::position<mtl::point3d>
-///
-/// Convenient type to define a atom node with name and position (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_w3d>("ATOM", point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<atom_w3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::position<mtl::point3d>
-> atom_w3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::string>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3f>
-///
-/// Convenient type to define a atom node with name, serial number and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_su3f>("ATOM", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<atom_su3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3f>
-> atom_su3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::wstring>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3f>
-///
-/// Convenient type to define a atom node with name, serial number and position
-/// (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_wu3f>("ATOM", 1, point3f(0.0f, 0.0f, 0.0f));
-/// auto rt2 = make_node<atom_wu3f>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3f>
-> atom_wu3f;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::string>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3d>
-///
-/// Convenient type to define a atom node with name, serial number and position.
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_su3d>("ATOM", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<atom_su3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::string>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3d>
-> atom_su3d;
-
-////////////////////////////////////////////////////////////////////////////////
-/// \brief atom node composed of policies::named<std::wstring>,
-/// policies::ordered<unsigned> and policies::position<mtl::point3d>
-///
-/// Convenient type to define a atom node with name, serial number and position
-/// (wide version).
-/// \par Example:
-/// \code
-/// auto rt1 = make_node<atom_wu3d>("ATOM", 1, point3d(0.0, 0.0, 0.0));
-/// auto rt2 = make_node<atom_wu3d>();
-/// assert(rt1->name() == rt2->name();
-/// assert(rt1->ordinal() == rt2->ordinal();
-/// assert(rt1->center() == rt2->center();
-/// \endcode
-
-typedef atom_node
-<
-    data_model::hierarchical
-,   policies::named<std::wstring>
-,   policies::ordered<unsigned>
-,   policies::position<mtl::point3d>
-> atom_wu3d;
 
 }    // namespace maral
 

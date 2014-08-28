@@ -37,7 +37,7 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_name(
 ,   const Rt* rt
 ,   std::true_type) const
 {
-    //out << reinterpret_cast<policies::named>(rt)->named();
+    //out << reinterpret_cast<policy::named>(rt)->named();
     out << rt->name() << ' ';
 }
 
@@ -68,7 +68,7 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
 ,   const Rt* rt
 ,   std::true_type) const
 {
-    out << mtl::horizontal << rt->get_center();
+    out << horizontal << rt->get_center();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_pos(
 ,   const Md* md
 ,   std::true_type) const
 {
-    out << mtl::horizontal << md->get_center();
+    out << horizontal << md->get_center();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_pos(
 ,   const Mo* mo
 ,   std::true_type) const
 {
-    out << mtl::horizontal << ' ' << mo->get_center();
+    out << horizontal << ' ' << mo->get_center();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +299,7 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_pos(
 ,   const Sm* sm
 ,   std::true_type) const
 {
-    out << mtl::horizontal << ' ' << sm->get_center();
+    out << horizontal << ' ' << sm->get_center();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -376,5 +376,5 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << mtl::horizontal << ' ' << at->get_center();
+    out << horizontal << ' ' << at->get_center();
 }

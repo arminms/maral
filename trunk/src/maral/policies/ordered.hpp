@@ -19,7 +19,7 @@
 #ifndef MARAL_POLICIES_ORDERED_HPP
 #define MARAL_POLICIES_ORDERED_HPP
 
-namespace maral { namespace policies {
+namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural policy for assigning serial numbers to nodes.
