@@ -55,6 +55,9 @@ template
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<atom_node>::type::print_atom(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<atom_node>::type::scan_atom(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +98,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<atom_node>::type::print_atom(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<atom_node>::type::scan_atom(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,6 +146,9 @@ public:
 
     virtual void do_print(std::ostream& out) const
     {   format_traits<atom_node>::type::print_atom(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<atom_node>::type::scan_atom(in, this);  }
 };
 
 }    // namespace maral

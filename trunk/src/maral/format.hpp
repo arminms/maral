@@ -29,40 +29,9 @@
 #include <boost/noncopyable.hpp>
 
 #include <maral/ioformats/tree.hpp>
+#include <maral/ioformats/pdb.hpp>
 
 namespace maral {
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
->
-    class pdb_format
-:   public Base<Rt,Md,Mo,Sm,At>
-{
-public:
-    pdb_format()
-    :   Base<Rt,Md,Mo,Sm,At>()
-    {}
-
-private:
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const
-    {   out << "ROOT (PDB FORMAT)";  }
-    virtual void do_print_model(std::ostream& out, const Md* md) const
-    {   out << "MDOEL (PDB FORMAT)";  }
-    virtual void do_print_mol(std::ostream& out, const Mo* mo) const
-    {   out << "Molecule (PDB FORMAT)";  }
-    virtual void do_print_submol(std::ostream& out, const Sm* sm) const
-    {   out << "Submolecule (PDB FORMAT)";  }
-    virtual void do_print_atom(std::ostream& out, const At* at) const
-    {   out << "Atom (PDB FORMAT)";  }
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Abstract Base Class for Input/Output Formats
@@ -94,6 +63,22 @@ public:
     void print_atom(std::ostream& out, const At* at)
     {   do_print_atom(out, at);   }
 
+
+    void scan_root(std::istream& in, Rt* rt)
+    {   do_scan_root(in, rt);   }
+
+    void scan_model(std::istream& in, Md* md)
+    {   do_scan_model(in, md);   }
+
+    void scan_mol(std::istream& in, Mo* mo)
+    {   do_scan_mol(in, mo);   }
+
+    void scan_submol(std::istream& in, Sm* sm)
+    {   do_scan_submol(in, sm);   }
+
+    void scan_atom(std::istream& in, At* at)
+    {   do_scan_atom(in, at);   }
+
 private:
     virtual void do_print_root(std::ostream& out, const Rt* rt) const = 0;
     virtual void do_print_model(std::ostream& out, const Md* md) const = 0;
@@ -101,11 +86,11 @@ private:
     virtual void do_print_submol(std::ostream& out, const Sm* sm) const = 0;
     virtual void do_print_atom(std::ostream& out, const At* at) const = 0;
 
-    //virtual void do_scan_root(std::istream& out, Rt* rt) const = 0;
-    //virtual void do_scan_model(std::istream& out, Md* md) const = 0;
-    //virtual void do_scan_mol(std::istream& out, Mo* mo) const = 0;
-    //virtual void do_scan_submol(std::istream& out, Sm* sm) const = 0;
-    //virtual void do_scan_atom(std::istream& out, At* at) const = 0;
+    virtual void do_scan_root(std::istream& in, Rt* rt) const = 0;
+    virtual void do_scan_model(std::istream& in, Md* md) const = 0;
+    virtual void do_scan_mol(std::istream& in, Mo* mo) const = 0;
+    virtual void do_scan_submol(std::istream& in, Sm* sm) const = 0;
+    virtual void do_scan_atom(std::istream& in, At* at) const = 0;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +130,12 @@ template
     class ioformat
 {
 public:
+    typedef Rt root_type;
+    typedef Md model_type;
+    typedef Mo mol_type;
+    typedef Sm submol_type;
+    typedef At atom_type;
+
     ioformat(const long& id)
     :   id_(id)
     {}
@@ -163,6 +154,21 @@ public:
 
     static void print_atom(std::ostream& out, const At* at)
     {   repo_.formats_[index(out)]->print_atom(out, at);  }
+
+    static void scan_root(std::istream& in, Rt* rt)
+    {   repo_.formats_[index(in)]->scan_root(in, rt);  }
+
+    static void scan_model(std::istream& in, Md* md)
+    {   repo_.formats_[index(in)]->scan_model(in, md);  }
+
+    static void scan_mol(std::istream& in, Mo* mo)
+    {   repo_.formats_[index(in)]->scan_mol(in, mo);  }
+
+    static void scan_submol(std::istream& in, Sm* sm)
+    {   repo_.formats_[index(in)]->scan_submol(in, sm);  }
+
+    static void scan_atom(std::istream& in, At* at)
+    {   repo_.formats_[index(in)]->scan_atom(in, at);  }
 
 private:
     const long id_;
