@@ -6,5 +6,6 @@
 		<Project filename="test/test_mtl_vector.cbp" />
 		<Project filename="test/test_mtl_matrix.cbp" />
 		<Project filename="test/test_hierarchical_datamodel.cbp" />
+		<Project filename="test/test_ioformat_tree.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -54,6 +54,9 @@ template
 {
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<root_node>::type::scan_root(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +91,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<root_node>::type::scan_root(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -128,6 +134,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<root_node>::type::scan_root(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +177,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<root_node>::type::scan_root(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,6 +226,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<root_node>::type::scan_root(in, this);  }
 };
 
 }    // namespace maral

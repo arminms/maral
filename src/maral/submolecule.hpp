@@ -56,6 +56,9 @@ template
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +93,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +136,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +179,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +228,9 @@ public:
 private:
     virtual void do_print(std::ostream& out) const
     {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+
+    virtual void do_scan(std::istream& in)
+    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 }    // namespace maral

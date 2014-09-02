@@ -9,6 +9,7 @@
 // $Id$
 
 #include <iostream>
+#include <fstream>
 
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
@@ -218,4 +219,14 @@ BOOST_FIXTURE_TEST_CASE( Atom_Tree, CRN_INIT )
     cout << delimiters('[', ']') << separator(' ')
          << deep << atm << std::endl;
     BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_AUTO_TEST_CASE(iFormat_PDB)
+{
+    std::ifstream infile("pdb/3SDY.pdb");
+    auto rt = make_node<root>();
+    infile >> format(1) >> rt.get();
+    std::ofstream outfile("pdb/3SDY_tree.txt");
+    outfile << delimiters('[', ']') << separator(' ')
+            << deep << rt.get();
 }

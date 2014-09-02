@@ -101,10 +101,6 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/maral/inserters.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
 		<Unit filename="src/maral/inserters.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -114,6 +110,10 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/maral/ioformats/tree.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/iomanip.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

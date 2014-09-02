@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="src\maral\atom.hpp" />
     <ClInclude Include="src\maral\bootstraps\basic.hpp" />
+    <ClInclude Include="src\maral\bootstraps\test.hpp" />
     <ClInclude Include="src\maral\format.hpp" />
     <ClInclude Include="src\maral\has_member.hpp" />
     <ClInclude Include="src\maral\hierarchical.hpp" />
+    <ClInclude Include="src\maral\ioformats\pdb.hpp" />
     <ClInclude Include="src\maral\ioformats\tree.hpp" />
     <ClInclude Include="src\maral\iomanip.hpp" />
     <ClInclude Include="src\maral\maral.hpp" />
@@ -49,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\maral\hierarchical.ipp" />
+    <None Include="src\maral\ioformats\pdb.ipp" />
     <None Include="src\maral\ioformats\tree.ipp" />
     <None Include="src\maral\mtl\extractors.ipp" />
     <None Include="src\maral\mtl\inserters.ipp" />

@@ -282,6 +282,9 @@ public:
 
     void print(std::ostream& out) const
     {   return do_print(out);   }
+
+    void scan(std::istream& in)
+    {   return do_scan(in);   }
 //@}
 
 // Implementation
@@ -293,6 +296,7 @@ private:
     virtual bool do_change_parent(
            composite_node<abstract_node>* new_parent) = 0;
     virtual void do_print(std::ostream& out) const = 0;
+    virtual void do_scan(std::istream& in) = 0;
 };
 
 typedef abstract_node hierarchical;
@@ -306,12 +310,28 @@ typedef abstract_node hierarchical;
 /// given output stream.
 
 inline std::ostream& operator<< (
-    std::ostream& out,
-    const hierarchical* node)
+    std::ostream& out
+,   const hierarchical* node)
 {
     BOOST_ASSERT_MSG(node, "null pointer!");
     node->print(out);
     return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \return \p in after it has been written to.
+/// \param in the stream to read from.
+/// \param node the node to read.
+/// \remarks
+/// Reads the node from given input stream.
+
+inline std::istream& operator>> (
+    std::istream& in
+,   hierarchical* node)
+{
+    BOOST_ASSERT_MSG(node, "null pointer!");
+    node->scan(in);
+    return in;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
