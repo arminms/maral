@@ -58,8 +58,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
             }
         }
     }
-    //if (!in)
-    //    rt->remove_all()
+    //if (!in) rt->children()->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,17 +126,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
         {
-            if (line[21] != ' ')
-            {
-                do
-                {
-                    auto mol = make_node<Mo>();
-                    scan_mol(in, line, mol.get());
-                    md->add(std::move(mol));
-                    record_name = line.substr(0, 6);
-                } while ("HETATM" == record_name);
-            }
-            else
+            if (line[21] == ' ')
             {
                 if ("   " == line.substr(17, 3))
                 {
@@ -152,8 +141,19 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
                     md->add(std::move(submol));
                 }
             }
+            else
+            {
+                do
+                {
+                    auto mol = make_node<Mo>();
+                    scan_mol(in, line, mol.get());
+                    md->add(std::move(mol));
+                    record_name = line.substr(0, 6);
+                } while ("HETATM" == record_name);
+            }
         }
     }
+    //if (!in) md->remove_all();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -217,26 +217,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
 {
     char chain = line[21];
     scan_mol_name(line, mo, has_member_name<Mo>());
-    if ("   " == line.substr(17, 3))
-    {
-        auto atm = make_node<At>();
-        scan_atom(in, line, atm.get());
-        mo->add(std::move(atm));
-    }
-    else
-    {
-        //std::string record_name;
-        //do
-        //{
-            auto submol = make_node<Sm>();
-            scan_submol(in, line, submol.get());
-            mo->add(std::move(submol));
-        //    record_name = line.substr(0, 6);
-        //} while (( "ATOM  " == record_name
-        //        || "HETATM" == record_name)
-        //        && line[21] == chain);
-    }
-    while (getline(in, line))
+    do
     {
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
@@ -262,13 +243,10 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
             if (line[21] != chain)
                 break;
         }
-        //record_name = line.substr(0, 6);
         if ("TER   " == record_name)
-        {
-            //if (!in) mo->remove_all()
             break;
-        }
-    }
+    } while (getline(in, line));
+    //if (!in) mo->remove_all();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -329,14 +307,12 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
 ,   std::string& line
 ,   Sm* sm) const
 {
-    scan_submol_name(line, sm, has_member_name<Sm>());
-    scan_submol_order(line, sm, has_member_ordinal<Sm>());
-    auto atm = make_node<At>();
-    scan_atom(in, line, atm.get());
-    sm->add(std::move(atm));
     char chain = line[21];
     std::string res_seq = line.substr(22, 4);
-    while (getline(in, line))
+
+    scan_submol_name(line, sm, has_member_name<Sm>());
+    scan_submol_order(line, sm, has_member_ordinal<Sm>());
+    do
     {
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
@@ -345,7 +321,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
                 break;
             if (res_seq == line.substr(22, 4))
             {
-                atm = make_node<At>();
+                auto atm = make_node<At>();
                 scan_atom(in, line, atm.get());
                 sm->add(std::move(atm));
             }
@@ -356,7 +332,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
             continue;
         else
             break;
-    }
+    } while (getline(in, line));
     //if (!in) sm->remove_all();
 }
 

@@ -15,6 +15,7 @@
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
+#include <boost/range/distance.hpp>
 
 #include <maral/bootstraps/basic.hpp>
 #include <maral/iomanip.hpp>
@@ -221,7 +222,29 @@ BOOST_FIXTURE_TEST_CASE( Atom_Tree, CRN_INIT )
     BOOST_CHECK(cout.match_pattern());
 }
 
-BOOST_AUTO_TEST_CASE(iFormat_PDB)
+BOOST_AUTO_TEST_CASE(PDB_1CRN)
+{
+    std::ifstream infile("pdb/1CRN.pdb");
+    auto rt = make_node<root>();
+    infile >> format(1) >> rt.get();
+    std::ofstream outfile("pdb/1CRN_tree.txt");
+    outfile << delimiters('[', ']') << separator(' ')
+            << deep << rt.get();
+    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //327
+}
+
+BOOST_AUTO_TEST_CASE(PDB_3NY8)
+{
+    std::ifstream infile("pdb/3NY8.pdb");
+    auto rt = make_node<root>();
+    infile >> format(1) >> rt.get();
+    std::ofstream outfile("pdb/3NY8_tree.txt");
+    outfile << delimiters('[', ']') << separator(' ')
+            << deep << rt.get();
+    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //3698
+}
+
+BOOST_AUTO_TEST_CASE(PDB_3SDY)
 {
     std::ifstream infile("pdb/3SDY.pdb");
     auto rt = make_node<root>();
@@ -229,4 +252,5 @@ BOOST_AUTO_TEST_CASE(iFormat_PDB)
     std::ofstream outfile("pdb/3SDY_tree.txt");
     outfile << delimiters('[', ']') << separator(' ')
             << deep << rt.get();
+    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //14620
 }

@@ -45,11 +45,7 @@ namespace maral {
 template
 <
     template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
+,   class Rt, class Md, class Mo, class Sm, class At
 >
     class tree_format
 :   public Base<Rt,Md,Mo,Sm,At>
