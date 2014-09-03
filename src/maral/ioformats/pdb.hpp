@@ -39,11 +39,7 @@ namespace maral {
 template
 <
     template <class,class,class,class,class> class Base
-,   class Rt
-,   class Md
-,   class Mo
-,   class Sm
-,   class At
+,   class Rt, class Md, class Mo, class Sm, class At
 >
     class pdb_format
 :   public Base<Rt,Md,Mo,Sm,At>
