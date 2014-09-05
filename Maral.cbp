@@ -209,6 +209,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/policies/chainid.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/policies/named.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

@@ -144,13 +144,13 @@ private:
 template <class T>
 struct has_name_not_chain_id
 :   public std::integral_constant
-    <bool, !has_member_chain_id<T>::value && has_member_name<T>::value>
+    <bool, !has_member_chainid<T>::value && has_member_name<T>::value>
 {};
 
 template <class T>
 struct has_no_name_n_chain_id
 :   public std::integral_constant
-    <bool, !(has_member_chain_id<T>::value && has_member_name<T>::value)>
+    <bool, !(has_member_chainid<T>::value && has_member_name<T>::value)>
 {};
 
 };

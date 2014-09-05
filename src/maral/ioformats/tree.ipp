@@ -192,7 +192,7 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_mol(
     out << trail;
     print_mol_order(out, mo, has_member_ordinal<Mo>());
     print_void_mol_name(out, mo, has_no_name_n_chain_id<Mo>());
-    print_mol_chain_id(out, mo, has_member_chain_id<Mo>());
+    print_mol_chain_id(out, mo, has_member_chainid<Mo>());
     print_mol_name(out, mo, has_member_name<Mo>());
     //print_mol_name(out, mo, has_name_not_chain_id<Mo>());
     print_mol_pos(out, mo, has_member_position<Mo>());

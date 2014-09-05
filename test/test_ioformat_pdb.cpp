@@ -18,7 +18,12 @@
 #include <boost/range/distance.hpp>
 
 //#include <boost/iostreams/filtering_streambuf.hpp>
+//#include <boost/iostreams/filtering_stream.hpp>
 //#include <boost/iostreams/filter/gzip.hpp>
+//#include <boost/iostreams/device/file_descriptor.hpp>
+
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
 
 #include <maral/bootstraps/basic.hpp>
 #include <maral/iomanip.hpp>
@@ -81,17 +86,22 @@ BOOST_AUTO_TEST_CASE(PDB_NoChain_NoRes)
     std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //14620
 }
 
-//BOOST_AUTO_TEST_CASE(PDB_Test_Compress)
-//{
-//    namespace io = boost::iostreams;
-//
-//    std::ifstream infile("pdb/3NY8.pdb");
-//    auto rt = make_node<root>();
-//    infile >> format(1) >> rt.get();
-//
-//    std::ofstream outfile("pdb/3NY8_tree.gzip");
-//    io::filtering_streambuf<io::output> out;
+BOOST_AUTO_TEST_CASE(PDB_Test_Compress)
+{
+    namespace io = boost::iostreams;
+
+    std::ifstream in("pdb/3NY8.pdb");
+    auto rt = make_node<root>();
+    in >> format(1) >> rt.get();
+
+//    io::filtering_ostream out;
 //    out.push(io::gzip_compressor());
-//    out.push(outfile);
-//    outfile << delimiters('[', ']') << separator(' ') << rt.get();
-//}
+//    out.push(io::file_descriptor_sink("pdb/3NY8_tree.gz"));
+//    out << delimiters('[', ']') << separator(' ') << rt.get();
+
+    std::ofstream file("pdb/3NY8_tree.gz", std::ios_base::out | std::ios_base::binary);
+    io::filtering_streambuf<io::output> out;
+    out.push(io::gzip_compressor(9));
+    out.push(file);
+    file << delimiters('[', ']') << separator(' ') << rt.get();
+}
