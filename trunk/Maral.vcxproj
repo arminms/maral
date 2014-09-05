@@ -41,6 +41,7 @@
     <ClInclude Include="src\maral\mtl\vector.hpp" />
     <ClInclude Include="src\maral\node.hpp" />
     <ClInclude Include="src\maral\policies.hpp" />
+    <ClInclude Include="src\maral\policies\chainid.hpp" />
     <ClInclude Include="src\maral\policies\named.hpp" />
     <ClInclude Include="src\maral\policies\ordered.hpp" />
     <ClInclude Include="src\maral\policies\position.hpp" />

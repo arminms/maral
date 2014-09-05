@@ -15,7 +15,6 @@
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
-#include <boost/range/distance.hpp>
 
 #include <maral/bootstraps/basic.hpp>
 #include <maral/iomanip.hpp>
@@ -82,7 +81,7 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree_Shallow, CRN_INIT )
         PATTERNS_FOLDER"root_tree.txt",
         !butrc::save_pattern());
 
-    cout << rt.get() << std::endl;
+    cout << shallow << rt.get() << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -98,8 +97,7 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree_Deep, CRN_INIT )
         PATTERNS_FOLDER"root_tree.txt",
         !butrc::save_pattern());
 
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << rt.get();
+    cout << delimiters('[', ']') << separator(' ') << rt.get();
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -110,7 +108,7 @@ BOOST_FIXTURE_TEST_CASE( Model_Tree_Shallow, CRN_INIT )
         !butrc::save_pattern());
 
     auto crambin = *(rt->begin<model>());
-    cout << crambin << std::endl;
+    cout << shallow << crambin << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *crambin)
     {
@@ -127,8 +125,7 @@ BOOST_FIXTURE_TEST_CASE( Model_Tree_Deep, CRN_INIT )
         !butrc::save_pattern());
 
     auto crambin = *(rt->begin<model>());
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << crambin;
+    cout << delimiters('[', ']') << separator(' ') << crambin;
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -139,7 +136,7 @@ BOOST_FIXTURE_TEST_CASE( Molecule_Tree_Shallow, CRN_INIT )
         !butrc::save_pattern());
 
     auto chain_a = *(rt->begin<molecule>());
-    cout << chain_a << std::endl;
+    cout << shallow << chain_a << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *chain_a)
     {
@@ -156,8 +153,7 @@ BOOST_FIXTURE_TEST_CASE( Molecule_Tree_Deep, CRN_INIT )
         !butrc::save_pattern());
 
     auto chain_a = *(rt->begin<molecule>());
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << chain_a;
+    cout << delimiters('[', ']') << separator(' ') << chain_a;
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -169,7 +165,7 @@ BOOST_FIXTURE_TEST_CASE( Submolecule_Tree_Shallow, CRN_INIT )
 
     auto pos = rt->begin<residue>();
     auto res = *pos;
-    cout << res << std::endl;
+    cout << shallow << res << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *res)
     {
@@ -197,13 +193,11 @@ BOOST_FIXTURE_TEST_CASE( Submolecule_Tree_Deep, CRN_INIT )
 
     auto pos = rt->begin<residue>();
     auto res = *pos;
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << res;
+    cout << delimiters('[', ']') << separator(' ') << res;
     BOOST_CHECK(cout.match_pattern());
 
     res = *(++pos);
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << res;
+    cout << delimiters('[', ']') << separator(' ') << res;
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -215,42 +209,9 @@ BOOST_FIXTURE_TEST_CASE( Atom_Tree, CRN_INIT )
 
     auto atm = *(rt->begin<atom>());
     cout << delimiters('[', ']') << separator(' ')
-         << atm << std::endl;
+         << shallow << atm << std::endl;
     BOOST_CHECK(cout.match_pattern());
     cout << delimiters('[', ']') << separator(' ')
          << deep << atm << std::endl;
     BOOST_CHECK(cout.match_pattern());
-}
-
-BOOST_AUTO_TEST_CASE(PDB_1CRN)
-{
-    std::ifstream infile("pdb/1CRN.pdb");
-    auto rt = make_node<root>();
-    infile >> format(1) >> rt.get();
-    std::ofstream outfile("pdb/1CRN_tree.txt");
-    outfile << delimiters('[', ']') << separator(' ')
-            << deep << rt.get();
-    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //327
-}
-
-BOOST_AUTO_TEST_CASE(PDB_3NY8)
-{
-    std::ifstream infile("pdb/3NY8.pdb");
-    auto rt = make_node<root>();
-    infile >> format(1) >> rt.get();
-    std::ofstream outfile("pdb/3NY8_tree.txt");
-    outfile << delimiters('[', ']') << separator(' ')
-            << deep << rt.get();
-    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //3698
-}
-
-BOOST_AUTO_TEST_CASE(PDB_3SDY)
-{
-    std::ifstream infile("pdb/3SDY.pdb");
-    auto rt = make_node<root>();
-    infile >> format(1) >> rt.get();
-    std::ofstream outfile("pdb/3SDY_tree.txt");
-    outfile << delimiters('[', ']') << separator(' ')
-            << deep << rt.get();
-    std::cout << "No. of atoms: " << boost::distance(rt->range<atom>()) << std::endl; //14620
 }

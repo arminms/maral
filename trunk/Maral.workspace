@@ -7,5 +7,6 @@
 		<Project filename="test/test_mtl_matrix.cbp" />
 		<Project filename="test/test_hierarchical_datamodel.cbp" />
 		<Project filename="test/test_ioformat_tree.cbp" />
+		<Project filename="test/test_ioformat_pdb.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -81,26 +81,30 @@ private:
     //void scan_root_pos(std::istream& out,
     //    Rt* rt, std::false_type) const    {}
 
-    void scan_model_name(const std::string& line,
-        Md* md, std::true_type) const;
+    void set_model_name(const std::string& name,
+        Md* md, std::true_type) const   { md->name(name); }
     //void print_model_order(std::istream& out,
     //    const Md* md, std::true_type) const;
     //void print_model_pos(std::istream& out,
     //    const Md* md, std::true_type) const;
-    void scan_model_name(const std::string& line,
-        Md* md, std::false_type) const        {}
+    void set_model_name(const std::string& name,
+        Md* md, std::false_type) const  {}
     //void print_model_order(std::istream& out,
     //    const Md* md, std::false_type) const    {}
     //void print_model_pos(std::istream& out,
     //    const Md* md, std::false_type) const    {}
 
-    void scan_mol_name(const std::string& line,
+    void scan_chain_id(const std::string& line,
+        Mo* mo, std::true_type) const;
+    void set_mol_name(const std::string& name,
         Mo* mo, std::true_type) const;
     //void print_mol_order(std::ostream& out,
     //    const Mo* mo, std::true_type) const;
     //void print_mol_pos(std::ostream& out,
     //    const Mo* mo, std::true_type) const;
-    void scan_mol_name(const std::string& line,
+    void scan_chain_id(const std::string& line,
+        Mo* mo, std::false_type) const    {}
+    void set_mol_name(const std::string& name,
         Mo* mo, std::false_type) const    {}
     //void print_mol_order(std::ostream& out,
     //    const Mo* mo, std::false_type) const    {}

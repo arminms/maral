@@ -172,10 +172,10 @@ BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
         parent = (*pos)->parent();
         parent->insert(pos, std::move(make_node<residue>("B4 SER")));
     }
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto node : *rt)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -196,10 +196,10 @@ BOOST_FIXTURE_TEST_CASE( Composite_Remove, CRN_INIT )
             { return (atm->parent() == proline); }),
         back_inserter(to_be_removed) );
 
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto atm : to_be_removed)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << atm << std::endl;
+        cout << atm << std::endl;
         BOOST_CHECK(cout.match_pattern());
         auto removed = proline->remove(atm);
         BOOST_CHECK(nullptr == removed->parent());
@@ -207,8 +207,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Remove, CRN_INIT )
 
     for (auto node : *rt)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -250,10 +249,10 @@ BOOST_FIXTURE_TEST_CASE( Composite_Erase, CRN_INIT )
             ++pos;
     }
 
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto node : *rt)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 
@@ -357,10 +356,10 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Copy, CRN_INIT )
             back_inserter(nodes));
 
     BOOST_CHECK( 17 == nodes.size() );
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto node : nodes)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -381,10 +380,10 @@ BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, CRN_INIT )
 //                | boost::adaptors::reversed,
 //                std::ostream_iterator<hierarchical*>(output, "\n") );
 
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto node : nodes | boost::adaptors::reversed)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK( cout.match_pattern() );
     }
 }
@@ -473,10 +472,10 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
                 back_inserter(atoms));
     BOOST_CHECK( 13 == atoms.size() );
 
+    cout << delimiters('[', ']') << separator(' ');
     for (auto atm : atoms)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << atm << std::endl;
+        cout << atm << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 
@@ -487,10 +486,10 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
                 back_inserter(rsds));
     BOOST_CHECK( 2 == rsds.size() );
 
+    cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto res : rsds)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << res << std::endl;
+        cout << res << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -525,15 +524,16 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
     boost::copy(rt->range<residue>(), back_inserter(rsds));
     BOOST_CHECK( 2 == rsds.size() );
 
+    cout << shallow;
     boost::copy(rsds | boost::adaptors::reversed,
                 std::ostream_iterator<residue*>(cout, "\n") );
     BOOST_CHECK(cout.match_pattern());
 
+    cout << delimiters('[', ']') << separator(' ');
     for (auto res : rt->range<residue>()
                   | boost::adaptors::uniqued)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << res << std::endl;
+        cout << res << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }

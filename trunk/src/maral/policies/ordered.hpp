@@ -61,4 +61,3 @@ protected:
 }}    // namespaces
 
 #endif    // MARAL_POLICIES_ORDERED_HPP
-

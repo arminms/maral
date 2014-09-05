@@ -71,7 +71,7 @@ inline
 std::basic_ostream<CharT, Traits>&
 deep(std::basic_ostream<CharT, Traits>& os)
 {
-    depth::set(os);
+    depth::unset(os);
     return os;
 }
 
@@ -80,7 +80,7 @@ inline
 std::basic_ostream<CharT, Traits>&
 shallow(std::basic_ostream<CharT, Traits>& os)
 {
-    depth::unset(os);
+    depth::set(os);
     return os;
 }
 

@@ -52,6 +52,7 @@ typedef molecule_node
 <
     data_model::hierarchical
 ,   policy::named<std::string>
+,   policy::chainid<char>
 >   molecule;
 
 typedef submolecule_node

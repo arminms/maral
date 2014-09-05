@@ -1,19 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
 //
-//                                  MARAL
-//            (Molecular Architectural Record & Assembly Library)
+// Copyright (C) 2014 Armin Madadkar Sobhani
 //
-//        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 //
-//                 See the LICENSE file for terms of use
-//
-//------------------------------------------------------------------------------
 // $Id$
-//------------------------------------------------------------------------------
-/// \file maral/root.hpp
-/// \brief Include file for \b root node.
-///
-/// \b maral/root.hpp is the include file that defines \b root node.
 
 #ifndef MARAL_ROOT_HPP
 #define MARAL_ROOT_HPP
@@ -77,9 +70,6 @@ template
 ,   public Policies...
 {
 public:
-    typedef data_model::hierarchical data_model_type;
-    typedef StringType string_type;
-
 /// \name Construction
 //@{
     root_node(
@@ -117,10 +107,6 @@ template
 ,   public Policies...
 {
 public:
-    typedef data_model::hierarchical data_model_type;
-    typedef StringType string_type;
-    typedef OrdinalType ordinal_type;
-
 /// \name Construction
 //@{
     root_node(
@@ -160,10 +146,6 @@ template
 ,   public Policies...
 {
 public:
-    typedef data_model::hierarchical data_model_type;
-    typedef StringType string_type;
-    typedef PositionType position_type;
-
 /// \name Construction
 //@{
     root_node(
@@ -206,11 +188,6 @@ template
 ,   public Policies...
 {
 public:
-    typedef data_model::hierarchical data_model_type;
-    typedef StringType string_type;
-    typedef OrdinalType ordinal_type;
-    typedef PositionType position_type;
-
 /// \name Construction
 //@{
     root_node(

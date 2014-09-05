@@ -72,26 +72,7 @@ protected:
     T name_;
 };
 
-}   // namespace policy
-
-////////////////////////////////////////////////////////////////////////////////
-/// Type traits
-
-template<>
-    struct policy_traits< policy::named<std::string> >
-{
-    typedef policy::named<std::string> self_type;
-    typedef std::string value_type;
-};
-
-template<>
-    struct policy_traits< policy::named<std::wstring> >
-{
-    typedef policy::named<std::wstring> self_type;
-    typedef std::wstring value_type;
-};
-
-}    // namespace maral
+}}    // namespaces
 
 #endif    // MARAL_POLICIES_NAMED_HPP
 

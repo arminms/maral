@@ -28,6 +28,11 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
         if ("HEADER" == record_name)
         {
             auto model = make_node<Md>();
+            if (line.length() >= 64)
+                set_model_name( line.substr(62, 4), model.get()
+                              , has_member_name<Md>());
+            else
+                set_model_name("PDB", model.get(), has_member_name<Md>());
             scan_model(in, line, model.get());
             rt->add(std::move(model));
             break;
@@ -35,26 +40,18 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
 
         if ("ATOM  " == record_name || "HETATM" == record_name)
         {
-            if (line[21] != ' ')
+            if (' ' == line[21])
+            {
+                auto model = make_node<Md>();
+                set_model_name("PDB", model.get(), has_member_name<Md>());
+                scan_model(in, line, model.get());
+                rt->add(std::move(model));
+            }
+            else
             {
                 auto mol = make_node<Mo>();
                 scan_mol(in, line, mol.get());
                 rt->add(std::move(mol));
-            }
-            else
-            {
-                if ("   " == line.substr(17, 3))
-                {
-                    auto atm = make_node<At>();
-                    scan_atom(in, line, atm.get());
-                    rt->add(std::move(atm));
-                }
-                else
-                {
-                    auto submol = make_node<Sm>();
-                    scan_submol(in, line, submol.get());
-                    rt->add(std::move(submol));
-                }
             }
         }
     }
@@ -120,7 +117,6 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
 ,   std::string& line
 ,   Md* md) const
 {
-    scan_model_name(line, md, has_member_name<Md>());
     while (getline(in, line))
     {
         std::string record_name = line.substr(0, 6);
@@ -154,22 +150,6 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
         }
     }
     //if (!in) md->remove_all();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model_name(
-    const std::string& line
-,   Md* md
-,   std::true_type) const
-{
-    if (line.length() >= 64)
-        md->name(line.substr(62, 4));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +196,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
 ,   Mo* mo) const
 {
     char chain = line[21];
-    scan_mol_name(line, mo, has_member_name<Mo>());
+    scan_chain_id(line, mo, has_member_chain_id<Mo>());
     do
     {
         std::string record_name = line.substr(0, 6);
@@ -256,12 +236,27 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol_name(
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_chain_id(
     const std::string& line
 ,   Mo* mo
 ,   std::true_type) const
 {
-    mo->name(line.substr(21, 1));
+    mo->chain_id(line[21]);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::set_mol_name(
+    const std::string& name
+,   Mo* mo
+,   std::true_type) const
+{
+    mo->name(name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -365,7 +360,7 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_order(
 {
     std::string res_seq = line.substr(22, 4);
     boost::trim(res_seq);
-    sm->ordinal(boost::lexical_cast<unsigned>(res_seq));
+    sm->ordinal(boost::lexical_cast<decltype(sm->ordinal())>(res_seq));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -430,7 +425,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
 {
     std::string serial = line.substr(6, 5);
     boost::trim(serial);
-    at->ordinal(boost::lexical_cast<unsigned>(serial));
+    //typedef decltype(std::declval<At>().ordinal()) ordinal_type;
+    at->ordinal(boost::lexical_cast<decltype(at->ordinal())>(serial));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -445,11 +441,12 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_pos(
 ,   At* at
 ,   std::true_type) const
 {
+    typedef typename std::remove_reference<decltype((*at)[0])>::type coord_type;
     std::string
     coord = line.substr(30, 8); boost::trim(coord);
-    (*at)[0] = boost::lexical_cast<float>(coord);
+    (*at)[0] = boost::lexical_cast<coord_type>(coord);
     coord = line.substr(38, 8); boost::trim(coord);
-    (*at)[1] = boost::lexical_cast<float>(coord);
+    (*at)[1] = boost::lexical_cast<coord_type>(coord);
     coord = line.substr(46, 8); boost::trim(coord);
-    (*at)[2] = boost::lexical_cast<float>(coord);
+    (*at)[2] = boost::lexical_cast<coord_type>(coord);
 }
