@@ -23,11 +23,12 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_root(
     print_root_order(out, rt, has_member_ordinal<Rt>());
     print_root_name(out, rt, has_member_name<Rt>());
     print_root_pos(out, rt, has_member_position<Rt>());
-    if (depth::get(out))
+    if (!depth::get(out))
     {
         out << shallow << std::endl;
         for (auto node : *rt)
             out << node << std::endl;
+        out << deep;
     }
 }
 
@@ -108,11 +109,12 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_model(
     print_model_name(out, md, has_member_name<Md>());
     print_model_pos(out, md, has_member_position<Md>());
 
-    if (depth::get(out))
+    if (!depth::get(out))
     {
         out << shallow << std::endl;
         for (auto node : *md)
             out << node << std::endl;
+        out << deep;
     }
 }
 
@@ -189,14 +191,18 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_mol(
     boost::reverse(trail);
     out << trail;
     print_mol_order(out, mo, has_member_ordinal<Mo>());
+    print_void_mol_name(out, mo, has_no_name_n_chain_id<Mo>());
+    print_mol_chain_id(out, mo, has_member_chain_id<Mo>());
     print_mol_name(out, mo, has_member_name<Mo>());
+    //print_mol_name(out, mo, has_name_not_chain_id<Mo>());
     print_mol_pos(out, mo, has_member_position<Mo>());
 
-    if (depth::get(out))
+    if (!depth::get(out))
     {
         out << shallow << std::endl;
         for (auto node : *mo)
             out << node << std::endl;
+        out << deep;
     }
 }
 
@@ -212,7 +218,23 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_name(
 ,   const Mo* mo
 ,   std::true_type) const
 {
-    out << mo->name();
+    if (mo->name() != "MOL")
+        out << " (" << mo->name() << ')';
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
+    std::ostream& out
+,   const Mo* mo
+,   std::true_type) const
+{
+    out << mo->chain_id();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -276,11 +298,12 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_submol(
     print_submol_name(out, sm, has_member_name<Sm>());
     print_submol_pos(out, sm, has_member_position<Sm>());
 
-    if (depth::get(out))
+    if (!depth::get(out))
     {
         out << shallow << std::endl;
         for (auto node : *sm)
             out << node << std::endl;
+        out << deep;
     }
 }
 

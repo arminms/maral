@@ -69,9 +69,9 @@ public:
     typename pntvec_traits<T>::reference operator[]
         (const unsigned idx)
     {   return pos_[idx];   }
-//    typename pntvec_traits<T>::value_type operator[]
-//        (const unsigned idx) const;
-//    {   return pos_[idx]; }
+    typename pntvec_traits<T>::value_type operator[]
+        (const unsigned idx) const
+    {   return pos_[idx]; }
 //@}
 
 // Implementation

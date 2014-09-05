@@ -25,6 +25,7 @@
 #include <maral/policies/named.hpp>
 #include <maral/policies/ordered.hpp>
 #include <maral/policies/position.hpp>
+#include <maral/policies/chainid.hpp>
 
 #endif    // MARAL_POLICIES_HPP
 

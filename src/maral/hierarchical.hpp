@@ -1,21 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
 //
-//                                  MARAL
-//            (Molecular Architectural Record & Assembly Library)
+// Copyright (C) 2014 Armin Madadkar Sobhani
 //
-//        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 //
-//                 See the LICENSE file for terms of use
-//
-//------------------------------------------------------------------------------
 // $Id$
-//------------------------------------------------------------------------------
-/// \file hierarchical.hpp
-/// \brief Include file for all objects acting as a \b node in the molecular
-/// hierarchy.
-///
-/// \b hierarchical.hpp is the include file for all objects acting as a \b node
-/// in the molecular hierarchy.
 
 #ifndef MARAL_HIERARCHICAL_HPP
 #define MARAL_HIERARCHICAL_HPP

@@ -94,14 +94,22 @@ private:
     void print_model_pos(std::ostream& out,
         const Md* md, std::false_type) const    {}
 
+    void print_void_mol_name(std::ostream& out,
+        const Mo* mo, std::true_type) const     {   out << "MOL";  }
     void print_mol_name(std::ostream& out,
+        const Mo* mo, std::true_type) const;
+    void print_mol_chain_id(std::ostream& out,
         const Mo* mo, std::true_type) const;
     void print_mol_order(std::ostream& out,
         const Mo* mo, std::true_type) const;
     void print_mol_pos(std::ostream& out,
         const Mo* mo, std::true_type) const;
+    void print_void_mol_name(std::ostream& out,
+        const Mo* mo, std::false_type) const    {}
     void print_mol_name(std::ostream& out,
-        const Mo* mo, std::false_type) const    {   out << "MOL";  }
+        const Mo* mo, std::false_type) const    {}
+    void print_mol_chain_id(std::ostream& out,
+        const Mo* mo, std::false_type) const    {}
     void print_mol_order(std::ostream& out,
         const Mo* mo, std::false_type) const    {}
     void print_mol_pos(std::ostream& out,
@@ -132,6 +140,19 @@ private:
         const At* at, std::false_type) const    {}
     void print_atom_pos(std::ostream& out,
         const At* at, std::false_type) const    {}
+
+template <class T>
+struct has_name_not_chain_id
+:   public std::integral_constant
+    <bool, !has_member_chain_id<T>::value && has_member_name<T>::value>
+{};
+
+template <class T>
+struct has_no_name_n_chain_id
+:   public std::integral_constant
+    <bool, !(has_member_chain_id<T>::value && has_member_name<T>::value)>
+{};
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////
