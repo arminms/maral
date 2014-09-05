@@ -196,7 +196,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
 ,   Mo* mo) const
 {
     char chain = line[21];
-    scan_chain_id(line, mo, has_member_chain_id<Mo>());
+    scan_chain_id(line, mo, has_member_chainid<Mo>());
     do
     {
         std::string record_name = line.substr(0, 6);

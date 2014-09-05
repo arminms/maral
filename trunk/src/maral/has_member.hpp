@@ -82,7 +82,7 @@ struct has_member_##member                                                     \
 GENERATE_HAS_MEMBER(name)       // Creates 'has_member_name'
 GENERATE_HAS_MEMBER(ordinal)    // Creates 'has_member_ordinal'
 GENERATE_HAS_MEMBER(position)   // Creates 'has_member_position'
-GENERATE_HAS_MEMBER(chain_id)   // Creates 'has_member_chain_id'
+GENERATE_HAS_MEMBER(chainid)   // Creates 'has_member_chainid'
 
 }    // namespace maral
 
