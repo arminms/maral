@@ -23,7 +23,7 @@
     <ClInclude Include="src\maral\bootstraps\basic.hpp" />
     <ClInclude Include="src\maral\bootstraps\test.hpp" />
     <ClInclude Include="src\maral\format.hpp" />
-    <ClInclude Include="src\maral\has_member.hpp" />
+    <ClInclude Include="src\maral\has_policy.hpp" />
     <ClInclude Include="src\maral\hierarchical.hpp" />
     <ClInclude Include="src\maral\ioformats\pdb.hpp" />
     <ClInclude Include="src\maral\ioformats\tree.hpp" />

@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_HAS_MEMBER_HPP
-#define MARAL_HAS_MEMBER_HPP
+#ifndef MARAL_HAS_POLICY_HPP
+#define MARAL_HAS_POLICY_HPP
 
 namespace maral {
 
@@ -17,17 +17,17 @@ namespace maral {
 
 #if BOOST_WORKAROUND(__clang_major__, BOOST_TESTED_AT(3))
 
-#define GENERATE_HAS_MEMBER(member)                                            \
+#define GENERATE_HAS_POLICY(policy)                                            \
                                                                                \
 template < class T >                                                           \
-class HasMember_##member                                                       \
+class HasPolicy_##policy                                                       \
 {                                                                              \
 private:                                                                       \
     template<typename U, U> struct Check;                                      \
     using Yes = char[2];                                                       \
     using  No = char[1];                                                       \
                                                                                \
-    struct Fallback { int member; };                                           \
+    struct Fallback { int policy; };                                           \
     struct Derived : T, Fallback { };                                          \
                                                                                \
     template < class U >                                                       \
@@ -41,26 +41,26 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_member_##member                                                     \
-: public std::integral_constant<bool, HasMember_##member<T>::RESULT>           \
+struct has_policy_##policy                                                     \
+: public std::integral_constant<bool, HasPolicy_##policy<T>::RESULT>           \
 { };                                                                           \
 
 #else
 
-#define GENERATE_HAS_MEMBER(member)                                            \
+#define GENERATE_HAS_POLICY(policy)                                            \
                                                                                \
 template < class T >                                                           \
-class HasMember_##member                                                       \
+class HasPolicy_##policy                                                       \
 {                                                                              \
 private:                                                                       \
     using Yes = char[2];                                                       \
     using  No = char[1];                                                       \
                                                                                \
-    struct Fallback { int member; };                                           \
+    struct Fallback { int policy; };                                           \
     struct Derived : T, Fallback { };                                          \
                                                                                \
     template < class U >                                                       \
-    static No& test ( decltype(U::member)* );                                  \
+    static No& test ( decltype(U::policy)* );                                  \
     template < typename U >                                                    \
     static Yes& test ( U* );                                                   \
                                                                                \
@@ -70,21 +70,13 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_member_##member                                                     \
-: public std::integral_constant<bool, HasMember_##member<T>::RESULT>           \
+struct has_policy_##policy                                                     \
+: public std::integral_constant<bool, HasPolicy_##policy<T>::RESULT>           \
 { };                                                                           \
 
 #endif  //BOOST_WORKAROUND
 
-////////////////////////////////////////////////////////////////////////////////
-// Generation for different policies
-
-GENERATE_HAS_MEMBER(name)       // Creates 'has_member_name'
-GENERATE_HAS_MEMBER(ordinal)    // Creates 'has_member_ordinal'
-GENERATE_HAS_MEMBER(position)   // Creates 'has_member_position'
-GENERATE_HAS_MEMBER(chainid)   // Creates 'has_member_chainid'
-
 }    // namespace maral
 
-#endif    // MARAL_HAS_MEMBER_HPP
+#endif    // MARAL_HAS_POLICY_HPP
 

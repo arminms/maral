@@ -30,10 +30,6 @@
 #include <maral/mtl/inserters.hpp>
 #endif // MARAL_MTL_INSERTERS_HPP
 
-#ifndef MARAL_HAS_MEMBER_HPP
-#include <maral/has_member.hpp>
-#endif // MARAL_HAS_MEMBER_HPP
-
 #ifndef MARAL_IOMANIP_HPP
 #include <maral/iomanip.hpp>
 #endif // MARAL_IOMANIP_HPP
@@ -142,15 +138,15 @@ private:
         const At* at, std::false_type) const    {}
 
 template <class T>
-struct has_name_not_chain_id
+struct has_no_name_n_chain_id
 :   public std::integral_constant
-    <bool, !has_member_chainid<T>::value && has_member_name<T>::value>
+    <bool, !(has_policy_chainid<T>::value && has_policy_named<T>::value)>
 {};
 
 template <class T>
-struct has_no_name_n_chain_id
+struct has_chainid_not_name
 :   public std::integral_constant
-    <bool, !(has_member_chainid<T>::value && has_member_name<T>::value)>
+    <bool, has_policy_chainid<T>::value && !has_policy_named<T>::value>
 {};
 
 };

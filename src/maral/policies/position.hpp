@@ -1,20 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
 //
-//                                  MARAL
-//            (Molecular Architectural Record & Assembly Library)
+// Copyright (C) 2014 Armin Madadkar Sobhani
 //
-//        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 //
-//                 See the LICENSE file for terms of use
-//
-//------------------------------------------------------------------------------
 // $Id$
-//------------------------------------------------------------------------------
-/// \file policies/position.hpp
-/// \brief Include file for \b position policy class.
-///
-/// \b position.hpp is the include file that defines \b position structural
-/// policy class.
 
 #ifndef MARAL_POLICIES_POSITION_HPP
 #define MARAL_POLICIES_POSITION_HPP
@@ -22,6 +14,10 @@
 #ifndef MARAL_TRAITS_HPP
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
+
+#ifndef MARAL_HAS_POLICY_HPP
+#include <maral/has_policy.hpp>
+#endif // MARAL_HAS_POLICY_HPP
 
 namespace maral { namespace policy {
 
@@ -79,7 +75,11 @@ protected:
     T pos_;
 };
 
-}}    // namespaces
+}   // namespace policy
+
+GENERATE_HAS_POLICY(position)   // creates has_policy_position
+
+}    // namespace maral
 
 #endif    // MARAL_POLICIES_POSITION_HPP
 
