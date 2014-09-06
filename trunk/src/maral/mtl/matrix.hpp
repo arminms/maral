@@ -49,9 +49,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class row_accessor22
+    struct row_accessor22
     {
-    public:
         row_accessor22(matrix22<T>* mat, const unsigned row);
 
         T& operator[](const unsigned column);
@@ -74,9 +73,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class const_row_accessor22
+    struct const_row_accessor22
     {
-    public:
         const_row_accessor22(const matrix22<T>* mat, const unsigned row);
 
         const T& operator[](const unsigned column) const;
@@ -164,9 +162,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class row_accessor33
+    struct row_accessor33
     {
-    public:
         row_accessor33(matrix33<T>* mat, const unsigned row);
 
         T& operator[](const unsigned column);
@@ -189,9 +186,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class const_row_accessor33
+    struct const_row_accessor33
     {
-    public:
         const_row_accessor33(const matrix33<T>* mat, const unsigned row);
 
         const T& operator[](const unsigned column) const;
@@ -279,9 +275,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class row_accessor44
+    struct row_accessor44
     {
-    public:
         row_accessor44(matrix44<T>* mat, const unsigned row);
 
         T& operator[](const unsigned column);
@@ -304,9 +299,8 @@ public:
     /// This nested class encapsulates the row that the user is accessing and
     /// implements a new operator[] that passes the column to use.
 
-    class const_row_accessor44
+    struct const_row_accessor44
     {
-    public:
         const_row_accessor44(const matrix44<T>* mat, const unsigned row);
 
         const T& operator[](const unsigned column) const;

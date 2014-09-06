@@ -81,12 +81,12 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree_Shallow, CRN_INIT )
         PATTERNS_FOLDER"root_tree.txt",
         !butrc::save_pattern());
 
-    cout << shallow << rt.get() << std::endl;
+    cout << delimiters('[', ']') << separator(' ')
+         << shallow << rt.get() << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -108,12 +108,12 @@ BOOST_FIXTURE_TEST_CASE( Model_Tree_Shallow, CRN_INIT )
         !butrc::save_pattern());
 
     auto crambin = *(rt->begin<model>());
-    cout << shallow << crambin << std::endl;
+    cout << shallow << delimiters('[', ']') << separator(' ')
+         << crambin << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *crambin)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -136,12 +136,12 @@ BOOST_FIXTURE_TEST_CASE( Molecule_Tree_Shallow, CRN_INIT )
         !butrc::save_pattern());
 
     auto chain_a = *(rt->begin<molecule>());
-    cout << shallow << chain_a << std::endl;
+    cout << shallow << delimiters('[', ']') << separator(' ')
+         << chain_a << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *chain_a)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -165,12 +165,12 @@ BOOST_FIXTURE_TEST_CASE( Submolecule_Tree_Shallow, CRN_INIT )
 
     auto pos = rt->begin<residue>();
     auto res = *pos;
-    cout << shallow << res << std::endl;
+    cout << shallow << delimiters('[', ']') << separator(' ')
+         << res << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *res)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 
@@ -179,8 +179,7 @@ BOOST_FIXTURE_TEST_CASE( Submolecule_Tree_Shallow, CRN_INIT )
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *res)
     {
-        cout << delimiters('[', ']') << separator(' ')
-             << node << std::endl;
+        cout << node << std::endl;
         BOOST_CHECK(cout.match_pattern());
     }
 }
@@ -197,7 +196,7 @@ BOOST_FIXTURE_TEST_CASE( Submolecule_Tree_Deep, CRN_INIT )
     BOOST_CHECK(cout.match_pattern());
 
     res = *(++pos);
-    cout << delimiters('[', ']') << separator(' ') << res;
+    cout << res;
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -211,7 +210,6 @@ BOOST_FIXTURE_TEST_CASE( Atom_Tree, CRN_INIT )
     cout << delimiters('[', ']') << separator(' ')
          << shallow << atm << std::endl;
     BOOST_CHECK(cout.match_pattern());
-    cout << delimiters('[', ']') << separator(' ')
-         << deep << atm << std::endl;
+    cout << deep << atm << std::endl;
     BOOST_CHECK(cout.match_pattern());
 }

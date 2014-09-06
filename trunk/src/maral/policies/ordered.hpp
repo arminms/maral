@@ -1,23 +1,19 @@
-////////////////////////////////////////////////////////////////////////////////
+// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
 //
-//                                  MARAL
-//            (Molecular Architectural Record & Assembly Library)
+// Copyright (C) 2014 Armin Madadkar Sobhani
 //
-//        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 //
-//                 See the LICENSE file for terms of use
-//
-//------------------------------------------------------------------------------
 // $Id$
-//------------------------------------------------------------------------------
-/// \file policies/ordered.hpp
-/// \brief Include file for ordered policy class.
-///
-/// \b ordered.hpp is the include file that defines \b ordered structural policy
-/// class.
 
 #ifndef MARAL_POLICIES_ORDERED_HPP
 #define MARAL_POLICIES_ORDERED_HPP
+
+#ifndef MARAL_HAS_POLICY_HPP
+#include <maral/has_policy.hpp>
+#endif // MARAL_HAS_POLICY_HPP
 
 namespace maral { namespace policy {
 
@@ -35,7 +31,7 @@ template <typename T>
 public:
 /// \name Construction
 //@{
-    ordered(T ordinal)
+    ordered(T ordinal = 1)
     : ordinal_(ordinal)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -58,6 +54,10 @@ protected:
     T ordinal_;
 };
 
-}}    // namespaces
+}   // namespace policy
+
+GENERATE_HAS_POLICY(ordered)    // creates has_policy_ordered
+
+}    // namespace maral
 
 #endif    // MARAL_POLICIES_ORDERED_HPP

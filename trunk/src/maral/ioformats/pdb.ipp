@@ -30,9 +30,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
             auto model = make_node<Md>();
             if (line.length() >= 64)
                 set_model_name( line.substr(62, 4), model.get()
-                              , has_member_name<Md>());
+                              , has_policy_named<Md>());
             else
-                set_model_name("PDB", model.get(), has_member_name<Md>());
+                set_model_name("PDB", model.get(), has_policy_named<Md>());
             scan_model(in, line, model.get());
             rt->add(std::move(model));
             break;
@@ -43,7 +43,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
             if (' ' == line[21])
             {
                 auto model = make_node<Md>();
-                set_model_name("PDB", model.get(), has_member_name<Md>());
+                set_model_name("PDB", model.get(), has_policy_named<Md>());
                 scan_model(in, line, model.get());
                 rt->add(std::move(model));
             }
@@ -117,7 +117,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
 ,   std::string& line
 ,   Md* md) const
 {
-    while (getline(in, line))
+    do
     {
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
@@ -132,9 +132,14 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
                 }
                 else
                 {
-                    auto submol = make_node<Sm>();
-                    scan_submol(in, line, submol.get());
-                    md->add(std::move(submol));
+                    do
+                    {
+                        auto submol = make_node<Sm>();
+                        scan_submol(in, line, submol.get());
+                        md->add(std::move(submol));
+                        record_name = line.substr(0, 6);
+                    }   while ( "ATOM  " == record_name
+                             || "HETATM" == record_name);
                 }
             }
             else
@@ -145,10 +150,10 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
                     scan_mol(in, line, mol.get());
                     md->add(std::move(mol));
                     record_name = line.substr(0, 6);
-                } while ("HETATM" == record_name);
+                }   while ("HETATM" == record_name);
             }
         }
-    }
+    } while (getline(in, line));
     //if (!in) md->remove_all();
 }
 
@@ -196,7 +201,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
 ,   Mo* mo) const
 {
     char chain = line[21];
-    scan_chain_id(line, mo, has_member_chainid<Mo>());
+    scan_chain_id(line, mo, has_policy_chainid<Mo>());
+    set_mol_name(line.substr(21, 1), mo, has_policy_named<Mo>());
     do
     {
         std::string record_name = line.substr(0, 6);
@@ -216,9 +222,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
                     scan_submol(in, line, submol.get());
                     mo->add(std::move(submol));
                     record_name = line.substr(0, 6);
-                } while (( "ATOM  " == record_name
-                        || "HETATM" == record_name)
-                        && line[21] == chain);
+                }   while (( "ATOM  " == record_name
+                          || "HETATM" == record_name)
+                          && line[21] == chain);
             }
             if (line[21] != chain)
                 break;
@@ -305,8 +311,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
     char chain = line[21];
     std::string res_seq = line.substr(22, 4);
 
-    scan_submol_name(line, sm, has_member_name<Sm>());
-    scan_submol_order(line, sm, has_member_ordinal<Sm>());
+    scan_submol_name(line, sm, has_policy_named<Sm>());
+    scan_submol_order(line, sm, has_policy_ordered<Sm>());
     do
     {
         std::string record_name = line.substr(0, 6);
@@ -391,9 +397,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
 ,   std::string& line
 ,   At* at) const
 {
-    scan_atom_order(line, at, has_member_ordinal<At>());
-    scan_atom_name(line, at, has_member_name<At>());
-    scan_atom_pos(line, at, has_member_position<At>());
+    scan_atom_order(line, at, has_policy_ordered<At>());
+    scan_atom_name(line, at, has_policy_named<At>());
+    scan_atom_pos(line, at, has_policy_position<At>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
