@@ -71,6 +71,9 @@ public:
     void scan_atom(std::istream& in, At* at)
     {   do_scan_atom(in, at);   }
 
+// Implementation
+    virtual ~io_format_base() {};
+
 private:
     virtual void do_print_root(std::ostream& out, const Rt* rt) const = 0;
     virtual void do_print_model(std::ostream& out, const Md* md) const = 0;

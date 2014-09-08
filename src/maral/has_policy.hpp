@@ -31,7 +31,7 @@ private:                                                                       \
     struct Derived : T, Fallback { };                                          \
                                                                                \
     template < class U >                                                       \
-    static No& test (Check<int Fallback::*, &U::member> *);                    \
+    static No& test (Check<int Fallback::*, &U::policy> *);                    \
     template < typename U >                                                    \
     static Yes& test ( U* );                                                   \
                                                                                \

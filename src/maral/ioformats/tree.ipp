@@ -91,20 +91,23 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_model(
 ,   const Md* md) const
 {
     auto parent = md->parent();
-    std::string trail = (parent->children()->back() == md)
-                        ? "---\\"
-                        : "---+";
-    while (parent)
+    if (parent)
     {
-        auto prev_parent = parent;
-        parent = parent->parent();
-        if (parent)
-            trail += (parent->children()->back() == prev_parent)
-                    ? "    "
-                    : "   |";
+        std::string trail = (parent->children()->back() == md)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                      ?  "    "
+                      :  "   |";
+        }
+        boost::reverse(trail);
+        out << trail;
     }
-    boost::reverse(trail);
-    out << trail;
     print_model_order(out, md, has_policy_ordered<Md>());
     print_model_name(out, md, has_policy_named<Md>());
     print_model_pos(out, md, has_policy_position<Md>());
@@ -176,20 +179,23 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_mol(
 ,   const Mo* mo) const
 {
     auto parent = mo->parent();
-    std::string trail = (parent->children()->back() == mo)
-                        ? "---\\"
-                        : "---+";
-    while (parent)
+    if (parent)
     {
-        auto prev_parent = parent;
-        parent = parent->parent();
-        if (parent)
-            trail += (parent->children()->back() == prev_parent)
-                    ? "    "
-                    : "   |";
+        std::string trail = (parent->children()->back() == mo)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                      ?  "    "
+                      :  "   |";
+        }
+        boost::reverse(trail);
+        out << trail;
     }
-    boost::reverse(trail);
-    out << trail;
     print_mol_order(out, mo, has_policy_ordered<Mo>());
     print_void_mol_name(out, mo, has_no_name_n_chain_id<Mo>());
     print_mol_chain_id(out, mo, has_chainid_not_name<Mo>());
@@ -278,20 +284,23 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_submol(
 ,   const Sm* sm) const
 {
     auto parent = sm->parent();
-    std::string trail = (parent->children()->back() == sm)
-                        ? "---\\"
-                        : "---+";
-    while (parent)
+    if (parent)
     {
-        auto prev_parent = parent;
-        parent = parent->parent();
-        if (parent)
-            trail += (parent->children()->back() == prev_parent)
-                    ? "    "
-                    : "   |";
+        std::string trail = (parent->children()->back() == sm)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                      ?  "    "
+                      :  "   |";
+        }
+        boost::reverse(trail);
+        out << trail;
     }
-    boost::reverse(trail);
-    out << trail;
     print_submol_order(out, sm, has_policy_ordered<Sm>());
     print_submol_name(out, sm, has_policy_named<Sm>());
     print_submol_pos(out, sm, has_policy_position<Sm>());
@@ -363,20 +372,23 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
 ,   const At* at) const
 {
     auto parent = at->parent();
-    std::string trail = (parent->children()->back() == at)
-                        ? "---\\"
-                        : "---+";
-    while (parent)
+    if (parent)
     {
-        auto prev_parent = parent;
-        parent = parent->parent();
-        if (parent)
-            trail += (parent->children()->back() == prev_parent)
-                    ? "    "
-                    : "   |";
+        std::string trail = (parent->children()->back() == at)
+                          ? "---\\"
+                          : "---+";
+        while (parent)
+        {
+            auto prev_parent = parent;
+            parent = parent->parent();
+            if (parent)
+                trail += (parent->children()->back() == prev_parent)
+                      ?  "    "
+                      :  "   |";
+        }
+        boost::reverse(trail);
+        out << trail;
     }
-    boost::reverse(trail);
-    out << trail;
     print_atom_order(out, at, has_policy_ordered<At>());
     print_atom_name(out, at, has_policy_named<At>());
     print_atom_pos(out, at, has_policy_position<At>());

@@ -9,7 +9,51 @@
 // $Id$
 
 ////////////////////////////////////////////////////////////////////////////////
+// Default constructor
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+pdb_format<Base, Rt, Md, Mo, Sm, At>::pdb_format()
+:   Base<Rt,Md,Mo,Sm,At>()
+,   std_residues_(37)
+{
+    std_residues_.insert(
+    {
+        "ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY", "HIS", "ILE",
+        "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL",
+        "ACE", "NME", "SEC", "PYL",
+        "A", "C", "G", "T", "U"
+    } );
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Root
+
+//template
+//<
+//    template <class,class,class,class,class> class Base
+//,   class Rt, class Md, class Mo, class Sm, class At
+//>
+//void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_root(
+//    std::ostream& out
+//,   const Rt* rt) const
+//{
+//    print_root_order(out, rt, has_policy_ordered<Rt>());
+//    print_root_name(out, rt, has_policy_named<Rt>());
+//    print_root_pos(out, rt, has_policy_position<Rt>());
+//    if (!depth::get(out))
+//    {
+//        out << shallow << std::endl;
+//        for (auto node : *rt)
+//            out << node << std::endl;
+//        out << deep;
+//    }
+//}
+
+////////////////////////////////////////////////////////////////////////////////
 
 template
 <
@@ -112,6 +156,35 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
+void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_model(
+    std::istream& in
+,   Md* md) const
+{
+    std::string line;
+    while (getline(in, line))
+    {
+        std::string record_name = line.substr(0, 6);
+        if ("HEADER" == record_name)
+        {
+            if (line.length() >= 64)
+                set_model_name( line.substr(62, 4), md
+                              , has_policy_named<Md>());
+            else
+                set_model_name("PDB", md, has_policy_named<Md>());
+        }
+        else
+            set_model_name("PDB", md, has_policy_named<Md>());
+        scan_model(in, line, md);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
     std::istream& in
 ,   std::string& line
@@ -122,6 +195,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
         {
+            if (line.length() < 54) continue;
             if (line[21] == ' ')
             {
                 if ("   " == line.substr(17, 3))
@@ -195,6 +269,45 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
+    std::ostream& out
+,   const Mo* mo
+,   std::true_type) const
+{
+    out << mo->chain_id();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_mol(
+    std::istream& in
+,   Mo* mo) const
+{
+    std::string line;
+    while (getline(in, line))
+    {
+        std::string record_name = line.substr(0, 6);
+        if ("ATOM  " == record_name || "HETATM" == record_name)
+        {
+            if (line.length() < 21) continue;
+            scan_mol(in, line, mo);
+            break;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
     std::istream& in
 ,   std::string& line
@@ -208,6 +321,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
         {
+            if (line.length() < 54) continue;
             if ("   " == line.substr(17, 3))
             {
                 auto atm = make_node<At>();
@@ -303,24 +417,87 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_name(
+    std::ostream& out
+,   const Sm* sm
+,   std::true_type) const
+{
+    out << std::setw(3) << sm->name();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
+    std::ostream& out
+,   const Sm* sm
+,   std::true_type) const
+{
+    out << std::setw(4) << sm->ordinal();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_submol(
+    std::istream& in
+,   Sm* sm) const
+{
+    std::string line;
+    while (getline(in, line))
+    {
+        std::string record_name = line.substr(0, 6);
+        if ("ATOM  " == record_name || "HETATM" == record_name)
+        {
+            if (line.length() < 22) continue;
+            scan_submol(in, line, sm);
+            break;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
     std::istream& in
 ,   std::string& line
 ,   Sm* sm) const
 {
     char chain = line[21];
-    std::string res_seq = line.substr(22, 4);
-
+    std::string res_seq = line.substr(22, 5);
+    if ("     " == res_seq)
+        return;
     scan_submol_name(line, sm, has_policy_named<Sm>());
-    scan_submol_order(line, sm, has_policy_ordered<Sm>());
+    try
+    {
+        scan_submol_order(line, sm, has_policy_ordered<Sm>());
+    }
+    catch (const boost::bad_lexical_cast &)
+    {
+        std::cerr << "PDB syntax error > " << line << '<' << std::endl;
+    }
     do
     {
         std::string record_name = line.substr(0, 6);
         if ("ATOM  " == record_name || "HETATM" == record_name)
         {
+            if (line.length() < 54) continue;
             if (line[21] != chain)
                 break;
-            if (res_seq == line.substr(22, 4))
+            if (res_seq == line.substr(22, 5))
             {
                 auto atm = make_node<At>();
                 scan_atom(in, line, atm.get());
@@ -392,14 +569,161 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
+void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
+    std::ostream& out
+,   const At* at) const
+{
+    Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+    Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
+
+    if (sm)
+        if (is_het(sm, has_policy_named<Sm>()))
+            out << "HETATM";
+        else
+            out << "ATOM  ";
+    else
+        out << "HETATM";
+
+    print_atom_order(out, at, has_policy_ordered<At>());
+    out << ' ';
+    print_atom_name(out, at, has_policy_named<At>());
+    out << ' ';
+    if (sm)
+        print_submol_name(out, sm, has_policy_named<Sm>());
+    else
+        out << "   ";
+    out << ' ';
+    if (mo)
+        print_mol_chain_id(out, mo, has_policy_chainid<Mo>());
+    else
+        out << ' ';
+    if (sm)
+        print_submol_order(out, sm, has_policy_ordered<Sm>());
+    else
+        out << "    ";
+    out << "    ";
+    print_atom_pos(out, at, has_policy_position<At>());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_name(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::setw(4) << at->name();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::setw(5) << at->ordinal();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::fixed << std::setprecision(3)
+        << std::setw(8) << (*at)[0]
+        << std::setw(8) << (*at)[1]
+        << std::setw(8) << (*at)[2];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+    std::ostream& out
+,   const At* at
+,   std::false_type) const
+{
+    out << "   0.000"
+        << "   0.000"
+        << "   0.000";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
+    std::istream& in
+,   At* at) const
+{
+    std::string line;
+    while (getline(in, line))
+    {
+        std::string record_name = line.substr(0, 6);
+        if ("ATOM  " == record_name || "HETATM" == record_name)
+        {
+            scan_atom_name(line, at, has_policy_named<At>());
+            try
+            {
+                scan_atom_order(line, at, has_policy_ordered<At>());
+                scan_atom_pos(line, at, has_policy_position<At>());
+            }
+            catch (const boost::bad_lexical_cast &)
+            {
+                std::cerr << "PDB syntax error > " << line  << '<' << std::endl;
+            }
+            break;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
     std::istream& in
 ,   std::string& line
 ,   At* at) const
 {
-    scan_atom_order(line, at, has_policy_ordered<At>());
     scan_atom_name(line, at, has_policy_named<At>());
-    scan_atom_pos(line, at, has_policy_position<At>());
+    try
+    {
+        scan_atom_order(line, at, has_policy_ordered<At>());
+        scan_atom_pos(line, at, has_policy_position<At>());
+    }
+    catch (const boost::bad_lexical_cast &)
+    {
+        std::cerr << "PDB syntax error > " << line  << '<' << std::endl;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -431,7 +755,6 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
 {
     std::string serial = line.substr(6, 5);
     boost::trim(serial);
-    //typedef decltype(std::declval<At>().ordinal()) ordinal_type;
     at->ordinal(boost::lexical_cast<decltype(at->ordinal())>(serial));
 }
 
