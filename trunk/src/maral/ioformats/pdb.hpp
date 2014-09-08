@@ -16,6 +16,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <unordered_set>
 #include <type_traits>
 
 #include <boost/algorithm/string/trim.hpp>
@@ -41,22 +42,52 @@ template
 :   public Base<Rt,Md,Mo,Sm,At>
 {
 public:
-    pdb_format()
-    :   Base<Rt,Md,Mo,Sm,At>()
-    {}
+    pdb_format();
+
+    virtual ~pdb_format()
+    {   std_residues_.clear();  }
 
 private:
+    std::unordered_set<std::string> std_residues_;
+
     virtual void do_print_root(std::ostream& out, const Rt* rt) const   {}
     virtual void do_print_model(std::ostream& out, const Md* md) const  {}
     virtual void do_print_mol(std::ostream& out, const Mo* mo) const    {}
     virtual void do_print_submol(std::ostream& out, const Sm* sm) const {}
-    virtual void do_print_atom(std::ostream& out, const At* at) const   {}
+    virtual void do_print_atom(std::ostream& out, const At* at) const;
+
+    void print_mol_chain_id(std::ostream& out,
+        const Mo* mo, std::true_type) const;
+    void print_mol_chain_id(std::ostream& out,
+        const Mo* mo, std::false_type) const    {   out << ' ';     }
+
+    void print_submol_name(std::ostream& out,
+        const Sm* sm, std::true_type) const;
+    void print_submol_name(std::ostream& out,
+        const Sm* sm, std::false_type) const    {   out << "   ";   }
+    void print_submol_order(std::ostream& out,
+        const Sm* sm, std::true_type) const;
+    void print_submol_order(std::ostream& out,
+        const Sm* sm, std::false_type) const    {   out << "    ";   }
+
+    void print_atom_name(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_order(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_pos(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_name(std::ostream& out,
+        const At* at, std::false_type) const    {   out << " ?  ";  }
+    void print_atom_order(std::ostream& out,
+        const At* at, std::false_type) const    {   out << "    1"; }
+    void print_atom_pos(std::ostream& out,
+        const At* at, std::false_type) const;
 
     virtual void do_scan_root(std::istream& in, Rt* rt) const;
-    virtual void do_scan_model(std::istream& in, Md* md) const  {}
-    virtual void do_scan_mol(std::istream& in, Mo* mo) const    {}
-    virtual void do_scan_submol(std::istream& in, Sm* sm) const {}
-    virtual void do_scan_atom(std::istream& in, At* at) const   {}
+    virtual void do_scan_model(std::istream& in, Md* md) const;
+    virtual void do_scan_mol(std::istream& in, Mo* mo) const;
+    virtual void do_scan_submol(std::istream& in, Sm* sm) const;
+    virtual void do_scan_atom(std::istream& in, At* at) const;
 
     //void scan_root(std::istream& in, std::string& line, Rt* rt) const;
     void scan_model(std::istream& in, std::string& line, Md* md) const;
@@ -120,31 +151,26 @@ private:
     //void print_submol_pos(std::ostream& out,
     //    const Sm* sm, std::false_type) const    {}
 
-    //void print_atom_name(std::ostream& out,
-    //    const At* at, std::true_type) const;
-    //void print_atom_order(std::ostream& out,
-    //    const At* at, std::true_type) const;
-    //void print_atom_pos(std::ostream& out,
-    //    const At* at, std::true_type) const;
-    //void print_atom_name(std::ostream& out,
-    //    const At* at, std::false_type) const    {   out << "ATOM";  }
-    //void print_atom_order(std::ostream& out,
-    //    const At* at, std::false_type) const    {}
-    //void print_atom_pos(std::ostream& out,
-    //    const At* at, std::false_type) const    {}
+    void scan_atom_name(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_order(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_pos(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_name(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_order(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_pos(const std::string& line,
+        At* at, std::false_type) const    {}
 
-    void scan_atom_name(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_order(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_pos(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_name(const std::string& line,
-        At* at, std::false_type) const    {}
-    void scan_atom_order(const std::string& line,
-        At* at, std::false_type) const    {}
-    void scan_atom_pos(const std::string& line,
-        At* at, std::false_type) const    {}
+    bool is_het(const Sm* sm, std::true_type) const
+    {
+        return (std_residues_.find(sm->name()) == std_residues_.end());
+    }
+
+    bool is_het(const Sm* sm, std::false_type) const
+    {   return true;    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
