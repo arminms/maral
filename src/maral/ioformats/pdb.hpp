@@ -50,11 +50,18 @@ public:
 private:
     std::unordered_set<std::string> std_residues_;
 
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const   {}
-    virtual void do_print_model(std::ostream& out, const Md* md) const  {}
-    virtual void do_print_mol(std::ostream& out, const Mo* mo) const    {}
-    virtual void do_print_submol(std::ostream& out, const Sm* sm) const {}
+    virtual void do_print_root(std::ostream& out, const Rt* rt) const;
+    virtual void do_print_model(std::ostream& out, const Md* md) const;
+    virtual void do_print_mol(std::ostream& out, const Mo* mo) const;
+    virtual void do_print_submol(std::ostream& out, const Sm* sm) const;
     virtual void do_print_atom(std::ostream& out, const At* at) const;
+
+    void print_atom(std::ostream& out, const Mo* mo,
+            const At* at, int ordinal = -1) const;
+    void print_atom(std::ostream& out, const Mo* mo, const Sm* sm,
+            const At* at, int ordinal = -1) const;
+    void print_chain_termination(std::ostream& out, const Mo* mo,
+            const Sm* sm, int ordinal) const;
 
     void print_mol_chain_id(std::ostream& out,
         const Mo* mo, std::true_type) const;
@@ -165,9 +172,7 @@ private:
         At* at, std::false_type) const    {}
 
     bool is_het(const Sm* sm, std::true_type) const
-    {
-        return (std_residues_.find(sm->name()) == std_residues_.end());
-    }
+    {   return (std_residues_.find(sm->name()) == std_residues_.end()); }
 
     bool is_het(const Sm* sm, std::false_type) const
     {   return true;    }

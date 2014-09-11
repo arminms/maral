@@ -228,7 +228,7 @@ inline abstract_node::const_iterator abstract_node::end() const
 }
 
 inline boost::iterator_range< abstract_node::const_iterator >
-    abstract_node::range()
+    abstract_node::range() const
 {
     return make_iterator_range(begin(), end());
 }
@@ -249,7 +249,7 @@ inline abstract_node::const_type_iterator<Type> abstract_node::end() const
 
 template < typename Type >
 inline boost::iterator_range< abstract_node::const_type_iterator<Type> >
-    abstract_node::range()
+    abstract_node::range() const
 {
     return make_iterator_range(begin<Type>(), end<Type>());
 }
