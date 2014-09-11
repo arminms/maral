@@ -57,11 +57,11 @@ std::ostream& out
     //}
 
     int ordinal = 1;
-    auto spos = rt->begin<Sm>();
-    Sm* prev_sm = (spos == rt->end<Sm>()) ? nullptr : *spos;
-    auto mpos = rt->begin<Mo>();
-    Mo* prev_mo = (mpos == rt->end<Mo>()) ? nullptr : *mpos;
-    for (auto at : rt->range<At>())
+    auto spos = rt->template begin<Sm>();
+    Sm* prev_sm = (spos == rt->template end<Sm>()) ? nullptr : *spos;
+    auto mpos = rt->template begin<Mo>();
+    Mo* prev_mo = (mpos == rt->template end<Mo>()) ? nullptr : *mpos;
+    for (auto at : rt->template range<At>())
     {
         Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
         Mo* mo = (sm && sm->parent())
@@ -162,11 +162,11 @@ std::ostream& out
 , const Md* md) const
 {
     int ordinal = 1;
-    auto spos = md->begin<Sm>();
-    Sm* prev_sm = (spos == md->end<Sm>()) ? nullptr : *spos;
-    auto mpos = md->begin<Mo>();
-    Mo* prev_mo = (mpos == md->end<Mo>()) ? nullptr : *mpos;
-    for (auto at : md->range<At>())
+    auto spos = md->template begin<Sm>();
+    Sm* prev_sm = (spos == md->template end<Sm>()) ? nullptr : *spos;
+    auto mpos = md->template begin<Mo>();
+    Mo* prev_mo = (mpos == md->template end<Mo>()) ? nullptr : *mpos;
+    for (auto at : md->template range<At>())
     {
         Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
         Mo* mo = (sm && sm->parent())
@@ -278,7 +278,7 @@ std::ostream& out
 {
     int ordinal = 1;
     At* at = nullptr;
-    for (auto atm : mo->range<At>())
+    for (auto atm : mo->template range<At>())
     {
         at = atm;
         print_atom(out, mo, at, ordinal++);
@@ -423,7 +423,7 @@ std::ostream& out
 {
     Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
     int ordinal = 1;
-    for (auto at : sm->range<At>())
+    for (auto at : sm->template range<At>())
         print_atom(out, mo, sm, at, ordinal++);
 }
 

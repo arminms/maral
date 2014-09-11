@@ -300,10 +300,10 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 //    io::filtering_streambuf<io::input> in;
 //    in.push(io::gzip_decompressor());
 //    in.push(gzfile);
-//    std::ostringstream out;
-//    boost::iostreams::copy(in, out);
+//    std::stringstream file;
+//    boost::iostreams::copy(in, file);
 //    auto rt = make_node<root>();
-//    std::istringstream(out.str()) >> format(1) >> rt.get();
+//    file >> format(1) >> rt.get();
 //
 //    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
 //    BOOST_CHECK(   1 == boost::distance(rt->range<molecule>()) );
