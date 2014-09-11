@@ -248,14 +248,14 @@ public:
 //@{
     const_iterator begin() const;
     const_iterator end() const;
-    boost::iterator_range< const_iterator > range();
+    boost::iterator_range< const_iterator > range() const;
 
     template < typename Type >
         const_type_iterator<Type> begin() const;
     template < typename Type >
         const_type_iterator<Type> end() const;
     template < typename Type >
-        boost::iterator_range< const_type_iterator<Type> > range();
+        boost::iterator_range< const_type_iterator<Type> > range() const;
 
 //    int operator[](unsigned idx)
 //    {

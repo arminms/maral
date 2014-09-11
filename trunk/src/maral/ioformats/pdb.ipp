@@ -18,40 +18,88 @@ template
 >
 pdb_format<Base, Rt, Md, Mo, Sm, At>::pdb_format()
 :   Base<Rt,Md,Mo,Sm,At>()
-,   std_residues_(37)
+,   std_residues_(53)
 {
+    // based on: http://www.rcsb.org/pdb/static.do?p=file_formats/pdb/index.html
+
     std_residues_.insert(
     {
-        "ALA", "ARG", "ASN", "ASP", "CYS", "GLU", "GLN", "GLY", "HIS", "ILE",
-        "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL",
-        "ACE", "NME", "SEC", "PYL",
-        "A", "C", "G", "T", "U"
+        // amino acids
+        "ALA", "ARG", "ASN", "ASP", "ASX", "CYS", "GLN", "GLU", "GLX", "GLY",
+        "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP",
+        "TYR", "UNK", "VAL",
+        "CYH", "CSH", "CSH", "CSS", "CYX",  // cystein synonyms
+        "ILU", "PRZ", "TRY,"    // isoleucine, proline and tryptphan synonyms
+        "ACE", "NME",
+        // nucleic acids
+        "A", "+A", "C", "+C", "G", "+G", "I", "+I", "T", "+T", "U", "+U",
+        "DA", "DC", "DG", "DT"
     } );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Root
 
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_root(
-//    std::ostream& out
-//,   const Rt* rt) const
-//{
-//    print_root_order(out, rt, has_policy_ordered<Rt>());
-//    print_root_name(out, rt, has_policy_named<Rt>());
-//    print_root_pos(out, rt, has_policy_position<Rt>());
-//    if (!depth::get(out))
-//    {
-//        out << shallow << std::endl;
-//        for (auto node : *rt)
-//            out << node << std::endl;
-//        out << deep;
-//    }
-//}
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_root(
+std::ostream& out
+, const Rt* rt) const
+{
+    //if (1 == rt->children()->size()
+    //&&  1 == boost::distance(rt->range<Md>()))
+    //{
+    //    out << *(rt->begin<Md>());
+    //    return;
+    //}
+
+    int ordinal = 1;
+    auto spos = rt->begin<Sm>();
+    Sm* prev_sm = (spos == rt->end<Sm>()) ? nullptr : *spos;
+    auto mpos = rt->begin<Mo>();
+    Mo* prev_mo = (mpos == rt->end<Mo>()) ? nullptr : *mpos;
+    for (auto at : rt->range<At>())
+    {
+        Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+        Mo* mo = (sm && sm->parent())
+               ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
+        if (prev_mo && prev_mo != mo)
+            if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
+                print_chain_termination(out, prev_mo, prev_sm, ordinal++);
+        print_atom(out, mo, sm, at, ordinal++);
+        out << std::endl;
+         prev_mo = mo; prev_sm = sm;
+    }
+    if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
+        print_chain_termination(out, prev_mo, prev_sm, ordinal++);
+    out << "END" << std::string(77, ' ') << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_chain_termination(
+std::ostream& out
+, const Mo* mo
+, const Sm* sm
+, int ordinal) const
+{
+    out << "TER   " << std::setw(5) << ordinal << "      ";
+    print_submol_name(out, sm, has_policy_named<Sm>());
+    out << ' ';
+    if (mo)
+        print_mol_chain_id(out, mo, has_policy_chainid<Mo>());
+    print_submol_order(out, sm, has_policy_ordered<Sm>());
+    // iCode later...
+    out << std::string(54, ' ') << std::endl;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,57 +147,43 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
             }
         }
     }
-    //if (!in) rt->children()->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_root_name(
-//    std::ostream& out
-//,   const Rt* rt
-//,   std::true_type) const
-//{
-//    //out << reinterpret_cast<policy::named>(rt)->named();
-//    out << rt->name() << ' ';
-//}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
-//    std::ostream& out
-//,   const Rt* rt
-//,   std::true_type) const
-//{
-//    out << rt->ordinal() << ". ";
-//}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
-//    std::ostream& out
-//,   const Rt* rt
-//,   std::true_type) const
-//{
-//    out << horizontal << rt->get_center();
-//}
-
-////////////////////////////////////////////////////////////////////////////////
 // Model
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_model(
+std::ostream& out
+, const Md* md) const
+{
+    int ordinal = 1;
+    auto spos = md->begin<Sm>();
+    Sm* prev_sm = (spos == md->end<Sm>()) ? nullptr : *spos;
+    auto mpos = md->begin<Mo>();
+    Mo* prev_mo = (mpos == md->end<Mo>()) ? nullptr : *mpos;
+    for (auto at : md->range<At>())
+    {
+        Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+        Mo* mo = (sm && sm->parent())
+               ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
+        if (prev_mo && prev_mo != mo)
+            if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
+                print_chain_termination(out, prev_mo, prev_sm, ordinal++);
+        print_atom(out, mo, sm, at, ordinal++);
+        out << std::endl;
+         prev_mo = mo; prev_sm = sm;
+    }
+    if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
+        print_chain_termination(out, prev_mo, prev_sm, ordinal++);
+    out << "END" << std::string(77, ' ') << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 template
 <
@@ -228,41 +262,37 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
             }
         }
     } while (getline(in, line));
-    //if (!in) md->remove_all();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_model_order(
-//    std::ostream& out
-//,   const Md* md
-//,   std::true_type) const
-//{
-//    out << std::setw(2) << md->ordinal() << ". ";
-//}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_model_pos(
-//    std::ostream& out
-//,   const Md* md
-//,   std::true_type) const
-//{
-//    out << horizontal << md->get_center();
-//}
-
-////////////////////////////////////////////////////////////////////////////////
 // Molecule
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_mol(
+std::ostream& out
+, const Mo* mo) const
+{
+    int ordinal = 1;
+    At* at = nullptr;
+    for (auto atm : mo->range<At>())
+    {
+        at = atm;
+        print_atom(out, mo, at, ordinal++);
+        out << std::endl;
+    }
+    if (at)
+    {
+        Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+        if (sm && !is_het(sm, has_policy_named<Sm>()))
+            print_chain_termination(out, mo, sm, ordinal++);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 template
 <
@@ -380,37 +410,24 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::set_mol_name(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_order(
-//    std::ostream& out
-//,   const Mo* mo
-//,   std::true_type) const
-//{
-//    out << std::setw(2) << mo->ordinal() << ". ";
-//}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_pos(
-//    std::ostream& out
-//,   const Mo* mo
-//,   std::true_type) const
-//{
-//    out << horizontal << ' ' << mo->get_center();
-//}
-
-////////////////////////////////////////////////////////////////////////////////
 // Submolecule
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_submol(
+std::ostream& out
+, const Sm* sm) const
+{
+    Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
+    int ordinal = 1;
+    for (auto at : sm->range<At>())
+        print_atom(out, mo, sm, at, ordinal++);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 
 template
 <
@@ -511,7 +528,6 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
         else
             break;
     } while (getline(in, line));
-    //if (!in) sm->remove_all();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -526,7 +542,9 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_name(
 ,   Sm* sm
 ,   std::true_type) const
 {
-    sm->name(line.substr(17, 3));
+    std::string res_name = line.substr(17, 3);
+    boost::trim(res_name);
+    sm->name(res_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -547,21 +565,6 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_order(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    template <class,class,class,class,class> class Base
-//,   class Rt, class Md, class Mo, class Sm, class At
-//>
-//inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_pos(
-//    std::ostream& out
-//,   const Sm* sm
-//,   std::true_type) const
-//{
-//    out << horizontal << ' ' << sm->get_center();
-//}
-
-////////////////////////////////////////////////////////////////////////////////
 // Atom
 
 template
@@ -575,7 +578,40 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
 {
     Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
     Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
+    print_atom(out, mo, sm, at);
+}
 
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
+    std::ostream& out
+,   const Mo* mo
+,   const At* at
+,   int ordinal) const
+{
+    Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+    print_atom(out, mo, sm, at, ordinal);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
+    std::ostream& out
+,   const Mo* mo
+,   const Sm* sm
+,   const At* at
+,   int ordinal) const
+{
     if (sm)
         if (is_het(sm, has_policy_named<Sm>()))
             out << "HETATM";
@@ -584,23 +620,31 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
     else
         out << "HETATM";
 
-    print_atom_order(out, at, has_policy_ordered<At>());
+    if (-1 == ordinal)
+        print_atom_order(out, at, has_policy_ordered<At>());
+    else
+        out << std::setw(5) << ordinal;
+
     out << ' ';
     print_atom_name(out, at, has_policy_named<At>());
     out << ' ';
+
     if (sm)
         print_submol_name(out, sm, has_policy_named<Sm>());
     else
         out << "   ";
+
     out << ' ';
     if (mo)
         print_mol_chain_id(out, mo, has_policy_chainid<Mo>());
     else
         out << ' ';
+
     if (sm)
         print_submol_order(out, sm, has_policy_ordered<Sm>());
     else
         out << "    ";
+
     out << "    ";
     print_atom_pos(out, at, has_policy_position<At>());
 }
@@ -695,7 +739,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
             }
             catch (const boost::bad_lexical_cast &)
             {
-                std::cerr << "PDB syntax error > " << line  << '<' << std::endl;
+                std::cerr << "PDB syntax error > " << line  << '<'
+                          << std::endl;
             }
             break;
         }

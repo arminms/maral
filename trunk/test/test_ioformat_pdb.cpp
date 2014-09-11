@@ -18,8 +18,9 @@
 #include <boost/range/distance.hpp>
 
 //#include <boost/iostreams/filtering_streambuf.hpp>
-//#include <boost/iostreams/filtering_stream.hpp>
+//#include <boost/iostreams/copy.hpp>
 //#include <boost/iostreams/filter/gzip.hpp>
+//#include <boost/iostreams/filtering_stream.hpp>
 //#include <boost/iostreams/device/file_descriptor.hpp>
 
 #include <maral/bootstraps/basic.hpp>
@@ -253,13 +254,35 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Atom )
 
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 {
-    std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
-    auto rt = make_node<root>();
-    in >> format(1) >> rt.get();
-    std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
-    cout << format(1);
-    for (auto atm : rt->range<atom>())
-        cout << atm << std::endl;
+    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    //auto rt = make_node<root>();
+    //in >> format(1) >> rt.get();
+    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    //cout << format(1) << rt.get();
+
+    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    //auto md = make_node<model>();
+    //in >> format(1) >> md.get();
+    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    //cout << format(1) << md.get();
+
+    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    //auto mo = make_node<molecule>();
+    //in >> format(1) >> mo.get();
+    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    //cout << format(1) << mo.get();
+
+    //std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
+    //auto rt = make_node<root>();
+    //in >> format(1) >> rt.get();
+    //std::ofstream cout(PATTERNS_FOLDER"no_chain_test.pdb");
+    //cout << format(1) << rt.get();
+
+    //std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
+    //auto rt = make_node<root>();
+    //in >> format(1) >> rt.get();
+    //std::ofstream cout(PATTERNS_FOLDER"no_chain_no_res_test.pdb");
+    //cout << format(1) << rt.get();
 }
 
 //BOOST_AUTO_TEST_CASE( PDB_Multi_Model )
@@ -273,43 +296,17 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 //BOOST_AUTO_TEST_CASE( PDB_gzip )
 //{
 //    namespace io = boost::iostreams;
-//
-//    std::ifstream in("pdb/3NY8.pdb");
-//    auto rt = make_node<root>();
-//    in >> format(1) >> rt.get();
-//
-//    io::filtering_ostream out;
-//    out.push(io::gzip_compressor());
-//    out.push(io::file_descriptor_sink("pdb/3NY8_tree.gz"));
-//    out << delimiters('[', ']') << separator(' ') << rt.get();
-//
-//    std::ofstream file("pdb/3NY8_tree.gz", std::ios_base::out | std::ios_base::binary);
-//    io::filtering_streambuf<io::output> out;
-//    out.push(io::gzip_compressor(9));
-//    out.push(file);
-//    file << delimiters('[', ']') << separator(' ') << rt.get();
-//
-//    std::ifstream file("pdb/1CRN.pdb.gz", std::ios_base::in | std::ios_base::binary);
+//    std::ifstream gzfile("pdb/1CRN.pdb.gz", std::ios_base::in | std::ios_base::binary);
 //    io::filtering_streambuf<io::input> in;
 //    in.push(io::gzip_decompressor());
-//    in.push(file);
+//    in.push(gzfile);
+//    std::ostringstream out;
+//    boost::iostreams::copy(in, out);
 //    auto rt = make_node<root>();
-//    file >> format(1) >> rt.get();
+//    std::istringstream(out.str()) >> format(1) >> rt.get();
 //
 //    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
 //    BOOST_CHECK(   1 == boost::distance(rt->range<molecule>()) );
 //    BOOST_CHECK(  46 == boost::distance(rt->range<residue>()) );
 //    BOOST_CHECK( 327 == boost::distance(rt->range<atom>()) );
-//
-//    output_test_stream cout(
-//        PATTERNS_FOLDER"1CRN_tree.txt",
-//        !butrc::save_pattern());
-//    std::cout << shallow << delimiters('[', ']') << separator(' ')
-//         << rt.get() << std::endl;
-//    BOOST_CHECK(cout.match_pattern());
-//    for (auto node : *rt)
-//    {
-//        std::cout << node << std::endl;
-//        BOOST_CHECK(cout.match_pattern());
-//    }
 //}
