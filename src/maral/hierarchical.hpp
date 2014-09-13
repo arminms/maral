@@ -14,6 +14,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 
+#include <iterator>
 #include <stack>
 
 #include <boost/noncopyable.hpp>
@@ -242,26 +243,34 @@ public:
     typedef std::list<node_type> hierarchy_type;
 
     class const_iterator;
+    class const_reverse_iterator;
     template <typename T> class const_type_iterator;
+    template <typename T> class const_reverse_type_iterator;
 
-/// \name Attributes
-//@{
     const_iterator begin() const;
+    const_reverse_iterator rbegin() const;
     const_iterator end() const;
+    const_reverse_iterator rend() const;
     boost::iterator_range< const_iterator > range() const;
+    boost::iterator_range< const_reverse_iterator > reverse_range() const;
 
     template < typename Type >
         const_type_iterator<Type> begin() const;
     template < typename Type >
+        const_reverse_type_iterator<Type> rbegin() const;
+    template < typename Type >
         const_type_iterator<Type> end() const;
     template < typename Type >
-        boost::iterator_range< const_type_iterator<Type> > range() const;
+        const_reverse_type_iterator<Type> rend() const;
+    template < typename Type >
+        boost::iterator_range< const_type_iterator<Type> >
+            range() const;
+    template < typename Type >
+        boost::iterator_range< const_reverse_type_iterator<Type> >
+            reverse_range() const;
 
-//    int operator[](unsigned idx)
-//    {
-//        return idx;
-//    }
-
+/// \name Attributes
+//@{
     const hierarchy_type* children() const
     {   return get_children();  }
 
