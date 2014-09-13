@@ -344,48 +344,75 @@ BOOST_FIXTURE_TEST_CASE( Node_Iterator, CRN_INIT )
     BOOST_CHECK(atm->ordinal() == 39);
 }
 
-BOOST_FIXTURE_TEST_CASE( Iterator_Copy, CRN_INIT )
+BOOST_FIXTURE_TEST_CASE( Reverse_Node_Iterator, CRN_INIT )
 {
-    output_test_stream cout(
-        PATTERNS_FOLDER"iterator_copy.txt",
-        !butrc::save_pattern());
+    auto itr = rt->rbegin();
 
-    std::vector<hierarchical*> nodes;
-    std::copy(rt->begin(),
-            rt->end(),
-            back_inserter(nodes));
+    auto carmbin = dynamic_cast<model*>(*itr);
+    BOOST_CHECK(carmbin->name() == "1CRN");
 
-    BOOST_CHECK( 17 == nodes.size() );
-    cout << shallow << delimiters('[', ']') << separator(' ');
-    for (auto node : nodes)
-    {
-        cout << node << std::endl;
-        BOOST_CHECK(cout.match_pattern());
-    }
-}
+    auto chain = dynamic_cast<molecule*>(*(++itr));
+    BOOST_CHECK(chain->name() == "A");
 
-BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Range, CRN_INIT )
-{
-    output_test_stream cout(
-        PATTERNS_FOLDER"iterator_boost_range.txt",
-        !butrc::save_pattern());
+    auto res = dynamic_cast<residue*>(*(++itr));
+    BOOST_CHECK(res->name() == "SER");
+    BOOST_CHECK(res->ordinal() == 6);
 
-    std::vector<hierarchical*> nodes;
-//    boost::copy(*rt, back_inserter(nodes));
-    boost::copy(rt->range(), back_inserter(nodes));
-    BOOST_CHECK( 17 == boost::size(nodes) );
+    atom* atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "OG");
+    BOOST_CHECK(atm->ordinal() == 39);
 
-// the following call prints pointer addresses, why?!
-//    boost::copy(nodes
-//                | boost::adaptors::reversed,
-//                std::ostream_iterator<hierarchical*>(output, "\n") );
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CB");
+    BOOST_CHECK(atm->ordinal() == 38);
 
-    cout << shallow << delimiters('[', ']') << separator(' ');
-    for (auto node : nodes | boost::adaptors::reversed)
-    {
-        cout << node << std::endl;
-        BOOST_CHECK( cout.match_pattern() );
-    }
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "O");
+    BOOST_CHECK(atm->ordinal() == 37);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "C");
+    BOOST_CHECK(atm->ordinal() == 36);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CA");
+    BOOST_CHECK(atm->ordinal() == 35);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "N");
+    BOOST_CHECK(atm->ordinal() == 34);
+
+    res = dynamic_cast<residue*>(*(++itr));
+    BOOST_CHECK(res->name() == "PRO");
+    BOOST_CHECK(res->ordinal() == 5);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CD");
+    BOOST_CHECK(atm->ordinal() == 33);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CG");
+    BOOST_CHECK(atm->ordinal() == 32);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CB");
+    BOOST_CHECK(atm->ordinal() == 31);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "O");
+    BOOST_CHECK(atm->ordinal() == 30);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "C");
+    BOOST_CHECK(atm->ordinal() == 29);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "CA");
+    BOOST_CHECK(atm->ordinal() == 28);
+
+    atm = dynamic_cast<atom*>(*(++itr));
+    BOOST_CHECK(atm->name() == "N");
+    BOOST_CHECK(atm->ordinal() == 27);
 }
 
 BOOST_FIXTURE_TEST_CASE( Type_Iterator, CRN_INIT )
@@ -458,6 +485,120 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator, CRN_INIT )
     BOOST_CHECK(atm->ordinal() == 39);
 }
 
+BOOST_FIXTURE_TEST_CASE( Reverse_Type_Iterator, CRN_INIT )
+{
+    auto crambin = rt->rbegin<model>();
+    BOOST_CHECK(crambin->name() == "1CRN");
+
+    auto mol = rt->rbegin<molecule>();
+    BOOST_CHECK(mol->name() == "A");
+
+    auto res = rt->rbegin<residue>();
+    BOOST_CHECK(res->name() == "SER");
+    BOOST_CHECK(res->ordinal() == 6);
+
+    ++res;
+    BOOST_CHECK(res->name() == "PRO");
+    BOOST_CHECK(res->ordinal() == 5);
+
+    auto atm = rt->rbegin<atom>();
+
+    BOOST_CHECK(atm->name() == "OG");
+    BOOST_CHECK(atm->ordinal() == 39);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CB");
+    BOOST_CHECK(atm->ordinal() == 38);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "O");
+    BOOST_CHECK(atm->ordinal() == 37);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "C");
+    BOOST_CHECK(atm->ordinal() == 36);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CA");
+    BOOST_CHECK(atm->ordinal() == 35);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "N");
+    BOOST_CHECK(atm->ordinal() == 34);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CD");
+    BOOST_CHECK(atm->ordinal() == 33);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CG");
+    BOOST_CHECK(atm->ordinal() == 32);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CB");
+    BOOST_CHECK(atm->ordinal() == 31);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "O");
+    BOOST_CHECK(atm->ordinal() == 30);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "C");
+    BOOST_CHECK(atm->ordinal() == 29);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "CA");
+    BOOST_CHECK(atm->ordinal() == 28);
+
+    ++atm;
+    BOOST_CHECK(atm->name() == "N");
+    BOOST_CHECK(atm->ordinal() == 27);
+}
+
+BOOST_FIXTURE_TEST_CASE( Iterator_Copy, CRN_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"iterator_copy.txt",
+        !butrc::save_pattern());
+
+    std::vector<hierarchical*> nodes;
+    std::copy(rt->begin(),
+            rt->end(),
+            back_inserter(nodes));
+
+    BOOST_CHECK( 17 == nodes.size() );
+    cout << shallow << delimiters('[', ']') << separator(' ');
+    for (auto node : nodes)
+    {
+        cout << node << std::endl;
+        BOOST_CHECK(cout.match_pattern());
+    }
+}
+
+BOOST_FIXTURE_TEST_CASE( Iterator_Boost_Copy, CRN_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"iterator_boost_range.txt",
+        !butrc::save_pattern());
+
+    std::vector<hierarchical*> nodes;
+//    boost::copy(*rt, back_inserter(nodes));
+    boost::copy(rt->range(), back_inserter(nodes));
+    BOOST_CHECK( 17 == boost::size(nodes) );
+
+// the following call prints pointer addresses, why?!
+//    boost::copy(nodes
+//                | boost::adaptors::reversed,
+//                std::ostream_iterator<hierarchical*>(output, "\n") );
+
+    cout << shallow << delimiters('[', ']') << separator(' ');
+    for (auto node : nodes | boost::adaptors::reversed)
+    {
+        cout << node << std::endl;
+        BOOST_CHECK( cout.match_pattern() );
+    }
+}
+
 BOOST_FIXTURE_TEST_CASE( Type_Iterator_Copy, CRN_INIT )
 {
     output_test_stream cout(
@@ -506,6 +647,7 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
     boost::copy(rt->range<atom>(), back_inserter(atoms));
     BOOST_CHECK( 13 == boost::size(atoms) );
 
+    cout << delimiters('[', ']') << separator(' ');
     boost::copy(atoms
                 | boost::adaptors::reversed,
                 std::ostream_iterator<atom*>(cout, "\n") );
@@ -529,7 +671,6 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
                 std::ostream_iterator<residue*>(cout, "\n") );
     BOOST_CHECK(cout.match_pattern());
 
-    cout << delimiters('[', ']') << separator(' ');
     for (auto res : rt->range<residue>()
                   | boost::adaptors::uniqued)
     {
@@ -537,6 +678,40 @@ BOOST_FIXTURE_TEST_CASE( Type_Iterator_Boost_Range, CRN_INIT )
         BOOST_CHECK(cout.match_pattern());
     }
 }
+
+BOOST_FIXTURE_TEST_CASE( Reverse_Iterator_Range, CRN_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"reverse_iterator_range.txt",
+        !butrc::save_pattern());
+
+    auto res = *(rt->rbegin<residue>());
+    cout << delimiters('[', ']') << separator(' ');
+    for (auto node : res->reverse_range())
+    {
+        cout << node << std::endl;
+        BOOST_CHECK(cout.match_pattern());
+    }
+    boost::copy(res->reverse_range<atom>()
+                | boost::adaptors::filtered(
+                [](const atom* atm) { return atm->ordinal() % 2 == 1; }),
+                std::ostream_iterator<atom*>(cout, "\n") );
+    BOOST_CHECK(cout.match_pattern());
+}
+
+//BOOST_FIXTURE_TEST_CASE( Reverse_Iterator, CRN_INIT )
+//{
+//    output_test_stream cout(
+//        PATTERNS_FOLDER"iterator_boost_range.txt",
+//        !butrc::save_pattern());
+//
+//    std::cout << shallow << delimiters('[', ']') << separator(' ');
+//    for (auto node : rt->reverse_range())
+//    {
+//        std::cout << node << std::endl;
+//        //BOOST_CHECK( cout.match_pattern() );
+//    }
+//}
 
 BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 {

@@ -266,11 +266,11 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
     //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
     //cout << format(1) << md.get();
 
-    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
-    //auto mo = make_node<molecule>();
-    //in >> format(1) >> mo.get();
-    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
-    //cout << format(1) << mo.get();
+    std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    auto mo = make_node<molecule>();
+    in >> format(1) >> mo.get();
+    std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    cout << format(1) << mo.get();
 
     //std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     //auto rt = make_node<root>();

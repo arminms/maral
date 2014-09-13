@@ -284,6 +284,13 @@ std::ostream& out
         print_atom(out, mo, at, ordinal++);
         out << std::endl;
     }
+    //for (auto at : mo->template range<At>())
+    //{
+    //    print_atom(out, mo, at, ordinal++);
+    //    out << std::endl;
+    //}
+    //auto pos = mo->template rbegin<At>();
+    //auto at = (pos != mo->template rend<At>()) ? *pos : nullptr;
     if (at)
     {
         Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
