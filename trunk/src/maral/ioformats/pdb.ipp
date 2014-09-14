@@ -115,9 +115,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
     std::string line;
     while (getline(in, line))
     {
-        std::string record_name = line.substr(0, 6);
-
-        if ("HEADER" == record_name)
+        if (0 == line.compare(0, 6, "HEADER"))
         {
             auto model = make_node<Md>();
             if (line.length() >= 64)
@@ -130,7 +128,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
             break;
         }
 
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             if (' ' == line[21])
             {
@@ -176,7 +175,7 @@ std::ostream& out
                 print_chain_termination(out, prev_mo, prev_sm, ordinal++);
         print_atom(out, mo, sm, at, ordinal++);
         out << std::endl;
-         prev_mo = mo; prev_sm = sm;
+        prev_mo = mo; prev_sm = sm;
     }
     if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
         print_chain_termination(out, prev_mo, prev_sm, ordinal++);
@@ -197,8 +196,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_model(
     std::string line;
     while (getline(in, line))
     {
-        std::string record_name = line.substr(0, 6);
-        if ("HEADER" == record_name)
+        if (0 == line.compare(0, 6, "HEADER"))
         {
             if (line.length() >= 64)
                 set_model_name( line.substr(62, 4), md
@@ -226,13 +224,13 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
 {
     do
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if ( 0 == line.compare(0, 5, "ATOM ")
+        ||   0 == line.compare(0, 6, "HETATM") )
         {
             if (line.length() < 54) continue;
             if (line[21] == ' ')
             {
-                if ("   " == line.substr(17, 3))
+                if (0 == line.compare(17, 3, "   "))
                 {
                     auto atm = make_node<At>();
                     scan_atom(in, line, atm.get());
@@ -245,9 +243,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
                         auto submol = make_node<Sm>();
                         scan_submol(in, line, submol.get());
                         md->add(std::move(submol));
-                        record_name = line.substr(0, 6);
-                    }   while ( "ATOM  " == record_name
-                             || "HETATM" == record_name);
+                    }   while (0 == line.compare(0, 5, "ATOM ")
+                        ||     0 == line.compare(0, 6, "HETATM"));
                 }
             }
             else
@@ -257,8 +254,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
                     auto mol = make_node<Mo>();
                     scan_mol(in, line, mol.get());
                     md->add(std::move(mol));
-                    record_name = line.substr(0, 6);
-                }   while ("HETATM" == record_name);
+                }   while (0 == line.compare(0, 6, "HETATM"));
             }
         }
     } while (getline(in, line));
@@ -328,8 +324,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_mol(
     std::string line;
     while (getline(in, line))
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             if (line.length() < 21) continue;
             scan_mol(in, line, mo);
@@ -355,11 +351,11 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
     set_mol_name(line.substr(21, 1), mo, has_policy_named<Mo>());
     do
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             if (line.length() < 54) continue;
-            if ("   " == line.substr(17, 3))
+            if (0 == line.compare(17, 3, "   "))
             {
                 auto atm = make_node<At>();
                 scan_atom(in, line, atm.get());
@@ -372,18 +368,16 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
                     auto submol = make_node<Sm>();
                     scan_submol(in, line, submol.get());
                     mo->add(std::move(submol));
-                    record_name = line.substr(0, 6);
-                }   while (( "ATOM  " == record_name
-                          || "HETATM" == record_name)
-                          && line[21] == chain);
+                }   while ((0 == line.compare(0, 5, "ATOM ")
+                    ||      0 == line.compare(0, 6, "HETATM"))
+                    &&      line[21] == chain);
             }
             if (line[21] != chain)
                 break;
         }
-        if ("TER   " == record_name)
+        if (0 == line.compare(0, 3, "TER"))
             break;
     } while (getline(in, line));
-    //if (!in) mo->remove_all();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -461,7 +455,36 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
 ,   const Sm* sm
 ,   std::true_type) const
 {
-    out << std::setw(4) << sm->ordinal();
+    out << std::setw(4);
+    if (sm->ordinal() < 10000)
+        out << sm->ordinal();
+    else if (sm->ordinal() < 0x10000)
+        out << std::uppercase << std::hex << sm->ordinal() << std::dec;
+    else
+        out << "****";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
+    std::ostream& out
+,   const Sm* sm
+,   std::false_type) const
+{
+    unsigned ordinal = submolordinal::get(out);
+    out << std::setw(4);
+    if (++ordinal < 10000)
+        out << ordinal;
+    else if (ordinal < 0x10000)
+        out << std::uppercase << std::hex << ordinal << std::dec;
+    else
+        out << "****";
+    submolordinal::set(out, ordinal);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -478,8 +501,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_submol(
     std::string line;
     while (getline(in, line))
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             if (line.length() < 22) continue;
             scan_submol(in, line, sm);
@@ -515,8 +538,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
     }
     do
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             if (line.length() < 54) continue;
             if (line[21] != chain)
@@ -530,7 +553,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
             else
                 break;
         }
-        else if ("ANISOU" == record_name)
+        else if (0 == line.compare(0, 6, "ANISOU")
+             ||  0 == line.compare(0, 6, "SIGUIJ")
+             ||  0 == line.compare(0, 6, "SIGATM"))
             continue;
         else
             break;
@@ -627,10 +652,18 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
     else
         out << "HETATM";
 
+    out << std::setw(5);
     if (-1 == ordinal)
         print_atom_order(out, at, has_policy_ordered<At>());
     else
-        out << std::setw(5) << ordinal;
+    {
+        if (ordinal < 100000)
+            out << ordinal;
+        else if (ordinal < 0x100000)
+            out << std::uppercase << std::hex << ordinal << std::dec;
+        else
+            out << "*****";
+    }
 
     out << ' ';
     print_atom_name(out, at, has_policy_named<At>());
@@ -683,7 +716,34 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << std::setw(5) << at->ordinal();
+    if (at->ordinal() < 100000)
+        out << at->ordinal();
+    else if (at->ordinal() < 0x100000)
+        out << std::uppercase << std::hex << at->ordinal() << std::dec;
+    else
+        out << "*****";
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
+    std::ostream& out
+,   const At* at
+,   std::false_type) const
+{
+    unsigned ordinal = atomordinal::get(out);
+    if (++ordinal < 100000)
+        out << ordinal;
+    else if (ordinal < 0x100000)
+        out << std::uppercase << std::hex << ordinal << std::dec;
+    else
+        out << "*****";
+    atomordinal::set(out, ordinal);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -735,8 +795,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
     std::string line;
     while (getline(in, line))
     {
-        std::string record_name = line.substr(0, 6);
-        if ("ATOM  " == record_name || "HETATM" == record_name)
+        if (0 == line.compare(0, 5, "ATOM ")
+        ||  0 == line.compare(0, 6, "HETATM"))
         {
             scan_atom_name(line, at, has_policy_named<At>());
             try

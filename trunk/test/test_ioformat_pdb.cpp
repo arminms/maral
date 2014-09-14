@@ -248,12 +248,19 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Atom )
     std::string name = at->name();
     boost::trim(name);
     BOOST_CHECK( name == "N" );
-    BOOST_CHECK( at->ordinal() == 1 );
+    //BOOST_CHECK( at->ordinal() == 1 );
     BOOST_CHECK( is_equal(at->center(), mtl::point3f(17.047f, 14.099f, 3.625f), 0.0001f) );
 }
 
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 {
+    //std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
+    //auto rt = make_node<root>();
+    //in >> format(1) >> rt.get();
+    //std::cout << format(1) << atomordinal(99990) << submolordinal(0xFFF1);
+    //for (auto at : rt->range<atom>())
+    //    std::cout << at << std::endl;
+
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     //auto rt = make_node<root>();
     //in >> format(1) >> rt.get();
@@ -266,11 +273,11 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
     //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
     //cout << format(1) << md.get();
 
-    std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
-    auto mo = make_node<molecule>();
-    in >> format(1) >> mo.get();
-    std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
-    cout << format(1) << mo.get();
+    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    //auto mo = make_node<molecule>();
+    //in >> format(1) >> mo.get();
+    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    //cout << format(1) << mo.get();
 
     //std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     //auto rt = make_node<root>();
