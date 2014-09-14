@@ -75,7 +75,7 @@ private:
     void print_submol_order(std::ostream& out,
         const Sm* sm, std::true_type) const;
     void print_submol_order(std::ostream& out,
-        const Sm* sm, std::false_type) const    {   out << "    ";   }
+        const Sm* sm, std::false_type) const;
 
     void print_atom_name(std::ostream& out,
         const At* at, std::true_type) const;
@@ -86,7 +86,7 @@ private:
     void print_atom_name(std::ostream& out,
         const At* at, std::false_type) const    {   out << " ?  ";  }
     void print_atom_order(std::ostream& out,
-        const At* at, std::false_type) const    {   out << "    1"; }
+        const At* at, std::false_type) const;
     void print_atom_pos(std::ostream& out,
         const At* at, std::false_type) const;
 
