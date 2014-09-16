@@ -145,29 +145,29 @@ private:
     //void print_mol_pos(std::ostream& out,
     //    const Mo* mo, std::false_type) const    {}
 
-    void scan_submol_name(const std::string& in,
+    void scan_submol_name(const std::string& line,
         Sm* sm, std::true_type) const;
-    void scan_submol_order(const std::string& out,
+    void scan_submol_order(const std::string& line,
         Sm* sm, std::true_type) const;
     //void print_submol_pos(std::ostream& out,
     //    const Sm* sm, std::true_type) const;
-    void scan_submol_name(const std::string& in,
+    void scan_submol_name(const std::string& line,
         Sm* sm, std::false_type) const  {}
-    void scan_submol_order(const std::string& out,
+    void scan_submol_order(const std::string& line,
         Sm* sm, std::false_type) const  {}
     //void print_submol_pos(std::ostream& out,
     //    const Sm* sm, std::false_type) const    {}
 
     void scan_atom_name(const std::string& line,
         At* at, std::true_type) const;
-    void scan_atom_order(const std::string& line,
+    void scan_atom_order(std::istream& in,
         At* at, std::true_type) const;
     void scan_atom_pos(const std::string& line,
         At* at, std::true_type) const;
     void scan_atom_name(const std::string& line,
         At* at, std::false_type) const    {}
-    void scan_atom_order(const std::string& line,
-        At* at, std::false_type) const    {}
+    void scan_atom_order(std::istream& in,
+        At* at, std::false_type) const;
     void scan_atom_pos(const std::string& line,
         At* at, std::false_type) const    {}
 
