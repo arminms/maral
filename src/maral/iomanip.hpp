@@ -87,8 +87,8 @@ shallow(std::basic_ostream<CharT, Traits>& os)
 ////////////////////////////////////////////////////////////////////////////////
 // Ordinal Output Stream Manipulator
 
-typedef one_arg_omanip<unsigned, 1> atomordinal;
-typedef one_arg_omanip<unsigned, 2> submolordinal;
+typedef one_arg_iomanip<unsigned, 1> atomordinal;
+typedef one_arg_iomanip<unsigned, 2> submolordinal;
 
 }    // namespace maral
 

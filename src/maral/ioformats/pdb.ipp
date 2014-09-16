@@ -71,7 +71,7 @@ std::ostream& out
                 print_chain_termination(out, prev_mo, prev_sm, ordinal++);
         print_atom(out, mo, sm, at, ordinal++);
         out << std::endl;
-         prev_mo = mo; prev_sm = sm;
+        prev_mo = mo; prev_sm = sm;
     }
     if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
         print_chain_termination(out, prev_mo, prev_sm, ordinal++);
@@ -801,7 +801,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
             scan_atom_name(line, at, has_policy_named<At>());
             try
             {
-                scan_atom_order(line, at, has_policy_ordered<At>());
+                scan_atom_order(in, at, has_policy_ordered<At>());
                 scan_atom_pos(line, at, has_policy_position<At>());
             }
             catch (const boost::bad_lexical_cast &)
@@ -829,7 +829,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
     scan_atom_name(line, at, has_policy_named<At>());
     try
     {
-        scan_atom_order(line, at, has_policy_ordered<At>());
+        scan_atom_order(in, at, has_policy_ordered<At>());
         scan_atom_pos(line, at, has_policy_position<At>());
     }
     catch (const boost::bad_lexical_cast &)
@@ -861,13 +861,35 @@ template
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
 inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
-    const std::string& line
+    std::istream& in
 ,   At* at
 ,   std::true_type) const
 {
-    std::string serial = line.substr(6, 5);
-    boost::trim(serial);
-    at->ordinal(boost::lexical_cast<decltype(at->ordinal())>(serial));
+    decltype(at->ordinal()) ord =
+        (decltype(at->ordinal()))atomordinal::get(in);
+    at->ordinal(++ord);
+    atomordinal::set(in, ord);
+    // following lines can be commented out in case of CONECT processing...
+    //
+    //std::string serial = line.substr(6, 5);
+    //boost::trim(serial);
+    //at->ordinal(boost::lexical_cast<decltype(at->ordinal())>(serial));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
+    std::istream& in
+,   At* at
+,   std::false_type) const
+{
+    unsigned ord = atomordinal::get(in);
+    atomordinal::set(in, ++ord);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

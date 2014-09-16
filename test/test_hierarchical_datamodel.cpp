@@ -24,6 +24,7 @@
 
 #include <maral/bootstraps/basic.hpp>
 #include <maral/iomanip.hpp>
+#include <maral/units.hpp>
 
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
@@ -502,6 +503,9 @@ BOOST_FIXTURE_TEST_CASE( Reverse_Type_Iterator, CRN_INIT )
     BOOST_CHECK(res->ordinal() == 5);
 
     auto atm = rt->rbegin<atom>();
+//    auto x = maral::units::angstroms((*(*atm))[0]);
+//    std::cout << x << std::endl;
+//    std::cout << maral::units::to_nanometers(x) << std::endl;
 
     BOOST_CHECK(atm->name() == "OG");
     BOOST_CHECK(atm->ordinal() == 39);
