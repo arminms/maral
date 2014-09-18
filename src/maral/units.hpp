@@ -245,8 +245,8 @@ using length_in_nanometers =
 //    boost::units::quantity<boost::units::gradian::plane_angle, Type>;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \return Created angle in raidans as a boost::units::quantity object.
-/// \param rad Angle value in radians.
+/// \return Created length in Angstroms as a boost::units::quantity object.
+/// \param ang Length value in Angstroms.
 /// \remarks
 /// Type-safe factory method for creating a length in Angstroms from a value
 /// specified.

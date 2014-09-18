@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_ORDERED_HPP
-#define MARAL_POLICIES_ORDERED_HPP
+#ifndef MARAL_POLICIES_ICODE_HPP
+#define MARAL_POLICIES_ICODE_HPP
 
 #ifndef MARAL_HAS_POLICY_HPP
 #include <maral/has_policy.hpp>
@@ -18,46 +18,49 @@
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning serial numbers to nodes.
+/// \brief Structural policy for assigning code for insertion of residues to
+///  submolecule nodes.
 ///
-/// \param T Type of the value (e.g. unsigend, int, ...).
+/// \param T Type of the character to be used as iCode (e.g. char, char16_t,
+/// char32_t, ...).
 /// \remarks
-/// \b ordered is a structural policy class that allows assigning a serial
-/// number to a node, so it can be accessed or changed later.
+/// icode is a structural policy class that allows assigning a code for
+/// insertion of residue (iCode) to a submolecule node, so it can be accessed or
+/// changed later.
 
 template <typename T>
-    class ordered
+    class icode
 {
 public:
 /// \name Construction
 //@{
-    ordered(T ordinal = T(1))
-    : ordinal_(ordinal)
+    icode(T code = T(' '))
+    :   icode_(code)
     {
         BOOST_STATIC_ASSERT_MSG(
             std::is_integral<T>::value == true,
             "only integral types are allowed :(");
-    }
+	}
 //@}
 
 /// \name Attributes
 //@{
-    T ordinal() const
-    {   return ordinal_;    }
+    T get_icode() const
+    {   return icode_;   }
 
-    void ordinal(T ordinal)
-    {   ordinal_ = ordinal; }
+    void set_icode(T code)
+    {   icode_ = code;   }
 //@}
 
 // Implementation
 private:
-    T ordinal_;
+    T icode_;
 };
 
 }   // namespace policy
 
-GENERATE_HAS_POLICY(ordered)    // creates has_policy_ordered
+GENERATE_HAS_POLICY(icode)   // creates has_policy_icode
 
 }    // namespace maral
 
-#endif    // MARAL_POLICIES_ORDERED_HPP
+#endif    // MARAL_POLICIES_ICODE_HPP

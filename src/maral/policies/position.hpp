@@ -71,7 +71,7 @@ public:
 //@}
 
 // Implementation
-protected:
+private:
     T pos_;
 };
 

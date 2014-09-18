@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_BOOTSTRAPS_BASIC_HPP
-#define MARAL_BOOTSTRAPS_BASIC_HPP
+#ifndef MARAL_BOOTSTRAPS_PDB_HPP
+#define MARAL_BOOTSTRAPS_PDB_HPP
 
 #ifndef MARAL_POLICIES_HPP
 #include <maral/policies.hpp>
@@ -39,7 +39,7 @@
 #include <maral/format.hpp>
 #endif // MARAL_FORMAT_HPP
 
-namespace maral { namespace bootstrap { namespace basic {
+namespace maral { namespace bootstrap { namespace pdb {
 
 typedef root_node
 <
@@ -57,49 +57,52 @@ typedef molecule_node
     data_model::hierarchical
 ,   policy::named<std::string>
 ,   policy::chainid<char>
->   molecule;
+>   chain;
 
 typedef submolecule_node
 <
     data_model::hierarchical
 ,   policy::named<std::string>
 ,   policy::ordered<unsigned>
+,   policy::icode<char>
 >   residue;
 
 typedef atom_node
 <
     data_model::hierarchical
 ,   policy::named<std::string>
-,   policy::ordered<unsigned>
 ,   policy::position<mtl::point3f>
+,   policy::occupancy<float>
+,   policy::b_factor<float>
+,   policy::formal_charge<char>
 >   atom;
 
 typedef ioformat
 <
     root
 ,   model
-,   molecule
+,   chain
 ,   residue
 ,   atom
 >   format;
 
-}}  // namespace booststrap::basic
+}}  // namespace booststrap::pdb
 
-template<> struct format_traits<bootstrap::basic::root>
-    {   typedef bootstrap::basic::format type; };
+template<> struct format_traits<bootstrap::pdb::root>
+    {   typedef bootstrap::pdb::format type; };
 
-template<> struct format_traits<bootstrap::basic::model>
-    {   typedef bootstrap::basic::format type; };
+template<> struct format_traits<bootstrap::pdb::model>
+    {   typedef bootstrap::pdb::format type; };
 
-template<> struct format_traits<bootstrap::basic::molecule>
-    {   typedef bootstrap::basic::format type; };
+template<> struct format_traits<bootstrap::pdb::chain>
+    {   typedef bootstrap::pdb::format type; };
 
-template<> struct format_traits<bootstrap::basic::residue>
-    {   typedef bootstrap::basic::format type; };
+template<> struct format_traits<bootstrap::pdb::residue>
+    {   typedef bootstrap::pdb::format type; };
 
-template<> struct format_traits<bootstrap::basic::atom>
-    {   typedef bootstrap::basic::format type; };
+template<> struct format_traits<bootstrap::pdb::atom>
+    {   typedef bootstrap::pdb::format type; };
 
 }   // namespace maral
 
-#endif    // MARAL_BOOTSTRAPS_BASIC_HPP
+#endif    // MARAL_BOOTSTRAPS_PDB_HPP

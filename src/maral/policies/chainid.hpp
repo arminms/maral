@@ -20,8 +20,8 @@ namespace maral { namespace policy {
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural policy for assigning chain id to nodes.
 ///
-/// \param T Type of the character to be used as name (e.g. char, char16_t,
-/// char32_t, ...).
+/// \param T Type of the character to be used as chain id (e.g. char, char16_t,
+/// char32_t, wchar_t, ...).
 /// \remarks
 /// chainid is a structural policy class that allows assigning a chain id to a
 /// node (usually molecule node), so it can be accessed or changed later.
@@ -32,22 +32,26 @@ template <typename T>
 public:
 /// \name Construction
 //@{
-    chainid(const T& id = T())
+    chainid(T id = T(' '))
     :   id_(id)
-    {}
+    {
+        BOOST_STATIC_ASSERT_MSG(
+            std::is_integral<T>::value == true,
+            "only integral types are allowed :(");
+	}
 //@}
 
 /// \name Attributes
 //@{
-    T chain_id() const
+    T get_chain_id() const
     {   return id_;   }
 
-    void chain_id(const T& id)
+    void set_chain_id(T id)
     {   id_ = id;   }
 //@}
 
 // Implementation
-protected:
+private:
     T id_;
 };
 
