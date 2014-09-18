@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_ORDERED_HPP
-#define MARAL_POLICIES_ORDERED_HPP
+#ifndef MARAL_POLICIES_FORMAL_CHARGE_HPP
+#define MARAL_POLICIES_FORMAL_CHARGE_HPP
 
 #ifndef MARAL_HAS_POLICY_HPP
 #include <maral/has_policy.hpp>
@@ -18,46 +18,49 @@
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning serial numbers to nodes.
+/// \brief Structural policy for assigning formal charge to atoms.
 ///
-/// \param T Type of the value (e.g. unsigend, int, ...).
+/// \param T Type of the value (e.g. char, int, long).
 /// \remarks
-/// \b ordered is a structural policy class that allows assigning a serial
-/// number to a node, so it can be accessed or changed later.
+/// \b formal_charge is a structural policy class that allows assigning a formal
+/// charge to an atom, so it can be accessed or changed later.
 
 template <typename T>
-    class ordered
+    class formal_charge
 {
 public:
 /// \name Construction
 //@{
-    ordered(T ordinal = T(1))
-    : ordinal_(ordinal)
+    formal_charge(T chg = T(0))
+    : formal_charge_(chg)
     {
         BOOST_STATIC_ASSERT_MSG(
             std::is_integral<T>::value == true,
             "only integral types are allowed :(");
+        BOOST_STATIC_ASSERT_MSG(
+            std::is_signed<T>::value == true,
+            "only signed types are allowed :(");
     }
 //@}
 
 /// \name Attributes
 //@{
-    T ordinal() const
-    {   return ordinal_;    }
+    T get_formal_charge() const
+    {   return formal_charge_;    }
 
-    void ordinal(T ordinal)
-    {   ordinal_ = ordinal; }
+    void set_formal_charge(T chg)
+    {   formal_charge_ = chg; }
 //@}
 
 // Implementation
 private:
-    T ordinal_;
+    T formal_charge_;
 };
 
 }   // namespace policy
 
-GENERATE_HAS_POLICY(ordered)    // creates has_policy_ordered
+GENERATE_HAS_POLICY(formal_charge)    // creates has_policy_formal_charge
 
 }    // namespace maral
 
-#endif    // MARAL_POLICIES_ORDERED_HPP
+#endif    // MARAL_POLICIES_FORMAL_CHARGE_HPP

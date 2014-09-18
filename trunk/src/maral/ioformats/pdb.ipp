@@ -307,7 +307,7 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
 ,   const Mo* mo
 ,   std::true_type) const
 {
-    out << mo->chain_id();
+    out << mo->get_chain_id();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -392,7 +392,7 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_chain_id(
 ,   Mo* mo
 ,   std::true_type) const
 {
-    mo->chain_id(line[21]);
+    mo->set_chain_id(line[21]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -494,6 +494,21 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_icode(
+    std::ostream& out
+,   const Sm* sm
+,   std::true_type) const
+{
+        out << sm->get_icode();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_submol(
     std::istream& in
 ,   Sm* sm) const
@@ -536,6 +551,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
     {
         std::cerr << "PDB syntax error > " << line << '<' << std::endl;
     }
+    scan_submol_icode(line, sm, has_policy_icode<Sm>());
     do
     {
         if (0 == line.compare(0, 5, "ATOM ")
@@ -594,6 +610,21 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_order(
     std::string res_seq = line.substr(22, 4);
     boost::trim(res_seq);
     sm->ordinal(boost::lexical_cast<decltype(sm->ordinal())>(res_seq));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_icode(
+    const std::string& line
+,   Sm* sm
+,   std::true_type) const
+{
+    sm->set_icode(line[26]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -681,12 +712,20 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
         out << ' ';
 
     if (sm)
+    {
         print_submol_order(out, sm, has_policy_ordered<Sm>());
+        print_submol_icode(out, sm, has_policy_icode<Sm>());
+    }
     else
-        out << "    ";
+        out << "     ";
 
-    out << "    ";
+    out << "   " << std::fixed << std::setprecision(3);
     print_atom_pos(out, at, has_policy_position<At>());
+    out << std::setprecision(2);
+    print_atom_occupancy(out, at, has_policy_occupancy<At>());
+    print_atom_b_factor(out, at, has_policy_b_factor<At>());
+    out << std::string(12, ' ');
+    print_atom_formal_charge(out, at, has_policy_formal_charge<At>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -758,10 +797,63 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << std::fixed << std::setprecision(3)
-        << std::setw(8) << (*at)[0]
+    out << std::setw(8) << (*at)[0]
         << std::setw(8) << (*at)[1]
         << std::setw(8) << (*at)[2];
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_occupancy(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::setw(6) << at->get_occupancy();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_b_factor(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::setw(6) << at->get_b_factor();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    if (0 == at->get_formal_charge())
+        out << "  ";
+    else
+    {
+        std::ostringstream tmp;
+        tmp << std::showpos << int(at->get_formal_charge());
+        std::string chg = tmp.str();
+        boost::reverse(chg);
+        out << std::setw(2) << chg;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -798,17 +890,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
         if (0 == line.compare(0, 5, "ATOM ")
         ||  0 == line.compare(0, 6, "HETATM"))
         {
-            scan_atom_name(line, at, has_policy_named<At>());
-            try
-            {
-                scan_atom_order(in, at, has_policy_ordered<At>());
-                scan_atom_pos(line, at, has_policy_position<At>());
-            }
-            catch (const boost::bad_lexical_cast &)
-            {
-                std::cerr << "PDB syntax error > " << line  << '<'
-                          << std::endl;
-            }
+            scan_atom(in, line, at);
             break;
         }
     }
@@ -831,6 +913,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
     {
         scan_atom_order(in, at, has_policy_ordered<At>());
         scan_atom_pos(line, at, has_policy_position<At>());
+        scan_atom_occupancy(line, at, has_policy_occupancy<At>());
+        scan_atom_b_factor(line, at, has_policy_b_factor<At>());
+        scan_atom_formal_charge(line, at, has_policy_formal_charge<At>());
     }
     catch (const boost::bad_lexical_cast &)
     {
@@ -912,4 +997,65 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_pos(
     (*at)[1] = boost::lexical_cast<coord_type>(coord);
     coord = line.substr(46, 8); boost::trim(coord);
     (*at)[2] = boost::lexical_cast<coord_type>(coord);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_occupancy(
+    const std::string& line
+,   At* at
+,   std::true_type) const
+{
+    if (line.length() > 59)
+    {
+        std::string occ = line.substr(54, 6); boost::trim(occ);
+        at->set_occupancy(
+            boost::lexical_cast<decltype(at->get_occupancy())>(occ));
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
+    const std::string& line
+,   At* at
+,   std::true_type) const
+{
+    if (line.length() > 65)
+    {
+        std::string bf = line.substr(60, 6); boost::trim(bf);
+        at->set_b_factor(
+            boost::lexical_cast<decltype(at->get_b_factor())>(bf));
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_formal_charge(
+    const std::string& line
+,   At* at
+,   std::true_type) const
+{
+    if (line.length() > 79)
+        if (0 != line.compare(78, 2, "  "))
+        {
+            std::string chg = line.substr(78, 2);
+            boost::reverse(chg);
+            at->set_formal_charge(std::stoi(chg));
+        }
 }

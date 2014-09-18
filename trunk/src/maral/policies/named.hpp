@@ -60,7 +60,7 @@ public:
 //@}
 
 // Implementation
-protected:
+private:
     T name_;
 };
 

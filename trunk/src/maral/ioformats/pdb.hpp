@@ -20,6 +20,7 @@
 #include <type_traits>
 
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/range/algorithm/reverse.hpp>
 
 #ifndef MARAL_MTL_INSERTERS_HPP
 #include <maral/mtl/inserters.hpp>
@@ -76,6 +77,10 @@ private:
         const Sm* sm, std::true_type) const;
     void print_submol_order(std::ostream& out,
         const Sm* sm, std::false_type) const;
+    void print_submol_icode(std::ostream& out,
+        const Sm* sm, std::true_type) const;
+    void print_submol_icode(std::ostream& out,
+        const Sm* sm, std::false_type) const    {   out << ' ';   }
 
     void print_atom_name(std::ostream& out,
         const At* at, std::true_type) const;
@@ -83,12 +88,24 @@ private:
         const At* at, std::true_type) const;
     void print_atom_pos(std::ostream& out,
         const At* at, std::true_type) const;
+    void print_atom_occupancy(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_b_factor(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_formal_charge(std::ostream& out,
+        const At* at, std::true_type) const;
     void print_atom_name(std::ostream& out,
         const At* at, std::false_type) const    {   out << " ?  ";  }
     void print_atom_order(std::ostream& out,
         const At* at, std::false_type) const;
     void print_atom_pos(std::ostream& out,
         const At* at, std::false_type) const;
+    void print_atom_occupancy(std::ostream& out,
+        const At* at, std::false_type) const     {   out << "  1.00";  }
+    void print_atom_b_factor(std::ostream& out,
+        const At* at, std::false_type) const     {   out << "  0.00";  }
+    void print_atom_formal_charge(std::ostream& out,
+        const At* at, std::false_type) const     {   out << "  ";  }
 
     virtual void do_scan_root(std::istream& in, Rt* rt) const;
     virtual void do_scan_model(std::istream& in, Md* md) const;
@@ -149,14 +166,14 @@ private:
         Sm* sm, std::true_type) const;
     void scan_submol_order(const std::string& line,
         Sm* sm, std::true_type) const;
-    //void print_submol_pos(std::ostream& out,
-    //    const Sm* sm, std::true_type) const;
+    void scan_submol_icode(const std::string& line,
+        Sm* sm, std::true_type) const;
     void scan_submol_name(const std::string& line,
         Sm* sm, std::false_type) const  {}
     void scan_submol_order(const std::string& line,
         Sm* sm, std::false_type) const  {}
-    //void print_submol_pos(std::ostream& out,
-    //    const Sm* sm, std::false_type) const    {}
+    void scan_submol_icode(const std::string& line,
+        Sm* sm, std::false_type) const  {}
 
     void scan_atom_name(const std::string& line,
         At* at, std::true_type) const;
@@ -164,11 +181,23 @@ private:
         At* at, std::true_type) const;
     void scan_atom_pos(const std::string& line,
         At* at, std::true_type) const;
+    void scan_atom_occupancy(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_b_factor(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_formal_charge(const std::string& line,
+        At* at, std::true_type) const;
     void scan_atom_name(const std::string& line,
         At* at, std::false_type) const    {}
     void scan_atom_order(std::istream& in,
         At* at, std::false_type) const;
     void scan_atom_pos(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_occupancy(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_b_factor(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_formal_charge(const std::string& line,
         At* at, std::false_type) const    {}
 
     bool is_het(const Sm* sm, std::true_type) const
