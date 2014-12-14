@@ -8,5 +8,6 @@
 		<Project filename="test/test_hierarchical_datamodel.cbp" />
 		<Project filename="test/test_ioformat_tree.cbp" />
 		<Project filename="test/test_ioformat_pdb.cbp" />
+		<Project filename="test/test_ioformat_pdb_mutlimodel.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

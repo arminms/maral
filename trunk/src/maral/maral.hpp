@@ -1,20 +1,12 @@
-////////////////////////////////////////////////////////////////////////////////
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
-//                                  MARAL
-//            (Molecular Architectural Record & Assembly Library)
+// Copyright (C) 2014 Armin Madadkar Sobhani
 //
-//        Copyright (C) by Armin Madadkar-Sobhani arminms@gmail.com
+// Distributed under the Boost Software License Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 //
-//                 See the LICENSE file for terms of use
-//
-//------------------------------------------------------------------------------
 // $Id$
-//------------------------------------------------------------------------------
-/// \file maral.hpp
-/// \brief Main include file for the \b Maral.
-///
-/// \b maral.hpp is the main include file for the \b Maral.
-/// This file must be included in all projects using \b Maral.
 
 #ifndef MARAL_MARAL_HPP
 #define MARAL_MARAL_HPP

@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -757,7 +757,7 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 
 //BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
 //{
-//    std::cout << format(0) << rt.get() << std::endl;
+//    std::cout << format(tree) << rt.get() << std::endl;
 //    for (auto node : *rt)
 //        std::cout << delimiters('[', ']') << separator(' ')
 //             << node << std::endl;

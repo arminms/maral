@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -46,8 +46,8 @@ template
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
 void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_root(
-std::ostream& out
-, const Rt* rt) const
+    std::ostream& out
+,   const Rt* rt) const
 {
     //if (1 == rt->children()->size()
     //&&  1 == boost::distance(rt->range<Md>()))
@@ -55,7 +55,47 @@ std::ostream& out
     //    out << *(rt->begin<Md>());
     //    return;
     //}
+    print_frames(out, rt, has_policy_coordinates<Rt>());
+    out << "END" << std::string(77, ' ') << std::endl;
+}
 
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Rt* rt
+,   std::true_type) const
+{
+    out << "NUMMDL    "
+        << std::left  << std::setw(4) << rt->frames_size()
+        << std::right << std::string(66, ' ') << std::endl;
+    for (std::size_t i = 0; i < rt->frames_size(); ++i)
+    {
+        out << "MODEL     "
+            << std::setw(4) << i + 1
+            << std::string(66, ' ') << std::endl;
+        print_root(out, rt, i);
+        out << "ENDMDL" << std::string(74, ' ') << std::endl;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_root(
+    std::ostream& out
+,   const Rt* rt
+,   std::size_t frame) const
+{
     int ordinal = 1;
     auto spos = rt->template begin<Sm>();
     Sm* prev_sm = (spos == rt->template end<Sm>()) ? nullptr : *spos;
@@ -69,13 +109,27 @@ std::ostream& out
         if (prev_mo && prev_mo != mo)
             if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
                 print_chain_termination(out, prev_mo, prev_sm, ordinal++);
-        print_atom(out, mo, sm, at, ordinal++);
+        print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
         prev_mo = mo; prev_sm = sm;
     }
     if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
         print_chain_termination(out, prev_mo, prev_sm, ordinal++);
-    out << "END" << std::string(77, ' ') << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Rt* rt
+,   std::false_type) const
+{
+    print_root(out, rt, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,10 +140,10 @@ template
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
 inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_chain_termination(
-std::ostream& out
-, const Mo* mo
-, const Sm* sm
-, int ordinal) const
+    std::ostream& out
+,   const Mo* mo
+,   const Sm* sm
+,   int ordinal) const
 {
     out << "TER   " << std::setw(5) << ordinal << "      ";
     print_submol_name(out, sm, has_policy_named<Sm>());
@@ -97,8 +151,8 @@ std::ostream& out
     if (mo)
         print_mol_chain_id(out, mo, has_policy_chainid<Mo>());
     print_submol_order(out, sm, has_policy_ordered<Sm>());
-    // iCode later...
-    out << std::string(54, ' ') << std::endl;
+    print_submol_icode(out, sm, has_policy_icode<Sm>());
+    out << std::string(53, ' ') << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +197,77 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
                 auto mol = make_node<Mo>();
                 scan_mol(in, line, mol.get());
                 rt->add(std::move(mol));
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_frame_number(
+    const std::string& line
+,   std::true_type) const
+{
+    if (0 == line.compare(0, 6, "NUMMDL"))
+        Rt::reserve_frames_size(std::stoi(line.substr(10, 4)));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
+    std::istream& in
+,   std::string& line
+,   std::true_type) const
+{
+    if (0 == line.compare(0, 6, "MODEL "))
+    {
+        std::size_t frame = std::stoi(line.substr(10, 4));
+        if (1 == frame)
+        {
+            if (Rt::frames_size() < frame)
+                Rt::add_frame(1, 99999);
+            return;
+        }
+        else
+        {
+            //auto prev_size = Rt::coords_size();
+            if (Rt::frames_size() < frame)
+                Rt::add_frame();
+            while (getline(in, line))
+            {
+                if (0 == line.compare(0, 6, "ENDMDL"))
+                {
+                    return;
+                }
+
+                if (0 == line.compare(0, 5, "ATOM ")
+                ||  0 == line.compare(0, 6, "HETATM"))
+                {
+                    typename std::remove_reference
+                        <decltype(Rt::coord(0))>::type coord;
+                    typedef typename std::remove_reference
+                        <decltype(coord[0])>::type value_type;
+                    std::string
+                    value = line.substr(30, 8); boost::trim(value);
+                    coord[0] = boost::lexical_cast<value_type>(value);
+                    value = line.substr(38, 8); boost::trim(value);
+                    coord[1] = boost::lexical_cast<value_type>(value);
+                    value = line.substr(46, 8); boost::trim(value);
+                    coord[2] = boost::lexical_cast<value_type>(value);
+                    /* auto idx =*/ Rt::add_coord(coord, frame - 1);
+                    //if (idx > prev_size)
+                    //    std::cerr << "ERROR!" << std::endl;
+                }
             }
         }
     }
@@ -224,6 +349,9 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
 {
     do
     {
+        scan_frame_number(line, has_policy_coordinates<Rt>());
+        scan_coords(in, line, has_policy_coordinates<Rt>());
+
         if ( 0 == line.compare(0, 5, "ATOM ")
         ||   0 == line.compare(0, 6, "HETATM") )
         {
@@ -655,10 +783,11 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
     std::ostream& out
 ,   const Mo* mo
 ,   const At* at
-,   int ordinal) const
+,   int ordinal
+,   std::size_t frame) const
 {
     Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
-    print_atom(out, mo, sm, at, ordinal);
+    print_atom(out, mo, sm, at, ordinal, frame);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -673,7 +802,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
 ,   const Mo* mo
 ,   const Sm* sm
 ,   const At* at
-,   int ordinal) const
+,   int ordinal
+,   std::size_t frame) const
 {
     if (sm)
         if (is_het(sm, has_policy_named<Sm>()))
@@ -720,7 +850,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
         out << "     ";
 
     out << "   " << std::fixed << std::setprecision(3);
-    print_atom_pos(out, at, has_policy_position<At>());
+    //print_atom_pos(out, at, has_policy_position<At>());
+    print_atom_pos(out, at, frame, has_pos_or_lnk_pos<At>());
     out << std::setprecision(2);
     print_atom_occupancy(out, at, has_policy_occupancy<At>());
     print_atom_b_factor(out, at, has_policy_b_factor<At>());
@@ -795,11 +926,30 @@ template
 inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
     std::ostream& out
 ,   const At* at
+,   std::size_t frame
 ,   std::true_type) const
 {
-    out << std::setw(8) << (*at)[0]
-        << std::setw(8) << (*at)[1]
-        << std::setw(8) << (*at)[2];
+    out << std::setw(8) << (*at)(0, frame)
+        << std::setw(8) << (*at)(1, frame)
+        << std::setw(8) << (*at)(2, frame);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+    std::ostream& out
+,   const At* at
+,   std::size_t frame
+,   std::false_type) const
+{
+    out << "   0.000"
+        << "   0.000"
+        << "   0.000";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -863,23 +1013,6 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
-    std::ostream& out
-,   const At* at
-,   std::false_type) const
-{
-    out << "   0.000"
-        << "   0.000"
-        << "   0.000";
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
 void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
     std::istream& in
 ,   At* at) const
@@ -913,6 +1046,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
     {
         scan_atom_order(in, at, has_policy_ordered<At>());
         scan_atom_pos(line, at, has_policy_position<At>());
+        scan_atom_pos(line, at, has_policy_linked_position<At>());
         scan_atom_occupancy(line, at, has_policy_occupancy<At>());
         scan_atom_b_factor(line, at, has_policy_b_factor<At>());
         scan_atom_formal_charge(line, at, has_policy_formal_charge<At>());

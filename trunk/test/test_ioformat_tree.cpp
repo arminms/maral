@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -125,7 +125,9 @@ BOOST_FIXTURE_TEST_CASE( Model_Tree_Deep, CRN_INIT )
         !butrc::save_pattern());
 
     auto crambin = *(rt->begin<model>());
-    cout << delimiters('[', ']') << separator(' ') << crambin;
+    // because of a possible bug in libc++, the following line makes system crash
+    // as a result this test must be linked only with libstdc++
+    cout << shallow << delimiters('[', ']') << separator(' ') << crambin;
     BOOST_CHECK(cout.match_pattern());
 }
 
