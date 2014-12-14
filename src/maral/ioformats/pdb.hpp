@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -57,10 +57,17 @@ private:
     virtual void do_print_submol(std::ostream& out, const Sm* sm) const;
     virtual void do_print_atom(std::ostream& out, const At* at) const;
 
+    void print_root(std::ostream& out,
+        const Rt* rt, std::size_t frame) const;
+    void print_frames(std::ostream& out,
+        const Rt* rt, std::true_type) const;
+    void print_frames(std::ostream& out,
+        const Rt* rt, std::false_type) const;
+
     void print_atom(std::ostream& out, const Mo* mo,
-            const At* at, int ordinal = -1) const;
+            const At* at, int ordinal = -1, std::size_t frame = 0) const;
     void print_atom(std::ostream& out, const Mo* mo, const Sm* sm,
-            const At* at, int ordinal = -1) const;
+            const At* at, int ordinal = -1, std::size_t frame = 0) const;
     void print_chain_termination(std::ostream& out, const Mo* mo,
             const Sm* sm, int ordinal) const;
 
@@ -87,7 +94,7 @@ private:
     void print_atom_order(std::ostream& out,
         const At* at, std::true_type) const;
     void print_atom_pos(std::ostream& out,
-        const At* at, std::true_type) const;
+        const At* at, std::size_t frame, std::true_type) const;
     void print_atom_occupancy(std::ostream& out,
         const At* at, std::true_type) const;
     void print_atom_b_factor(std::ostream& out,
@@ -99,7 +106,7 @@ private:
     void print_atom_order(std::ostream& out,
         const At* at, std::false_type) const;
     void print_atom_pos(std::ostream& out,
-        const At* at, std::false_type) const;
+        const At* at, std::size_t frame, std::false_type) const;
     void print_atom_occupancy(std::ostream& out,
         const At* at, std::false_type) const     {   out << "  1.00";  }
     void print_atom_b_factor(std::ostream& out,
@@ -113,14 +120,19 @@ private:
     virtual void do_scan_submol(std::istream& in, Sm* sm) const;
     virtual void do_scan_atom(std::istream& in, At* at) const;
 
-    //void scan_root(std::istream& in, std::string& line, Rt* rt) const;
     void scan_model(std::istream& in, std::string& line, Md* md) const;
     void scan_mol(std::istream& in, std::string& line, Mo* mo) const;
     void scan_submol(std::istream& in, std::string& line, Sm* sm) const;
     void scan_atom(std::istream& in, std::string& line, At* at) const;
 
-    //void scan_root_name(std::istream& out,
-    //    Rt* rt, std::true_type) const;
+    void scan_frame_number(const std::string& line,
+        std::true_type) const;
+    void scan_frame_number(const std::string& line,
+        std::false_type) const      {}
+    void scan_coords(std::istream& in, std::string& line,
+        std::true_type) const;
+    void scan_coords(std::istream& in, std::string& line,
+        std::false_type) const    {}
     //void scan_root_order(std::istream& out,
     //    Rt* rt, std::true_type) const;
     //void scan_root_pos(std::istream& out,
@@ -205,6 +217,15 @@ private:
 
     bool is_het(const Sm* sm, std::false_type) const
     {   return true;    }
+
+    template <class T>
+    struct has_pos_or_lnk_pos
+    :   public std::integral_constant
+    <   bool,
+        has_policy_position<T>::value || has_policy_linked_position<T>::value
+    >
+    {};
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -24,6 +24,7 @@
 #include <maral/ioformats/pdb.hpp>
 
 namespace maral {
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Abstract Base Class for Input/Output Formats
@@ -215,6 +216,10 @@ template
 ,   class At
 >
     io_format_repository<Rt,Md,Mo,Sm,At> ioformat<Rt,Md,Mo,Sm,At>::repo_;
+
+    // Temporary enumerations for the file formats
+    // must be replaced later by a better mechanism...
+    enum { tree, pdb };
 
 }    // namespace maral
 

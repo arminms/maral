@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -53,6 +53,14 @@ template
 :   public data_model::root_node<data_model::hierarchical>
 ,   public Policies...
 {
+//public:
+//    virtual ~root_node<data_model::hierarchical, Policies...>()
+//    {   clear_coords(has_policy_coordinates<root_node<data_model::hierarchical, Policies...>>());   }
+//
+//private:
+//    void clear_coords(std::true_type)   {   clear_frames();    }
+//    void clear_coords(std::false_type)  {}
+
     virtual void do_print(std::ostream& out) const
     {   format_traits<root_node>::type::print_root(out, this);  }
 

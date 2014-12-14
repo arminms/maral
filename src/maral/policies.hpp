@@ -1,4 +1,4 @@
-// Boost.Maral library (Molecular Architecture Recording & Assembly Library)
+// Boost.Maral library (Molecular Archiving, Retrieval & Algorithm Library)
 //
 // Copyright (C) 2014 Armin Madadkar Sobhani
 //
@@ -16,8 +16,10 @@
 
 #include <maral/policies/b_factor.hpp>
 #include <maral/policies/chainid.hpp>
+#include <maral/policies/coordinates.hpp>
 #include <maral/policies/formal_charge.hpp>
 #include <maral/policies/icode.hpp>
+#include <maral/policies/linked_position.hpp>
 #include <maral/policies/named.hpp>
 #include <maral/policies/occupancy.hpp>
 #include <maral/policies/ordered.hpp>

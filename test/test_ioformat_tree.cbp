@@ -16,7 +16,6 @@
 				</Compiler>
 				<ExtraCommands>
 					<Add after="bin/debug/test_ioformat_tree --result_code=no --report_level=no" />
-					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 			<Target title="release">
@@ -32,20 +31,17 @@
 				</Linker>
 				<ExtraCommands>
 					<Add after="bin/release/test_ioformat_tree --result_code=no --report_level=no" />
+					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-stdlib=libc++" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 			<Add directory="../src" />
 			<Add directory="../boost/1_55_0" />
 		</Compiler>
-		<Linker>
-			<Add option="-lc++ -lstdc++" />
-		</Linker>
 		<Unit filename="test_ioformat_tree.cpp" />
 		<Extensions>
 			<envvars />
