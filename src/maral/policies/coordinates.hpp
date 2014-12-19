@@ -81,7 +81,10 @@ public:
 
 /// \name Operations
 //@{
-    static void add_frame(std::size_t num = 1, std::size_t size = 10000)
+    static void add_frame(
+        std::size_t num = 1
+    ,   std::size_t skip = 0
+    ,   std::size_t size = 10000)
     {
         //if (1 == frames_.size())
         //    frames_[0]->shrink_to_fit();
@@ -92,6 +95,12 @@ public:
             frames_.push_back(std::unique_ptr<std::vector<T>>
                 (new std::vector<T>()));
             frames_.back()->reserve(size);
+            if (skip)
+            {
+                frames_.back()->assign(
+                    frames_[frames_.size() - 2]->begin()
+                ,   frames_[frames_.size() - 2]->begin() + skip);
+            }
         }
     }
 
@@ -125,6 +134,19 @@ public:
 
     static void clear_frames()
     {   frames_.clear();    }
+
+    static void level_coords()
+    {
+        for (std::size_t i = 0; i < frames_.size(); ++i)
+        {
+            if (0 == i) continue;
+            if (frames_[i]->size() < frames_[i-1]->size())
+                frames_[i]->insert(
+                    frames_[i]->cend()
+                ,   frames_[i-1]->begin() + frames_[i]->size()
+                ,   frames_[i-1]->end());
+        }
+    }
 //@}
 
 // Implementation

@@ -104,6 +104,25 @@ BOOST_AUTO_TEST_CASE( PDB_3SDY_Root )
     }
 }
 
+BOOST_AUTO_TEST_CASE( PDB_2SOC_Root )
+{
+    std::ifstream in(PATTERNS_FOLDER"2SOC.pdb");
+    auto rt = make_node<root>();
+    in >> format(pdb) >> rt.get();
+
+    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
+    BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );
+    BOOST_CHECK(   8 == boost::distance(rt->range<residue>()) );
+    BOOST_CHECK( 137 == boost::distance(rt->range<atom>()) );
+
+    output_test_stream cout(
+        PATTERNS_FOLDER"2SOC_1st_frame.pdb",
+        !butrc::save_pattern());
+
+    cout << format(pdb) << rt.get();
+    BOOST_CHECK(cout.match_pattern());
+}
+
 BOOST_AUTO_TEST_CASE( PDB_NoChain_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
@@ -291,7 +310,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     //auto ch = make_node<chain>();
     //in >> format(pdb) >> ch.get();
-    //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
+    //std::ofstream cout(PATTERNS_FOLDER"3SDY_chain_test_.pdb");
     //cout << format(pdb) << ch.get();
 
     //std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");

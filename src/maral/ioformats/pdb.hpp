@@ -59,17 +59,41 @@ private:
 
     void print_root(std::ostream& out,
         const Rt* rt, std::size_t frame) const;
+    void print_model(std::ostream& out,
+        const Md* md, std::size_t frame) const;
+    void print_mol(std::ostream& out,
+        const Mo* mo, std::size_t frame) const;
+    void print_submol(std::ostream& out,
+        const Sm* sm, std::size_t frame) const;
+    void print_atom(std::ostream& out,
+        const Mo* mo, const Sm* sm, const At* at,
+        int ordinal = -1, std::size_t frame = 0) const;
+
     void print_frames(std::ostream& out,
         const Rt* rt, std::true_type) const;
     void print_frames(std::ostream& out,
         const Rt* rt, std::false_type) const;
+    void print_frames(std::ostream& out,
+        const Md* md, std::true_type) const;
+    void print_frames(std::ostream& out,
+        const Md* md, std::false_type) const;
+    void print_frames(std::ostream& out,
+        const Mo* mo, std::true_type) const;
+    void print_frames(std::ostream& out,
+        const Mo* mo, std::false_type) const;
+    void print_frames(std::ostream& out,
+        const Sm* sm, std::true_type) const;
+    void print_frames(std::ostream& out,
+        const Sm* sm, std::false_type) const;
+    void print_frames(std::ostream& out,
+        const Mo* mo, const Sm* sm, const At* at,
+        int ordinal, std::true_type) const;
+    void print_frames(std::ostream& out,
+        const Mo* mo, const Sm* sm, const At* at,
+        int ordinal, std::false_type) const;
 
-    void print_atom(std::ostream& out, const Mo* mo,
-            const At* at, int ordinal = -1, std::size_t frame = 0) const;
-    void print_atom(std::ostream& out, const Mo* mo, const Sm* sm,
-            const At* at, int ordinal = -1, std::size_t frame = 0) const;
     void print_chain_termination(std::ostream& out, const Mo* mo,
-            const Sm* sm, int ordinal) const;
+        const Sm* sm, int ordinal) const;
 
     void print_mol_chain_id(std::ostream& out,
         const Mo* mo, std::true_type) const;
@@ -129,10 +153,18 @@ private:
         std::true_type) const;
     void scan_frame_number(const std::string& line,
         std::false_type) const      {}
-    void scan_coords(std::istream& in, std::string& line,
-        std::true_type) const;
-    void scan_coords(std::istream& in, std::string& line,
-        std::false_type) const    {}
+    bool scan_coords(std::istream& in, std::string& line,
+        std::size_t skip, std::true_type) const;
+    bool scan_coords(std::istream& in, std::string& line,
+        std::size_t skip, std::false_type) const;
+    void level_coords(std::true_type) const
+    {   Rt::level_coords();  }
+    void level_coords(std::false_type) const
+    {}
+    std::size_t get_skip(std::true_type) const
+    {   return Rt::coords_size();  }
+    std::size_t get_skip(std::false_type) const
+    {   return 0;   }
     //void scan_root_order(std::istream& out,
     //    Rt* rt, std::true_type) const;
     //void scan_root_pos(std::istream& out,
