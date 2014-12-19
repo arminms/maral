@@ -49,39 +49,20 @@ void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_root(
     std::ostream& out
 ,   const Rt* rt) const
 {
-    //if (1 == rt->children()->size()
-    //&&  1 == boost::distance(rt->range<Md>()))
-    //{
-    //    out << *(rt->begin<Md>());
-    //    return;
-    //}
-    print_frames(out, rt, has_policy_coordinates<Rt>());
+    auto pos = rt->template begin<Md>();
+    auto md = (pos == rt->template end<Md>() ? nullptr : *pos);
+    if (md)
+        if (boost::distance(rt->template range<At>())
+        ==  boost::distance(md->template range<At>()))
+        {
+            do_print_model(out, md);
+            return;
+        }
+        else
+            print_frames(out, rt, has_policy_coordinates<Rt>());
+    else
+        print_frames(out, rt, has_policy_coordinates<Rt>());
     out << "END" << std::string(77, ' ') << std::endl;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
-    std::ostream& out
-,   const Rt* rt
-,   std::true_type) const
-{
-    out << "NUMMDL    "
-        << std::left  << std::setw(4) << rt->frames_size()
-        << std::right << std::string(66, ' ') << std::endl;
-    for (std::size_t i = 0; i < rt->frames_size(); ++i)
-    {
-        out << "MODEL     "
-            << std::setw(4) << i + 1
-            << std::string(66, ' ') << std::endl;
-        print_root(out, rt, i);
-        out << "ENDMDL" << std::string(74, ' ') << std::endl;
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,24 +78,52 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_root(
 ,   std::size_t frame) const
 {
     int ordinal = 1;
-    auto spos = rt->template begin<Sm>();
-    Sm* prev_sm = (spos == rt->template end<Sm>()) ? nullptr : *spos;
-    auto mpos = rt->template begin<Mo>();
-    Mo* prev_mo = (mpos == rt->template end<Mo>()) ? nullptr : *mpos;
+    bool has_std_res = false;
     for (auto at : rt->template range<At>())
     {
         Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
         Mo* mo = (sm && sm->parent())
                ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
-        if (prev_mo && prev_mo != mo)
-            if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
-                print_chain_termination(out, prev_mo, prev_sm, ordinal++);
         print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
-        prev_mo = mo; prev_sm = sm;
+        if (!has_std_res && sm && !is_het(sm, has_policy_named<Sm>()))
+            has_std_res = true;
+        if (mo &&  at == *(mo->template rbegin<At>()) && has_std_res)
+        {
+            print_chain_termination(out, mo, sm, ordinal++);
+            has_std_res = false;
+        }
     }
-    if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
-        print_chain_termination(out, prev_mo, prev_sm, ordinal++);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Rt* rt
+,   std::true_type) const
+{
+    if (1 == rt->frames_size())
+        print_root(out, rt, 0);
+    else
+    {
+        out << "NUMMDL    "
+            << std::left  << std::setw(4) << rt->frames_size()
+            << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = 0; i < rt->frames_size(); ++i)
+        {
+            out << "MODEL     "
+                << std::setw(4) << i + 1
+                << std::string(66, ' ') << std::endl;
+            print_root(out, rt, i);
+            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -203,77 +212,6 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_frame_number(
-    const std::string& line
-,   std::true_type) const
-{
-    if (0 == line.compare(0, 6, "NUMMDL"))
-        Rt::reserve_frames_size(std::stoi(line.substr(10, 4)));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
-    std::istream& in
-,   std::string& line
-,   std::true_type) const
-{
-    if (0 == line.compare(0, 6, "MODEL "))
-    {
-        std::size_t frame = std::stoi(line.substr(10, 4));
-        if (1 == frame)
-        {
-            if (Rt::frames_size() < frame)
-                Rt::add_frame(1, 99999);
-            return;
-        }
-        else
-        {
-            //auto prev_size = Rt::coords_size();
-            if (Rt::frames_size() < frame)
-                Rt::add_frame();
-            while (getline(in, line))
-            {
-                if (0 == line.compare(0, 6, "ENDMDL"))
-                {
-                    return;
-                }
-
-                if (0 == line.compare(0, 5, "ATOM ")
-                ||  0 == line.compare(0, 6, "HETATM"))
-                {
-                    typename std::remove_reference
-                        <decltype(Rt::coord(0))>::type coord;
-                    typedef typename std::remove_reference
-                        <decltype(coord[0])>::type value_type;
-                    std::string
-                    value = line.substr(30, 8); boost::trim(value);
-                    coord[0] = boost::lexical_cast<value_type>(value);
-                    value = line.substr(38, 8); boost::trim(value);
-                    coord[1] = boost::lexical_cast<value_type>(value);
-                    value = line.substr(46, 8); boost::trim(value);
-                    coord[2] = boost::lexical_cast<value_type>(value);
-                    /* auto idx =*/ Rt::add_coord(coord, frame - 1);
-                    //if (idx > prev_size)
-                    //    std::cerr << "ERROR!" << std::endl;
-                }
-            }
-        }
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // Model
 
 template
@@ -285,26 +223,84 @@ void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_model(
 std::ostream& out
 , const Md* md) const
 {
+    print_frames(out, md, has_policy_coordinates<Rt>());
+    out << "END" << std::string(77, ' ') << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_model(
+    std::ostream& out
+,   const Md* md
+,   std::size_t frame) const
+{
     int ordinal = 1;
-    auto spos = md->template begin<Sm>();
-    Sm* prev_sm = (spos == md->template end<Sm>()) ? nullptr : *spos;
-    auto mpos = md->template begin<Mo>();
-    Mo* prev_mo = (mpos == md->template end<Mo>()) ? nullptr : *mpos;
+    bool has_std_res = false;
     for (auto at : md->template range<At>())
     {
         Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
         Mo* mo = (sm && sm->parent())
                ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
-        if (prev_mo && prev_mo != mo)
-            if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
-                print_chain_termination(out, prev_mo, prev_sm, ordinal++);
-        print_atom(out, mo, sm, at, ordinal++);
+        print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
-        prev_mo = mo; prev_sm = sm;
+        if (!has_std_res && sm && !is_het(sm, has_policy_named<Sm>()))
+            has_std_res = true;
+        if (mo && at == *(mo->template rbegin<At>()) && has_std_res)
+        {
+            print_chain_termination(out, mo, sm, ordinal++);
+            has_std_res = false;
+        }
     }
-    if (prev_sm && !is_het(prev_sm, has_policy_named<Sm>()))
-        print_chain_termination(out, prev_mo, prev_sm, ordinal++);
-    out << "END" << std::string(77, ' ') << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Md* md
+,   std::true_type) const
+{
+    if (1 == Rt::frames_size())
+        print_model(out, md, 0);
+    else
+    {
+        out << "NUMMDL    "
+            << std::left  << std::setw(4) << Rt::frames_size()
+            << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        {
+            out << "MODEL     "
+                << std::setw(4) << i + 1
+                << std::string(66, ' ') << std::endl;
+            print_model(out, md, i);
+            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Md* md
+,   std::false_type) const
+{
+    print_model(out, md, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -342,15 +338,17 @@ template
     template <class,class,class,class,class> class Base
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
     std::istream& in
 ,   std::string& line
 ,   Md* md) const
 {
+    std::size_t skip = get_skip(has_policy_coordinates<Rt>());
     do
     {
         scan_frame_number(line, has_policy_coordinates<Rt>());
-        scan_coords(in, line, has_policy_coordinates<Rt>());
+        if (scan_coords(in, line, skip, has_policy_coordinates<Rt>()))
+            break;
 
         if ( 0 == line.compare(0, 5, "ATOM ")
         ||   0 == line.compare(0, 6, "HETATM") )
@@ -386,6 +384,95 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
             }
         }
     } while (getline(in, line));
+    level_coords(has_policy_coordinates<Rt>());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_frame_number(
+    const std::string& line
+,   std::true_type) const
+{
+    if (0 == line.compare(0, 6, "NUMMDL"))
+        Rt::reserve_frames_size(std::stoi(line.substr(10, 4)));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
+    std::istream& in
+,   std::string& line
+,   std::size_t skip
+,   std::true_type) const
+{
+    if (0 == line.compare(0, 6, "MODEL "))
+    {
+        std::size_t frame = std::stoi(line.substr(10, 4));
+        if (1 == frame)
+        {
+            if (Rt::frames_size() < frame)
+                Rt::add_frame(1, skip, 99999);
+        }
+        else
+        {
+            //auto prev_size = Rt::coords_size();
+            if (Rt::frames_size() < frame)
+                Rt::add_frame(1, skip);
+            while (getline(in, line))
+            {
+                if (0 == line.compare(0, 6, "ENDMDL"))
+                {
+                    break;
+                }
+
+                if (0 == line.compare(0, 5, "ATOM ")
+                ||  0 == line.compare(0, 6, "HETATM"))
+                {
+                    typename std::remove_reference
+                        <decltype(Rt::coord(0))>::type coord;
+                    typedef typename std::remove_reference
+                        <decltype(coord[0])>::type value_type;
+                    std::string
+                    value = line.substr(30, 8); boost::trim(value);
+                    coord[0] = boost::lexical_cast<value_type>(value);
+                    value = line.substr(38, 8); boost::trim(value);
+                    coord[1] = boost::lexical_cast<value_type>(value);
+                    value = line.substr(46, 8); boost::trim(value);
+                    coord[2] = boost::lexical_cast<value_type>(value);
+                    /* auto idx =*/ Rt::add_coord(coord, frame - 1);
+                    //if (idx > prev_size)
+                    //    std::cerr << "ERROR!" << std::endl;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
+    std::istream& in
+,   std::string& line
+,   std::size_t skip
+,   std::false_type) const
+{
+    return line.compare(0, 6, "ENDMDL") == 0 ? true : false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -397,30 +484,81 @@ template
 ,   class Rt, class Md, class Mo, class Sm, class At
 >
 void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_mol(
+    std::ostream& out
+,   const Mo* mo) const
+{
+    print_frames(out, mo, has_policy_coordinates<Rt>());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_mol(
 std::ostream& out
-, const Mo* mo) const
+,   const Mo* mo
+,   std::size_t frame) const
 {
     int ordinal = 1;
-    At* at = nullptr;
-    for (auto atm : mo->template range<At>())
+    bool has_std_res = false;
+    Sm* sm = nullptr;
+    for (auto at : mo->template range<At>())
     {
-        at = atm;
-        print_atom(out, mo, at, ordinal++);
+        sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
+        print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
+        if (!has_std_res && sm && !is_het(sm, has_policy_named<Sm>()))
+            has_std_res = true;
     }
-    //for (auto at : mo->template range<At>())
-    //{
-    //    print_atom(out, mo, at, ordinal++);
-    //    out << std::endl;
-    //}
-    //auto pos = mo->template rbegin<At>();
-    //auto at = (pos != mo->template rend<At>()) ? *pos : nullptr;
-    if (at)
+    auto pos = mo->template rbegin<At>();
+    auto at = (pos != mo->template rend<At>()) ? *pos : nullptr;
+    if (at && has_std_res)
+        print_chain_termination(out, mo, sm, ordinal++);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Mo* mo
+,   std::true_type) const
+{
+    if (1 == Rt::frames_size())
+        print_mol(out, mo, 0);
+    else
     {
-        Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
-        if (sm && !is_het(sm, has_policy_named<Sm>()))
-            print_chain_termination(out, mo, sm, ordinal++);
+        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        {
+            out << "MODEL     "
+                << std::setw(4) << i + 1
+                << std::string(66, ' ') << std::endl;
+            print_mol(out, mo, i);
+            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+        }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Mo* mo
+,   std::false_type) const
+{
+    print_mol(out, mo, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -550,10 +688,71 @@ void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_submol(
 std::ostream& out
 , const Sm* sm) const
 {
+    print_frames(out, sm, has_policy_coordinates<Rt>());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Submolecule
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_submol(
+std::ostream& out
+,   const Sm* sm
+,   std::size_t frame) const
+{
     Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
     int ordinal = 1;
     for (auto at : sm->template range<At>())
-        print_atom(out, mo, sm, at, ordinal++);
+    {
+        print_atom(out, mo, sm, at, ordinal++, frame);
+        out << std::endl;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Sm* sm
+,   std::true_type) const
+{
+    if (1 == Rt::frames_size())
+        print_submol(out, sm, 0);
+    else
+    {
+        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        {
+            out << "MODEL     "
+                << std::setw(4) << i + 1
+                << std::string(66, ' ') << std::endl;
+            print_submol(out, sm, i);
+            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Sm* sm
+,   std::false_type) const
+{
+    print_submol(out, sm, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -769,25 +968,7 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
 {
     Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
     Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
-    print_atom(out, mo, sm, at);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
-    std::ostream& out
-,   const Mo* mo
-,   const At* at
-,   int ordinal
-,   std::size_t frame) const
-{
-    Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
-    print_atom(out, mo, sm, at, ordinal, frame);
+    print_frames(out, mo, sm, at, -1, has_policy_coordinates<Rt>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -857,6 +1038,55 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
     print_atom_b_factor(out, at, has_policy_b_factor<At>());
     out << std::string(12, ' ');
     print_atom_formal_charge(out, at, has_policy_formal_charge<At>());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Mo* mo
+,   const Sm* sm
+,   const At* at
+,   int ordinal
+,   std::true_type) const
+{
+    if (1 == Rt::frames_size())
+        print_atom(out, mo, sm, at, ordinal, 0);
+    else
+    {
+        auto reset = atomordinal::get(out);
+        std::size_t i = 0;
+        print_atom(out, mo, sm, at, ordinal, i);
+        while (i < Rt::frames_size() - 1)
+        {
+            out << std::endl;
+            atomordinal::set(out, reset);
+            print_atom(out, mo, sm, at, ordinal, ++i);
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template
+<
+    template <class,class,class,class,class> class Base
+,   class Rt, class Md, class Mo, class Sm, class At
+>
+inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+    std::ostream& out
+,   const Mo* mo
+,   const Sm* sm
+,   const At* at
+,   int ordinal
+,   std::false_type) const
+{
+    print_atom(out, mo, sm, at, ordinal, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
