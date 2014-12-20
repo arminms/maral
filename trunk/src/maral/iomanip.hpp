@@ -90,7 +90,107 @@ shallow(std::basic_ostream<CharT, Traits>& os)
 typedef one_arg_iomanip<unsigned, 1> atomordinal;
 typedef one_arg_iomanip<unsigned, 2> submolordinal;
 
+////////////////////////////////////////////////////////////////////////////////
+// Two-arguments Input/Output Stream Manipulator Template
+
+template
+<
+    typename Arg1
+,   typename Arg2
+,   typename Arg3
+,   int Id>
+class three_arg_iomanip
+{
+    static_assert(
+        std::is_integral<Arg1>::value
+    &&  std::is_integral<Arg2>::value
+    &&  std::is_integral<Arg3>::value
+    ,   "need an integral type :(");
+
+public:
+    enum { id = Id };
+
+    three_arg_iomanip(
+        const Arg1& arg1
+    ,   const Arg2& arg2 = 0
+    ,   const Arg3& arg3 = 0)
+    :   arg1_(arg1)
+    ,   arg2_(arg2)
+    ,   arg3_(arg3)
+    {}
+
+    static long get_1st(std::ios_base& ios)
+    {   return three_arg_iomanip::flag1(ios);  }
+
+    static void set_1st(std::ios_base& ios, long flag)
+    {   three_arg_iomanip::flag1(ios) = flag;    }
+
+    static long get_2nd(std::ios_base& ios)
+    {   return three_arg_iomanip::flag2(ios);  }
+
+    static void set_2nd(std::ios_base& ios, long flag)
+    {   three_arg_iomanip::flag2(ios) = flag;    }
+
+    static long get_3rd(std::ios_base& ios)
+    {   return three_arg_iomanip::flag3(ios);  }
+
+    static void set_3rd(std::ios_base& ios, long flag)
+    {   three_arg_iomanip::flag3(ios) = flag;    }
+
+private:
+    const Arg1 arg1_;
+    const Arg2 arg2_;
+    const Arg3 arg3_;
+
+    template<typename CharT, typename Traits>
+    friend std::basic_ostream<CharT,Traits>&
+    operator << (
+        std::basic_ostream<CharT,Traits>& os
+    ,   const three_arg_iomanip& ioman)
+    {
+        set_1st(os, long(ioman.arg1_));
+        set_2nd(os, long(ioman.arg2_));
+        set_3rd(os, long(ioman.arg3_));
+        return os;
+    }
+
+    template<typename CharT, typename Traits>
+    friend std::basic_istream<CharT,Traits>&
+    operator >> (
+        std::basic_istream<CharT,Traits>& is
+    ,   const three_arg_iomanip& ioman)
+    {
+        set_1st(is, long(ioman.arg1_));
+        set_2nd(is, long(ioman.arg2_));
+        set_3rd(is, long(ioman.arg3_));
+        return is;
+    }
+
+    static long& flag1(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+
+    static long& flag2(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+
+    static long& flag3(std::ios_base& ios)
+    {
+        static const int iword_idx = std::ios_base::xalloc();
+        return ios.iword(iword_idx);
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// Three-argument Input/Output Stream Manipulators
+
+// frames(start, end, stride)
+typedef three_arg_iomanip<unsigned, unsigned, unsigned, 0> frames;
+
 }    // namespace maral
 
 #endif // MARAL_IOMANIP_HPP
-

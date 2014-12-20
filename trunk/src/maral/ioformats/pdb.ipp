@@ -1059,7 +1059,7 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
         print_atom(out, mo, sm, at, ordinal, 0);
     else
     {
-        auto reset = atomordinal::get(out);
+        unsigned reset = atomordinal::get(out);
         std::size_t i = 0;
         print_atom(out, mo, sm, at, ordinal, i);
         while (i < Rt::frames_size() - 1)
