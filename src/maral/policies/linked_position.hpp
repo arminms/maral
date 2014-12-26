@@ -15,10 +15,6 @@
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +90,6 @@ private:
     std::size_t idx_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(linked_position)   // creates has_policy_linked_position
-
-}    // namespace maral
+}}    // maral::policy
 
 #endif    // MARAL_POLICIES_LINKED_POSITION_HPP

@@ -39,7 +39,7 @@ struct CRN_INIT
     CRN_INIT()
     {
         using mtl::point3f;
-        rt = make_node<root>();
+        rt = make_node<root>(boost::any("TEST"));
         auto crambin = make_node<model>("1CRN");
         auto chain = make_node<molecule>("A");
 
@@ -762,3 +762,8 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //        std::cout << delimiters('[', ']') << separator(' ')
 //             << node << std::endl;
 //}
+
+BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
+{
+    std::cout << rt.get() << std::endl;
+}

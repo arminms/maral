@@ -20,9 +20,6 @@
 
 #include <boost/noncopyable.hpp>
 
-#include <maral/ioformats/tree.hpp>
-#include <maral/ioformats/pdb.hpp>
-
 namespace maral {
 
 
@@ -98,18 +95,30 @@ template
 ,   class Mo
 ,   class Sm
 ,   class At
+,   template <class,class,class,class,class> class ...F
 >
     struct io_format_repository
 {
     io_format_repository()
-    {
-        formats_.push_back(std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>
-            (new tree_format<io_format_base,Rt,Md,Mo,Sm,At>()));
-        formats_.push_back(std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>
-            (new pdb_format<io_format_base,Rt,Md,Mo,Sm,At>()));
-    }
+    {   push_back(new F<Rt,Md,Mo,Sm,At>...);    }
 
     std::vector<std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>> formats_;
+
+private:
+    template <typename T>
+    void push_back(T* t)
+    {
+        formats_.push_back(
+            std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>(t));
+    }
+ 
+    template<typename First, typename ...Rest>
+    void push_back(First* first, Rest* ...rest)
+    {
+        formats_.push_back(
+            std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>(first));
+        push_back(rest...);
+    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +131,7 @@ template
 ,   class Mo
 ,   class Sm
 ,   class At
+,   template <class,class,class,class,class> class ...F
 >
     class ioformat
 {
@@ -134,7 +144,10 @@ public:
 
     ioformat(const long& id)
     :   id_(id)
-    {}
+    {
+        BOOST_ASSERT_MSG(id < sizeof...(F),
+            "file format index exceeding the max size!");
+    }
 
     static void print_root(std::ostream& out, const Rt* rt)
     {   repo_.formats_[index(out)]->print_root(out, rt);  }
@@ -168,14 +181,7 @@ public:
 
 private:
     const long id_;
-    static io_format_repository
-    <
-        Rt
-    ,   Md
-    ,   Mo
-    ,   Sm
-    ,   At
-    >   repo_;
+    static io_format_repository <Rt,Md,Mo,Sm,At,F...> repo_;
 
     static void set(std::ios_base& ios, long idx)
     {   index(ios) = idx;    }
@@ -214,12 +220,10 @@ template
 ,   class Mo
 ,   class Sm
 ,   class At
+,   template <class,class,class,class,class> class ...F
 >
-    io_format_repository<Rt,Md,Mo,Sm,At> ioformat<Rt,Md,Mo,Sm,At>::repo_;
-
-    // Temporary enumerations for the file formats
-    // must be replaced later by a better mechanism...
-    enum { tree, pdb };
+    io_format_repository<Rt,Md,Mo,Sm,At,F...>
+        ioformat<Rt,Md,Mo,Sm,At,F...>::repo_;
 
 }    // namespace maral
 

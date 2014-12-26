@@ -17,10 +17,6 @@
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 template <typename T>
@@ -157,11 +153,7 @@ private:
 template <typename T>
     std::vector<std::unique_ptr<std::vector<T>>> coordinates<T>::frames_;
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(coordinates)   // creates has_policy_coordinates
-
-}    // namespace maral
+}}    // maral::policy
 
 #endif    // MARAL_POLICIES_COORDINATES_HPP
 

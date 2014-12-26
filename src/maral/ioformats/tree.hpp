@@ -18,6 +18,14 @@
 
 #include <boost/range/algorithm/reverse.hpp>
 
+#ifndef MARAL_HAS_POLICY_HPP
+#include <maral/has_policy.hpp>
+#endif // MARAL_HAS_POLICY_HPP
+
+#ifndef MARAL_FORMAT_HPP
+#include <maral/format.hpp>
+#endif // MARAL_FORMAT_HPP
+
 #ifndef MARAL_MTL_INSERTERS_HPP
 #include <maral/mtl/inserters.hpp>
 #endif // MARAL_MTL_INSERTERS_HPP
@@ -30,17 +38,13 @@ namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-    class tree_format
-:   public Base<Rt,Md,Mo,Sm,At>
+template <class Rt, class Md, class Mo, class Sm, class At>
+class tree_format
+:   public io_format_base<Rt,Md,Mo,Sm,At>
 {
 public:
     tree_format()
-    :   Base<Rt,Md,Mo,Sm,At>()
+    :   io_format_base<Rt,Md,Mo,Sm,At>()
     {}
 
 private:

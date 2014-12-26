@@ -11,39 +11,31 @@
 #ifndef MARAL_BOOTSTRAPS_BASIC_HPP
 #define MARAL_BOOTSTRAPS_BASIC_HPP
 
-#ifndef MARAL_POLICIES_HPP
-#include <maral/policies.hpp>
-#endif // MARAL_POLICIES_HPP
+// component classes
+#include <maral/policies/chainid.hpp>
+#include <maral/policies/named.hpp>
+#include <maral/policies/ordered.hpp>
+#include <maral/policies/position.hpp>
 
-#ifndef MARAL_ROOT_HPP
+// data model
+#include <maral/hierarchical.hpp>
+
+// host classes
 #include <maral/root.hpp>
-#endif // MARAL_ROOT_HPP
-
-#ifndef MARAL_MODEL_HPP
 #include <maral/model.hpp>
-#endif // MARAL_MODEL_HPP
-
-#ifndef MARAL_MOLECULE_HPP
 #include <maral/molecule.hpp>
-#endif // MARAL_MOLECULE_HPP
-
-#ifndef MARAL_SUBMOLECULE_HPP
 #include <maral/submolecule.hpp>
-#endif // MARAL_SUBMOLECULE_HPP
-
-#ifndef MARAL_ATOM_HPP
 #include <maral/atom.hpp>
-#endif // MARAL_ATOM_HPP
 
-#ifndef MARAL_FORMAT_HPP
-#include <maral/format.hpp>
-#endif // MARAL_FORMAT_HPP
+// file format classes
+#include <maral/ioformats/tree.hpp>
 
 namespace maral { namespace bootstrap { namespace basic {
 
 typedef root_node
 <
     data_model::hierarchical
+,   policy::named<std::string>
 >   root;
 
 typedef model_node
@@ -81,6 +73,7 @@ typedef ioformat
 ,   molecule
 ,   residue
 ,   atom
+,   tree_format
 >   format;
 
 }}  // namespace booststrap::basic

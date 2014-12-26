@@ -11,33 +11,30 @@
 #ifndef MARAL_BOOTSTRAPS_PDB_MULTIMODEL_HPP
 #define MARAL_BOOTSTRAPS_PDB_MULTIMODEL_HPP
 
-#ifndef MARAL_POLICIES_HPP
-#include <maral/policies.hpp>
-#endif // MARAL_POLICIES_HPP
+// component classes
+#include <maral/policies/b_factor.hpp>
+#include <maral/policies/chainid.hpp>
+#include <maral/policies/coordinates.hpp>
+#include <maral/policies/formal_charge.hpp>
+#include <maral/policies/icode.hpp>
+#include <maral/policies/linked_position.hpp>
+#include <maral/policies/named.hpp>
+#include <maral/policies/occupancy.hpp>
+#include <maral/policies/ordered.hpp>
+#include <maral/policies/position.hpp>
 
-#ifndef MARAL_ROOT_HPP
+// data model
+#include <maral/hierarchical.hpp>
+
+// host classes
 #include <maral/root.hpp>
-#endif // MARAL_ROOT_HPP
-
-#ifndef MARAL_MODEL_HPP
 #include <maral/model.hpp>
-#endif // MARAL_MODEL_HPP
-
-#ifndef MARAL_MOLECULE_HPP
 #include <maral/molecule.hpp>
-#endif // MARAL_MOLECULE_HPP
-
-#ifndef MARAL_SUBMOLECULE_HPP
 #include <maral/submolecule.hpp>
-#endif // MARAL_SUBMOLECULE_HPP
-
-#ifndef MARAL_ATOM_HPP
 #include <maral/atom.hpp>
-#endif // MARAL_ATOM_HPP
 
-#ifndef MARAL_FORMAT_HPP
-#include <maral/format.hpp>
-#endif // MARAL_FORMAT_HPP
+// file format classes
+#include <maral/ioformats/pdb.hpp>
 
 namespace maral { namespace bootstrap { namespace pdb_multimodel {
 
@@ -85,6 +82,7 @@ typedef ioformat
 ,   chain
 ,   residue
 ,   atom
+,   pdb_format
 >   format;
 
 }}  // namespace booststrap::pdb_multimodel

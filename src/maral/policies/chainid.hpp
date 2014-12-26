@@ -11,10 +11,6 @@
 #ifndef MARAL_POLICIES_CHAINID_HPP
 #define MARAL_POLICIES_CHAINID_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,10 +51,6 @@ private:
     T id_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(chainid)   // creates has_policy_chainid
-
-}    // namespace maral
+}}   // maral::policy
 
 #endif    // MARAL_POLICIES_CHAINID_HPP
