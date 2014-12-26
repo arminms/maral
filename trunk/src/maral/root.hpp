@@ -11,11 +11,13 @@
 #ifndef MARAL_ROOT_HPP
 #define MARAL_ROOT_HPP
 
-#include <boost/any.hpp>
+#ifndef MARAL_HIERARCHICAL_HPP
+#include <maral/hierarchical.hpp>
+#endif // MARAL_HIERARCHICAL_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
+#ifndef MARAL_COMPONENT_HPP
+#include <maral/component.hpp>
+#endif // MARAL_COMPONENT_HPP
 
 namespace maral {
 
@@ -23,42 +25,42 @@ namespace maral {
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class  root_node
-:   public Policies...
+:   public Components...
 {};
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class root_node
     <
         data_model::hierarchical
-    ,   Policies...
+    ,   Components...
     >
 :   public data_model::root_node<data_model::hierarchical>
-,   public Policies...
+,   public Components...
 {
 public:
-    typedef root_node<data_model::hierarchical, Policies...> self_type;
+    typedef root_node<data_model::hierarchical, Components...> self_type;
     //typedef std::remove_reference<decltype(*this)>::type self_type;
 
 /// \name Construction
 //@{
     root_node()
-    {   set_name(boost::any("ROOT"), has_policy_named<self_type>()); }
+    {   set_name(boost::any("ROOT"), has_component_named<self_type>()); }
 
     root_node(const boost::any& name)
-    {   set_name(name, has_policy_named<self_type>());   }
+    {   set_name(name, has_component_named<self_type>());   }
 //@}
 
 //public:
-//    virtual ~root_node<data_model::hierarchical, Policies...>()
-//    {   clear_coords(has_policy_coordinates<root_node<data_model::hierarchical, Policies...>>());   }
+//    virtual ~root_node<data_model::hierarchical, Components...>()
+//    {   clear_coords(has_component_coordinates<root_node<data_model::hierarchical, Components...>>());   }
 //
 //private:
 //    void clear_coords(std::true_type)   {   clear_frames();    }
@@ -87,24 +89,24 @@ private:
 //template
 //<
 //    typename StringType
-//,   typename ...Policies
+//,   typename ...Components
 //>
 //    class root_node
 //    <
 //        data_model::hierarchical
-//    ,   policy::named<StringType>
-//    ,   Policies...
+//    ,   component::named<StringType>
+//    ,   Components...
 //    >
 //:   public data_model::root_node<data_model::hierarchical>
-//,   public policy::named<StringType>
-//,   public Policies...
+//,   public component::named<StringType>
+//,   public Components...
 //{
 //public:
 ///// \name Construction
 ////@{
 //    root_node(
 //        const StringType& name = "ROOT")
-//    :   policy::named<StringType>(name)
+//    :   component::named<StringType>(name)
 //    {}
 ////@}
 //

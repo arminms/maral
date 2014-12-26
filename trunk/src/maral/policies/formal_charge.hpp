@@ -11,14 +11,14 @@
 #ifndef MARAL_POLICIES_FORMAL_CHARGE_HPP
 #define MARAL_POLICIES_FORMAL_CHARGE_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning formal charge to atoms.
+/// \brief Structural component for assigning formal charge to atoms.
 ///
 /// \param T Type of the value (e.g. char, int, long).
 /// \remarks
-/// \b formal_charge is a structural policy class that allows assigning a formal
+/// \b formal_charge is a structural component class that allows assigning a formal
 /// charge to an atom, so it can be accessed or changed later.
 
 template <typename T>
@@ -53,6 +53,6 @@ private:
     T formal_charge_;
 };
 
-}}    // maral::policy
+}}    // maral::component
 
 #endif    // MARAL_POLICIES_FORMAL_CHARGE_HPP

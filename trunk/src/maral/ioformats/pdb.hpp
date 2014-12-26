@@ -22,9 +22,9 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/range/algorithm/reverse.hpp>
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
+#ifndef MARAL_COMPONENT_HPP
+#include <maral/component.hpp>
+#endif // MARAL_COMPONENT_HPP
 
 #ifndef MARAL_FORMAT_HPP
 #include <maral/format.hpp>
@@ -263,7 +263,8 @@ private:
     struct has_pos_or_lnk_pos
     :   public std::integral_constant
     <   bool,
-        has_policy_position<T>::value || has_policy_linked_position<T>::value
+        has_component_position<T>::value
+    ||  has_component_linked_position<T>::value
     >
     {};
 

@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_HAS_POLICY_HPP
-#define MARAL_HAS_POLICY_HPP
+#ifndef MARAL_COMPONENT_HPP
+#define MARAL_COMPONENT_HPP
 
 namespace maral {
 
@@ -17,21 +17,21 @@ namespace maral {
 
 #if BOOST_WORKAROUND(__clang_major__, BOOST_TESTED_AT(3))
 
-#define GENERATE_HAS_POLICY(policy)                                            \
+#define GENERATE_HAS_COMPONENT(component)                                      \
                                                                                \
 template < class T >                                                           \
-class HasPolicy_##policy                                                       \
+class HasComponent_##component                                                 \
 {                                                                              \
 private:                                                                       \
     template<typename U, U> struct Check;                                      \
     using Yes = char[2];                                                       \
     using  No = char[1];                                                       \
                                                                                \
-    struct Fallback { int policy; };                                           \
+    struct Fallback { int component; };                                        \
     struct Derived : T, Fallback { };                                          \
                                                                                \
     template < class U >                                                       \
-    static No& test (Check<int Fallback::*, &U::policy> *);                    \
+    static No& test (Check<int Fallback::*, &U::component> *);                 \
     template < typename U >                                                    \
     static Yes& test ( U* );                                                   \
                                                                                \
@@ -41,26 +41,26 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_policy_##policy                                                     \
-: public std::integral_constant<bool, HasPolicy_##policy<T>::RESULT>           \
+struct has_component_##component                                               \
+: public std::integral_constant<bool, HasComponent_##component<T>::RESULT>     \
 { };                                                                           \
 
 #else
 
-#define GENERATE_HAS_POLICY(policy)                                            \
+#define GENERATE_HAS_COMPONENT(component)                                      \
                                                                                \
 template < class T >                                                           \
-class HasPolicy_##policy                                                       \
+class HasComponent_##component                                                 \
 {                                                                              \
 private:                                                                       \
     using Yes = char[2];                                                       \
     using  No = char[1];                                                       \
                                                                                \
-    struct Fallback { int policy; };                                           \
+    struct Fallback { int component; };                                        \
     struct Derived : T, Fallback { };                                          \
                                                                                \
     template < class U >                                                       \
-    static No& test ( decltype(U::policy)* );                                  \
+    static No& test ( decltype(U::component)* );                               \
     template < typename U >                                                    \
     static Yes& test ( U* );                                                   \
                                                                                \
@@ -70,25 +70,25 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_policy_##policy                                                     \
-: public std::integral_constant<bool, HasPolicy_##policy<T>::RESULT>           \
+struct has_component_##component                                               \
+: public std::integral_constant<bool, HasComponent_##component<T>::RESULT>     \
 { };                                                                           \
 
 #endif  //BOOST_WORKAROUND
 
-GENERATE_HAS_POLICY(b_factor)           // creates has_policy_b_factor
-GENERATE_HAS_POLICY(chainid)            // creates has_policy_chainid
-GENERATE_HAS_POLICY(coordinates)        // creates has_policy_coordinates
-GENERATE_HAS_POLICY(formal_charge)      // creates has_policy_formal_charge
-GENERATE_HAS_POLICY(icode)              // creates has_policy_icode
-GENERATE_HAS_POLICY(linked_position)    // creates has_policy_linked_position
-GENERATE_HAS_POLICY(named)              // creates has_policy_named
-GENERATE_HAS_POLICY(occupancy)          // creates has_policy_occupancy
-GENERATE_HAS_POLICY(ordered)            // creates has_policy_ordered
-GENERATE_HAS_POLICY(partial_charge)     // creates has_policy_partial_charge
-GENERATE_HAS_POLICY(position)           // creates has_policy_position
+GENERATE_HAS_COMPONENT(b_factor)           // creates has_component_b_factor
+GENERATE_HAS_COMPONENT(chainid)            // creates has_component_chainid
+GENERATE_HAS_COMPONENT(coordinates)        // creates has_component_coordinates
+GENERATE_HAS_COMPONENT(formal_charge)      // creates has_component_formal_charge
+GENERATE_HAS_COMPONENT(icode)              // creates has_component_icode
+GENERATE_HAS_COMPONENT(linked_position)    // creates has_component_linked_position
+GENERATE_HAS_COMPONENT(named)              // creates has_component_named
+GENERATE_HAS_COMPONENT(occupancy)          // creates has_component_occupancy
+GENERATE_HAS_COMPONENT(ordered)            // creates has_component_ordered
+GENERATE_HAS_COMPONENT(partial_charge)     // creates has_component_partial_charge
+GENERATE_HAS_COMPONENT(position)           // creates has_component_position
 
 }    // namespace maral
 
-#endif    // MARAL_HAS_POLICY_HPP
+#endif    // MARAL_COMPONENT_HPP
 

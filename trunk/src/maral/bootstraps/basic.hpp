@@ -35,35 +35,35 @@ namespace maral { namespace bootstrap { namespace basic {
 typedef root_node
 <
     data_model::hierarchical
-,   policy::named<std::string>
+,   component::named<std::string>
 >   root;
 
 typedef model_node
 <
     data_model::hierarchical
-,   policy::named<std::string>
+,   component::named<std::string>
 >   model;
 
 typedef molecule_node
 <
     data_model::hierarchical
-,   policy::named<std::string>
-,   policy::chainid<char>
+,   component::named<std::string>
+,   component::chainid<char>
 >   molecule;
 
 typedef submolecule_node
 <
     data_model::hierarchical
-,   policy::named<std::string>
-,   policy::ordered<unsigned>
+,   component::named<std::string>
+,   component::ordered<unsigned>
 >   residue;
 
 typedef atom_node
 <
     data_model::hierarchical
-,   policy::named<std::string>
-,   policy::ordered<unsigned>
-,   policy::position<mtl::point3f>
+,   component::named<std::string>
+,   component::ordered<unsigned>
+,   component::position<mtl::point3f>
 >   atom;
 
 typedef ioformat

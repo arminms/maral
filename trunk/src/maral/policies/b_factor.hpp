@@ -11,14 +11,14 @@
 #ifndef MARAL_POLICIES_B_FACTOR_HPP
 #define MARAL_POLICIES_B_FACTOR_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning B-factor to atoms.
+/// \brief Structural component for assigning B-factor to atoms.
 ///
 /// \param T Type of the value (e.g. float, double, ...).
 /// \remarks
-/// \b b_factor is a structural policy class that allows assigning a B-factor
+/// \b b_factor is a structural component class that allows assigning a B-factor
 /// to atom, so it can be accessed or changed later. The B-factor, also know as
 /// Debye–Waller factor (DWF) or temperature factor, is used in condensed matter
 /// physics to describe the attenuation of x-ray scattering or coherent neutron
@@ -53,6 +53,6 @@ private:
     T dwf_;
 };
 
-}}   // namespace maral::policy
+}}   // namespace maral::component
 
 #endif    // MARAL_POLICIES_OCCUPANCY_HPP

@@ -17,25 +17,25 @@ namespace maral {
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class  atom_node
-:   public Policies...
+:   public Components...
 {};
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class atom_node
     <
         data_model::hierarchical
-    ,   Policies...
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public Policies...
+,   public Components...
 {
 private:
     virtual void do_print(std::ostream& out) const
@@ -51,19 +51,19 @@ template
 <
     typename    StringType
 ,   typename    PositionType
-,   typename ...Policies
+,   typename ...Components
 >
     class atom_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   policy::position<PositionType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   component::position<PositionType>
+    ,   Components...
     >
 :   public data_model::leaf_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public policy::position<PositionType>
-,   public Policies...
+,   public component::named<StringType>
+,   public component::position<PositionType>
+,   public Components...
 {
 public:
 /// \name Construction
@@ -71,8 +71,8 @@ public:
     atom_node(
         const StringType& name = "ATOM"
     ,   const PositionType& pos = PositionType().zero())
-    :   policy::named<StringType>(name)
-    ,   policy::position<PositionType>(pos)
+    :   component::named<StringType>(name)
+    ,   component::position<PositionType>(pos)
     {}
 //@}
 
@@ -91,21 +91,21 @@ template
     typename    StringType
 ,   typename    OrdinalType
 ,   typename    PositionType
-,   typename ...Policies
+,   typename ...Components
 >
     class atom_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   policy::ordered<OrdinalType>
-    ,   policy::position<PositionType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   component::ordered<OrdinalType>
+    ,   component::position<PositionType>
+    ,   Components...
     >
 :   public data_model::leaf_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public policy::ordered<OrdinalType>
-,   public policy::position<PositionType>
-,   public Policies...
+,   public component::named<StringType>
+,   public component::ordered<OrdinalType>
+,   public component::position<PositionType>
+,   public Components...
 {
 public:
 /// \name Construction
@@ -114,9 +114,9 @@ public:
         const StringType& name = "ATOM"
     ,   OrdinalType ordinal = 1
     ,   const PositionType& pos = PositionType().zero())
-    :   policy::named<StringType>(name)
-    ,   policy::ordered<OrdinalType>(ordinal)
-    ,   policy::position<PositionType>(pos)
+    :   component::named<StringType>(name)
+    ,   component::ordered<OrdinalType>(ordinal)
+    ,   component::position<PositionType>(pos)
     {}
 //@}
 

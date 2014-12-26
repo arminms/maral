@@ -18,25 +18,25 @@ namespace maral {
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class  submolecule_node
-:   public Policies...
+:   public Components...
 {};
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template
 <
-    typename ...Policies
+    typename ...Components
 >
     class submolecule_node
     <
         data_model::hierarchical
-    ,   Policies...
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public Policies...
+,   public Components...
 {
 private:
     virtual void do_print(std::ostream& out) const
@@ -51,24 +51,24 @@ private:
 template
 <
     typename    StringType
-,   typename ...Policies
+,   typename ...Components
 >
     class submolecule_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public Policies...
+,   public component::named<StringType>
+,   public Components...
 {
 public:
 /// \name Construction
 //@{
     submolecule_node(
         const StringType& name = "SUBMOL")
-    :   policy::named<StringType>(name)
+    :   component::named<StringType>(name)
     {}
 //@}
 
@@ -86,19 +86,19 @@ template
 <
     typename    StringType
 ,   typename    OrdinalType
-,   typename ...Policies
+,   typename ...Components
 >
     class submolecule_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   policy::ordered<OrdinalType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   component::ordered<OrdinalType>
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public policy::ordered<OrdinalType>
-,   public Policies...
+,   public component::named<StringType>
+,   public component::ordered<OrdinalType>
+,   public Components...
 {
 public:
 /// \name Construction
@@ -106,8 +106,8 @@ public:
     submolecule_node(
         const StringType& name = "SUBMOL"
     ,   OrdinalType ordinal = 1)
-    :   policy::named<StringType>(name)
-    ,   policy::ordered<OrdinalType>(ordinal)
+    :   component::named<StringType>(name)
+    ,   component::ordered<OrdinalType>(ordinal)
     {}
 //@}
 
@@ -125,19 +125,19 @@ template
 <
     typename    StringType
 ,   typename    PositionType
-,   typename ...Policies
+,   typename ...Components
 >
     class submolecule_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   policy::position<PositionType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   component::position<PositionType>
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public policy::position<PositionType>
-,   public Policies...
+,   public component::named<StringType>
+,   public component::position<PositionType>
+,   public Components...
 {
 public:
 /// \name Construction
@@ -145,8 +145,8 @@ public:
     submolecule_node(
         const StringType& name = "SUBMOL"
     ,   const PositionType& pos = PositionType().zero())
-    :   policy::named<StringType>(name)
-    ,   policy::position<PositionType>(pos)
+    :   component::named<StringType>(name)
+    ,   component::position<PositionType>(pos)
     {}
 //@}
 
@@ -165,21 +165,21 @@ template
     typename    StringType
 ,   typename    OrdinalType
 ,   typename    PositionType
-,   typename ...Policies
+,   typename ...Components
 >
     class submolecule_node
     <
         data_model::hierarchical
-    ,   policy::named<StringType>
-    ,   policy::ordered<OrdinalType>
-    ,   policy::position<PositionType>
-    ,   Policies...
+    ,   component::named<StringType>
+    ,   component::ordered<OrdinalType>
+    ,   component::position<PositionType>
+    ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public policy::named<StringType>
-,   public policy::ordered<OrdinalType>
-,   public policy::position<PositionType>
-,   public Policies...
+,   public component::named<StringType>
+,   public component::ordered<OrdinalType>
+,   public component::position<PositionType>
+,   public Components...
 {
 public:
 /// \name Construction
@@ -188,9 +188,9 @@ public:
         const StringType& name = "SUBMOL"
     ,   OrdinalType ordinal = 1
     ,   const PositionType& pos = PositionType().zero())
-    :   policy::named<StringType>(name)
-    ,   policy::ordered<OrdinalType>(ordinal)
-    ,   policy::position<PositionType>(pos)
+    :   component::named<StringType>(name)
+    ,   component::ordered<OrdinalType>(ordinal)
+    ,   component::position<PositionType>(pos)
     {}
 //@}
 

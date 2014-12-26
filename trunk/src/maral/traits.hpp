@@ -93,16 +93,6 @@ template<typename T>
 // node_traits
 
 template<typename T>
-    struct policy_traits
-{
-    typedef policy_traits<T> self_type;
-    typedef T value_type;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-// node_traits
-
-template<typename T>
     struct node_traits
 {
     typedef node_traits<T> self_type;

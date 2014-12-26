@@ -11,6 +11,10 @@
 #ifndef MARAL_NODE_HPP
 #define MARAL_NODE_HPP
 
+#include <memory>
+
+#include <boost/any.hpp>
+
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,14 +39,14 @@ template<class T, size_t N>
 
 template<class T, class... Args>
     typename _Unique_if<T>::_Single_object
-    make_node(Args&&... args)
+    make(Args&&... args)
 {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
 }
 
 template<class T>
     typename _Unique_if<T>::_Unknown_bound
-    make_node(size_t n)
+    make(size_t n)
 {
     typedef typename std::remove_extent<T>::type U;
     return std::unique_ptr<T>(new U[n]());
@@ -50,10 +54,12 @@ template<class T>
 
 template<class T, class... Args>
     typename _Unique_if<T>::_Known_bound
-    make_node(Args&&...) = delete;
+    make(Args&&...) = delete;
 
 template <typename T>
     using node = std::unique_ptr<T>;
+
+using any = boost::any;
 
 }    // namespace maral
 

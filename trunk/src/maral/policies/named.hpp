@@ -14,25 +14,26 @@
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Namespace for the different \b policy classes defined by \b Maral.
+/// \brief Namespace for the different \b component classes defined by \b Maral.
 ///
-/// Namespace for all the policy-based classes defined by \b Maral. A \b policy
-/// class is used as a template parameter to transmit behavioral and/or
-/// structural features to nodes. Policy-based class design fosters assembling
-/// a class with complex behavior out of many little classes (called policies),
-/// each of which takes care of only one behavioral and/or structural aspect.
-/// Because you can mix and match policies, you can achieve a combinatorial set
-/// of behaviors by using small core of elemenatry components.
+/// Namespace for all the component classes defined by \b Maral. A \b component
+/// class is used as a variadic template parameter to transmit behavioral and/or
+/// structural features to host classes. Combinatorial class design fosters
+/// assembling a class with complex behavior out of many little classes (called
+/// components), each of which takes care of only one behavioral and/or
+/// structural aspect. Because you can mix and match components, you can achieve
+/// a combinatorial set of behaviors by using small core of elemenatry
+/// components.
 
-namespace policy {
+namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning name to nodes.
+/// \brief Structural component for assigning name to nodes.
 ///
 /// \param T Type of the string to be used as name (e.g. std::string,
 /// std::wstring, ...).
 /// \remarks
-/// named is a structural policy class that allows assigning a name to a node,
+/// named is a structural component class that allows assigning a name to a node,
 /// so it can be accessed or changed later.
 
 template <typename T>
@@ -60,7 +61,7 @@ private:
     T name_;
 };
 
-}}    // maral::policy
+}}    // maral::component
 
 #endif    // MARAL_POLICIES_NAMED_HPP
 

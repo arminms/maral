@@ -11,15 +11,15 @@
 #ifndef MARAL_POLICIES_OCCUPANCY_HPP
 #define MARAL_POLICIES_OCCUPANCY_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning occupancy to atoms.
+/// \brief Structural component for assigning occupancy to atoms.
 ///
 /// \param T Type of the float to be used for the value (e.g. float, double,
 /// ...).
 /// \remarks
-/// \b occupancy is a structural policy class that allows assigning an occupancy
+/// \b occupancy is a structural component class that allows assigning an occupancy
 /// to atom, so it can be accessed or changed later.
 
 template <typename T>
@@ -51,6 +51,6 @@ private:
     T occupancy_;
 };
 
-}}    // maral::policy
+}}    // maral::component
 
 #endif    // MARAL_POLICIES_OCCUPANCY_HPP

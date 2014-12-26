@@ -11,15 +11,15 @@
 #ifndef MARAL_POLICIES_CHAINID_HPP
 #define MARAL_POLICIES_CHAINID_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning chain id to nodes.
+/// \brief Structural component for assigning chain id to nodes.
 ///
 /// \param T Type of the character to be used as chain id (e.g. char, char16_t,
 /// char32_t, wchar_t, ...).
 /// \remarks
-/// chainid is a structural policy class that allows assigning a chain id to a
+/// chainid is a structural component class that allows assigning a chain id to a
 /// node (usually molecule node), so it can be accessed or changed later.
 
 template <typename T>
@@ -51,6 +51,6 @@ private:
     T id_;
 };
 
-}}   // maral::policy
+}}   // maral::component
 
 #endif    // MARAL_POLICIES_CHAINID_HPP
