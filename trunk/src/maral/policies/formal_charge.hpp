@@ -11,10 +11,6 @@
 #ifndef MARAL_POLICIES_FORMAL_CHARGE_HPP
 #define MARAL_POLICIES_FORMAL_CHARGE_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +53,6 @@ private:
     T formal_charge_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(formal_charge)    // creates has_policy_formal_charge
-
-}    // namespace maral
+}}    // maral::policy
 
 #endif    // MARAL_POLICIES_FORMAL_CHARGE_HPP

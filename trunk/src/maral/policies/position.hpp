@@ -15,10 +15,6 @@
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,11 +81,7 @@ private:
     T pos_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(position)   // creates has_policy_position
-
-}    // namespace maral
+}}  // maral::policy
 
 #endif    // MARAL_POLICIES_POSITION_HPP
 

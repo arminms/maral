@@ -11,10 +11,6 @@
 #ifndef MARAL_POLICIES_B_FACTOR_HPP
 #define MARAL_POLICIES_B_FACTOR_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral { namespace policy {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +53,6 @@ private:
     T dwf_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(b_factor)    // creates has_policy_b_factor
-
-}    // namespace maral
+}}   // namespace maral::policy
 
 #endif    // MARAL_POLICIES_OCCUPANCY_HPP

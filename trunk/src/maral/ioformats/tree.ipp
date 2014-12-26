@@ -11,12 +11,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Root
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_root(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void tree_format<Rt,Md,Mo,Sm,At>::do_print_root(
     std::ostream& out
 ,   const Rt* rt) const
 {
@@ -34,12 +30,8 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_root(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_root_name(
     std::ostream& out
 ,   const Rt* rt
 ,   std::true_type) const
@@ -50,12 +42,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_root_order(
     std::ostream& out
 ,   const Rt* rt
 ,   std::true_type) const
@@ -65,12 +53,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_root_pos(
     std::ostream& out
 ,   const Rt* rt
 ,   std::true_type) const
@@ -81,12 +65,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_root_pos(
 ////////////////////////////////////////////////////////////////////////////////
 // Model
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_model(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void tree_format<Rt,Md,Mo,Sm,At>::do_print_model(
     std::ostream& out
 ,   const Md* md) const
 {
@@ -123,12 +103,8 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_model(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_model_name(
     std::ostream& out
 ,   const Md* md
 ,   std::true_type) const
@@ -138,12 +114,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_model_order(
     std::ostream& out
 ,   const Md* md
 ,   std::true_type) const
@@ -153,12 +125,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_model_pos(
     std::ostream& out
 ,   const Md* md
 ,   std::true_type) const
@@ -169,12 +137,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_model_pos(
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_mol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void tree_format<Rt,Md,Mo,Sm,At>::do_print_mol(
     std::ostream& out
 ,   const Mo* mo) const
 {
@@ -213,12 +177,8 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_mol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_mol_name(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
@@ -228,12 +188,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_mol_chain_id(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
@@ -243,12 +199,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_mol_order(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
@@ -258,12 +210,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_mol_pos(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
@@ -274,12 +222,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_mol_pos(
 ////////////////////////////////////////////////////////////////////////////////
 // Submolecule
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_submol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void tree_format<Rt,Md,Mo,Sm,At>::do_print_submol(
     std::ostream& out
 ,   const Sm* sm) const
 {
@@ -316,12 +260,8 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_submol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_submol_name(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -331,12 +271,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_submol_order(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -346,12 +282,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_submol_pos(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -362,12 +294,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_submol_pos(
 ////////////////////////////////////////////////////////////////////////////////
 // Atom
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void tree_format<Rt,Md,Mo,Sm,At>::do_print_atom(
     std::ostream& out
 ,   const At* at) const
 {
@@ -396,12 +324,8 @@ void tree_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_atom_name(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -411,12 +335,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_atom_order(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -426,12 +346,8 @@ inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void tree_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void tree_format<Rt,Md,Mo,Sm,At>::print_atom_pos(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const

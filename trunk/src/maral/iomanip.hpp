@@ -188,7 +188,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 // Three-argument Input/Output Stream Manipulators
 
-// frames(start, end, stride)
+// frames(start, last, stride)
 typedef three_arg_iomanip<unsigned, unsigned, unsigned, 0> frames;
 
 }    // namespace maral

@@ -11,10 +11,6 @@
 #ifndef MARAL_POLICIES_NAMED_HPP
 #define MARAL_POLICIES_NAMED_HPP
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
-
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,11 +60,7 @@ private:
     T name_;
 };
 
-}   // namespace policy
-
-GENERATE_HAS_POLICY(named)  // creates has_policy_named
-
-}    // namespace maral
+}}    // maral::policy
 
 #endif    // MARAL_POLICIES_NAMED_HPP
 

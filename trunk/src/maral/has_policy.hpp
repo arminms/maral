@@ -76,6 +76,18 @@ struct has_policy_##policy                                                     \
 
 #endif  //BOOST_WORKAROUND
 
+GENERATE_HAS_POLICY(b_factor)           // creates has_policy_b_factor
+GENERATE_HAS_POLICY(chainid)            // creates has_policy_chainid
+GENERATE_HAS_POLICY(coordinates)        // creates has_policy_coordinates
+GENERATE_HAS_POLICY(formal_charge)      // creates has_policy_formal_charge
+GENERATE_HAS_POLICY(icode)              // creates has_policy_icode
+GENERATE_HAS_POLICY(linked_position)    // creates has_policy_linked_position
+GENERATE_HAS_POLICY(named)              // creates has_policy_named
+GENERATE_HAS_POLICY(occupancy)          // creates has_policy_occupancy
+GENERATE_HAS_POLICY(ordered)            // creates has_policy_ordered
+GENERATE_HAS_POLICY(partial_charge)     // creates has_policy_partial_charge
+GENERATE_HAS_POLICY(position)           // creates has_policy_position
+
 }    // namespace maral
 
 #endif    // MARAL_HAS_POLICY_HPP

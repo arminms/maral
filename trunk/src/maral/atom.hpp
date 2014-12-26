@@ -11,22 +11,6 @@
 #ifndef MARAL_ATOM_HPP
 #define MARAL_ATOM_HPP
 
-#ifndef MARAL_HIERARCHICAL_HPP
-#include <maral/hierarchical.hpp>
-#endif // MARAL_HIERARCHICAL_HPP
-
-#ifndef MARAL_POLICIES_NAMED_HPP
-#include <maral/policies/named.hpp>
-#endif // MARAL_POLICIES_NAMED_HPP
-
-#ifndef MARAL_POLICIES_ORDERED_HPP
-#include <maral/policies/ordered.hpp>
-#endif // MARAL_POLICIES_ORDERED_HPP
-
-#ifndef MARAL_POLICIES_POSITION_HPP
-#include <maral/policies/position.hpp>
-#endif // MARAL_POLICIES_POSITION_HPP
-
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////

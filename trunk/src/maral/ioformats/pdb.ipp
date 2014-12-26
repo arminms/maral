@@ -11,13 +11,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Default constructor
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-pdb_format<Base, Rt, Md, Mo, Sm, At>::pdb_format()
-:   Base<Rt,Md,Mo,Sm,At>()
+template <class Rt, class Md, class Mo, class Sm, class At>
+pdb_format<Rt, Md, Mo, Sm, At>::pdb_format()
+:   io_format_base<Rt,Md,Mo,Sm,At>()
 ,   std_residues_(53)
 {
     // based on: http://www.rcsb.org/pdb/static.do?p=file_formats/pdb/index.html
@@ -40,12 +36,8 @@ pdb_format<Base, Rt, Md, Mo, Sm, At>::pdb_format()
 ////////////////////////////////////////////////////////////////////////////////
 // Root
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_root(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt, Md, Mo, Sm, At>::do_print_root(
     std::ostream& out
 ,   const Rt* rt) const
 {
@@ -67,12 +59,8 @@ void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_root(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_root(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_root(
     std::ostream& out
 ,   const Rt* rt
 ,   std::size_t frame) const
@@ -98,42 +86,47 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_root(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Rt* rt
 ,   std::true_type) const
 {
-    if (1 == rt->frames_size())
+    std::size_t frames_count = rt->frames_size();
+    if (1 == frames_count)
         print_root(out, rt, 0);
     else
     {
-        out << "NUMMDL    "
-            << std::left  << std::setw(4) << rt->frames_size()
-            << std::right << std::string(66, ' ') << std::endl;
-        for (std::size_t i = 0; i < rt->frames_size(); ++i)
+        std::size_t start = frames::get_1st(out);
+        std::size_t last = frames::get_2nd(out);
+        std::size_t stride = frames::get_3rd(out);
+        if (0 == start) ++start;
+        if (last > frames_count || 0 == last) last = frames_count;
+        if (0 == stride) stride = 1;
+        frames_count = ((last - start) / stride) + 1;
+        if (start) --start;
+
+        if (frames_count > 1)
+            out << "NUMMDL    "
+                << std::left  << std::setw(4) << frames_count
+                << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = start, frame = 1; i < last; i += stride, ++frame)
         {
-            out << "MODEL     "
-                << std::setw(4) << i + 1
-                << std::string(66, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "MODEL     "
+                    << std::setw(4) << frame
+                    << std::string(66, ' ') << std::endl;
             print_root(out, rt, i);
-            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "ENDMDL" << std::string(74, ' ') << std::endl;
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Rt* rt
 ,   std::false_type) const
@@ -143,12 +136,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_chain_termination(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_chain_termination(
     std::ostream& out
 ,   const Mo* mo
 ,   const Sm* sm
@@ -166,12 +155,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_chain_termination(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_root(
     std::istream& in
 ,   Rt* rt) const
 {
@@ -214,14 +199,10 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_root(
 ////////////////////////////////////////////////////////////////////////////////
 // Model
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_model(
-std::ostream& out
-, const Md* md) const
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt, Md, Mo, Sm, At>::do_print_model(
+    std::ostream& out
+,   const Md* md) const
 {
     print_frames(out, md, has_policy_coordinates<Rt>());
     out << "END" << std::string(77, ' ') << std::endl;
@@ -229,12 +210,8 @@ std::ostream& out
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_model(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_model(
     std::ostream& out
 ,   const Md* md
 ,   std::size_t frame) const
@@ -260,42 +237,47 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_model(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Md* md
 ,   std::true_type) const
 {
-    if (1 == Rt::frames_size())
+    std::size_t frames_count = Rt::frames_size();
+    if (1 == frames_count)
         print_model(out, md, 0);
     else
     {
-        out << "NUMMDL    "
-            << std::left  << std::setw(4) << Rt::frames_size()
-            << std::right << std::string(66, ' ') << std::endl;
-        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        std::size_t start = frames::get_1st(out);
+        std::size_t last = frames::get_2nd(out);
+        std::size_t stride = frames::get_3rd(out);
+        if (0 == start) ++start;
+        if (last > frames_count || 0 == last) last = frames_count;
+        if (0 == stride) stride = 1;
+        frames_count = ((last - start) / stride) + 1;
+        if (start) --start;
+
+        if (frames_count > 1)
+            out << "NUMMDL    "
+                << std::left  << std::setw(4) << frames_count
+                << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = start, frame = 1; i < last; i += stride, ++frame)
         {
-            out << "MODEL     "
-                << std::setw(4) << i + 1
-                << std::string(66, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "MODEL     "
+                    << std::setw(4) << frame
+                    << std::string(66, ' ') << std::endl;
             print_model(out, md, i);
-            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "ENDMDL" << std::string(74, ' ') << std::endl;
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Md* md
 ,   std::false_type) const
@@ -305,12 +287,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_model(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_model(
     std::istream& in
 ,   Md* md) const
 {
@@ -333,12 +311,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_model(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_model(
     std::istream& in
 ,   std::string& line
 ,   Md* md) const
@@ -389,12 +363,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_model(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_frame_number(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_frame_number(
     const std::string& line
 ,   std::true_type) const
 {
@@ -404,12 +374,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_frame_number(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline bool pdb_format<Rt,Md,Mo,Sm,At>::scan_coords(
     std::istream& in
 ,   std::string& line
 ,   std::size_t skip
@@ -461,12 +427,8 @@ inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline bool pdb_format<Rt,Md,Mo,Sm,At>::scan_coords(
     std::istream& in
 ,   std::string& line
 ,   std::size_t skip
@@ -478,12 +440,8 @@ inline bool pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_coords(
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_mol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt, Md, Mo, Sm, At>::do_print_mol(
     std::ostream& out
 ,   const Mo* mo) const
 {
@@ -492,13 +450,9 @@ void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_mol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_mol(
-std::ostream& out
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_mol(
+    std::ostream& out
 ,   const Mo* mo
 ,   std::size_t frame) const
 {
@@ -521,39 +475,47 @@ std::ostream& out
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
 {
-    if (1 == Rt::frames_size())
+    std::size_t frames_count = Rt::frames_size();
+    if (1 == frames_count)
         print_mol(out, mo, 0);
     else
     {
-        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        std::size_t start = frames::get_1st(out);
+        std::size_t last = frames::get_2nd(out);
+        std::size_t stride = frames::get_3rd(out);
+        if (0 == start) ++start;
+        if (last > frames_count || 0 == last) last = frames_count;
+        if (0 == stride) stride = 1;
+        frames_count = ((last - start) / stride) + 1;
+        if (start) --start;
+
+        if (frames_count > 1)
+            out << "NUMMDL    "
+                << std::left  << std::setw(4) << frames_count
+                << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = start, frame = 1; i < last; i += stride, ++frame)
         {
-            out << "MODEL     "
-                << std::setw(4) << i + 1
-                << std::string(66, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "MODEL     "
+                    << std::setw(4) << frame
+                    << std::string(66, ' ') << std::endl;
             print_mol(out, mo, i);
-            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "ENDMDL" << std::string(74, ' ') << std::endl;
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Mo* mo
 ,   std::false_type) const
@@ -563,12 +525,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_mol_chain_id(
     std::ostream& out
 ,   const Mo* mo
 ,   std::true_type) const
@@ -578,12 +536,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_mol_chain_id(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_mol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_mol(
     std::istream& in
 ,   Mo* mo) const
 {
@@ -602,12 +556,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_mol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::scan_mol(
     std::istream& in
 ,   std::string& line
 ,   Mo* mo) const
@@ -648,12 +598,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_mol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_chain_id(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_chain_id(
     const std::string& line
 ,   Mo* mo
 ,   std::true_type) const
@@ -663,12 +609,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_chain_id(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::set_mol_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::set_mol_name(
     const std::string& name
 ,   Mo* mo
 ,   std::true_type) const
@@ -679,14 +621,10 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::set_mol_name(
 ////////////////////////////////////////////////////////////////////////////////
 // Submolecule
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base, Rt, Md, Mo, Sm, At>::do_print_submol(
-std::ostream& out
-, const Sm* sm) const
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt, Md, Mo, Sm, At>::do_print_submol(
+    std::ostream& out
+,   const Sm* sm) const
 {
     print_frames(out, sm, has_policy_coordinates<Rt>());
 }
@@ -694,13 +632,9 @@ std::ostream& out
 ////////////////////////////////////////////////////////////////////////////////
 // Submolecule
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_submol(
-std::ostream& out
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_submol(
+    std::ostream& out
 ,   const Sm* sm
 ,   std::size_t frame) const
 {
@@ -715,39 +649,47 @@ std::ostream& out
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
 {
-    if (1 == Rt::frames_size())
+    std::size_t frames_count = Rt::frames_size();
+    if (1 == frames_count)
         print_submol(out, sm, 0);
     else
     {
-        for (std::size_t i = 0; i < Rt::frames_size(); ++i)
+        std::size_t start = frames::get_1st(out);
+        std::size_t last = frames::get_2nd(out);
+        std::size_t stride = frames::get_3rd(out);
+        if (0 == start) ++start;
+        if (last > frames_count || 0 == last) last = frames_count;
+        if (0 == stride) stride = 1;
+        frames_count = ((last - start) / stride) + 1;
+        if (start) --start;
+
+        if (frames_count > 1)
+            out << "NUMMDL    "
+                << std::left  << std::setw(4) << frames_count
+                << std::right << std::string(66, ' ') << std::endl;
+        for (std::size_t i = start, frame = 1; i < last; i += stride, ++frame)
         {
-            out << "MODEL     "
-                << std::setw(4) << i + 1
-                << std::string(66, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "MODEL     "
+                    << std::setw(4) << frame
+                    << std::string(66, ' ') << std::endl;
             print_submol(out, sm, i);
-            out << "ENDMDL" << std::string(74, ' ') << std::endl;
+            if (frames_count > 1)
+                out << "ENDMDL" << std::string(74, ' ') << std::endl;
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Sm* sm
 ,   std::false_type) const
@@ -757,12 +699,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_name(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -772,12 +710,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_order(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -793,12 +727,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_order(
     std::ostream& out
 ,   const Sm* sm
 ,   std::false_type) const
@@ -816,12 +746,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_icode(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_icode(
     std::ostream& out
 ,   const Sm* sm
 ,   std::true_type) const
@@ -831,12 +757,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_submol_icode(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_submol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_submol(
     std::istream& in
 ,   Sm* sm) const
 {
@@ -855,12 +777,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_submol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol(
     std::istream& in
 ,   std::string& line
 ,   Sm* sm) const
@@ -907,12 +825,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol_name(
     const std::string& line
 ,   Sm* sm
 ,   std::true_type) const
@@ -924,12 +838,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol_order(
     const std::string& line
 ,   Sm* sm
 ,   std::true_type) const
@@ -941,12 +851,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_icode(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol_icode(
     const std::string& line
 ,   Sm* sm
 ,   std::true_type) const
@@ -957,12 +863,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_submol_icode(
 ////////////////////////////////////////////////////////////////////////////////
 // Atom
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_print_atom(
     std::ostream& out
 ,   const At* at) const
 {
@@ -973,12 +875,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_print_atom(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom(
     std::ostream& out
 ,   const Mo* mo
 ,   const Sm* sm
@@ -1042,12 +940,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Mo* mo
 ,   const Sm* sm
@@ -1055,30 +949,43 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 ,   int ordinal
 ,   std::true_type) const
 {
-    if (1 == Rt::frames_size())
+    std::size_t frames_count = Rt::frames_size();
+    if (1 == frames_count)
         print_atom(out, mo, sm, at, ordinal, 0);
     else
     {
+        std::size_t start = frames::get_1st(out);
+        std::size_t last = frames::get_2nd(out);
+        std::size_t stride = frames::get_3rd(out);
+        if (0 == start) ++start;
+        if (last > frames_count || 0 == last) last = frames_count;
+        if (0 == stride) stride = 1;
+        frames_count = ((last - start) / stride) + 1;
+        if (start) --start;
         unsigned reset = atomordinal::get(out);
-        std::size_t i = 0;
-        print_atom(out, mo, sm, at, ordinal, i);
-        while (i < Rt::frames_size() - 1)
+
+        for (std::size_t i = start, frame = 1; i < last; i += stride, ++frame)
         {
-            out << std::endl;
-            atomordinal::set(out, reset);
-            print_atom(out, mo, sm, at, ordinal, ++i);
+            if (frames_count > 1)
+                out << "MODEL     "
+                << std::setw(4) << frame
+                << std::string(66, ' ') << std::endl;
+            print_atom(out, mo, sm, at, ordinal, i);
+            if (frames_count > 1)
+            {
+                out << std::endl << "ENDMDL"
+                    << std::string(74, ' ') << std::endl;
+                if (i != last - 1)
+                    atomordinal::set(out, reset);
+            }
         }
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt, Md, Mo, Sm, At>::print_frames(
     std::ostream& out
 ,   const Mo* mo
 ,   const Sm* sm
@@ -1091,12 +998,8 @@ inline void pdb_format<Base, Rt, Md, Mo, Sm, At>::print_frames(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_name(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -1106,12 +1009,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_order(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -1126,12 +1025,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_order(
     std::ostream& out
 ,   const At* at
 ,   std::false_type) const
@@ -1148,12 +1043,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_pos(
     std::ostream& out
 ,   const At* at
 ,   std::size_t frame
@@ -1166,12 +1057,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_pos(
     std::ostream& out
 ,   const At* at
 ,   std::size_t frame
@@ -1184,12 +1071,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_pos(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_occupancy(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_occupancy(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -1199,12 +1082,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_occupancy(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_b_factor(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_b_factor(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -1214,12 +1093,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_b_factor(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
     std::ostream& out
 ,   const At* at
 ,   std::true_type) const
@@ -1238,12 +1113,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_atom(
     std::istream& in
 ,   At* at) const
 {
@@ -1261,12 +1132,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::do_scan_atom(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
+template <class Rt, class Md, class Mo, class Sm, class At>
+void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom(
     std::istream& in
 ,   std::string& line
 ,   At* at) const
@@ -1289,12 +1156,8 @@ void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_name(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_name(
     const std::string& line
 ,   At* at
 ,   std::true_type) const
@@ -1304,12 +1167,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_name(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_order(
     std::istream& in
 ,   At* at
 ,   std::true_type) const
@@ -1327,12 +1186,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_order(
     std::istream& in
 ,   At* at
 ,   std::false_type) const
@@ -1343,12 +1198,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_order(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_pos(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_pos(
     const std::string& line
 ,   At* at
 ,   std::true_type) const
@@ -1365,12 +1216,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_pos(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_occupancy(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_occupancy(
     const std::string& line
 ,   At* at
 ,   std::true_type) const
@@ -1385,12 +1232,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_occupancy(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
     const std::string& line
 ,   At* at
 ,   std::true_type) const
@@ -1405,12 +1248,8 @@ inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template
-<
-    template <class,class,class,class,class> class Base
-,   class Rt, class Md, class Mo, class Sm, class At
->
-inline void pdb_format<Base,Rt,Md,Mo,Sm,At>::scan_atom_formal_charge(
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_formal_charge(
     const std::string& line
 ,   At* at
 ,   std::true_type) const
