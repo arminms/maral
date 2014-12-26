@@ -15,15 +15,15 @@
 #include <maral/traits.hpp>
 #endif // MARAL_TRAITS_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning position to nodes.
+/// \brief Structural component for assigning position to nodes.
 ///
 /// \param T Type of the point to be used for the position (e.g. mtl::point3f,
 /// mtl::point2d, ...).
 /// \remarks
-/// \b position is a structural policy class that allows assigning a position to
+/// \b position is a structural component class that allows assigning a position to
 /// a node, so it can be accessed or changed later.
 
 template <typename T>
@@ -81,7 +81,7 @@ private:
     T pos_;
 };
 
-}}  // maral::policy
+}}  // maral::component
 
 #endif    // MARAL_POLICIES_POSITION_HPP
 

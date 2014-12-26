@@ -11,14 +11,14 @@
 #ifndef MARAL_POLICIES_PARTIAL_CHARGE_HPP
 #define MARAL_POLICIES_PARTIAL_CHARGE_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning partial charge to atoms.
+/// \brief Structural component for assigning partial charge to atoms.
 ///
 /// \param T Type of the value (e.g. float, double, etc.).
 /// \remarks
-/// \b partial_charge is a structural policy class that allows assigning a
+/// \b partial_charge is a structural component class that allows assigning a
 /// partial charge to an atom, so it can be accessed or changed later.
 
 template <typename T>
@@ -50,6 +50,6 @@ private:
     T partial_charge_;
 };
 
-}}  // maral::policy
+}}  // maral::component
 
 #endif    // MARAL_POLICIES_PARTIAL_CHARGE_HPP

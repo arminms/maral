@@ -11,14 +11,14 @@
 #ifndef MARAL_POLICIES_ORDERED_HPP
 #define MARAL_POLICIES_ORDERED_HPP
 
-namespace maral { namespace policy {
+namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \brief Structural policy for assigning serial numbers to nodes.
+/// \brief Structural component for assigning serial numbers to nodes.
 ///
 /// \param T Type of the value (e.g. unsigend, int, ...).
 /// \remarks
-/// \b ordered is a structural policy class that allows assigning a serial
+/// \b ordered is a structural component class that allows assigning a serial
 /// number to a node, so it can be accessed or changed later.
 
 template <typename T>
@@ -50,6 +50,6 @@ private:
     T ordinal_;
 };
 
-}}  // maral::policy
+}}  // maral::component
 
 #endif    // MARAL_POLICIES_ORDERED_HPP

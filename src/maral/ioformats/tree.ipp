@@ -16,9 +16,9 @@ void tree_format<Rt,Md,Mo,Sm,At>::do_print_root(
     std::ostream& out
 ,   const Rt* rt) const
 {
-    print_root_order(out, rt, has_policy_ordered<Rt>());
-    print_root_name(out, rt, has_policy_named<Rt>());
-    print_root_pos(out, rt, has_policy_position<Rt>());
+    print_root_order(out, rt, has_component_ordered<Rt>());
+    print_root_name(out, rt, has_component_named<Rt>());
+    print_root_pos(out, rt, has_component_position<Rt>());
     if (!depth::get(out))
     {
         out << shallow << std::endl;
@@ -36,7 +36,7 @@ inline void tree_format<Rt,Md,Mo,Sm,At>::print_root_name(
 ,   const Rt* rt
 ,   std::true_type) const
 {
-    //out << reinterpret_cast<policy::named>(rt)->named();
+    //out << reinterpret_cast<component::named>(rt)->named();
     out << rt->name() << ' ';
 }
 
@@ -88,9 +88,9 @@ void tree_format<Rt,Md,Mo,Sm,At>::do_print_model(
         boost::reverse(trail);
         out << trail;
     }
-    print_model_order(out, md, has_policy_ordered<Md>());
-    print_model_name(out, md, has_policy_named<Md>());
-    print_model_pos(out, md, has_policy_position<Md>());
+    print_model_order(out, md, has_component_ordered<Md>());
+    print_model_name(out, md, has_component_named<Md>());
+    print_model_pos(out, md, has_component_position<Md>());
 
     if (!depth::get(out))
     {
@@ -160,11 +160,11 @@ void tree_format<Rt,Md,Mo,Sm,At>::do_print_mol(
         boost::reverse(trail);
         out << trail;
     }
-    print_mol_order(out, mo, has_policy_ordered<Mo>());
+    print_mol_order(out, mo, has_component_ordered<Mo>());
     print_void_mol_name(out, mo, has_no_name_n_chain_id<Mo>());
     print_mol_chain_id(out, mo, has_chainid_not_name<Mo>());
-    print_mol_name(out, mo, has_policy_named<Mo>());
-    print_mol_pos(out, mo, has_policy_position<Mo>());
+    print_mol_name(out, mo, has_component_named<Mo>());
+    print_mol_pos(out, mo, has_component_position<Mo>());
 
     if (!depth::get(out))
     {
@@ -245,9 +245,9 @@ void tree_format<Rt,Md,Mo,Sm,At>::do_print_submol(
         boost::reverse(trail);
         out << trail;
     }
-    print_submol_order(out, sm, has_policy_ordered<Sm>());
-    print_submol_name(out, sm, has_policy_named<Sm>());
-    print_submol_pos(out, sm, has_policy_position<Sm>());
+    print_submol_order(out, sm, has_component_ordered<Sm>());
+    print_submol_name(out, sm, has_component_named<Sm>());
+    print_submol_pos(out, sm, has_component_position<Sm>());
 
     if (!depth::get(out))
     {
@@ -317,9 +317,9 @@ void tree_format<Rt,Md,Mo,Sm,At>::do_print_atom(
         boost::reverse(trail);
         out << trail;
     }
-    print_atom_order(out, at, has_policy_ordered<At>());
-    print_atom_name(out, at, has_policy_named<At>());
-    print_atom_pos(out, at, has_policy_position<At>());
+    print_atom_order(out, at, has_component_ordered<At>());
+    print_atom_name(out, at, has_component_named<At>());
+    print_atom_pos(out, at, has_component_position<At>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

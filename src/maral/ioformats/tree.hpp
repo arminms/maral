@@ -18,9 +18,9 @@
 
 #include <boost/range/algorithm/reverse.hpp>
 
-#ifndef MARAL_HAS_POLICY_HPP
-#include <maral/has_policy.hpp>
-#endif // MARAL_HAS_POLICY_HPP
+#ifndef MARAL_COMPONENT_HPP
+#include <maral/component.hpp>
+#endif // MARAL_COMPONENT_HPP
 
 #ifndef MARAL_FORMAT_HPP
 #include <maral/format.hpp>
@@ -136,13 +136,13 @@ private:
 template <class T>
 struct has_no_name_n_chain_id
 :   public std::integral_constant
-    <bool, !(has_policy_chainid<T>::value && has_policy_named<T>::value)>
+    <bool, !(has_component_chainid<T>::value && has_component_named<T>::value)>
 {};
 
 template <class T>
 struct has_chainid_not_name
 :   public std::integral_constant
-    <bool, has_policy_chainid<T>::value && !has_policy_named<T>::value>
+    <bool, has_component_chainid<T>::value && !has_component_named<T>::value>
 {};
 
 };
