@@ -11,75 +11,77 @@
 #ifndef MARAL_BOOTSTRAPS_PDB_HPP
 #define MARAL_BOOTSTRAPS_PDB_HPP
 
-// component classes
-#include <maral/policies/b_factor.hpp>
-#include <maral/policies/chainid.hpp>
-#include <maral/policies/formal_charge.hpp>
-#include <maral/policies/icode.hpp>
-#include <maral/policies/named.hpp>
-#include <maral/policies/occupancy.hpp>
-#include <maral/policies/ordered.hpp>
-#include <maral/policies/position.hpp>
+// header(s) for required components
+#include <maral/components/b_factor.hpp>
+#include <maral/components/chainid.hpp>
+#include <maral/components/formal_charge.hpp>
+#include <maral/components/icode.hpp>
+#include <maral/components/name.hpp>
+#include <maral/components/occupancy.hpp>
+#include <maral/components/order.hpp>
+#include <maral/components/position.hpp>
 
-// data model
-#include <maral/hierarchical.hpp>
-
-// host classes
+// headers for host classes
 #include <maral/root.hpp>
 #include <maral/model.hpp>
 #include <maral/molecule.hpp>
 #include <maral/submolecule.hpp>
 #include <maral/atom.hpp>
 
-// file format classes
+// header(s) for required file formats
 #include <maral/ioformats/tree.hpp>
 #include <maral/ioformats/pdb.hpp>
 
 namespace maral { namespace bootstrap { namespace pdb {
 
-typedef root_node
+// seeding the host classes with the
+// data model and required components
+typedef root_host
 <
     data_model::hierarchical
 >   root;
 
-typedef model_node
+typedef model_host
 <
     data_model::hierarchical
-,   component::named<std::string>
+,   component::name<std::string>
 >   model;
 
-typedef molecule_node
+typedef molecule_host
 <
     data_model::hierarchical
-,   component::named<std::string>
+,   component::name<std::string>
 ,   component::chainid<char>
 >   chain;
 
-typedef submolecule_node
+typedef submolecule_host
 <
     data_model::hierarchical
-,   component::named<std::string>
-,   component::ordered<unsigned>
+,   component::name<std::string>
+,   component::order<unsigned>
 ,   component::icode<char>
 >   residue;
 
-typedef atom_node
+typedef atom_host
 <
     data_model::hierarchical
-,   component::named<std::string>
+,   component::name<std::string>
 ,   component::position<mtl::point3f>
 ,   component::occupancy<float>
 ,   component::b_factor<float>
 ,   component::formal_charge<char>
 >   atom;
 
+// defining format class
 typedef ioformat
 <
+// first types of host classes
     root
 ,   model
 ,   chain
 ,   residue
 ,   atom
+// now required file format(s)
 ,   pdb_format
 ,   tree_format
 >   format;
@@ -90,7 +92,7 @@ enum { pdb, tree };
 
 }}  // namespace booststrap::pdb
 
-
+// finally defining the type traits required for iostreams
 template<> struct format_traits<bootstrap::pdb::root>
     {   typedef bootstrap::pdb::format type; };
 

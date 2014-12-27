@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_B_FACTOR_HPP
-#define MARAL_POLICIES_B_FACTOR_HPP
+#ifndef MARAL_COMPONENTS_B_FACTOR_HPP
+#define MARAL_COMPONENTS_B_FACTOR_HPP
 
 namespace maral { namespace component {
 
@@ -25,12 +25,12 @@ namespace maral { namespace component {
 /// scattering caused by thermal motion.
 
 template <typename T>
-    class b_factor
+    class b_factor_component
 {
 public:
 /// \name Construction
 //@{
-    b_factor(T bf = T(0))
+    b_factor_component(T bf = T(0))
     : dwf_(bf)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -41,10 +41,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_b_factor() const
+    T b_factor() const
     {   return dwf_;    }
 
-    void set_b_factor(T bf)
+    void b_factor(T bf)
     {   dwf_ = bf; }
 //@}
 
@@ -53,6 +53,9 @@ private:
     T dwf_;
 };
 
+template <typename T>
+using b_factor = b_factor_component<T>;
+
 }}   // namespace maral::component
 
-#endif    // MARAL_POLICIES_OCCUPANCY_HPP
+#endif    // MARAL_COMPONENTS_OCCUPANCY_HPP

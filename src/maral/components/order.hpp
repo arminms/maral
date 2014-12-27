@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_ORDERED_HPP
-#define MARAL_POLICIES_ORDERED_HPP
+#ifndef MARAL_COMPONENTS_ORDER_HPP
+#define MARAL_COMPONENTS_ORDER_HPP
 
 namespace maral { namespace component {
 
@@ -18,20 +18,19 @@ namespace maral { namespace component {
 ///
 /// \param T Type of the value (e.g. unsigend, int, ...).
 /// \remarks
-/// \b ordered is a structural component class that allows assigning a serial
+/// \b order is a structural component class that allows assigning a serial
 /// number to a node, so it can be accessed or changed later.
 
 template <typename T>
-    class ordered
+    class order_component
 {
 public:
 /// \name Construction
 //@{
-    ordered(T ordinal = T(1))
+    order_component(T ordinal = T(1))
     : ordinal_(ordinal)
     {
-        BOOST_STATIC_ASSERT_MSG(
-            std::is_integral<T>::value == true,
+        static_assert(std::is_integral<T>::value == true,
             "only integral types are allowed :(");
     }
 //@}
@@ -50,6 +49,9 @@ private:
     T ordinal_;
 };
 
+template <typename T>
+using order = order_component<T>;
+
 }}  // maral::component
 
-#endif    // MARAL_POLICIES_ORDERED_HPP
+#endif    // MARAL_COMPONENTS_ORDER_HPP

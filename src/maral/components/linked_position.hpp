@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_POSITION_HPP
-#define MARAL_POLICIES_POSITION_HPP
+#ifndef MARAL_COMPONENTS_LINKED_POSITION_HPP
+#define MARAL_COMPONENTS_LINKED_POSITION_HPP
 
 #ifndef MARAL_TRAITS_HPP
 #include <maral/traits.hpp>
@@ -26,8 +26,12 @@ namespace maral { namespace component {
 /// \b position is a structural component class that allows assigning a position to
 /// a node, so it can be accessed or changed later.
 
-template <typename T>
-    class position
+template
+<
+    typename T
+,   template <class> class Coordinates
+>
+    class linked_position_component
 {
     static_assert(
         pntvec_traits<T>::extent::den > 1,
@@ -36,52 +40,63 @@ template <typename T>
 public:
 /// \name Construction
 //@{
-    position()
-    {   pos_.zero();    }
+    linked_position_component()
+    :   idx_(Coordinates<T>::add_coord(std::move(T())))
+    //{   idx_ = typename Coordinates<T>::add_coord(T());    }
+    //{   idx_ = Coordinates<T>::add_coord(std::move(T()));    }
+    {}
 
-    position(const T& pos)
-    :   pos_(pos)
+    linked_position_component(const T& pos)
+    //:   idx_(typename Coordinates<T>::add_coord(pos))
+    :   idx_(Coordinates<T>::add_coord(std::move(pos)))
     {}
 //@}
 
 /// \name Attributes
 //@{
     T& center()
-    {   return pos_;    }
+    {   return Coordinates<T>::coord(idx_);    }
 
     T get_center() const
-    {   return pos_;    }
+    {   return Coordinates<T>::coord(idx_);    }
 
     void set_center(const T& pos)
-    {   pos_ = pos; }
+    {   Coordinates<T>::coord(idx_) = pos; }
 
     std::size_t size() const
-    {   return 1;  }
+    {   return Coordinates<T>::frames_size();  }
 //@}
 
 /// \name Operators
 //@{
     typename pntvec_traits<T>::reference operator()
         (const unsigned idx, const std::size_t frame)
-    {   return pos_[idx];   }
+    {   return Coordinates<T>::coord(idx_, frame)[idx];   }
     const typename pntvec_traits<T>::value_type operator()
         (const unsigned idx, const std::size_t frame) const
-    {   return pos_[idx];   }
+    {   return Coordinates<T>::coord(idx_, frame)[idx];   }
 
     typename pntvec_traits<T>::reference operator[]
         (const unsigned idx)
-    {   return pos_[idx];   }
+    {   return Coordinates<T>::coord(idx_)[idx];   }
     typename pntvec_traits<T>::value_type operator[]
         (const unsigned idx) const
-    {   return pos_[idx]; }
+    {   return Coordinates<T>::coord(idx_)[idx]; }
 //@}
 
 // Implementation
 private:
-    T pos_;
+    //unsigned idx_;
+    std::size_t idx_;
 };
 
-}}  // maral::component
+template
+<
+    typename T
+,   template <class> class Coordinates
+>
+using linked_position = linked_position_component<T, Coordinates>;
 
-#endif    // MARAL_POLICIES_POSITION_HPP
+}}    // maral::component
 
+#endif    // MARAL_COMPONENTS_LINKED_POSITION_HPP

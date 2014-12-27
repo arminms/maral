@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_FORMAL_CHARGE_HPP
-#define MARAL_POLICIES_FORMAL_CHARGE_HPP
+#ifndef MARAL_COMPONENTS_FORMAL_CHARGE_HPP
+#define MARAL_COMPONENTS_FORMAL_CHARGE_HPP
 
 namespace maral { namespace component {
 
@@ -22,12 +22,12 @@ namespace maral { namespace component {
 /// charge to an atom, so it can be accessed or changed later.
 
 template <typename T>
-    class formal_charge
+    class formal_charge_component
 {
 public:
 /// \name Construction
 //@{
-    formal_charge(T chg = T(0))
+    formal_charge_component(T chg = T(0))
     : formal_charge_(chg)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -41,10 +41,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_formal_charge() const
+    T formal_charge() const
     {   return formal_charge_;    }
 
-    void set_formal_charge(T chg)
+    void formal_charge(T chg)
     {   formal_charge_ = chg; }
 //@}
 
@@ -53,6 +53,9 @@ private:
     T formal_charge_;
 };
 
+template <typename T>
+using formal_charge = formal_charge_component<T>;
+
 }}    // maral::component
 
-#endif    // MARAL_POLICIES_FORMAL_CHARGE_HPP
+#endif    // MARAL_COMPONENTS_FORMAL_CHARGE_HPP

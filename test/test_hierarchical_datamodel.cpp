@@ -39,39 +39,39 @@ struct CRN_INIT
     CRN_INIT()
     {
         using mtl::point3f;
-        rt = make_node<root>(boost::any("TEST"));
-        auto crambin = make_node<model>("1CRN");
-        auto chain = make_node<molecule>("A");
+        rt = make<root>();
+        auto crambin = make<model>("1CRN");
+        auto chain = make<molecule>("A");
 
-        auto res = make_node<residue>("PRO", 5);
-        res->add(std::move(make_node<atom>
+        auto res = make<residue>("PRO", 5);
+        res->add(std::move(make<atom>
             ( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CA", 28, point3f(9.448f, 9.034f, 15.012f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "C", 29, point3f(9.288f, 7.670f, 15.606f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "O", 30, point3f(9.490f, 7.519f, 16.819f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CB", 31, point3f(8.230f, 9.957f, 15.345f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CG", 32, point3f(7.338f, 9.786f, 14.114f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
         chain->add(std::move(res));
 
-        res = make_node<residue>("SER", 6);
-        res->add(std::move(make_node<atom>
+        res = make<residue>("SER", 6);
+        res->add(std::move(make<atom>
             ( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CA", 35, point3f(8.673f, 5.314f, 15.279f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "C", 36, point3f(8.753f, 4.376f, 14.083f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "O", 37, point3f(8.726f, 4.858f, 12.923f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CB", 38, point3f(7.340f, 5.121f, 15.996f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
         chain->add(std::move(res));
 
@@ -90,9 +90,9 @@ BOOST_AUTO_TEST_CASE( Size_Test )
     BOOST_CHECK(sizeof(hierarchical) == sizeof atm);
 //    BOOST_CHECK(sizeof(data_model::composite_node<hierarchical>) == (4 * sizeof(atm)));
     BOOST_CHECK(sizeof(data_model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
-//    BOOST_CHECK(sizeof(data_model::root_node<hierarchical>) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(policy::named<std::string>) == sizeof(std::string));
-    BOOST_CHECK(sizeof(policy::ordered<unsigned>) == sizeof(unsigned));
+//    BOOST_CHECK(sizeof(data_model::root_host<hierarchical>) == (4 * sizeof(atm)));
+    //BOOST_CHECK(sizeof(component::name<std::string>) == sizeof(std::string));
+    BOOST_CHECK(sizeof(component::order<unsigned>) == sizeof(unsigned));
 
     //BOOST_CHECK(sizeof(atom) == (4 * sizeof(atm)));
     //BOOST_CHECK(sizeof(molecule) == (6 * sizeof(atm)));
@@ -100,10 +100,10 @@ BOOST_AUTO_TEST_CASE( Size_Test )
 
 BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
-    node<molecule> mol = make_node<molecule>("Test");
+    node<molecule> mol = make<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
     BOOST_CHECK(dynamic_cast<data_model::composite_node<hierarchical>*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<policy::named<std::string>*>(mol.get()));
+    //BOOST_CHECK(dynamic_cast<component::name<std::string>*>(mol.get()));
     BOOST_CHECK(dynamic_cast<data_model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<data_model::root_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
-    auto rt = make_node<root>();
+    auto rt = make<root>();
     //rt->name() = "new root";
     //rt->center() = { 1.0f, 1.0f, 1.0f };
     //std::cout << rt.get() << std::endl;
@@ -120,15 +120,15 @@ BOOST_AUTO_TEST_CASE( Composite_Add )
     rt->add(std::move(atom1));
     BOOST_CHECK(!atom1);
 
-    node<atom> atom2 = make_node<atom>("atom2", 2);
+    node<atom> atom2 = make<atom>("atom2", 2);
     rt->add(std::move(atom2));
     BOOST_CHECK(!atom2);
 
-    auto atom3 = make_node<atom>("atom3", 3);
+    auto atom3 = make<atom>("atom3", 3);
     rt->add(std::move(atom3));
     BOOST_CHECK(!atom3);
 
-    rt->add(std::move(make_node<atom>("atom4", 4)));
+    rt->add(std::move(make<atom>("atom4", 4)));
 
     BOOST_CHECK(4 == rt->children()->size());
 
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE( Composite_Add )
         BOOST_CHECK(atm->parent() == rt.get());
     }
 
-    //auto atoms = make_node<atom[]>(5);
+    //auto atoms = make<atom[]>(5);
     //rt->add(std::move(atoms), 5);
 
     //for (auto atm : *rt)
@@ -154,24 +154,24 @@ BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
     {
         auto pos = rt->begin<atom>();
         auto parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<atom>("B27")));
+        parent->insert(pos, std::move(make<atom>("B27")));
         pos += 3;
-        parent->insert(pos, std::move(make_node<atom>("B30")));
+        parent->insert(pos, std::move(make<atom>("B30")));
         std::advance(pos, 4);
         parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<atom>("B34")));
+        parent->insert(pos, std::move(make<atom>("B34")));
     }
     {
         auto pos = rt->begin();
         ++pos;
         auto parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<molecule>("B4 A")));
+        parent->insert(pos, std::move(make<molecule>("B4 A")));
         ++pos;
         parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<residue>("B4 PRO")));
+        parent->insert(pos, std::move(make<residue>("B4 PRO")));
         std::advance(pos, 10);
         parent = (*pos)->parent();
-        parent->insert(pos, std::move(make_node<residue>("B4 SER")));
+        parent->insert(pos, std::move(make<residue>("B4 SER")));
     }
     cout << shallow << delimiters('[', ']') << separator(' ');
     for (auto node : *rt)
@@ -717,7 +717,7 @@ BOOST_FIXTURE_TEST_CASE( Reverse_Iterator_Range, CRN_INIT )
 //    }
 //}
 
-BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
+BOOST_FIXTURE_TEST_CASE( Position_Component, CRN_INIT )
 {
     boost::for_each(rt->range<atom>(),
 //                    [](atom* atm) { atm->center().zero(); } );
@@ -725,12 +725,12 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
                     [](atom* atm) { atm->center() = { 1.0f, 2.0f, 3.0f }; } );
 //                    [](atom* atm) { atm->center()[0] = 1.0f; std::cout << (*atm)[0] << std::endl; } );
 //    std::cout << std::rank<point3<float>::>::value << std::endl;
-    //static_assert(std::is_base_of<policy::position<point3<float> >, atom>::value,
-    //              "atom must have a position policy");
-    //static_assert(std::is_base_of<policy::position<point3f>, atom>::value,
-    //              "atom must have a position policy");
-//    static_assert(std::is_base_of<policy::position<point3<float> >, molecule>::value,
-//                  "molecule must have a position policy");
+    //static_assert(std::is_base_of<component::position<point3<float> >, atom>::value,
+    //              "atom must have a position component");
+    //static_assert(std::is_base_of<component::position<point3f>, atom>::value,
+    //              "atom must have a position component");
+//    static_assert(std::is_base_of<component::position<point3<float> >, molecule>::value,
+//                  "molecule must have a position component");
 //    std::cout << pntvec_traits<point3f>::extent::den << std::endl;
 //    static_assert(pntvec_traits<point3f>::extent::den > 0, "out of range!");
 
@@ -763,7 +763,7 @@ BOOST_FIXTURE_TEST_CASE( Position_Policy, CRN_INIT )
 //             << node << std::endl;
 //}
 
-BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
-{
-    std::cout << rt.get() << std::endl;
-}
+//BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
+//{
+//    std::cout << rt.get() << std::endl;
+//}

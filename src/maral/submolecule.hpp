@@ -12,6 +12,14 @@
 #ifndef MARAL_SUBMOLECULE_HPP
 #define MARAL_SUBMOLECULE_HPP
 
+#ifndef MARAL_HIERARCHICAL_HPP
+#include <maral/hierarchical.hpp>
+#endif // MARAL_HIERARCHICAL_HPP
+
+#ifndef MARAL_COMPONENT_HPP
+#include <maral/component.hpp>
+#endif // MARAL_COMPONENT_HPP
+
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +28,7 @@ template
 <
     typename ...Components
 >
-    class  submolecule_node
+    class  submolecule_host
 :   public Components...
 {};
 
@@ -30,176 +38,76 @@ template
 <
     typename ...Components
 >
-    class submolecule_node
+    class submolecule_host
     <
         data_model::hierarchical
     ,   Components...
     >
 :   public data_model::composite_node<data_model::hierarchical>
-,   public Components...
-{
-private:
-    virtual void do_print(std::ostream& out) const
-    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
-
-    virtual void do_scan(std::istream& in)
-    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    typename    StringType
-,   typename ...Components
->
-    class submolecule_node
-    <
-        data_model::hierarchical
-    ,   component::named<StringType>
-    ,   Components...
-    >
-:   public data_model::composite_node<data_model::hierarchical>
-,   public component::named<StringType>
 ,   public Components...
 {
 public:
+    typedef submolecule_host<data_model::hierarchical, Components...> self_type;
+
 /// \name Construction
 //@{
-    submolecule_node(
-        const StringType& name = "SUBMOL")
-    :   component::named<StringType>(name)
-    {}
+    submolecule_host()
+    {   any_name(boost::any("SUBMOL"), has_name_component<self_type>()); }
+
+    submolecule_host(const boost::any& name)
+    {
+        static_assert(
+            has_name_component<self_type>::value,
+            "need component::name for setting a name :(");
+        any_name(name, has_name_component<self_type>());
+    }
+
+    submolecule_host(
+        const boost::any& name
+    ,   const boost::any& ordinal)
+    {
+        static_assert(
+            has_name_component<self_type>::value,
+            "need component::name for setting a name :(");
+        any_name(name, has_name_component<self_type>());
+        static_assert(
+            has_order_component<self_type>::value,
+            "need component::order for setting an ordinal :(");
+        any_ordinal(ordinal, has_order_component<self_type>());
+    }
 //@}
 
 private:
     virtual void do_print(std::ostream& out) const
-    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
+    {   format_traits<submolecule_host>::type::print_submol(out, this);  }
 
     virtual void do_scan(std::istream& in)
-    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
-};
+    {   format_traits<submolecule_host>::type::scan_submol(in, this);  }
 
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    typename    StringType
-,   typename    OrdinalType
-,   typename ...Components
->
-    class submolecule_node
-    <
-        data_model::hierarchical
-    ,   component::named<StringType>
-    ,   component::ordered<OrdinalType>
-    ,   Components...
-    >
-:   public data_model::composite_node<data_model::hierarchical>
-,   public component::named<StringType>
-,   public component::ordered<OrdinalType>
-,   public Components...
-{
-public:
-/// \name Construction
-//@{
-    submolecule_node(
-        const StringType& name = "SUBMOL"
-    ,   OrdinalType ordinal = 1)
-    :   component::named<StringType>(name)
-    ,   component::ordered<OrdinalType>(ordinal)
+    void any_name(const boost::any& name, std::true_type)
+    {
+        if (boost::any_cast<const char *>(&name))
+            self_type::name(boost::any_cast<const char *>(name));
+        else if (boost::any_cast<decltype(self_type::name())>(&name))
+            self_type::name(boost::any_cast<decltype(self_type::name())>(name));
+        else
+            BOOST_ASSERT_MSG(0, "need a string type as the 1st argument!");
+    }
+    void any_name(const boost::any& name, std::false_type)
     {}
-//@}
 
-private:
-    virtual void do_print(std::ostream& out) const
-    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
-
-    virtual void do_scan(std::istream& in)
-    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    typename    StringType
-,   typename    PositionType
-,   typename ...Components
->
-    class submolecule_node
-    <
-        data_model::hierarchical
-    ,   component::named<StringType>
-    ,   component::position<PositionType>
-    ,   Components...
-    >
-:   public data_model::composite_node<data_model::hierarchical>
-,   public component::named<StringType>
-,   public component::position<PositionType>
-,   public Components...
-{
-public:
-/// \name Construction
-//@{
-    submolecule_node(
-        const StringType& name = "SUBMOL"
-    ,   const PositionType& pos = PositionType().zero())
-    :   component::named<StringType>(name)
-    ,   component::position<PositionType>(pos)
+    void any_ordinal(const boost::any& ordinal, std::true_type)
+    {
+        if (boost::any_cast<int>(&ordinal))
+            self_type::ordinal(boost::any_cast<int>(ordinal));
+        else if (boost::any_cast<decltype(self_type::ordinal())>(&ordinal))
+            self_type::ordinal(
+                boost::any_cast<decltype(self_type::ordinal())>(ordinal));
+        else
+            BOOST_ASSERT_MSG(0, "need an integer type as the 2nd argument!");
+    }
+    void any_ordinal(const boost::any& n, std::false_type)
     {}
-//@}
-
-private:
-    virtual void do_print(std::ostream& out) const
-    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
-
-    virtual void do_scan(std::istream& in)
-    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-template
-<
-    typename    StringType
-,   typename    OrdinalType
-,   typename    PositionType
-,   typename ...Components
->
-    class submolecule_node
-    <
-        data_model::hierarchical
-    ,   component::named<StringType>
-    ,   component::ordered<OrdinalType>
-    ,   component::position<PositionType>
-    ,   Components...
-    >
-:   public data_model::composite_node<data_model::hierarchical>
-,   public component::named<StringType>
-,   public component::ordered<OrdinalType>
-,   public component::position<PositionType>
-,   public Components...
-{
-public:
-/// \name Construction
-//@{
-    submolecule_node(
-        const StringType& name = "SUBMOL"
-    ,   OrdinalType ordinal = 1
-    ,   const PositionType& pos = PositionType().zero())
-    :   component::named<StringType>(name)
-    ,   component::ordered<OrdinalType>(ordinal)
-    ,   component::position<PositionType>(pos)
-    {}
-//@}
-
-private:
-    virtual void do_print(std::ostream& out) const
-    {   format_traits<submolecule_node>::type::print_submol(out, this);  }
-
-    virtual void do_scan(std::istream& in)
-    {   format_traits<submolecule_node>::type::scan_submol(in, this);  }
 };
 
 }    // namespace maral

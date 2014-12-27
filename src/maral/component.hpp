@@ -20,7 +20,7 @@ namespace maral {
 #define GENERATE_HAS_COMPONENT(component)                                      \
                                                                                \
 template < class T >                                                           \
-class HasComponent_##component                                                 \
+class Has_##component                                                          \
 {                                                                              \
 private:                                                                       \
     template<typename U, U> struct Check;                                      \
@@ -41,8 +41,8 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_component_##component                                               \
-: public std::integral_constant<bool, HasComponent_##component<T>::RESULT>     \
+struct has_##component                                                         \
+: public std::integral_constant<bool, Has_##component<T>::RESULT>              \
 { };                                                                           \
 
 #else
@@ -50,7 +50,7 @@ struct has_component_##component                                               \
 #define GENERATE_HAS_COMPONENT(component)                                      \
                                                                                \
 template < class T >                                                           \
-class HasComponent_##component                                                 \
+class Has_##component                                                          \
 {                                                                              \
 private:                                                                       \
     using Yes = char[2];                                                       \
@@ -70,23 +70,23 @@ public:                                                                        \
 };                                                                             \
                                                                                \
 template < class T >                                                           \
-struct has_component_##component                                               \
-: public std::integral_constant<bool, HasComponent_##component<T>::RESULT>     \
+struct has_##component                                                         \
+: public std::integral_constant<bool, Has_##component<T>::RESULT>              \
 { };                                                                           \
 
 #endif  //BOOST_WORKAROUND
 
-GENERATE_HAS_COMPONENT(b_factor)           // creates has_component_b_factor
-GENERATE_HAS_COMPONENT(chainid)            // creates has_component_chainid
-GENERATE_HAS_COMPONENT(coordinates)        // creates has_component_coordinates
-GENERATE_HAS_COMPONENT(formal_charge)      // creates has_component_formal_charge
-GENERATE_HAS_COMPONENT(icode)              // creates has_component_icode
-GENERATE_HAS_COMPONENT(linked_position)    // creates has_component_linked_position
-GENERATE_HAS_COMPONENT(named)              // creates has_component_named
-GENERATE_HAS_COMPONENT(occupancy)          // creates has_component_occupancy
-GENERATE_HAS_COMPONENT(ordered)            // creates has_component_ordered
-GENERATE_HAS_COMPONENT(partial_charge)     // creates has_component_partial_charge
-GENERATE_HAS_COMPONENT(position)           // creates has_component_position
+GENERATE_HAS_COMPONENT(b_factor_component)        // creates has_b_factor_component
+GENERATE_HAS_COMPONENT(chainid_component)         // creates has_chainid_component
+GENERATE_HAS_COMPONENT(coordinates_component)     // creates has_coordinates_component
+GENERATE_HAS_COMPONENT(formal_charge_component)   // creates has_formal_charge_component
+GENERATE_HAS_COMPONENT(icode_component)           // creates has_icode_component
+GENERATE_HAS_COMPONENT(linked_position_component) // creates has_linked_position_component
+GENERATE_HAS_COMPONENT(name_component)            // creates has_name_component
+GENERATE_HAS_COMPONENT(occupancy_component)       // creates has_occupancy_component
+GENERATE_HAS_COMPONENT(order_component)           // creates has_order_component
+GENERATE_HAS_COMPONENT(partial_charge_component)  // creates has_partial_charge_component
+GENERATE_HAS_COMPONENT(position_component)        // creates has_position_component
 
 }    // namespace maral
 

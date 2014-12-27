@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_OCCUPANCY_HPP
-#define MARAL_POLICIES_OCCUPANCY_HPP
+#ifndef MARAL_COMPONENTS_OCCUPANCY_HPP
+#define MARAL_COMPONENTS_OCCUPANCY_HPP
 
 namespace maral { namespace component {
 
@@ -23,12 +23,12 @@ namespace maral { namespace component {
 /// to atom, so it can be accessed or changed later.
 
 template <typename T>
-    class occupancy
+    class occupancy_component
 {
 public:
 /// \name Construction
 //@{
-    occupancy(T occ = T(1))
+    occupancy_component(T occ = T(1))
     : occupancy_(occ)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -39,10 +39,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_occupancy() const
+    T occupancy() const
     {   return occupancy_;    }
 
-    void set_occupancy(T occ)
+    void occupancy(T occ)
     {   occupancy_ = occ; }
 //@}
 
@@ -51,6 +51,9 @@ private:
     T occupancy_;
 };
 
+template <typename T>
+using occupancy = occupancy_component<T>;
+
 }}    // maral::component
 
-#endif    // MARAL_POLICIES_OCCUPANCY_HPP
+#endif    // MARAL_COMPONENTS_OCCUPANCY_HPP

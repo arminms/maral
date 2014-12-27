@@ -30,7 +30,7 @@ using namespace maral::bootstrap::pdb_multimodel;
 BOOST_AUTO_TEST_CASE( PDB_1CRN )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
-    auto rt = make_node<root>();
+    auto rt = make<root>();
     in >> rt.get();
 
     BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN )
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
-    auto ch = make_node<chain>();
+    auto ch = make<chain>();
     in >> ch.get();
 
     BOOST_CHECK(  46 == boost::distance(ch->range<residue>()) );
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 //BOOST_AUTO_TEST_CASE( PDB_2MKK )
 //{
 //    std::ifstream in(PATTERNS_FOLDER"2MKK.pdb");
-//    auto rt = make_node<root>();
+//    auto rt = make<root>();
 //    in >> rt.get();
 //
 //    BOOST_CHECK(   10 == rt->frames_size() );
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 //BOOST_AUTO_TEST_CASE( PDB_1CRN_2MKK )
 //{
 //    std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
-//    auto rt = make_node<root>();
+//    auto rt = make<root>();
 //    in >> rt.get();
 //    in.close();
 //    in.open(PATTERNS_FOLDER"2MKK.pdb");
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 //BOOST_AUTO_TEST_CASE( PDB_1TOS_1EGT )
 //{
 //    std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
-//    auto rt = make_node<root>();
+//    auto rt = make<root>();
 //    in >> rt.get();
 //    in.close();
 //    in.open(PATTERNS_FOLDER"1EGT.pdb");
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 //BOOST_AUTO_TEST_CASE( PDB_2SOC_1TOS )
 //{
 //    std::ifstream in(PATTERNS_FOLDER"2SOC.pdb");
-//    auto rt = make_node<root>();
+//    auto rt = make<root>();
 //    in >> rt.get();
 //    in.close();
 //    in.open(PATTERNS_FOLDER"1TOS.pdb");
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 //BOOST_AUTO_TEST_CASE( PDB_1TOS_2SOC )
 //{
 //    std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
-//    auto rt = make_node<root>();
+//    auto rt = make<root>();
 //    in >> rt.get();
 //    in.close();
 //    in.open(PATTERNS_FOLDER"2SOC.pdb");
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 BOOST_AUTO_TEST_CASE( OUT_FRAMES_MANIPULATOR )
 {
     std::ifstream in(PATTERNS_FOLDER"1S4A.pdb");
-    auto rt = make_node<root>();
+    auto rt = make<root>();
     in >> rt.get();
     //in >> rt.get();
 
