@@ -27,7 +27,7 @@ template
 <
     typename ...Components
 >
-    class  root_node
+    class  root_host
 :   public Components...
 {};
 
@@ -37,7 +37,7 @@ template
 <
     typename ...Components
 >
-    class root_node
+    class root_host
     <
         data_model::hierarchical
     ,   Components...
@@ -46,77 +46,41 @@ template
 ,   public Components...
 {
 public:
-    typedef root_node<data_model::hierarchical, Components...> self_type;
-    //typedef std::remove_reference<decltype(*this)>::type self_type;
+    typedef root_host<data_model::hierarchical, Components...> self_type;
 
 /// \name Construction
 //@{
-    root_node()
-    {   set_name(boost::any("ROOT"), has_component_named<self_type>()); }
+    root_host()
+    {   any_name(boost::any("ROOT"), has_name_component<self_type>()); }
 
-    root_node(const boost::any& name)
-    {   set_name(name, has_component_named<self_type>());   }
+    root_host(const boost::any& name)
+    {
+        static_assert(
+            has_name_component<self_type>::value,
+            "need component::name for setting a name :(");
+        any_name(name, has_name_component<self_type>());
+    }
 //@}
 
-//public:
-//    virtual ~root_node<data_model::hierarchical, Components...>()
-//    {   clear_coords(has_component_coordinates<root_node<data_model::hierarchical, Components...>>());   }
-//
-//private:
-//    void clear_coords(std::true_type)   {   clear_frames();    }
-//    void clear_coords(std::false_type)  {}
-
+private:
     virtual void do_print(std::ostream& out) const
-    {   format_traits<root_node>::type::print_root(out, this);  }
+    {   format_traits<root_host>::type::print_root(out, this);  }
 
     virtual void do_scan(std::istream& in)
-    {   format_traits<root_node>::type::scan_root(in, this);  }
+    {   format_traits<root_host>::type::scan_root(in, this);  }
 
-private:
-    void set_name(const boost::any& name, std::true_type)
+    void any_name(const boost::any& name, std::true_type)
     {
         if (boost::any_cast<const char *>(&name))
-            this->name(boost::any_cast<const char *>(name));
+            self_type::name(boost::any_cast<const char *>(name));
+        else if (boost::any_cast<decltype(self_type::name())>(&name))
+            self_type::name(boost::any_cast<decltype(self_type::name())>(name));
         else
-            this->name(boost::any_cast<std::string>(name));
+            BOOST_ASSERT_MSG(0, "need a string type as the 1st argument!");
     }
-    void set_name(const boost::any& name, std::false_type)
+    void any_name(const boost::any& name, std::false_type)
     {}
 };
-
-////////////////////////////////////////////////////////////////////////////////
-
-//template
-//<
-//    typename StringType
-//,   typename ...Components
-//>
-//    class root_node
-//    <
-//        data_model::hierarchical
-//    ,   component::named<StringType>
-//    ,   Components...
-//    >
-//:   public data_model::root_node<data_model::hierarchical>
-//,   public component::named<StringType>
-//,   public Components...
-//{
-//public:
-///// \name Construction
-////@{
-//    root_node(
-//        const StringType& name = "ROOT")
-//    :   component::named<StringType>(name)
-//    {}
-////@}
-//
-//private:
-//    virtual void do_print(std::ostream& out) const
-//    {   format_traits<root_node>::type::print_root(out, this);  }
-//
-//    virtual void do_scan(std::istream& in)
-//    {   format_traits<root_node>::type::scan_root(in, this);  }
-//};
 
 }    // namespace maral
 

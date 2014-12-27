@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_ICODE_HPP
-#define MARAL_POLICIES_ICODE_HPP
+#ifndef MARAL_COMPONENTS_ICODE_HPP
+#define MARAL_COMPONENTS_ICODE_HPP
 
 namespace maral { namespace component {
 
@@ -25,12 +25,12 @@ namespace maral { namespace component {
 /// changed later.
 
 template <typename T>
-    class icode
+    class icode_component
 {
 public:
 /// \name Construction
 //@{
-    icode(T code = T(' '))
+    icode_component(T code = T(' '))
     :   icode_(code)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -41,10 +41,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_icode() const
+    T icode() const
     {   return icode_;   }
 
-    void set_icode(T code)
+    void icode(T code)
     {   icode_ = code;   }
 //@}
 
@@ -53,6 +53,9 @@ private:
     T icode_;
 };
 
+template <typename T>
+using icode = icode_component<T>;
+
 }}    // maral::component
 
-#endif    // MARAL_POLICIES_ICODE_HPP
+#endif    // MARAL_COMPONENTS_ICODE_HPP

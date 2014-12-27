@@ -32,39 +32,39 @@ struct CRN_INIT
     CRN_INIT()
     {
         using mtl::point3f;
-        rt = make_node<root>();
-        auto crambin = make_node<model>("1CRN");
-        auto chain = make_node<molecule>("A");
+        rt = make<root>();
+        auto crambin = make<model>("1CRN");
+        auto chain = make<molecule>("A");
 
-        auto res = make_node<residue>("PRO", 5);
-        res->add(std::move(make_node<atom>
+        auto res = make<residue>("PRO", 5);
+        res->add(std::move(make<atom>
             ( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CA", 28, point3f(9.448f, 9.034f, 15.012f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "C", 29, point3f(9.288f, 7.670f, 15.606f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "O", 30, point3f(9.490f, 7.519f, 16.819f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CB", 31, point3f(8.230f, 9.957f, 15.345f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CG", 32, point3f(7.338f, 9.786f, 14.114f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
         chain->add(std::move(res));
 
-        res = make_node<residue>("SER", 6);
-        res->add(std::move(make_node<atom>
+        res = make<residue>("SER", 6);
+        res->add(std::move(make<atom>
             ( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CA", 35, point3f(8.673f, 5.314f, 15.279f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "C", 36, point3f(8.753f, 4.376f, 14.083f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ( "O", 37, point3f(8.726f, 4.858f, 12.923f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("CB", 38, point3f(7.340f, 5.121f, 15.996f))));
-        res->add(std::move(make_node<atom>
+        res->add(std::move(make<atom>
             ("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
         chain->add(std::move(res));
 

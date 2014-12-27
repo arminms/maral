@@ -14,17 +14,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes
 
-#include <maral/policies/b_factor.hpp>
-#include <maral/policies/chainid.hpp>
-#include <maral/policies/coordinates.hpp>
-#include <maral/policies/formal_charge.hpp>
-#include <maral/policies/icode.hpp>
-#include <maral/policies/linked_position.hpp>
-#include <maral/policies/named.hpp>
-#include <maral/policies/occupancy.hpp>
-#include <maral/policies/ordered.hpp>
-#include <maral/policies/partial_charge.hpp>
-#include <maral/policies/position.hpp>
+#include <maral/components/b_factor.hpp>
+#include <maral/components/chainid.hpp>
+#include <maral/components/coordinates.hpp>
+#include <maral/components/formal_charge.hpp>
+#include <maral/components/icode.hpp>
+#include <maral/components/linked_position.hpp>
+#include <maral/components/name.hpp>
+#include <maral/components/occupancy.hpp>
+#include <maral/components/order.hpp>
+#include <maral/components/partial_charge.hpp>
+#include <maral/components/position.hpp>
 
 #endif    // MARAL_POLICIES_HPP
 

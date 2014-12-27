@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_NAMED_HPP
-#define MARAL_POLICIES_NAMED_HPP
+#ifndef MARAL_COMPONENTS_NAME_HPP
+#define MARAL_COMPONENTS_NAME_HPP
 
 namespace maral {
 
@@ -33,16 +33,16 @@ namespace component {
 /// \param T Type of the string to be used as name (e.g. std::string,
 /// std::wstring, ...).
 /// \remarks
-/// named is a structural component class that allows assigning a name to a node,
+/// name is a structural component class that allows assigning a name to a node,
 /// so it can be accessed or changed later.
 
 template <typename T>
-    class named
+    class name_component
 {
 public:
 /// \name Construction
 //@{
-    named(const T& name = T())
+    name_component(const T& name = T())
     :   name_(name)
     {}
 //@}
@@ -61,7 +61,10 @@ private:
     T name_;
 };
 
+template <typename T>
+using name = name_component<T>;
+
 }}    // maral::component
 
-#endif    // MARAL_POLICIES_NAMED_HPP
+#endif    // MARAL_COMPONENTS_NAME_HPP
 

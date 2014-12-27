@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_COORDINATES_HPP
-#define MARAL_POLICIES_COORDINATES_HPP
+#ifndef MARAL_COMPONENTS_COORDINATES_HPP
+#define MARAL_COMPONENTS_COORDINATES_HPP
 
 #include <vector>
 
@@ -43,7 +43,7 @@ template <typename T>
 /// a node, so it can be accessed or changed later.
 
 template <typename T>
-    class coordinates
+    class coordinates_component
 {
     static_assert(
         pntvec_traits<T>::extent::den > 1,
@@ -52,11 +52,11 @@ template <typename T>
 public:
 /// \name Construction
 //@{
-    coordinates()
+    coordinates_component()
     {}
     //coordinates(std::size_t num = 1, std::size_t size = 10000)
     //{   add_frame(num, size);   }
-    ~coordinates()
+    ~coordinates_component()
     {   frames_.clear();    }
 //@}
 
@@ -151,9 +151,12 @@ private:
 };
 
 template <typename T>
-    std::vector<std::unique_ptr<std::vector<T>>> coordinates<T>::frames_;
+    std::vector<std::unique_ptr<std::vector<T>>> coordinates_component<T>::frames_;
+
+template <typename T>
+using coordinates = coordinates_component<T>;
 
 }}    // maral::component
 
-#endif    // MARAL_POLICIES_COORDINATES_HPP
+#endif    // MARAL_COMPONENTS_COORDINATES_HPP
 

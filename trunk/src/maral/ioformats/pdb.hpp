@@ -263,11 +263,10 @@ private:
     struct has_pos_or_lnk_pos
     :   public std::integral_constant
     <   bool,
-        has_component_position<T>::value
-    ||  has_component_linked_position<T>::value
+        has_position_component<T>::value
+    ||  has_linked_position_component<T>::value
     >
     {};
-
 };
 
 ////////////////////////////////////////////////////////////////////////////////

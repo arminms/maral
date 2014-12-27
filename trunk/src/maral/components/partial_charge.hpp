@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_PARTIAL_CHARGE_HPP
-#define MARAL_POLICIES_PARTIAL_CHARGE_HPP
+#ifndef MARAL_COMPONENTS_PARTIAL_CHARGE_HPP
+#define MARAL_COMPONENTS_PARTIAL_CHARGE_HPP
 
 namespace maral { namespace component {
 
@@ -22,12 +22,12 @@ namespace maral { namespace component {
 /// partial charge to an atom, so it can be accessed or changed later.
 
 template <typename T>
-    class partial_charge
+    class partial_charge_component
 {
 public:
 /// \name Construction
 //@{
-    partial_charge(T chg = T(0))
+    partial_charge_component(T chg = T(0))
     : partial_charge_(chg)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -38,10 +38,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_partial_charge() const
+    T partial_charge() const
     {   return partial_charge_;    }
 
-    void set_partial_charge(T chg)
+    void partial_charge(T chg)
     {   partial_charge_ = chg; }
 //@}
 
@@ -50,6 +50,9 @@ private:
     T partial_charge_;
 };
 
+template <typename T>
+using partial_charge = partial_charge_component<T>;
+
 }}  // maral::component
 
-#endif    // MARAL_POLICIES_PARTIAL_CHARGE_HPP
+#endif    // MARAL_COMPONENTS_PARTIAL_CHARGE_HPP

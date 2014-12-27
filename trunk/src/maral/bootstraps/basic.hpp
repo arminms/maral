@@ -11,73 +11,75 @@
 #ifndef MARAL_BOOTSTRAPS_BASIC_HPP
 #define MARAL_BOOTSTRAPS_BASIC_HPP
 
-// component classes
-#include <maral/policies/chainid.hpp>
-#include <maral/policies/named.hpp>
-#include <maral/policies/ordered.hpp>
-#include <maral/policies/position.hpp>
+// header(s) for required components
+#include <maral/components/chainid.hpp>
+#include <maral/components/name.hpp>
+#include <maral/components/order.hpp>
+#include <maral/components/position.hpp>
 
-// data model
-#include <maral/hierarchical.hpp>
-
-// host classes
+// headers for host classes
 #include <maral/root.hpp>
 #include <maral/model.hpp>
 #include <maral/molecule.hpp>
 #include <maral/submolecule.hpp>
 #include <maral/atom.hpp>
 
-// file format classes
+// header(s) for required file formats
 #include <maral/ioformats/tree.hpp>
 
 namespace maral { namespace bootstrap { namespace basic {
 
-typedef root_node
+// seeding the host classes with the
+// data model and required components
+typedef root_host
 <
     data_model::hierarchical
-,   component::named<std::string>
 >   root;
 
-typedef model_node
+typedef model_host
 <
     data_model::hierarchical
-,   component::named<std::string>
+,   component::name<std::string>
 >   model;
 
-typedef molecule_node
+typedef molecule_host
 <
     data_model::hierarchical
-,   component::named<std::string>
+,   component::name<std::string>
 ,   component::chainid<char>
 >   molecule;
 
-typedef submolecule_node
+typedef submolecule_host
 <
     data_model::hierarchical
-,   component::named<std::string>
-,   component::ordered<unsigned>
+,   component::name<std::string>
+,   component::order<unsigned>
 >   residue;
 
-typedef atom_node
+typedef atom_host
 <
     data_model::hierarchical
-,   component::named<std::string>
-,   component::ordered<unsigned>
+,   component::name<std::string>
+,   component::order<unsigned>
 ,   component::position<mtl::point3f>
 >   atom;
 
+// defining format class
 typedef ioformat
 <
+// first types of host classes
     root
 ,   model
 ,   molecule
 ,   residue
 ,   atom
+// now required file format(s)
 ,   tree_format
 >   format;
 
 }}  // namespace booststrap::basic
 
+// finally defining the type traits required for iostreams
 template<> struct format_traits<bootstrap::basic::root>
     {   typedef bootstrap::basic::format type; };
 

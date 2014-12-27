@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_POLICIES_CHAINID_HPP
-#define MARAL_POLICIES_CHAINID_HPP
+#ifndef MARAL_COMPONENTS_CHAINID_HPP
+#define MARAL_COMPONENTS_CHAINID_HPP
 
 namespace maral { namespace component {
 
@@ -23,12 +23,12 @@ namespace maral { namespace component {
 /// node (usually molecule node), so it can be accessed or changed later.
 
 template <typename T>
-    class chainid
+    class chainid_component
 {
 public:
 /// \name Construction
 //@{
-    chainid(T id = T(' '))
+    chainid_component(T id = T(' '))
     :   id_(id)
     {
         BOOST_STATIC_ASSERT_MSG(
@@ -39,10 +39,10 @@ public:
 
 /// \name Attributes
 //@{
-    T get_chain_id() const
+    T chain_id() const
     {   return id_;   }
 
-    void set_chain_id(T id)
+    void chain_id(T id)
     {   id_ = id;   }
 //@}
 
@@ -51,6 +51,9 @@ private:
     T id_;
 };
 
+template <typename T>
+using chainid = chainid_component<T>;
+
 }}   // maral::component
 
-#endif    // MARAL_POLICIES_CHAINID_HPP
+#endif    // MARAL_COMPONENTS_CHAINID_HPP

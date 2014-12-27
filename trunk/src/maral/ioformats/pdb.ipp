@@ -51,9 +51,9 @@ void pdb_format<Rt, Md, Mo, Sm, At>::do_print_root(
             return;
         }
         else
-            print_frames(out, rt, has_component_coordinates<Rt>());
+            print_frames(out, rt, has_coordinates_component<Rt>());
     else
-        print_frames(out, rt, has_component_coordinates<Rt>());
+        print_frames(out, rt, has_coordinates_component<Rt>());
     out << "END" << std::string(77, ' ') << std::endl;
 }
 
@@ -74,7 +74,7 @@ inline void pdb_format<Rt, Md, Mo, Sm, At>::print_root(
                ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
         print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
-        if (!has_std_res && sm && !is_het(sm, has_component_named<Sm>()))
+        if (!has_std_res && sm && !is_het(sm, has_name_component<Sm>()))
             has_std_res = true;
         if (mo &&  at == *(mo->template rbegin<At>()) && has_std_res)
         {
@@ -144,12 +144,12 @@ inline void pdb_format<Rt, Md, Mo, Sm, At>::print_chain_termination(
 ,   int ordinal) const
 {
     out << "TER   " << std::setw(5) << ordinal << "      ";
-    print_submol_name(out, sm, has_component_named<Sm>());
+    print_submol_name(out, sm, has_name_component<Sm>());
     out << ' ';
     if (mo)
-        print_mol_chain_id(out, mo, has_component_chainid<Mo>());
-    print_submol_order(out, sm, has_component_ordered<Sm>());
-    print_submol_icode(out, sm, has_component_icode<Sm>());
+        print_mol_chain_id(out, mo, has_chainid_component<Mo>());
+    print_submol_order(out, sm, has_order_component<Sm>());
+    print_submol_icode(out, sm, has_icode_component<Sm>());
     out << std::string(53, ' ') << std::endl;
 }
 
@@ -168,9 +168,9 @@ void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_root(
             auto model = make<Md>();
             if (line.length() >= 64)
                 set_model_name( line.substr(62, 4), model.get()
-                              , has_component_named<Md>());
+                              , has_name_component<Md>());
             else
-                set_model_name("PDB", model.get(), has_component_named<Md>());
+                set_model_name("PDB", model.get(), has_name_component<Md>());
             scan_model(in, line, model.get());
             rt->add(std::move(model));
             break;
@@ -182,7 +182,7 @@ void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_root(
             if (' ' == line[21])
             {
                 auto model = make<Md>();
-                set_model_name("PDB", model.get(), has_component_named<Md>());
+                set_model_name("PDB", model.get(), has_name_component<Md>());
                 scan_model(in, line, model.get());
                 rt->add(std::move(model));
             }
@@ -204,7 +204,7 @@ void pdb_format<Rt, Md, Mo, Sm, At>::do_print_model(
     std::ostream& out
 ,   const Md* md) const
 {
-    print_frames(out, md, has_component_coordinates<Rt>());
+    print_frames(out, md, has_coordinates_component<Rt>());
     out << "END" << std::string(77, ' ') << std::endl;
 }
 
@@ -225,7 +225,7 @@ inline void pdb_format<Rt, Md, Mo, Sm, At>::print_model(
                ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
         print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
-        if (!has_std_res && sm && !is_het(sm, has_component_named<Sm>()))
+        if (!has_std_res && sm && !is_het(sm, has_name_component<Sm>()))
             has_std_res = true;
         if (mo && at == *(mo->template rbegin<At>()) && has_std_res)
         {
@@ -299,12 +299,12 @@ void pdb_format<Rt,Md,Mo,Sm,At>::do_scan_model(
         {
             if (line.length() >= 64)
                 set_model_name( line.substr(62, 4), md
-                              , has_component_named<Md>());
+                              , has_name_component<Md>());
             else
-                set_model_name("PDB", md, has_component_named<Md>());
+                set_model_name("PDB", md, has_name_component<Md>());
         }
         else
-            set_model_name("PDB", md, has_component_named<Md>());
+            set_model_name("PDB", md, has_name_component<Md>());
         scan_model(in, line, md);
     }
 }
@@ -317,11 +317,11 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_model(
 ,   std::string& line
 ,   Md* md) const
 {
-    std::size_t skip = get_skip(has_component_coordinates<Rt>());
+    std::size_t skip = get_skip(has_coordinates_component<Rt>());
     do
     {
-        scan_frame_number(line, has_component_coordinates<Rt>());
-        if (scan_coords(in, line, skip, has_component_coordinates<Rt>()))
+        scan_frame_number(line, has_coordinates_component<Rt>());
+        if (scan_coords(in, line, skip, has_coordinates_component<Rt>()))
             break;
 
         if ( 0 == line.compare(0, 5, "ATOM ")
@@ -358,7 +358,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_model(
             }
         }
     } while (getline(in, line));
-    level_coords(has_component_coordinates<Rt>());
+    level_coords(has_coordinates_component<Rt>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -445,7 +445,7 @@ void pdb_format<Rt, Md, Mo, Sm, At>::do_print_mol(
     std::ostream& out
 ,   const Mo* mo) const
 {
-    print_frames(out, mo, has_component_coordinates<Rt>());
+    print_frames(out, mo, has_coordinates_component<Rt>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -464,7 +464,7 @@ inline void pdb_format<Rt, Md, Mo, Sm, At>::print_mol(
         sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
         print_atom(out, mo, sm, at, ordinal++, frame);
         out << std::endl;
-        if (!has_std_res && sm && !is_het(sm, has_component_named<Sm>()))
+        if (!has_std_res && sm && !is_het(sm, has_name_component<Sm>()))
             has_std_res = true;
     }
     auto pos = mo->template rbegin<At>();
@@ -531,7 +531,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_mol_chain_id(
 ,   const Mo* mo
 ,   std::true_type) const
 {
-    out << mo->get_chain_id();
+    out << mo->chain_id();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -563,8 +563,8 @@ void pdb_format<Rt,Md,Mo,Sm,At>::scan_mol(
 ,   Mo* mo) const
 {
     char chain = line[21];
-    scan_chain_id(line, mo, has_component_chainid<Mo>());
-    set_mol_name(line.substr(21, 1), mo, has_component_named<Mo>());
+    scan_chain_id(line, mo, has_chainid_component<Mo>());
+    set_mol_name(line.substr(21, 1), mo, has_name_component<Mo>());
     do
     {
         if (0 == line.compare(0, 5, "ATOM ")
@@ -604,7 +604,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_chain_id(
 ,   Mo* mo
 ,   std::true_type) const
 {
-    mo->set_chain_id(line[21]);
+    mo->chain_id(line[21]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -626,7 +626,7 @@ void pdb_format<Rt, Md, Mo, Sm, At>::do_print_submol(
     std::ostream& out
 ,   const Sm* sm) const
 {
-    print_frames(out, sm, has_component_coordinates<Rt>());
+    print_frames(out, sm, has_coordinates_component<Rt>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -752,7 +752,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_icode(
 ,   const Sm* sm
 ,   std::true_type) const
 {
-        out << sm->get_icode();
+        out << sm->icode();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -787,16 +787,16 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol(
     std::string res_seq = line.substr(22, 5);
     if ("     " == res_seq)
         return;
-    scan_submol_name(line, sm, has_component_named<Sm>());
+    scan_submol_name(line, sm, has_name_component<Sm>());
     try
     {
-        scan_submol_order(line, sm, has_component_ordered<Sm>());
+        scan_submol_order(line, sm, has_order_component<Sm>());
     }
     catch (const boost::bad_lexical_cast &)
     {
         std::cerr << "PDB syntax error > " << line << '<' << std::endl;
     }
-    scan_submol_icode(line, sm, has_component_icode<Sm>());
+    scan_submol_icode(line, sm, has_icode_component<Sm>());
     do
     {
         if (0 == line.compare(0, 5, "ATOM ")
@@ -857,7 +857,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_submol_icode(
 ,   Sm* sm
 ,   std::true_type) const
 {
-    sm->set_icode(line[26]);
+    sm->icode(line[26]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -870,7 +870,7 @@ void pdb_format<Rt,Md,Mo,Sm,At>::do_print_atom(
 {
     Sm* sm = at->parent() ? dynamic_cast<Sm*>(at->parent()) : nullptr;
     Mo* mo = (sm && sm->parent()) ? dynamic_cast<Mo*>(sm->parent()) : nullptr;
-    print_frames(out, mo, sm, at, -1, has_component_coordinates<Rt>());
+    print_frames(out, mo, sm, at, -1, has_coordinates_component<Rt>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -885,7 +885,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom(
 ,   std::size_t frame) const
 {
     if (sm)
-        if (is_het(sm, has_component_named<Sm>()))
+        if (is_het(sm, has_name_component<Sm>()))
             out << "HETATM";
         else
             out << "ATOM  ";
@@ -894,7 +894,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom(
 
     out << std::setw(5);
     if (-1 == ordinal)
-        print_atom_order(out, at, has_component_ordered<At>());
+        print_atom_order(out, at, has_order_component<At>());
     else
     {
         if (ordinal < 100000)
@@ -906,36 +906,36 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom(
     }
 
     out << ' ';
-    print_atom_name(out, at, has_component_named<At>());
+    print_atom_name(out, at, has_name_component<At>());
     out << ' ';
 
     if (sm)
-        print_submol_name(out, sm, has_component_named<Sm>());
+        print_submol_name(out, sm, has_name_component<Sm>());
     else
         out << "   ";
 
     out << ' ';
     if (mo)
-        print_mol_chain_id(out, mo, has_component_chainid<Mo>());
+        print_mol_chain_id(out, mo, has_chainid_component<Mo>());
     else
         out << ' ';
 
     if (sm)
     {
-        print_submol_order(out, sm, has_component_ordered<Sm>());
-        print_submol_icode(out, sm, has_component_icode<Sm>());
+        print_submol_order(out, sm, has_order_component<Sm>());
+        print_submol_icode(out, sm, has_icode_component<Sm>());
     }
     else
         out << "     ";
 
     out << "   " << std::fixed << std::setprecision(3);
-    //print_atom_pos(out, at, has_component_position<At>());
+    //print_atom_pos(out, at, has_position_component<At>());
     print_atom_pos(out, at, frame, has_pos_or_lnk_pos<At>());
     out << std::setprecision(2);
-    print_atom_occupancy(out, at, has_component_occupancy<At>());
-    print_atom_b_factor(out, at, has_component_b_factor<At>());
+    print_atom_occupancy(out, at, has_occupancy_component<At>());
+    print_atom_b_factor(out, at, has_b_factor_component<At>());
     out << std::string(12, ' ');
-    print_atom_formal_charge(out, at, has_component_formal_charge<At>());
+    print_atom_formal_charge(out, at, has_formal_charge_component<At>());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1077,7 +1077,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_occupancy(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << std::setw(6) << at->get_occupancy();
+    out << std::setw(6) << at->occupancy();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1088,7 +1088,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_b_factor(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << std::setw(6) << at->get_b_factor();
+    out << std::setw(6) << at->b_factor();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1099,12 +1099,12 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
 ,   const At* at
 ,   std::true_type) const
 {
-    if (0 == at->get_formal_charge())
+    if (0 == at->formal_charge())
         out << "  ";
     else
     {
         std::ostringstream tmp;
-        tmp << std::showpos << int(at->get_formal_charge());
+        tmp << std::showpos << int(at->formal_charge());
         std::string chg = tmp.str();
         boost::reverse(chg);
         out << std::setw(2) << chg;
@@ -1138,15 +1138,15 @@ void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom(
 ,   std::string& line
 ,   At* at) const
 {
-    scan_atom_name(line, at, has_component_named<At>());
+    scan_atom_name(line, at, has_name_component<At>());
     try
     {
-        scan_atom_order(in, at, has_component_ordered<At>());
-        scan_atom_pos(line, at, has_component_position<At>());
-        scan_atom_pos(line, at, has_component_linked_position<At>());
-        scan_atom_occupancy(line, at, has_component_occupancy<At>());
-        scan_atom_b_factor(line, at, has_component_b_factor<At>());
-        scan_atom_formal_charge(line, at, has_component_formal_charge<At>());
+        scan_atom_order(in, at, has_order_component<At>());
+        scan_atom_pos(line, at, has_position_component<At>());
+        scan_atom_pos(line, at, has_linked_position_component<At>());
+        scan_atom_occupancy(line, at, has_occupancy_component<At>());
+        scan_atom_b_factor(line, at, has_b_factor_component<At>());
+        scan_atom_formal_charge(line, at, has_formal_charge_component<At>());
     }
     catch (const boost::bad_lexical_cast &)
     {
@@ -1225,8 +1225,8 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_occupancy(
     if (line.length() > 59)
     {
         std::string occ = line.substr(54, 6); boost::trim(occ);
-        at->set_occupancy(
-            boost::lexical_cast<decltype(at->get_occupancy())>(occ));
+        at->occupancy(
+            boost::lexical_cast<decltype(at->occupancy())>(occ));
     }
 }
 
@@ -1241,8 +1241,8 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
     if (line.length() > 65)
     {
         std::string bf = line.substr(60, 6); boost::trim(bf);
-        at->set_b_factor(
-            boost::lexical_cast<decltype(at->get_b_factor())>(bf));
+        at->b_factor(
+            boost::lexical_cast<decltype(at->b_factor())>(bf));
     }
 }
 
@@ -1259,6 +1259,6 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_formal_charge(
         {
             std::string chg = line.substr(78, 2);
             boost::reverse(chg);
-            at->set_formal_charge(std::stoi(chg));
+            at->formal_charge(std::stoi(chg));
         }
 }

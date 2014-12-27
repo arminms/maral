@@ -21,7 +21,7 @@
 #include <maral/mtl/mtl.hpp>
 #include <maral/node.hpp>
 #include <maral/hierarchical.hpp>
-#include <maral/policies.hpp>
+#include <maral/components.hpp>
 #include <maral/atom.hpp>
 #include <maral/molecule.hpp>
 #include <maral/inserters.hpp>
