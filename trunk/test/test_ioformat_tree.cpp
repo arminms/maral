@@ -16,7 +16,7 @@
 #include <boost/test/output_test_stream.hpp>
 #include <boost/test/detail/unit_test_parameters.hpp>
 
-#include <maral/bootstraps/basic.hpp>
+#include <maral/bootstraps/bs_basic.hpp>
 #include <maral/iomanip.hpp>
 
 using boost::test_tools::output_test_stream;
@@ -72,7 +72,7 @@ struct CRN_INIT
         rt->add(std::move(crambin));
     }
 
-    node<root> rt;
+    entity<root> rt;
 };
 
 BOOST_FIXTURE_TEST_CASE( Root_Tree_Shallow, CRN_INIT )
@@ -82,7 +82,7 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree_Shallow, CRN_INIT )
         !butrc::save_pattern());
 
     cout << delimiters('[', ']') << separator(' ')
-         << shallow << rt.get() << std::endl;
+         << shallow << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -97,7 +97,7 @@ BOOST_FIXTURE_TEST_CASE( Root_Tree_Deep, CRN_INIT )
         PATTERNS_FOLDER"root_tree.txt",
         !butrc::save_pattern());
 
-    cout << delimiters('[', ']') << separator(' ') << rt.get();
+    cout << delimiters('[', ']') << separator(' ') << rt;
     BOOST_CHECK(cout.match_pattern());
 }
 

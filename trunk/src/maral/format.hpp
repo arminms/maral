@@ -73,17 +73,17 @@ public:
     virtual ~io_format_base() {};
 
 private:
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const = 0;
-    virtual void do_print_model(std::ostream& out, const Md* md) const = 0;
-    virtual void do_print_mol(std::ostream& out, const Mo* mo) const = 0;
-    virtual void do_print_submol(std::ostream& out, const Sm* sm) const = 0;
-    virtual void do_print_atom(std::ostream& out, const At* at) const = 0;
+    virtual void do_print_root(std::ostream& out, const Rt* rt) = 0;
+    virtual void do_print_model(std::ostream& out, const Md* md) = 0;
+    virtual void do_print_mol(std::ostream& out, const Mo* mo) = 0;
+    virtual void do_print_submol(std::ostream& out, const Sm* sm) = 0;
+    virtual void do_print_atom(std::ostream& out, const At* at) = 0;
 
-    virtual void do_scan_root(std::istream& in, Rt* rt) const = 0;
-    virtual void do_scan_model(std::istream& in, Md* md) const = 0;
-    virtual void do_scan_mol(std::istream& in, Mo* mo) const = 0;
-    virtual void do_scan_submol(std::istream& in, Sm* sm) const = 0;
-    virtual void do_scan_atom(std::istream& in, At* at) const = 0;
+    virtual void do_scan_root(std::istream& in, Rt* rt) = 0;
+    virtual void do_scan_model(std::istream& in, Md* md) = 0;
+    virtual void do_scan_mol(std::istream& in, Mo* mo) = 0;
+    virtual void do_scan_submol(std::istream& in, Sm* sm) = 0;
+    virtual void do_scan_atom(std::istream& in, At* at) = 0;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

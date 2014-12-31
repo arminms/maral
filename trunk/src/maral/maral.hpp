@@ -19,7 +19,7 @@
 #include <boost/assert.hpp>
 
 #include <maral/mtl/mtl.hpp>
-#include <maral/node.hpp>
+#include <maral/make.hpp>
 #include <maral/hierarchical.hpp>
 #include <maral/components.hpp>
 #include <maral/atom.hpp>

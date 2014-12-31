@@ -48,17 +48,17 @@ public:
     {}
 
 private:
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const;
-    virtual void do_print_model(std::ostream& out, const Md* md) const;
-    virtual void do_print_mol(std::ostream& out, const Mo* mo) const;
-    virtual void do_print_submol(std::ostream& out, const Sm* sm) const;
-    virtual void do_print_atom(std::ostream& out, const At* at) const;
+    virtual void do_print_root(std::ostream& out, const Rt* rt);
+    virtual void do_print_model(std::ostream& out, const Md* md);
+    virtual void do_print_mol(std::ostream& out, const Mo* mo);
+    virtual void do_print_submol(std::ostream& out, const Sm* sm);
+    virtual void do_print_atom(std::ostream& out, const At* at);
 
-    virtual void do_scan_root(std::istream& in, Rt* rt) const   {}
-    virtual void do_scan_model(std::istream& in, Md* md) const  {}
-    virtual void do_scan_mol(std::istream& in, Mo* mo) const    {}
-    virtual void do_scan_submol(std::istream& in, Sm* sm) const {}
-    virtual void do_scan_atom(std::istream& in, At* at) const   {}
+    virtual void do_scan_root(std::istream& in, Rt* rt)     {}
+    virtual void do_scan_model(std::istream& in, Md* md)    {}
+    virtual void do_scan_mol(std::istream& in, Mo* mo)      {}
+    virtual void do_scan_submol(std::istream& in, Sm* sm)   {}
+    virtual void do_scan_atom(std::istream& in, At* at)     {}
 
     void print_root_name(std::ostream& out,
         const Rt* rt, std::true_type) const;

@@ -20,9 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\maral\atom.hpp" />
-    <ClInclude Include="src\maral\bootstraps\basic.hpp" />
-    <ClInclude Include="src\maral\bootstraps\pdb.hpp" />
-    <ClInclude Include="src\maral\bootstraps\pdb_multimodel.hpp" />
+    <ClInclude Include="src\maral\bootstraps\bs_basic.hpp" />
+    <ClInclude Include="src\maral\bootstraps\bs_pdb.hpp" />
+    <ClInclude Include="src\maral\bootstraps\bs_pdb_multimodel.hpp" />
     <ClInclude Include="src\maral\component.hpp" />
     <ClInclude Include="src\maral\components.hpp" />
     <ClInclude Include="src\maral\components\b_factor.hpp" />
@@ -41,6 +41,7 @@
     <ClInclude Include="src\maral\ioformats\pdb.hpp" />
     <ClInclude Include="src\maral\ioformats\tree.hpp" />
     <ClInclude Include="src\maral\iomanip.hpp" />
+    <ClInclude Include="src\maral\make.hpp" />
     <ClInclude Include="src\maral\maral.hpp" />
     <ClInclude Include="src\maral\model.hpp" />
     <ClInclude Include="src\maral\molecule.hpp" />
@@ -52,7 +53,6 @@
     <ClInclude Include="src\maral\mtl\mtl.hpp" />
     <ClInclude Include="src\maral\mtl\point.hpp" />
     <ClInclude Include="src\maral\mtl\vector.hpp" />
-    <ClInclude Include="src\maral\node.hpp" />
     <ClInclude Include="src\maral\root.hpp" />
     <ClInclude Include="src\maral\submolecule.hpp" />
     <ClInclude Include="src\maral\traits.hpp" />

@@ -143,6 +143,9 @@ public:
                 ,   frames_[i-1]->end());
         }
     }
+
+    static void remove_last_frame()
+    {   frames_.erase(--frames_.end()); }
 //@}
 
 // Implementation

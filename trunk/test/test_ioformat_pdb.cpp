@@ -11,6 +11,12 @@
 #include <iostream>
 #include <fstream>
 
+// due to inclusion of <windows.h> by header only boost::test, we need
+// the following define to prevent problem with std::numeric_limits
+#if defined(_MSC_VER)
+#   define NOMINMAX
+#endif  //_MSC_VER
+
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
@@ -23,7 +29,7 @@
 //#include <boost/iostreams/filtering_stream.hpp>
 //#include <boost/iostreams/device/file_descriptor.hpp>
 
-#include <maral/bootstraps/pdb.hpp>
+#include <maral/bootstraps/bs_pdb.hpp>
 
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
@@ -37,7 +43,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );
@@ -48,7 +54,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Root )
         PATTERNS_FOLDER"1CRN_tree.txt",
         !butrc::save_pattern());
     cout << shallow << delimiters('[', ']') << separator(' ')
-         << format(tree) << rt.get() << std::endl;
+         << format(tree) << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -61,7 +67,7 @@ BOOST_AUTO_TEST_CASE( PDB_3NY8_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"3NY8.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(    1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(    2 == boost::distance(rt->range<chain>()) );
@@ -71,7 +77,7 @@ BOOST_AUTO_TEST_CASE( PDB_3NY8_Root )
         PATTERNS_FOLDER"3NY8_tree.txt",
         !butrc::save_pattern());
     cout << shallow << delimiters('[', ']') << separator(' ')
-         << format(tree) << rt.get() << std::endl;
+         << format(tree) << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -84,7 +90,7 @@ BOOST_AUTO_TEST_CASE( PDB_3SDY_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(     1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(    10 == boost::distance(rt->range<chain>()) );
@@ -95,7 +101,7 @@ BOOST_AUTO_TEST_CASE( PDB_3SDY_Root )
         PATTERNS_FOLDER"3SDY_tree.txt",
         !butrc::save_pattern());
     cout << shallow << delimiters('[', ']') << separator(' ')
-         << format(tree) << rt.get() << std::endl;
+         << format(tree) << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -108,7 +114,7 @@ BOOST_AUTO_TEST_CASE( PDB_2SOC_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"2SOC.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );
@@ -119,7 +125,7 @@ BOOST_AUTO_TEST_CASE( PDB_2SOC_Root )
         PATTERNS_FOLDER"2SOC_1st_frame.pdb",
         !butrc::save_pattern());
 
-    cout << rt.get();
+    cout << rt;
     BOOST_CHECK(cout.match_pattern());
 }
 
@@ -127,7 +133,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(  1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(  0 == boost::distance(rt->range<chain>()) );
@@ -138,7 +144,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Root )
         PATTERNS_FOLDER"no_chain_tree.txt",
         !butrc::save_pattern());
     cout << shallow << delimiters('[', ']') << separator(' ')
-         << format(tree) << rt.get() << std::endl;
+         << format(tree) << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -151,7 +157,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto rt = make<root>();
-    in >> rt.get();
+    in >> rt;
 
     BOOST_CHECK(  1 == boost::distance(rt->range<model>()) );
     BOOST_CHECK(  0 == boost::distance(rt->range<chain>()) );
@@ -162,7 +168,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Root )
         PATTERNS_FOLDER"no_chain_no_res_tree.txt",
         !butrc::save_pattern());
     cout << shallow << delimiters('[', ']') << separator(' ')
-         << format(tree) << rt.get() << std::endl;
+         << format(tree) << rt << std::endl;
     BOOST_CHECK(cout.match_pattern());
     for (auto node : *rt)
     {
@@ -175,7 +181,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto md = make<model>();
-    in >> md.get();
+    in >> md;
 
     BOOST_CHECK(   1 == boost::distance(md->range<chain>()) );
     BOOST_CHECK(  46 == boost::distance(md->range<residue>()) );
@@ -186,7 +192,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto md = make<model>();
-    in >> md.get();
+    in >> md;
 
     BOOST_CHECK(  0 == boost::distance(md->range<chain>()) );
     BOOST_CHECK(  8 == boost::distance(md->range<residue>()) );
@@ -197,7 +203,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto md = make<model>();
-    in >> md.get();
+    in >> md;
 
     BOOST_CHECK(  0 == boost::distance(md->range<chain>()) );
     BOOST_CHECK(  0 == boost::distance(md->range<residue>()) );
@@ -208,7 +214,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto ch = make<chain>();
-    in >> ch.get();
+    in >> ch;
 
     BOOST_CHECK(  46 == boost::distance(ch->range<residue>()) );
     BOOST_CHECK( 327 == boost::distance(ch->range<atom>()) );
@@ -218,7 +224,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto ch = make<chain>();
-    in >> ch.get();
+    in >> ch;
 
     BOOST_CHECK(  8 == boost::distance(ch->range<residue>()) );
     BOOST_CHECK( 74 == boost::distance(ch->range<atom>()) );
@@ -228,7 +234,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto ch = make<chain>();
-    in >> ch.get();
+    in >> ch;
 
     BOOST_CHECK(  0 == boost::distance(ch->range<residue>()) );
     BOOST_CHECK( 15 == boost::distance(ch->range<atom>()) );
@@ -238,7 +244,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Submol )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto sm = make<residue>();
-    in >> sm.get();
+    in >> sm;
     BOOST_CHECK( 7 == boost::distance(sm->range<atom>()) );
 }
 
@@ -246,7 +252,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Submol )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto sm = make<residue>();
-    in >> sm.get();
+    in >> sm;
     BOOST_CHECK( 6 == boost::distance(sm->range<atom>()) );
 }
 
@@ -254,7 +260,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Submol)
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto sm = make<residue>();
-    in >> sm.get();
+    in >> sm;
     BOOST_CHECK( 0 == boost::distance(sm->range<atom>()) );
 }
 
@@ -262,7 +268,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Atom )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto at = make<atom>();
-    in >> at.get();
+    in >> at;
     std::string name = at->name();
     boost::trim(name);
     BOOST_CHECK( name == "N" );
@@ -274,9 +280,9 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 {
     //std::ifstream in(PATTERNS_FOLDER"2MKK.pdb");
     //auto rt = make<root>();
-    //in >> rt.get();
+    //in >> rt;
     //std::ofstream cout(PATTERNS_FOLDER"2MKK_out.pdb");
-    //cout << rt.get();
+    //cout << rt;
 
     //std::cout << sizeof(std::string) << std::endl;
     //std::cout << sizeof(data_model::composite_node<hierarchical>) << std::endl;
@@ -290,40 +296,40 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 
     //std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     //auto rt = make<root>();
-    //in >> rt.get();
+    //in >> rt;
     //std::cout << atomordinal(99990) << submolordinal(0xFFF1);
     //for (auto at : rt->range<atom>())
     //    std::cout << at << std::endl;
 
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     //auto rt = make<root>();
-    //in >> rt.get();
+    //in >> rt;
     //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
-    //cout << rt.get();
+    //cout << rt;
 
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     //auto md = make<model>();
-    //in >> md.get();
+    //in >> md;
     //std::ofstream cout(PATTERNS_FOLDER"3SDY_test.pdb");
-    //cout << md.get();
+    //cout << md;
 
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     //auto ch = make<chain>();
-    //in >> ch.get();
+    //in >> ch;
     //std::ofstream cout(PATTERNS_FOLDER"3SDY_chain_test_.pdb");
-    //cout << ch.get();
+    //cout << ch;
 
     //std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     //auto rt = make<root>();
-    //in >> rt.get();
+    //in >> rt;
     //std::ofstream cout(PATTERNS_FOLDER"no_chain_test.pdb");
-    //cout << rt.get();
+    //cout << rt;
 
     //std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     //auto rt = make<root>();
-    //in >> rt.get();
+    //in >> rt;
     //std::ofstream cout(PATTERNS_FOLDER"no_chain_no_res_test.pdb");
-    //cout << rt.get();
+    //cout << rt;
 }
 
 //BOOST_AUTO_TEST_CASE( PDB_gzip )
@@ -336,7 +342,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 //    std::stringstream file;
 //    boost::iostreams::copy(in, file);
 //    auto rt = make<root>();
-//    file >> rt.get();
+//    file >> rt;
 //
 //    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
 //    BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );

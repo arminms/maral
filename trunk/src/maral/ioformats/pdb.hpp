@@ -44,11 +44,9 @@ namespace maral {
 
 template
 <
-    //template <class,class,class,class,class> class Base,
    class Rt, class Md, class Mo, class Sm, class At
 >
     class pdb_format
-//:   public Base<Rt,Md,Mo,Sm,At>
 :   public io_format_base<Rt,Md,Mo,Sm,At>
 {
 public:
@@ -59,41 +57,32 @@ public:
 
 private:
     std::unordered_set<std::string> std_residues_;
+    std::size_t current_frame_, next_frame_, frame_count_;
 
-    virtual void do_print_root(std::ostream& out, const Rt* rt) const;
-    virtual void do_print_model(std::ostream& out, const Md* md) const;
-    virtual void do_print_mol(std::ostream& out, const Mo* mo) const;
-    virtual void do_print_submol(std::ostream& out, const Sm* sm) const;
-    virtual void do_print_atom(std::ostream& out, const At* at) const;
+    virtual void do_print_root(std::ostream& out, const Rt* rt);
+    virtual void do_print_model(std::ostream& out, const Md* md);
+    virtual void do_print_mol(std::ostream& out, const Mo* mo);
+    virtual void do_print_submol(std::ostream& out, const Sm* sm);
+    virtual void do_print_atom(std::ostream& out, const At* at);
 
-    void print_root(std::ostream& out,
+    void print(std::ostream& out,
         const Rt* rt, std::size_t frame) const;
-    void print_model(std::ostream& out,
+    void print(std::ostream& out,
         const Md* md, std::size_t frame) const;
-    void print_mol(std::ostream& out,
+    void print(std::ostream& out,
         const Mo* mo, std::size_t frame) const;
-    void print_submol(std::ostream& out,
+    void print(std::ostream& out,
         const Sm* sm, std::size_t frame) const;
-    void print_atom(std::ostream& out,
+    void print(std::ostream& out,
         const Mo* mo, const Sm* sm, const At* at,
         int ordinal = -1, std::size_t frame = 0) const;
 
+    template <class T>
     void print_frames(std::ostream& out,
-        const Rt* rt, std::true_type) const;
+        const T* t, std::true_type) const;
+    template <class T>
     void print_frames(std::ostream& out,
-        const Rt* rt, std::false_type) const;
-    void print_frames(std::ostream& out,
-        const Md* md, std::true_type) const;
-    void print_frames(std::ostream& out,
-        const Md* md, std::false_type) const;
-    void print_frames(std::ostream& out,
-        const Mo* mo, std::true_type) const;
-    void print_frames(std::ostream& out,
-        const Mo* mo, std::false_type) const;
-    void print_frames(std::ostream& out,
-        const Sm* sm, std::true_type) const;
-    void print_frames(std::ostream& out,
-        const Sm* sm, std::false_type) const;
+        const T* t, std::false_type) const;
     void print_frames(std::ostream& out,
         const Mo* mo, const Sm* sm, const At* at,
         int ordinal, std::true_type) const;
@@ -124,107 +113,82 @@ private:
 
     void print_atom_name(std::ostream& out,
         const At* at, std::true_type) const;
-    void print_atom_order(std::ostream& out,
-        const At* at, std::true_type) const;
-    void print_atom_pos(std::ostream& out,
-        const At* at, std::size_t frame, std::true_type) const;
-    void print_atom_occupancy(std::ostream& out,
-        const At* at, std::true_type) const;
-    void print_atom_b_factor(std::ostream& out,
-        const At* at, std::true_type) const;
-    void print_atom_formal_charge(std::ostream& out,
-        const At* at, std::true_type) const;
     void print_atom_name(std::ostream& out,
         const At* at, std::false_type) const    {   out << " ?  ";  }
     void print_atom_order(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_order(std::ostream& out,
         const At* at, std::false_type) const;
+    void print_atom_pos(std::ostream& out,
+        const At* at, std::size_t frame, std::true_type) const;
     void print_atom_pos(std::ostream& out,
         const At* at, std::size_t frame, std::false_type) const;
     void print_atom_occupancy(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_occupancy(std::ostream& out,
         const At* at, std::false_type) const     {   out << "  1.00";  }
+    void print_atom_b_factor(std::ostream& out,
+        const At* at, std::true_type) const;
     void print_atom_b_factor(std::ostream& out,
         const At* at, std::false_type) const     {   out << "  0.00";  }
     void print_atom_formal_charge(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_formal_charge(std::ostream& out,
         const At* at, std::false_type) const     {   out << "  ";  }
 
-    virtual void do_scan_root(std::istream& in, Rt* rt) const;
-    virtual void do_scan_model(std::istream& in, Md* md) const;
-    virtual void do_scan_mol(std::istream& in, Mo* mo) const;
-    virtual void do_scan_submol(std::istream& in, Sm* sm) const;
-    virtual void do_scan_atom(std::istream& in, At* at) const;
+    virtual void do_scan_root(std::istream& in, Rt* rt);
+    virtual void do_scan_model(std::istream& in, Md* md);
+    virtual void do_scan_mol(std::istream& in, Mo* mo);
+    virtual void do_scan_submol(std::istream& in, Sm* sm);
+    virtual void do_scan_atom(std::istream& in, At* at);
 
-    void scan_model(std::istream& in, std::string& line, Md* md) const;
+    void scan_model(std::istream& in, std::string& line, Md* md);
     void scan_mol(std::istream& in, std::string& line, Mo* mo) const;
     void scan_submol(std::istream& in, std::string& line, Sm* sm) const;
     void scan_atom(std::istream& in, std::string& line, At* at) const;
 
+    void init_frames(std::istream& in, std::true_type);
+    void init_frames(std::istream& in, std::false_type) {}
     void scan_frame_number(const std::string& line,
         std::true_type) const;
     void scan_frame_number(const std::string& line,
         std::false_type) const      {}
     bool scan_coords(std::istream& in, std::string& line,
-        std::size_t skip, std::true_type) const;
+        std::size_t skip, std::true_type);
     bool scan_coords(std::istream& in, std::string& line,
-        std::size_t skip, std::false_type) const;
+        std::size_t skip, std::false_type);
     void level_coords(std::true_type) const
     {   Rt::level_coords();  }
-    void level_coords(std::false_type) const
-    {}
+    void level_coords(std::false_type) const {}
     std::size_t get_skip(std::true_type) const
     {   return Rt::coords_size();  }
     std::size_t get_skip(std::false_type) const
     {   return 0;   }
-    //void scan_root_order(std::istream& out,
-    //    Rt* rt, std::true_type) const;
-    //void scan_root_pos(std::istream& out,
-    //    Rt* rt, std::true_type) const;
-    //void scan_root_name(std::istream& out,
-    //    Rt* rt, std::false_type) const    {}
-    //void scan_root_order(std::istream& out,
-    //    Rt* rt, std::false_type) const    {}
-    //void scan_root_pos(std::istream& out,
-    //    Rt* rt, std::false_type) const    {}
 
     void set_model_name(const std::string& name,
         Md* md, std::true_type) const   { md->name(name); }
-    //void print_model_order(std::istream& out,
-    //    const Md* md, std::true_type) const;
-    //void print_model_pos(std::istream& out,
-    //    const Md* md, std::true_type) const;
     void set_model_name(const std::string& name,
         Md* md, std::false_type) const  {}
-    //void print_model_order(std::istream& out,
-    //    const Md* md, std::false_type) const    {}
-    //void print_model_pos(std::istream& out,
-    //    const Md* md, std::false_type) const    {}
 
-    void scan_chain_id(const std::string& line,
-        Mo* mo, std::true_type) const;
     void set_mol_name(const std::string& name,
         Mo* mo, std::true_type) const;
-    //void print_mol_order(std::ostream& out,
-    //    const Mo* mo, std::true_type) const;
-    //void print_mol_pos(std::ostream& out,
-    //    const Mo* mo, std::true_type) const;
-    void scan_chain_id(const std::string& line,
-        Mo* mo, std::false_type) const    {}
     void set_mol_name(const std::string& name,
         Mo* mo, std::false_type) const    {}
-    //void print_mol_order(std::ostream& out,
-    //    const Mo* mo, std::false_type) const    {}
-    //void print_mol_pos(std::ostream& out,
-    //    const Mo* mo, std::false_type) const    {}
+    void scan_chain_id(const std::string& line,
+        Mo* mo, std::true_type) const;
+    void scan_chain_id(const std::string& line,
+        Mo* mo, std::false_type) const    {}
 
     void scan_submol_name(const std::string& line,
         Sm* sm, std::true_type) const;
+    void scan_submol_name(const std::string& line,
+        Sm* sm, std::false_type) const  {}
     void scan_submol_order(const std::string& line,
         Sm* sm, std::true_type) const;
+    void scan_submol_order(const std::string& line,
+        Sm* sm, std::false_type) const  {}
     void scan_submol_icode(const std::string& line,
         Sm* sm, std::true_type) const;
-    void scan_submol_name(const std::string& line,
-        Sm* sm, std::false_type) const  {}
-    void scan_submol_order(const std::string& line,
-        Sm* sm, std::false_type) const  {}
     void scan_submol_icode(const std::string& line,
         Sm* sm, std::false_type) const  {}
 
