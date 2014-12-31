@@ -110,6 +110,30 @@ private:
     {}
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::ostream& operator<< (
+    std::ostream& out
+,   const entity<submolecule_host<data_model::hierarchical, Components...>>& sm)
+{
+    BOOST_ASSERT_MSG(sm.get() , "null submolecule!");
+    sm->print(out);
+    return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::istream& operator>> (
+    std::istream& in
+,   entity<submolecule_host<data_model::hierarchical, Components...>>& sm)
+{
+    BOOST_ASSERT_MSG(sm.get() , "null submolecule!");
+    sm->scan(in);
+    return in;
+}
+
 }    // namespace maral
 
 #endif    // MARAL_SUBMOLECULE_HPP

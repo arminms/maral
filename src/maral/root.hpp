@@ -82,6 +82,30 @@ private:
     {}
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::ostream& operator<< (
+    std::ostream& out
+,   const entity<root_host<data_model::hierarchical, Components...>>& root)
+{
+    BOOST_ASSERT_MSG(root.get() , "null root!");
+    root->print(out);
+    return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::istream& operator>> (
+    std::istream& in
+,   entity<root_host<data_model::hierarchical, Components...>>& root)
+{
+    BOOST_ASSERT_MSG(root.get() , "null root!");
+    root->scan(in);
+    return in;
+}
+
 }    // namespace maral
 
 #endif    // MARAL_ROOT_HPP

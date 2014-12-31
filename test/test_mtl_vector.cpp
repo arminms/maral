@@ -10,7 +10,7 @@
 
 #include <fstream>
 
-// because of inclusion of <windows.h> by header only boost::test we need
+// due to inclusion of <windows.h> by header only boost::test, we need
 // the following define to prevent problem with std::numeric_limits
 #   if defined(_MSC_VER)
 #       define NOMINMAX

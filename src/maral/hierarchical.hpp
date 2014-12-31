@@ -21,9 +21,9 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/range/iterator_range.hpp>
 
-#ifndef MARAL_NODE_HPP
-#include <maral/node.hpp>
-#endif // MARAL_NODE_HPP
+#ifndef MARAL_MAKE_HPP
+#include <maral/make.hpp>
+#endif // MARAL_MAKE_HPP
 
 namespace maral {
 
@@ -50,14 +50,14 @@ public:
     {}
 
     template<typename T>
-    void add(node<T> node)
+    void add(entity<T> node)
     {
         do_add(node.get());
         node.release();
     }
 
     //template<typename T>
-    //void add(node<T> nodes, std::size_t size)
+    //void add(entity<T> nodes, std::size_t size)
     //{
     //    for (auto i = 0; i < size; ++i)
     //        do_add(&nodes[i]);
@@ -67,7 +67,7 @@ public:
     template<typename ConstIterator, typename T>
     void insert(
         ConstIterator pos
-    ,   node<T> node)
+    ,   entity<T> node)
     {
         typename Component::node_type node_ptr = node.release();
         BOOST_ASSERT_MSG(node_ptr, "null pointer!");
@@ -82,7 +82,7 @@ public:
     }
 
     template<typename T>
-    node<T> remove(T* node)
+    entity<T> remove(T* node)
     {
         std::unique_ptr<T> free_node(nullptr);
         if (do_remove(node))
@@ -309,7 +309,7 @@ typedef abstract_node hierarchical;
 /// Outputs a string representation of the given node to the
 /// given output stream.
 
-inline std::ostream& operator<< (
+std::ostream& operator<< (
     std::ostream& out
 ,   const hierarchical* node)
 {
@@ -325,7 +325,7 @@ inline std::ostream& operator<< (
 /// \remarks
 /// Reads the node from given input stream.
 
-inline std::istream& operator>> (
+std::istream& operator>> (
     std::istream& in
 ,   hierarchical* node)
 {

@@ -14,7 +14,7 @@
 template <class Rt, class Md, class Mo, class Sm, class At>
 void tree_format<Rt,Md,Mo,Sm,At>::do_print_root(
     std::ostream& out
-,   const Rt* rt) const
+,   const Rt* rt)
 {
     print_root_order(out, rt, has_order_component<Rt>());
     print_root_name(out, rt, has_name_component<Rt>());
@@ -68,7 +68,7 @@ inline void tree_format<Rt,Md,Mo,Sm,At>::print_root_pos(
 template <class Rt, class Md, class Mo, class Sm, class At>
 void tree_format<Rt,Md,Mo,Sm,At>::do_print_model(
     std::ostream& out
-,   const Md* md) const
+,   const Md* md)
 {
     auto parent = md->parent();
     if (parent)
@@ -140,7 +140,7 @@ inline void tree_format<Rt,Md,Mo,Sm,At>::print_model_pos(
 template <class Rt, class Md, class Mo, class Sm, class At>
 void tree_format<Rt,Md,Mo,Sm,At>::do_print_mol(
     std::ostream& out
-,   const Mo* mo) const
+,   const Mo* mo)
 {
     auto parent = mo->parent();
     if (parent)
@@ -225,7 +225,7 @@ inline void tree_format<Rt,Md,Mo,Sm,At>::print_mol_pos(
 template <class Rt, class Md, class Mo, class Sm, class At>
 void tree_format<Rt,Md,Mo,Sm,At>::do_print_submol(
     std::ostream& out
-,   const Sm* sm) const
+,   const Sm* sm)
 {
     auto parent = sm->parent();
     if (parent)
@@ -297,7 +297,7 @@ inline void tree_format<Rt,Md,Mo,Sm,At>::print_submol_pos(
 template <class Rt, class Md, class Mo, class Sm, class At>
 void tree_format<Rt,Md,Mo,Sm,At>::do_print_atom(
     std::ostream& out
-,   const At* at) const
+,   const At* at)
 {
     auto parent = at->parent();
     if (parent)

@@ -22,7 +22,7 @@
 #include <boost/range/algorithm/count_if.hpp>
 #include <boost/range/algorithm/for_each.hpp>
 
-#include <maral/bootstraps/basic.hpp>
+#include <maral/bootstraps/bs_basic.hpp>
 #include <maral/iomanip.hpp>
 #include <maral/units.hpp>
 
@@ -79,12 +79,12 @@ struct CRN_INIT
         rt->add(std::move(crambin));
     }
 
-    node<root> rt;
+    entity<root> rt;
 };
 
 BOOST_AUTO_TEST_CASE( Size_Test )
 {
-    node<atom> atm(new atom("atom1"));
+    entity<atom> atm(new atom("atom1"));
     BOOST_CHECK(sizeof(hierarchical::node_type) == sizeof(atm));
 //    BOOST_CHECK(sizeof(hierarchical::hierarchy_type) == (2 * sizeof(atm)));
     BOOST_CHECK(sizeof(hierarchical) == sizeof atm);
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE( Size_Test )
 
 BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
-    node<molecule> mol = make<molecule>("Test");
+    entity<molecule> mol = make<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
     BOOST_CHECK(dynamic_cast<data_model::composite_node<hierarchical>*>(mol.get()));
     //BOOST_CHECK(dynamic_cast<component::name<std::string>*>(mol.get()));
@@ -114,13 +114,13 @@ BOOST_AUTO_TEST_CASE( Composite_Add )
     auto rt = make<root>();
     //rt->name() = "new root";
     //rt->center() = { 1.0f, 1.0f, 1.0f };
-    //std::cout << rt.get() << std::endl;
+    //std::cout << rt << std::endl;
 
-    node<atom> atom1(new atom("atom1"));
+    entity<atom> atom1(new atom("atom1"));
     rt->add(std::move(atom1));
     BOOST_CHECK(!atom1);
 
-    node<atom> atom2 = make<atom>("atom2", 2);
+    entity<atom> atom2 = make<atom>("atom2", 2);
     rt->add(std::move(atom2));
     BOOST_CHECK(!atom2);
 
@@ -757,7 +757,7 @@ BOOST_FIXTURE_TEST_CASE( Position_Component, CRN_INIT )
 
 //BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
 //{
-//    std::cout << format(tree) << rt.get() << std::endl;
+//    std::cout << format(tree) << rt << std::endl;
 //    for (auto node : *rt)
 //        std::cout << delimiters('[', ']') << separator(' ')
 //             << node << std::endl;
@@ -765,5 +765,5 @@ BOOST_FIXTURE_TEST_CASE( Position_Component, CRN_INIT )
 
 //BOOST_FIXTURE_TEST_CASE( Format, CRN_INIT )
 //{
-//    std::cout << rt.get() << std::endl;
+//    std::cout << rt << std::endl;
 //}

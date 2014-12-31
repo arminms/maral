@@ -148,6 +148,30 @@ private:
     {};
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::ostream& operator<< (
+    std::ostream& out
+,   const entity<atom_host<data_model::hierarchical, Components...>>& atm)
+{
+    BOOST_ASSERT_MSG(atm.get() , "null atom!");
+    atm->print(out);
+    return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::istream& operator>> (
+    std::istream& in
+,   entity<atom_host<data_model::hierarchical, Components...>>& atm)
+{
+    BOOST_ASSERT_MSG(atm.get() , "null atom!");
+    atm->scan(in);
+    return in;
+}
+
 }    // namespace maral
 
 #endif    // MARAL_ATOM_HPP

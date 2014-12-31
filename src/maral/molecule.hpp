@@ -82,6 +82,30 @@ private:
     {}
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::ostream& operator<< (
+    std::ostream& out
+,   const entity<molecule_host<data_model::hierarchical, Components...>>& mol)
+{
+    BOOST_ASSERT_MSG(mol.get() , "null molecule!");
+    mol->print(out);
+    return out;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ...Components>
+std::istream& operator>> (
+    std::istream& in
+,   entity<molecule_host<data_model::hierarchical, Components...>>& mol)
+{
+    BOOST_ASSERT_MSG(mol.get() , "null molecule!");
+    mol->scan(in);
+    return in;
+}
+
 }    // namespace maral
 
 #endif    // MARAL_MOLECULE_HPP

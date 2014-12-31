@@ -8,8 +8,8 @@
 //
 // $Id$
 
-#ifndef MARAL_NODE_HPP
-#define MARAL_NODE_HPP
+#ifndef MARAL_MAKE_HPP
+#define MARAL_MAKE_HPP
 
 #include <memory>
 
@@ -57,11 +57,11 @@ template<class T, class... Args>
     make(Args&&...) = delete;
 
 template <typename T>
-    using node = std::unique_ptr<T>;
+    using entity = std::unique_ptr<T>;
 
 //using any = boost::any;
 
 }    // namespace maral
 
-#endif    // MARAL_NODE_HPP
+#endif    // MARAL_MAKE_HPP
 
