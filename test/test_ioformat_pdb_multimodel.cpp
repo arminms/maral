@@ -197,7 +197,7 @@ BOOST_FIXTURE_TEST_CASE( OUT_FRAMES_5, ENT_1S4A_INIT )
 BOOST_FIXTURE_TEST_CASE( OUT_FRAMES_5_RES, ENT_1S4A_INIT )
 {
     output_test_stream cout(
-        PATTERNS_FOLDER"1S4A_F_5_RES.pdb",
+        PATTERNS_FOLDER"1S4A_F_5_res.pdb",
         !butrc::save_pattern());
     cout << frames(5) << *(rt->begin<residue>());
     BOOST_CHECK(cout.match_pattern());

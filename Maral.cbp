@@ -81,11 +81,15 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/maral/bootstraps/basic.hpp">
+		<Unit filename="src/maral/bootstraps/bs_basic.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/maral/bootstraps/pdb.hpp">
+		<Unit filename="src/maral/bootstraps/bs_pdb.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/bootstraps/bs_pdb_multimodel.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
@@ -177,6 +181,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/make.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/maral.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -250,10 +258,6 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/maral/mtl/vector_ops.ipp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/maral/node.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
