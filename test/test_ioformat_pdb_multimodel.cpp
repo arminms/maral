@@ -45,7 +45,22 @@ struct ENT_1S4A_INIT
     entity<root> rt;
 };
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN )
+struct ENT_1TOS_2SOC_INIT
+{
+    ENT_1TOS_2SOC_INIT()
+    {
+        std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
+        rt = make<root>();
+        in >> rt;
+        in.close();
+        in.open(PATTERNS_FOLDER"2SOC.pdb");
+        in >> rt;
+    }
+
+    entity<root> rt;
+};
+
+BOOST_AUTO_TEST_CASE( IN_1CRN )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto rt = make<root>();
@@ -57,7 +72,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN )
     BOOST_CHECK( 327 == boost::distance(rt->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto ch = make<chain>();
@@ -67,50 +82,44 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
     BOOST_CHECK( 327 == boost::distance(ch->range<atom>()) );
 }
 
-//BOOST_AUTO_TEST_CASE( PDB_2MKK )
-//{
-//    std::ifstream in(PATTERNS_FOLDER"2MKK.pdb");
-//    auto rt = make<root>();
-//    in >> rt;
-//
-//    BOOST_CHECK(   10 == rt->frames_size() );
-//    BOOST_CHECK( 3532 == rt->coords_size() );
-//
-//    output_test_stream cout(
-//        PATTERNS_FOLDER"2MKK_out.pdb",
-//        !butrc::save_pattern());
-//
-//    cout << rt;
-//    BOOST_CHECK(cout.match_pattern());
-//}
+BOOST_AUTO_TEST_CASE( IO_1TOS )
+{
+    std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
+    auto rt = make<root>();
+    in >> rt;
 
-//BOOST_AUTO_TEST_CASE( PDB_1CRN_2MKK )
-//{
-//    std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
-//    auto rt = make<root>();
-//    in >> rt;
-//    in.close();
-//    in.open(PATTERNS_FOLDER"2MKK.pdb");
-//    in >> rt;
-//
-//    std::ofstream cout(PATTERNS_FOLDER"1CRN_2MKK_test.pdb");
-//    cout<< rt;
-//}
+    BOOST_CHECK(   3 == rt->frames_size() );
+    BOOST_CHECK( 468 == rt->coords_size() );
+    BOOST_CHECK( 141 == boost::distance(rt->range<atom>()) );
 
-//BOOST_AUTO_TEST_CASE( PDB_1TOS_1EGT )
-//{
-//    std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
-//    auto rt = make<root>();
-//    in >> rt;
-//    in.close();
-//    in.open(PATTERNS_FOLDER"1EGT.pdb");
-//    in >> rt;
-//
-//    std::ofstream cout(PATTERNS_FOLDER"1TOS_1EGT_test.pdb");
-//    cout << rt;
-//}
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_out.pdb",
+        !butrc::save_pattern());
+    cout << rt;
+    BOOST_CHECK(cout.match_pattern());
+}
 
-BOOST_AUTO_TEST_CASE( PDB_2SOC_1TOS )
+BOOST_AUTO_TEST_CASE( IO_1CRN_1TOS )
+{
+    std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
+    auto rt = make<root>();
+    in >> rt;
+    in.close();
+    in.open(PATTERNS_FOLDER"1TOS.pdb");
+    in >> rt;
+
+    BOOST_CHECK(   3 == rt->frames_size() );
+    BOOST_CHECK( 468 == rt->coords_size() );
+    BOOST_CHECK( 468 == boost::distance(rt->range<atom>()) );
+
+    output_test_stream cout(
+        PATTERNS_FOLDER"1CRN_1TOS_out.pdb",
+        !butrc::save_pattern());
+    cout << rt;
+    BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_AUTO_TEST_CASE( IO_2SOC_1TOS )
 {
     std::ifstream in(PATTERNS_FOLDER"2SOC.pdb");
     auto rt = make<root>();
@@ -119,34 +128,65 @@ BOOST_AUTO_TEST_CASE( PDB_2SOC_1TOS )
     in.open(PATTERNS_FOLDER"1TOS.pdb");
     in >> rt;
 
-    //std::ofstream cout(PATTERNS_FOLDER"2SOC_1TOS_out.pdb");
-    //cout << rt;
+    BOOST_CHECK(   3 == rt->frames_size() );
+    BOOST_CHECK( 278 == rt->coords_size() );
+    BOOST_CHECK( 278 == boost::distance(rt->range<atom>()) );
+
+    output_test_stream cout(
+        PATTERNS_FOLDER"2SOC_1TOS_out.pdb",
+        !butrc::save_pattern());
+    cout << rt;
+    BOOST_CHECK(cout.match_pattern());
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1TOS_2SOC )
+BOOST_FIXTURE_TEST_CASE( IO_1TOS_2SOC_1TOS, ENT_1TOS_2SOC_INIT )
 {
-    std::ifstream in(PATTERNS_FOLDER"1TOS.pdb");
-    auto rt = make<root>();
-    in >> rt;
-    in.close();
-    in.open(PATTERNS_FOLDER"2SOC.pdb");
-    in >> rt;
+    BOOST_CHECK(   3 == rt->frames_size() );
+    BOOST_CHECK( 278 == rt->coords_size() );
+    BOOST_CHECK( 278 == boost::distance(rt->range<atom>()) );
 
-    //std::ofstream cout(PATTERNS_FOLDER"1TOS_2SOC_out.pdb");
-    //cout << rt;
-    //cout.close();
-    //cout.open(PATTERNS_FOLDER"1TOS_out.pdb");
-    //cout << *(rt->begin<model>());
-    //cout.close();
-    //cout.open(PATTERNS_FOLDER"1TOS_out_mol.pdb");
-    //cout << *(rt->begin<chain>());
-    //cout.close();
-    //cout.open(PATTERNS_FOLDER"1TOS_out_res.pdb");
-    //cout << *(rt->begin<residue>());
-    //cout.close();
-    //cout.open(PATTERNS_FOLDER"1TOS_out_atm.pdb");
-    //cout << *(rt->begin<atom>()) << std::endl;
-    //cout << *(rt->rbegin<atom>()) << std::endl;
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_2SOC_out.pdb",
+        !butrc::save_pattern());
+    cout << rt;
+    BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_FIXTURE_TEST_CASE( IO_1TOSN2SOC_1TOS, ENT_1TOS_2SOC_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_out.pdb",
+        !butrc::save_pattern());
+    cout << *(rt->begin<model>());
+    BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_FIXTURE_TEST_CASE( IO_1TOSN2SOC_1TOS_MOL, ENT_1TOS_2SOC_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_out_mol.pdb",
+        !butrc::save_pattern());
+    cout << *(rt->begin<chain>());
+    BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_FIXTURE_TEST_CASE( IO_1TOSN2SOC_1TOS_RES, ENT_1TOS_2SOC_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_out_res.pdb",
+        !butrc::save_pattern());
+    cout << *(rt->begin<residue>());
+    BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_FIXTURE_TEST_CASE( IO_1TOSN2SOC_1TOS_ATM, ENT_1TOS_2SOC_INIT )
+{
+    output_test_stream cout(
+        PATTERNS_FOLDER"1TOS_out_atm.pdb",
+        !butrc::save_pattern());
+    cout << *(rt->begin<atom>()) << std::endl;
+    cout << *(rt->rbegin<atom>()) << std::endl;
+    BOOST_CHECK(cout.match_pattern());
 }
 
 BOOST_FIXTURE_TEST_CASE( OUT_FRAMES_0_0_0, ENT_1S4A_INIT )

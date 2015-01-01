@@ -1,0 +1,20 @@
+MODEL        1                                                                  
+ATOM      1  N   TRP A   1       0.158  -5.942  -1.276  1.00  0.00              
+ENDMDL                                                                          
+MODEL        2                                                                  
+ATOM      1  N   TRP A   1      -0.835  -5.964  -1.681  1.00  0.00              
+ENDMDL                                                                          
+MODEL        3                                                                  
+ATOM      1  N   TRP A   1       0.649  -5.556  -1.233  1.00  0.00              
+ENDMDL                                                                          
+
+MODEL        1                                                                  
+HETATM    2  HO  THO A   8      -5.235   0.650   1.682  1.00  0.00              
+ENDMDL                                                                          
+MODEL        2                                                                  
+HETATM    2  HO  THO A   8      -5.209  -2.399   2.835  1.00  0.00              
+ENDMDL                                                                          
+MODEL        3                                                                  
+HETATM    2  HO  THO A   8      -5.209  -2.399   2.835  1.00  0.00              
+ENDMDL                                                                          
+
