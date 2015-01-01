@@ -39,7 +39,7 @@ using namespace maral::bootstrap::pdb;
 
 #define PATTERNS_FOLDER "patterns/"
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Root )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto rt = make<root>();
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Root )
     }
 }
 
-BOOST_AUTO_TEST_CASE( PDB_3NY8_Root )
+BOOST_AUTO_TEST_CASE( IN_3NY8_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"3NY8.pdb");
     auto rt = make<root>();
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE( PDB_3NY8_Root )
     }
 }
 
-BOOST_AUTO_TEST_CASE( PDB_3SDY_Root )
+BOOST_AUTO_TEST_CASE( IN_3SDY_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     auto rt = make<root>();
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE( PDB_3SDY_Root )
     }
 }
 
-BOOST_AUTO_TEST_CASE( PDB_2SOC_Root )
+BOOST_AUTO_TEST_CASE( IN_2SOC_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"2SOC.pdb");
     auto rt = make<root>();
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE( PDB_2SOC_Root )
     BOOST_CHECK(cout.match_pattern());
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_Root )
+BOOST_AUTO_TEST_CASE( IN_NoChain_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto rt = make<root>();
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Root )
     }
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Root )
+BOOST_AUTO_TEST_CASE( IN_NoChain_NoRes_Root )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto rt = make<root>();
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Root )
     }
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Model )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto md = make<model>();
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Model )
     BOOST_CHECK( 327 == boost::distance(md->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_Model )
+BOOST_AUTO_TEST_CASE( IN_NoChain_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto md = make<model>();
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Model )
     BOOST_CHECK( 74 == boost::distance(md->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Model )
+BOOST_AUTO_TEST_CASE( IN_NoChain_NoRes_Model )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto md = make<model>();
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Model )
     BOOST_CHECK( 15 == boost::distance(md->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto ch = make<chain>();
@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Molecule )
     BOOST_CHECK( 327 == boost::distance(ch->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_Molecule )
+BOOST_AUTO_TEST_CASE( IN_NoChain_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto ch = make<chain>();
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Molecule )
     BOOST_CHECK( 74 == boost::distance(ch->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Molecule )
+BOOST_AUTO_TEST_CASE( IN_NoChain_NoRes_Molecule )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto ch = make<chain>();
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Molecule )
     BOOST_CHECK( 15 == boost::distance(ch->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Submol )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Submol )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto sm = make<residue>();
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Submol )
     BOOST_CHECK( 7 == boost::distance(sm->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_Submol )
+BOOST_AUTO_TEST_CASE( IN_NoChain_Submol )
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain.pdb");
     auto sm = make<residue>();
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_Submol )
     BOOST_CHECK( 6 == boost::distance(sm->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Submol)
+BOOST_AUTO_TEST_CASE( IN_NoChain_NoRes_Submol)
 {
     std::ifstream in(PATTERNS_FOLDER"no_chain_no_res.pdb");
     auto sm = make<residue>();
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE( PDB_NoChain_NoRes_Submol)
     BOOST_CHECK( 0 == boost::distance(sm->range<atom>()) );
 }
 
-BOOST_AUTO_TEST_CASE( PDB_1CRN_Atom )
+BOOST_AUTO_TEST_CASE( IN_1CRN_Atom )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     auto at = make<atom>();
