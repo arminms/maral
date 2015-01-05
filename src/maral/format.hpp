@@ -181,7 +181,7 @@ public:
 
 private:
     const long id_;
-    static io_format_repository <Rt,Md,Mo,Sm,At,F...> repo_;
+    static io_format_repository<Rt,Md,Mo,Sm,At,F...> repo_;
 
     static void set(std::ios_base& ios, long idx)
     {   index(ios) = idx;    }

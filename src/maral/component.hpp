@@ -76,9 +76,11 @@ struct has_##component                                                         \
 
 #endif  //BOOST_WORKAROUND
 
+GENERATE_HAS_COMPONENT(atomic_number_component)   // creates atomic_number_component
 GENERATE_HAS_COMPONENT(b_factor_component)        // creates has_b_factor_component
 GENERATE_HAS_COMPONENT(chainid_component)         // creates has_chainid_component
 GENERATE_HAS_COMPONENT(coordinates_component)     // creates has_coordinates_component
+GENERATE_HAS_COMPONENT(covalent_radius_component) // creates has_covalent_radius_component
 GENERATE_HAS_COMPONENT(formal_charge_component)   // creates has_formal_charge_component
 GENERATE_HAS_COMPONENT(icode_component)           // creates has_icode_component
 GENERATE_HAS_COMPONENT(linked_position_component) // creates has_linked_position_component

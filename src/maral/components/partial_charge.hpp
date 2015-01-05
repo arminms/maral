@@ -21,7 +21,7 @@ namespace maral { namespace component {
 /// \b partial_charge is a structural component class that allows assigning a
 /// partial charge to an atom, so it can be accessed or changed later.
 
-template <typename T>
+template <typename T = float>
     class partial_charge_component
 {
 public:
@@ -30,9 +30,9 @@ public:
     partial_charge_component(T chg = T(0))
     : partial_charge_(chg)
     {
-        BOOST_STATIC_ASSERT_MSG(
+        static_assert(
             std::is_floating_point<T>::value == true,
-            "only float types are allowed :(");
+            "Only float types are allowed :(");
     }
 //@}
 
@@ -50,7 +50,7 @@ private:
     T partial_charge_;
 };
 
-template <typename T>
+template <typename T = float>
 using partial_charge = partial_charge_component<T>;
 
 }}  // maral::component

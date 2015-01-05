@@ -18,10 +18,10 @@ namespace maral { namespace component {
 ///
 /// \param T Type of the value (e.g. char, int, long).
 /// \remarks
-/// \b formal_charge is a structural component class that allows assigning a formal
-/// charge to an atom, so it can be accessed or changed later.
+/// \b formal_charge is a structural component class that allows assigning a
+/// formal charge to an atom, so it can be accessed or changed later.
 
-template <typename T>
+template <typename T = char>
     class formal_charge_component
 {
 public:
@@ -30,19 +30,19 @@ public:
     formal_charge_component(T chg = T(0))
     : formal_charge_(chg)
     {
-        BOOST_STATIC_ASSERT_MSG(
+        static_assert(
             std::is_integral<T>::value == true,
-            "only integral types are allowed :(");
-        BOOST_STATIC_ASSERT_MSG(
+            "Only integral types are allowed :(");
+        static_assert(
             std::is_signed<T>::value == true,
-            "only signed types are allowed :(");
+            "Only signed types are allowed :(");
     }
 //@}
 
 /// \name Attributes
 //@{
-    T formal_charge() const
-    {   return formal_charge_;    }
+    int formal_charge() const
+    {   return (int)formal_charge_;    }
 
     void formal_charge(T chg)
     {   formal_charge_ = chg; }
@@ -53,7 +53,7 @@ private:
     T formal_charge_;
 };
 
-template <typename T>
+template <typename T = char>
 using formal_charge = formal_charge_component<T>;
 
 }}    // maral::component

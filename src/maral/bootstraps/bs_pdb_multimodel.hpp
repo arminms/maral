@@ -39,38 +39,38 @@ namespace maral { namespace bootstrap { namespace pdb_multimodel {
 typedef root_host
 <
     data_model::hierarchical
-,   component::coordinates<mtl::point3f>
+,   component::coordinates<>
 >   root;
 
 typedef model_host
 <
     data_model::hierarchical
-,   component::name<std::string>
+,   component::name<>
 >   model;
 
 typedef molecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::chainid<char>
+,   component::name<>
+,   component::chainid<>
 >   chain;
 
 typedef submolecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::order<unsigned>
-,   component::icode<char>
+,   component::name<>
+,   component::order<>
+,   component::icode<>
 >   residue;
 
 typedef atom_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::linked_position<mtl::point3f, component::coordinates>
-,   component::occupancy<float>
-,   component::b_factor<float>
-,   component::formal_charge<char>
+,   component::name<>
+,   component::linked_position<>
+,   component::occupancy<>
+,   component::b_factor<>
+,   component::formal_charge<>
 >   atom;
 
 // defining format class

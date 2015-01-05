@@ -274,6 +274,13 @@ BOOST_AUTO_TEST_CASE( IN_1CRN_Atom )
     BOOST_CHECK( name == "N" );
     //BOOST_CHECK( at->ordinal() == 1 );
     BOOST_CHECK( is_equal(at->center(), mtl::point3f(17.047f, 14.099f, 3.625f), 0.0001f) );
+    BOOST_CHECK( at->chemical_symbol() == "C" );
+    std::cout << at->atomic_number() << std::endl << at->chemical_symbol() << std::endl;
+    std::cout << at->covalent_radius() << std::endl;
+    at->chemical_symbol("N");
+    BOOST_CHECK( at->chemical_symbol() == "N" );
+    std::cout << at->atomic_number() << std::endl << at->chemical_symbol() << std::endl;
+    std::cout << at->covalent_radius() << std::endl;
 }
 
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )

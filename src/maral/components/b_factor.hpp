@@ -24,7 +24,7 @@ namespace maral { namespace component {
 /// physics to describe the attenuation of x-ray scattering or coherent neutron
 /// scattering caused by thermal motion.
 
-template <typename T>
+template <typename T = float>
     class b_factor_component
 {
 public:
@@ -33,9 +33,9 @@ public:
     b_factor_component(T bf = T(0))
     : dwf_(bf)
     {
-        BOOST_STATIC_ASSERT_MSG(
+        static_assert(
             std::is_floating_point<T>::value == true,
-            "only float types are allowed :(");
+            "Only float types are allowed :(");
     }
 //@}
 
@@ -53,7 +53,7 @@ private:
     T dwf_;
 };
 
-template <typename T>
+template <typename T = float>
 using b_factor = b_factor_component<T>;
 
 }}   // namespace maral::component

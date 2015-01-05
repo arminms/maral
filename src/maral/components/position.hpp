@@ -23,15 +23,15 @@ namespace maral { namespace component {
 /// \param T Type of the point to be used for the position (e.g. mtl::point3f,
 /// mtl::point2d, ...).
 /// \remarks
-/// \b position is a structural component class that allows assigning a position to
-/// a node, so it can be accessed or changed later.
+/// \b position is a structural component class that allows assigning a position
+/// to a node, so it can be accessed or changed later.
 
-template <typename T>
+template <typename T = mtl::point3f>
     class position_component
 {
     static_assert(
         pntvec_traits<T>::extent::den > 1,
-        "need a fixed-size vector type :(");
+        "Need a fixed-size vector type :(");
 
 public:
 /// \name Construction
@@ -81,7 +81,7 @@ private:
     T pos_;
 };
 
-template <typename T>
+template <typename T = mtl::point3f>
 using position = position_component<T>;
 
 }}  // maral::component

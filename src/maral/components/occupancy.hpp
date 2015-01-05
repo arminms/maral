@@ -19,10 +19,10 @@ namespace maral { namespace component {
 /// \param T Type of the float to be used for the value (e.g. float, double,
 /// ...).
 /// \remarks
-/// \b occupancy is a structural component class that allows assigning an occupancy
-/// to atom, so it can be accessed or changed later.
+/// \b occupancy is a structural component class that allows assigning an
+/// occupancy to atom, so it can be accessed or changed later.
 
-template <typename T>
+template <typename T = float>
     class occupancy_component
 {
 public:
@@ -33,7 +33,7 @@ public:
     {
         BOOST_STATIC_ASSERT_MSG(
             std::is_floating_point<T>::value == true,
-            "only float types are allowed :(");
+            "Only float types are allowed :(");
     }
 //@}
 
@@ -51,7 +51,7 @@ private:
     T occupancy_;
 };
 
-template <typename T>
+template <typename T = float>
 using occupancy = occupancy_component<T>;
 
 }}    // maral::component

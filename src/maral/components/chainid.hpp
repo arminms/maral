@@ -16,43 +16,43 @@ namespace maral { namespace component {
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural component for assigning chain id to nodes.
 ///
-/// \param T Type of the character to be used as chain id (e.g. char, char16_t,
-/// char32_t, wchar_t, ...).
+/// \param CharT Type of the character to be used as chain id (e.g. char,
+/// char16_t, char32_t, wchar_t, ...).
 /// \remarks
-/// chainid is a structural component class that allows assigning a chain id to a
-/// node (usually molecule node), so it can be accessed or changed later.
+/// chainid is a structural component class that allows assigning a chain id to
+/// a node (usually molecule node), so it can be accessed or changed later.
 
-template <typename T>
+template <typename CharT = char>
     class chainid_component
 {
 public:
 /// \name Construction
 //@{
-    chainid_component(T id = T(' '))
+    chainid_component(CharT id = CharT(' '))
     :   id_(id)
     {
-        BOOST_STATIC_ASSERT_MSG(
-            std::is_integral<T>::value == true,
-            "only integral types are allowed :(");
+        static_assert(
+            std::is_integral<CharT>::value == true,
+            "Only integral types are allowed :(");
 	}
 //@}
 
 /// \name Attributes
 //@{
-    T chain_id() const
+    CharT chain_id() const
     {   return id_;   }
 
-    void chain_id(T id)
+    void chain_id(CharT id)
     {   id_ = id;   }
 //@}
 
 // Implementation
 private:
-    T id_;
+    CharT id_;
 };
 
-template <typename T>
-using chainid = chainid_component<T>;
+template <typename CharT = char>
+using chainid = chainid_component<CharT>;
 
 }}   // maral::component
 

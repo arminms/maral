@@ -51,7 +51,7 @@ public:
 /// \name Construction
 //@{
     root_host()
-    {   any_name(boost::any("ROOT"), has_name_component<self_type>()); }
+    {}
 
     root_host(const boost::any& name)
     {
