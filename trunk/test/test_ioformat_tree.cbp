@@ -36,6 +36,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wno-missing-braces" />
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />

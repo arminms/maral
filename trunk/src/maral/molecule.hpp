@@ -51,7 +51,7 @@ public:
 /// \name Construction
 //@{
     molecule_host()
-    {   any_name(boost::any("MOL"), has_name_component<self_type>()); }
+    {}
 
     molecule_host(const boost::any& name)
     {

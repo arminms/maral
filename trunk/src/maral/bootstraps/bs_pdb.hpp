@@ -12,8 +12,10 @@
 #define MARAL_BOOTSTRAPS_PDB_HPP
 
 // header(s) for required components
+#include <maral/components/atomic_number.hpp>
 #include <maral/components/b_factor.hpp>
 #include <maral/components/chainid.hpp>
+#include <maral/components/covalent_radius.hpp>
 #include <maral/components/formal_charge.hpp>
 #include <maral/components/icode.hpp>
 #include <maral/components/name.hpp>
@@ -44,32 +46,34 @@ typedef root_host
 typedef model_host
 <
     data_model::hierarchical
-,   component::name<std::string>
+,   component::name<>
 >   model;
 
 typedef molecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::chainid<char>
+,   component::name<>
+,   component::chainid<>
 >   chain;
 
 typedef submolecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::order<unsigned>
-,   component::icode<char>
+,   component::name<>
+,   component::order<>
+,   component::icode<>
 >   residue;
 
 typedef atom_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::position<mtl::point3f>
-,   component::occupancy<float>
-,   component::b_factor<float>
-,   component::formal_charge<char>
+,   component::name<>
+,   component::position<>
+,   component::occupancy<>
+,   component::b_factor<>
+,   component::formal_charge<>
+,   component::atomic_number<>
+,   component::covalent_radius<>
 >   atom;
 
 // defining format class

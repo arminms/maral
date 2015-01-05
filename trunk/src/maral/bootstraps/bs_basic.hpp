@@ -39,29 +39,29 @@ typedef root_host
 typedef model_host
 <
     data_model::hierarchical
-,   component::name<std::string>
+,   component::name<>
 >   model;
 
 typedef molecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::chainid<char>
+,   component::name<>
+,   component::chainid<>
 >   molecule;
 
 typedef submolecule_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::order<unsigned>
+,   component::name<>
+,   component::order<>
 >   residue;
 
 typedef atom_host
 <
     data_model::hierarchical
-,   component::name<std::string>
-,   component::order<unsigned>
-,   component::position<mtl::point3f>
+,   component::name<>
+,   component::order<>
+,   component::position<>
 >   atom;
 
 // defining format class

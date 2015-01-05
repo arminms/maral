@@ -101,6 +101,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/maral/components/atomic_number.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/components/atomic_number.ipp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/components/b_factor.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -110,6 +118,14 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/maral/components/coordinates.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/components/covalent_radius.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/components/covalent_radius.ipp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>

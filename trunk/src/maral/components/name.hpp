@@ -30,41 +30,40 @@ namespace component {
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Structural component for assigning name to nodes.
 ///
-/// \param T Type of the string to be used as name (e.g. std::string,
-/// std::wstring, ...).
+/// \param CharT Type of the character to be used the name string (e.g. char,
+///  char16_t,char32_t, wchar_t, ...).
 /// \remarks
 /// name is a structural component class that allows assigning a name to a node,
 /// so it can be accessed or changed later.
 
-template <typename T>
+template <typename CharT = char>
     class name_component
 {
 public:
 /// \name Construction
 //@{
-    name_component(const T& name = T())
+    name_component(const std::basic_string<CharT>& name = "")
     :   name_(name)
     {}
 //@}
 
 /// \name Attributes
 //@{
-    T name() const
+    std::basic_string<CharT> name() const
     {   return name_;   }
 
-    void name(const T& name)
+    void name(const std::basic_string<CharT>& name)
     {   name_ = name;   }
 //@}
 
 // Implementation
 private:
-    T name_;
+    std::basic_string<CharT> name_;
 };
 
-template <typename T>
-using name = name_component<T>;
+template <typename CharT = char>
+using name = name_component<CharT>;
 
 }}    // maral::component
 
 #endif    // MARAL_COMPONENTS_NAME_HPP
-

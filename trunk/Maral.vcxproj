@@ -25,9 +25,11 @@
     <ClInclude Include="src\maral\bootstraps\bs_pdb_multimodel.hpp" />
     <ClInclude Include="src\maral\component.hpp" />
     <ClInclude Include="src\maral\components.hpp" />
+    <ClInclude Include="src\maral\components\atomic_number.hpp" />
     <ClInclude Include="src\maral\components\b_factor.hpp" />
     <ClInclude Include="src\maral\components\chainid.hpp" />
     <ClInclude Include="src\maral\components\coordinates.hpp" />
+    <ClInclude Include="src\maral\components\covalent_radius.hpp" />
     <ClInclude Include="src\maral\components\formal_charge.hpp" />
     <ClInclude Include="src\maral\components\icode.hpp" />
     <ClInclude Include="src\maral\components\linked_position.hpp" />
@@ -59,6 +61,8 @@
     <ClInclude Include="src\maral\units.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\maral\components\atomic_number.ipp" />
+    <None Include="src\maral\components\covalent_radius.ipp" />
     <None Include="src\maral\hierarchical.ipp" />
     <None Include="src\maral\ioformats\pdb.ipp" />
     <None Include="src\maral\ioformats\tree.ipp" />

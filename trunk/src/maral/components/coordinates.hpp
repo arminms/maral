@@ -19,7 +19,7 @@
 
 namespace maral { namespace component {
 
-template <typename T>
+template <typename T = mtl::point3f>
     struct coordinates_repository
 {
     coordinates_repository()
@@ -39,15 +39,15 @@ template <typename T>
 /// \param T Type of the point to be used for the position (e.g. mtl::point3f,
 /// mtl::point2d, ...).
 /// \remarks
-/// \b position is a structural component class that allows assigning a position to
-/// a node, so it can be accessed or changed later.
+/// \b position is a structural component class that allows assigning a position
+/// to a node, so it can be accessed or changed later.
 
-template <typename T>
+template <typename T = mtl::point3f>
     class coordinates_component
 {
     static_assert(
         pntvec_traits<T>::extent::den > 1,
-        "need a fixed-size vector type :(");
+        "Need a fixed-size vector type :(");
 
 public:
 /// \name Construction
@@ -154,9 +154,10 @@ private:
 };
 
 template <typename T>
-    std::vector<std::unique_ptr<std::vector<T>>> coordinates_component<T>::frames_;
+    std::vector<std::unique_ptr<std::vector<T>>>
+        coordinates_component<T>::frames_;
 
-template <typename T>
+template <typename T = mtl::point3f>
 using coordinates = coordinates_component<T>;
 
 }}    // maral::component

@@ -52,7 +52,7 @@ public:
 /// \name Construction
 //@{
     submolecule_host()
-    {   any_name(boost::any("SUBMOL"), has_name_component<self_type>()); }
+    {}
 
     submolecule_host(const boost::any& name)
     {

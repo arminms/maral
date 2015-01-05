@@ -51,7 +51,7 @@ public:
 /// \name Construction
 //@{
     model_host()
-    {   any_name(boost::any("MODEL"), has_name_component<self_type>()); }
+    {}
 
     model_host(const boost::any& name)
     {

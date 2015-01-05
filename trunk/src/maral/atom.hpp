@@ -19,6 +19,10 @@
 #include <maral/component.hpp>
 #endif // MARAL_COMPONENT_HPP
 
+#ifndef MARAL_UNITS_HPP
+#include <maral/units.hpp>
+#endif // MARAL_UNITS_HPP
+
 namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +55,7 @@ public:
 /// \name Construction
 //@{
     atom_host()
-    {   any_name(boost::any("ATOM"), has_name_component<self_type>()); }
+    {}
 
     atom_host(const boost::any& name)
     {
@@ -82,18 +86,24 @@ public:
     {
         static_assert(
             has_name_component<self_type>::value,
-            "need component::name for setting atom name :(");
+            "Need component::name for setting atom name :(");
         any_name(name, has_name_component<self_type>());
         static_assert(
             has_order_component<self_type>::value,
-            "need component::order for setting atom ordinal :(");
+            "Need component::order for setting atom ordinal :(");
         any_ordinal(ordinal, has_order_component<self_type>());
         static_assert(
-            has_pos_or_lnk_pos<self_type>::value,
-            "need component::position for setting atom center :(");
-        any_position(pos, has_pos_or_lnk_pos<self_type>());
+            has_position<self_type>::value,
+            "Need component::position for setting atom center :(");
+        any_position(pos, has_position<self_type>());
     }
 //@}
+
+    auto covalent_radius() -> decltype(units::angstroms(0.0f))
+    {
+        return units::angstroms(get_covalent_radius
+            (has_covalent_radius<self_type>()));
+    }
 
 private:
     virtual void do_print(std::ostream& out) const
@@ -109,7 +119,7 @@ private:
         else if (boost::any_cast<decltype(self_type::name())>(&name))
             self_type::name(boost::any_cast<decltype(self_type::name())>(name));
         else
-            BOOST_ASSERT_MSG(0, "need a string type as the 1st argument!");
+            BOOST_ASSERT_MSG(0, "Need a string type as the 1st argument!");
     }
     void any_name(const boost::any& name, std::false_type)
     {}
@@ -122,7 +132,7 @@ private:
             self_type::ordinal(
                 boost::any_cast<decltype(self_type::ordinal())>(ordinal));
         else
-            BOOST_ASSERT_MSG(0, "need an integer type as the 2nd argument!");
+            BOOST_ASSERT_MSG(0, "Need an integer type as the 2nd argument!");
     }
     void any_ordinal(const boost::any& ordinal, std::false_type)
     {}
@@ -133,17 +143,36 @@ private:
             self_type::center() =
                 boost::any_cast<decltype(self_type::get_center())>(pos);
         else
-            BOOST_ASSERT_MSG(0, "need a positon type as the 3rd argument!");
+            BOOST_ASSERT_MSG(0, "Need a positon type as the 3rd argument!");
     }
     void any_position(const boost::any& pos, std::false_type)
     {}
 
+    float get_covalent_radius(std::true_type)
+    {   return (float)self_type::z_2_covalent_radius(self_type::atomic_number()); }
+
+    float get_covalent_radius(std::false_type)
+    {
+        static_assert(has_covalent_radius<self_type>::value,
+            "Need both atomic_number and covalent_radius components :(");
+        return 0;
+    }
+
     template <class T>
-    struct has_pos_or_lnk_pos
+    struct has_position
     :   public std::integral_constant
     <   bool,
         has_position_component<T>::value
     ||  has_linked_position_component<T>::value
+    >
+    {};
+
+    template <class T>
+    struct has_covalent_radius
+    :   public std::integral_constant
+    <   bool,
+        has_atomic_number_component<T>::value
+    &&  has_covalent_radius_component<T>::value
     >
     {};
 };

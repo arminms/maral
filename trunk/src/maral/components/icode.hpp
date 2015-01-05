@@ -17,44 +17,44 @@ namespace maral { namespace component {
 /// \brief Structural component for assigning code for insertion of residues to
 ///  submolecule nodes.
 ///
-/// \param T Type of the character to be used as iCode (e.g. char, char16_t,
+/// \param CharT Type of the character to be used as iCode (e.g. char, char16_t,
 /// char32_t, ...).
 /// \remarks
 /// icode is a structural component class that allows assigning a code for
 /// insertion of residue (iCode) to a submolecule node, so it can be accessed or
 /// changed later.
 
-template <typename T>
+template <typename CharT = char>
     class icode_component
 {
 public:
 /// \name Construction
 //@{
-    icode_component(T code = T(' '))
+    icode_component(CharT code = CharT(' '))
     :   icode_(code)
     {
-        BOOST_STATIC_ASSERT_MSG(
-            std::is_integral<T>::value == true,
-            "only integral types are allowed :(");
+        static_assert(
+            std::is_integral<CharT>::value == true,
+            "Only integral types are allowed :(");
 	}
 //@}
 
 /// \name Attributes
 //@{
-    T icode() const
+    CharT icode() const
     {   return icode_;   }
 
-    void icode(T code)
+    void icode(CharT code)
     {   icode_ = code;   }
 //@}
 
 // Implementation
 private:
-    T icode_;
+    CharT icode_;
 };
 
-template <typename T>
-using icode = icode_component<T>;
+template <typename CharT = char>
+using icode = icode_component<CharT>;
 
 }}    // maral::component
 

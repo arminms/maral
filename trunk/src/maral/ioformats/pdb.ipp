@@ -570,7 +570,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_formal_charge(
     else
     {
         std::ostringstream tmp;
-        tmp << std::showpos << int(at->formal_charge());
+        tmp << std::showpos << at->formal_charge();
         std::string chg = tmp.str();
         boost::reverse(chg);
         out << std::setw(2) << chg;
