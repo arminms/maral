@@ -277,6 +277,9 @@ public:
     composite_node<abstract_node>* parent() const
     {   return get_parent(); }
 
+    auto root() const -> decltype(parent())
+    {   return parent() ? parent()->root() : (decltype(parent()))this; }
+
     bool change_parent(composite_node<abstract_node>* new_parent)
     {   return do_change_parent(new_parent); }
 
