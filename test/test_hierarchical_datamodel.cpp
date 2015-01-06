@@ -109,6 +109,18 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
 }
 
+BOOST_FIXTURE_TEST_CASE( Find_Root, CRN_INIT )
+{
+    auto atm = rt->begin<atom>();
+    BOOST_CHECK( atm->root() == rt.get() );
+    auto pro = rt->begin<residue>();
+    BOOST_CHECK( pro->root() == rt.get() );
+    auto mol = rt->begin<molecule>();
+    BOOST_CHECK( mol->root() == rt.get() );
+    auto crn = rt->begin<model>();
+    BOOST_CHECK( crn->root() == rt.get() );
+}
+
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
     auto rt = make<root>();

@@ -14,6 +14,8 @@
 #include <array>
 #include <unordered_map>
 
+#include <boost/algorithm/string.hpp>
+
 namespace maral { namespace component {
 
 ////////////////////////////////////////////////////////////////////////////////
