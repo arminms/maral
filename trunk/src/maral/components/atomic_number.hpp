@@ -63,7 +63,7 @@ public:
     {   return atomic_number_;    }
 
     void atomic_number(unsigned z)
-    {   atomic_number_ = Zt(z); }
+    {   atomic_number_ = z < db_.symbols_.size() ? Zt(z) : 119; }
 
     std::basic_string<CharT> chemical_symbol() const
     {   return db_.symbols_[atomic_number_]; }
