@@ -21,7 +21,7 @@ namespace maral { namespace component {
 /// \b order is a structural component class that allows assigning a serial
 /// number to a node, so it can be accessed or changed later.
 
-template <typename T = unsigned>
+template <typename T = int>
     class order_component
 {
 public:
@@ -32,16 +32,13 @@ public:
     {
         static_assert(std::is_integral<T>::value == true,
             "Only integral types are allowed :(");
-        static_assert(
-            std::is_unsigned<T>::value == true,
-            "Only unsigned types are allowed :(");
     }
 //@}
 
 /// \name Attributes
 //@{
-    unsigned ordinal() const
-    {   return (unsigned)ordinal_;    }
+    T ordinal() const
+    {   return ordinal_;    }
 
     void ordinal(T ordinal)
     {   ordinal_ = ordinal; }
@@ -52,7 +49,7 @@ private:
     T ordinal_;
 };
 
-template <typename T = unsigned>
+template <typename T = int>
 using order = order_component<T>;
 
 }}  // maral::component

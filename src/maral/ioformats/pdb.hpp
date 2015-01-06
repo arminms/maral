@@ -131,6 +131,10 @@ private:
         const At* at, std::true_type) const;
     void print_atom_b_factor(std::ostream& out,
         const At* at, std::false_type) const     {   out << "  0.00";  }
+    void print_atom_element(std::ostream& out,
+        const At* at, std::true_type) const;
+    void print_atom_element(std::ostream& out,
+        const At* at, std::false_type) const     {   out << "  ";  }
     void print_atom_formal_charge(std::ostream& out,
         const At* at, std::true_type) const;
     void print_atom_formal_charge(std::ostream& out,
@@ -194,26 +198,30 @@ private:
 
     void scan_atom_name(const std::string& line,
         At* at, std::true_type) const;
-    void scan_atom_order(std::istream& in,
-        At* at, std::true_type) const;
-    void scan_atom_pos(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_occupancy(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_b_factor(const std::string& line,
-        At* at, std::true_type) const;
-    void scan_atom_formal_charge(const std::string& line,
-        At* at, std::true_type) const;
     void scan_atom_name(const std::string& line,
         At* at, std::false_type) const    {}
     void scan_atom_order(std::istream& in,
+        At* at, std::true_type) const;
+    void scan_atom_order(std::istream& in,
         At* at, std::false_type) const;
+    void scan_atom_pos(const std::string& line,
+        At* at, std::true_type) const;
     void scan_atom_pos(const std::string& line,
         At* at, std::false_type) const    {}
     void scan_atom_occupancy(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_occupancy(const std::string& line,
         At* at, std::false_type) const    {}
     void scan_atom_b_factor(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_b_factor(const std::string& line,
         At* at, std::false_type) const    {}
+    void scan_atom_element(const std::string& line,
+        At* at, std::true_type) const;
+    void scan_atom_element(const std::string& line,
+        At* at, std::false_type) const    {}
+    void scan_atom_formal_charge(const std::string& line,
+        At* at, std::true_type) const;
     void scan_atom_formal_charge(const std::string& line,
         At* at, std::false_type) const    {}
 

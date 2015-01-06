@@ -260,7 +260,8 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print(
     out << std::setprecision(2);
     print_atom_occupancy(out, at, has_occupancy_component<At>());
     print_atom_b_factor(out, at, has_b_factor_component<At>());
-    out << std::string(12, ' ');
+    out << std::string(10, ' ');
+    print_atom_element(out, at, has_atomic_number_component<At>());
     print_atom_formal_charge(out, at, has_formal_charge_component<At>());
 }
 
@@ -412,7 +413,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_submol_name(
 ,   const Sm* sm
 ,   std::true_type) const
 {
-    out << std::setw(3) << sm->name();
+    out << std::setw(3) << sm->name().substr(0, 3);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -470,7 +471,7 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_name(
 ,   const At* at
 ,   std::true_type) const
 {
-    out << std::setw(4) << at->name();
+    out << std::setw(4) << at->name().substr(0, 4);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -555,6 +556,17 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_b_factor(
 ,   std::true_type) const
 {
     out << std::setw(6) << at->b_factor();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::print_atom_element(
+    std::ostream& out
+,   const At* at
+,   std::true_type) const
+{
+    out << std::setw(2) << std::right << at->chemical_symbol().substr(0, 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -862,6 +874,7 @@ void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom(
         scan_atom_pos(line, at, has_linked_position_component<At>());
         scan_atom_occupancy(line, at, has_occupancy_component<At>());
         scan_atom_b_factor(line, at, has_b_factor_component<At>());
+        scan_atom_element(line, at, has_atomic_number_component<At>());
         scan_atom_formal_charge(line, at, has_formal_charge_component<At>());
     }
     catch (const boost::bad_lexical_cast &)
@@ -1132,6 +1145,21 @@ inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_b_factor(
         std::string bf = line.substr(60, 6); boost::trim(bf);
         at->b_factor(
             boost::lexical_cast<decltype(at->b_factor())>(bf));
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <class Rt, class Md, class Mo, class Sm, class At>
+inline void pdb_format<Rt,Md,Mo,Sm,At>::scan_atom_element(
+    const std::string& line
+,   At* at
+,   std::true_type) const
+{
+    if (line.length() > 77)
+    {
+        std::string element = line.substr(76, 2); boost::trim(element);
+        at->chemical_symbol(element);
     }
 }
 
