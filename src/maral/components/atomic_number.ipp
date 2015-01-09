@@ -12,7 +12,7 @@ template <typename CharT>
 chemical_symbols_db<CharT>::chemical_symbols_db()
 :   map_(241)
 {
-    symbols_ = 
+    symbols_ =
     {
         "Lp",   // Lone Pair
          "H",                                                                                                                                                                                     "He",
@@ -32,7 +32,7 @@ chemical_symbols_db<CharT>::chemical_symbols_db()
         map_.insert(std::make_pair(symbol, i));
         boost::to_upper(symbol);
         map_.insert(std::make_pair(symbol, i));
-        //std::cout << symbol.capacity() << std::endl;
+//        std::cout << symbol.capacity() << std::endl;
     }
 
     //map_.insert(std::

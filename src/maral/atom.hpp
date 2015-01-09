@@ -46,7 +46,7 @@ template
         data_model::hierarchical
     ,   Components...
     >
-:   public data_model::composite_node<data_model::hierarchical>
+:   public data_model::leaf_node<data_model::hierarchical>
 ,   public Components...
 {
 public:

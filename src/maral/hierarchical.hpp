@@ -112,12 +112,10 @@ public:
         return pos;
     }
 
-    // Implementation
+// Implementation
 protected:
     virtual ~composite_node()
-    {
-        for (auto node : children_) delete node;
-    }
+    {   do_clear();  }
 
     composite_node<Component>* parent_;
     typename Component::hierarchy_type children_;
@@ -125,14 +123,10 @@ protected:
 private:
     virtual const typename Component::hierarchy_type*
         get_children() const
-    {
-            return &children_;
-    }
+    {   return &children_;  }
 
     virtual composite_node<Component>* get_parent() const
-    {
-        return parent_;
-    }
+    {   return parent_; }
 
     virtual bool
         do_change_parent(composite_node<Component>* new_parent)
@@ -159,6 +153,9 @@ private:
         }
         return false;
     }
+
+    virtual void do_clear()
+    {   for (auto node : children_) delete node;    }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,6 +193,9 @@ private:
     //    static typename Component::hierarchy_type empty;
     //    return &empty;
     //}
+
+    virtual void do_clear()
+    {}
 
 protected:
     composite_node<Component>* parent_;
@@ -276,9 +276,12 @@ public:
 
     composite_node<abstract_node>* parent() const
     {   return get_parent(); }
+//@}
 
-    auto root() const -> decltype(parent())
-    {   return parent() ? parent()->root() : (decltype(parent()))this; }
+/// \name Operations
+//@{
+    void clear()
+    {   return do_clear();   }
 
     bool change_parent(composite_node<abstract_node>* new_parent)
     {   return do_change_parent(new_parent); }
@@ -288,6 +291,36 @@ public:
 
     void scan(std::istream& in)
     {   return do_scan(in);   }
+
+    auto root() const -> decltype(parent())
+    {   return parent() ? parent()->root() : (decltype(parent()))this; }
+
+    bool has_ancestor(abstract_node* node) const
+    {
+        auto p = parent();
+        while (p)
+        {
+            if (p == node)
+                return true;
+            else
+                p = p->parent();
+        }
+        return false;
+    }
+
+    auto common_ancestor(abstract_node* node) const
+        -> decltype(parent())
+    {
+        auto p = parent();
+        while (p)
+        {
+            if (node->has_ancestor(p))
+                return p;
+            else
+                p = p->parent();
+        }
+        return nullptr;
+    }
 //@}
 
 // Implementation
@@ -300,6 +333,7 @@ private:
            composite_node<abstract_node>* new_parent) = 0;
     virtual void do_print(std::ostream& out) const = 0;
     virtual void do_scan(std::istream& in) = 0;
+    virtual void do_clear() = 0;
 };
 
 typedef abstract_node hierarchical;

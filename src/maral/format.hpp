@@ -111,7 +111,7 @@ private:
         formats_.push_back(
             std::unique_ptr<io_format_base<Rt,Md,Mo,Sm,At>>(t));
     }
- 
+
     template<typename First, typename ...Rest>
     void push_back(First* first, Rest* ...rest)
     {
