@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <regex>
 
 // due to inclusion of <windows.h> by header only boost::test, we need
 // the following define to prevent problem with std::numeric_limits
@@ -29,13 +30,18 @@
 //#include <boost/iostreams/filtering_stream.hpp>
 //#include <boost/iostreams/device/file_descriptor.hpp>
 
-#include <maral/bootstraps/bs_pdb.hpp>
+//#include <maral/bootstraps/bs_pdb.hpp>
+#include <maral/bootstraps/bs_bond.hpp>
+#include <maral/algorithms/connect.hpp>
+#include <maral/algorithms/remove.hpp>
+#include <maral/algorithms/remove_if.hpp>
 
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
 
 using namespace maral;
-using namespace maral::bootstrap::pdb;
+//using namespace maral::bootstrap::pdb;
+using namespace maral::bootstrap::bond;
 
 #define PATTERNS_FOLDER "patterns/"
 
@@ -351,3 +357,30 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 //    BOOST_CHECK(  46 == boost::distance(rt->range<residue>()) );
 //    BOOST_CHECK( 327 == boost::distance(rt->range<atom>()) );
 //}
+
+BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
+{
+    std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
+    auto rt = make<root>();
+    in >> rt;
+    connect<bond>(rt->range<atom>());
+    std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
+    auto chain_a = rt->begin<chain>();
+    for (auto bnd : chain_a->range<bond>())
+        std::cout //<< bnd->parent()->name() << ': '
+                  << bnd->first_->name() << '-'
+                  << bnd->second_->name()
+                  << std::endl;
+    remove(rt->range<bond>());
+    std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
+    std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
+    remove_if(
+        rt->range<atom>()
+        ,   [=] (const atom* atm)
+            //{ return (std::regex_match(atm->name(), std::regex(".*CA.*"))); } );
+            { return (std::regex_search(atm->name(), std::regex("CA"))); } );
+
+    std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
+    remove(rt->range());
+    std::cout << "Total: " << boost::distance(rt->range()) << std::endl;
+}

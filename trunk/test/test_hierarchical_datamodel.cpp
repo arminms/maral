@@ -121,6 +121,29 @@ BOOST_FIXTURE_TEST_CASE( Find_Root, CRN_INIT )
     BOOST_CHECK( crn->root() == rt.get() );
 }
 
+BOOST_FIXTURE_TEST_CASE( Has_Ancestor, CRN_INIT )
+{
+    auto atm = rt->begin<atom>();
+    BOOST_CHECK( atm->has_ancestor(rt.get()) );
+    auto pro = rt->begin<residue>();
+    BOOST_CHECK( pro->has_ancestor(rt.get()) );
+    BOOST_CHECK( atm->has_ancestor(*pro) );
+    auto mol = rt->begin<molecule>();
+    BOOST_CHECK( mol->has_ancestor(rt.get()) );
+    BOOST_CHECK( pro->has_ancestor(*mol) );
+    BOOST_CHECK( atm->has_ancestor(*mol) );
+    auto crn = rt->begin<model>();
+    BOOST_CHECK( crn->has_ancestor(rt.get()) );
+    BOOST_CHECK( mol->has_ancestor(*crn) );
+    BOOST_CHECK( pro->has_ancestor(*crn) );
+    BOOST_CHECK( atm->has_ancestor(*crn) );
+    auto ser = rt->rbegin<residue>();
+    BOOST_CHECK( atm->has_ancestor(*ser) == false );
+    BOOST_CHECK( rt->has_ancestor(*atm) == false );
+    BOOST_CHECK( rt->has_ancestor(rt.get()) == false );
+    BOOST_CHECK( atm->has_ancestor(*atm) == false );
+}
+
 BOOST_AUTO_TEST_CASE( Composite_Add )
 {
     auto rt = make<root>();
