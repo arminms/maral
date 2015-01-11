@@ -11,10 +11,10 @@
 #ifndef MARAL_COMPONENTS_CONNECTIONS_HPP
 #define MARAL_COMPONENTS_CONNECTIONS_HPP
 
-#include <vector>
+#include <unordered_set>
 #include <unordered_map>
 
-#include <boost/range/algorithm/remove.hpp>
+//#include <boost/range/algorithm/remove.hpp>
 //#include <boost/range/algorithm/find.hpp>
 
 #ifndef MARAL_TRAITS_HPP
@@ -32,72 +32,104 @@ namespace maral { namespace component {
 /// \b position is a structural component class that allows assigning a position
 /// to a node, so it can be accessed or changed later.
 
-template <class AtomType = void>
-    class connections_component
+template <class T = void>
+class connections_component
 {
     //static_assert(
     //    pntvec_traits<T>::extent::den > 1,
     //    "Need a fixed-size vector type :(");
 
 public:
-/// \name Construction
-//@{
+    /// \name Construction
+    //@{
     connections_component()
     {}
-//@}
+    //@}
 
-/// \name Attributes
-//@{
-//@}
+    /// \name Attributes
+    //@{
+    //@}
 
-/// \name Operations
-//@{
-    void add_connection(AtomType* a1, AtomType* a2)
+    /// \name Operations
+    //@{
+    void add_bond(T* bnd, T* at1, T* at2)
     {
-        if (0 == connection_table_.count(a1))
-            connection_table_[a1] = std::vector<AtomType*>();
-        connection_table_[a1].push_back(a2);
-        if (0 == connection_table_.count(a2))
-            connection_table_[a2] = std::vector<AtomType*>();
-        connection_table_[a2].push_back(a1);
+        BOOST_ASSERT_MSG(
+               bnd != nullptr
+            || at1 != nullptr
+            || at2 != nullptr, "null pointer!");
+        if (have_connection(at1, at2)) return;
+        connection_table_.emplace(bnd, std::unordered_set<T*>(2));
+        connection_table_[bnd].insert(at1);
+        connection_table_[bnd].insert(at2);
+        connection_table_.emplace(at1, std::unordered_set<T*>(4));
+        connection_table_[at1].insert(bnd);
+        connection_table_.emplace(at2, std::unordered_set<T*>(4));
+        connection_table_[at2].insert(bnd);
     }
 
-    void remove_connection(AtomType* a1, AtomType* a2)
+    void remove_bond(T* bnd)
     {
-        auto search = connection_table_.find(a1);
-        if (search != connection_table_.end())
-            boost::remove(search->second, a2);
-        else
-            return;
-        search = connection_table_.find(a2);
-        if (search != connection_table_.end())
-            boost::remove(search->second, a1);
+        BOOST_ASSERT_MSG(bnd, "null pointer!");
+        for (auto atm : connection_table_[bnd])
+            connection_table_[atm].erase(bnd);
+        connection_table_.erase(bnd);
     }
 
-    bool have_connection(AtomType* a1, AtomType* a2) const
+    void remove_atom(T* atm)
     {
-        auto search = connection_table_.find(a1);
-        if (search != connection_table_.end())
-            //return (boost::find(search->second, a2) != search->second.end());
-            return (std::find(search->second.begin(), search->second.end(), a2)
-                !=  search->second.end());
-        else
-            return false;
+        BOOST_ASSERT_MSG(atm, "null pointer!");
+        for (auto bnd : connection_table_[atm])
+        {
+            for (auto nbr : connection_table_[bnd])
+                if (nbr != atm)
+                {
+                    connection_table_[nbr].erase(bnd);
+                    connection_table_.erase(bnd);
+                    atm->common_ancestor(nbr)->remove(bnd);
+                    break;
+                }
+        }
+        connection_table_.erase(atm);
+    }
+
+    bool have_connection(T* at1, T* at2) const
+    {
+        BOOST_ASSERT_MSG(
+               at1 != nullptr
+            || at2 != nullptr, "null pointer!");
+        for (auto bnd : connection_table_[at1])
+            for (auto atm : connection_table_[bnd])
+                if (atm == at2)
+                    return true;
+        return false;
+    }
+
+    T* bond_1st_atom(T* bnd) const
+    {
+        BOOST_ASSERT_MSG(bnd, "null pointer!");
+        return *(connection_table_[bnd].begin());
+    }
+
+    T* bond_2nd_atom(T* bnd) const
+    {
+        BOOST_ASSERT_MSG(bnd, "null pointer!");
+        return *(++connection_table_[bnd].begin());
     }
 //@}
 
 // Implementation
 private:
-    static std::unordered_map<AtomType*, std::vector<AtomType*>>
+    static std::unordered_map<T*, std::unordered_set<T*>>
         connection_table_;
 };
 
-template <class AtomType>
-    std::unordered_map<AtomType*, std::vector<AtomType*>>
-        connections_component<AtomType>::connection_table_;
+template <class T>
+    std::unordered_map<T*, std::unordered_set<T*>>
+        connections_component<T>::connection_table_;
 
-template <typename AtomType = void>
-using connections = connections_component<AtomType>;
+template <typename T = void>
+using connections = connections_component<T>;
 
 }}    // maral::component
 

@@ -83,6 +83,7 @@ typedef bond_host
 <
     atom
 ,   data_model::hierarchical
+,   component::connections<data_model::hierarchical>
 >   bond;
 
 // defining format class
