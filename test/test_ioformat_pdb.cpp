@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <chrono>
 
 // due to inclusion of <windows.h> by header only boost::test, we need
 // the following define to prevent problem with std::numeric_limits
@@ -36,6 +37,7 @@
 #include <maral/algorithms/remove.hpp>
 #include <maral/algorithms/remove_if.hpp>
 
+using namespace std::chrono;
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
 
@@ -361,17 +363,50 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
 {
     std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
+    //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
     auto rt = make<root>();
     in >> rt;
+
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     connect<bond>(rt->range<atom>());
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(t2 - t1).count();
+    std::cout << duration << " ms" << std::endl;
+
     std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
     auto chain_a = rt->begin<chain>();
-    for (auto bnd : chain_a->range<bond>())
-        std::cout //<< bnd->parent()->name() << ': '
-                  << bnd->first_->name() << '-'
-                  << bnd->second_->name()
-                  << std::endl;
-    remove(rt->range<bond>());
+    //for (auto bnd : chain_a->range<bond>())
+    //    std::cout //<< bnd->parent()->name() << ': '
+    //              << bnd->first_->name() << '-'
+    //              << bnd->second_->name()
+    //              << std::endl;
+    auto thr = rt->begin<residue>();
+    std::cout << "Before remove:" << std::endl;
+    for (auto bnd : thr->range<bond>())
+    std::cout << bnd->src()->name() << '-'
+              << bnd->dst()->name()
+              << std::endl;
+    auto thr_n = rt->begin<atom>();
+    auto thr_ca = rt->begin<atom>();
+    ++thr_ca; ++thr_ca;
+
+    make<bond>(thr_n, thr_ca);
+
+    thr->remove(*thr_ca);
+    std::cout << "After CA remove:" << std::endl;
+    for (auto bnd : thr->range<bond>())
+    std::cout << bnd->src()->name() << '-'
+              << bnd->dst()->name()
+              << std::endl;
+    auto n_ca = rt->begin<bond>();
+    thr->remove(*n_ca);
+    std::cout << "After N_CA remove:" << std::endl;
+    for (auto bnd : thr->range<bond>())
+    std::cout << bnd->src()->name() << '-'
+              << bnd->dst()->name()
+              << std::endl;
+    //remove(rt->range<bond>());
+    std::cout << "Before removing all CA:" << std::endl;
     std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
     std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
     remove_if(
@@ -380,7 +415,20 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
             //{ return (std::regex_match(atm->name(), std::regex(".*CA.*"))); } );
             { return (std::regex_search(atm->name(), std::regex("CA"))); } );
 
+    std::cout << "After removing all CA:" << std::endl;
+    std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
     std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
-    remove(rt->range());
-    std::cout << "Total: " << boost::distance(rt->range()) << std::endl;
+    for (auto bnd : chain_a->range<bond>())
+        std::cout //<< bnd->parent()->name() << ': '
+                  << bnd->src()->name() << '-'
+                  << bnd->dst()->name()
+                  << std::endl;
+    //remove(rt->range());
+    //std::cout << "Total: " << boost::distance(rt->range()) << std::endl;
+
+    //auto a1 = make<atom>("A1");
+    //auto a1p = a1.get();
+    //auto a2 = make<atom>("A2");
+    //auto a2p = a2.get();
+    //make<bond>(a1p, a2p);
 }

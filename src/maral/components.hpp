@@ -16,6 +16,7 @@
 
 #include <maral/components/b_factor.hpp>
 #include <maral/components/chainid.hpp>
+#include <maral/components/connections.hpp>
 #include <maral/components/coordinates.hpp>
 #include <maral/components/formal_charge.hpp>
 #include <maral/components/icode.hpp>

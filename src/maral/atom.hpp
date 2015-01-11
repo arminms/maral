@@ -98,7 +98,6 @@ public:
         any_position(pos, has_position<self_type>());
     }
 //@}
-
     auto covalent_radius() -> decltype(units::angstroms(0.0f))
     {
         return units::angstroms(get_covalent_radius
@@ -106,6 +105,14 @@ public:
     }
 
 private:
+    virtual bool do_change_parent(
+        data_model::composite_node<data_model::hierarchical>* np)
+    {
+        remove_atom_connections(np, has_connections_component<self_type>());
+        parent_ = np;
+        return true;
+    }
+
     virtual void do_print(std::ostream& out) const
     {   format_traits<atom_host>::type::print_atom(out, this);  }
 
@@ -157,6 +164,15 @@ private:
             "Need both atomic_number and covalent_radius components :(");
         return 0;
     }
+
+    void remove_atom_connections(
+        data_model::composite_node<data_model::hierarchical>* np
+    ,   std::true_type)
+    {   if (np == nullptr) remove_atom(this);  }
+    void remove_atom_connections(
+        data_model::composite_node<data_model::hierarchical>* np
+    ,   std::false_type)
+    {}
 
     template <class T>
     struct has_position

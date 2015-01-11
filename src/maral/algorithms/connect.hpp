@@ -15,6 +15,7 @@
 
 #include <boost/range/distance.hpp>
 #include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm/sort.hpp>
 
 namespace maral {
 
@@ -34,7 +35,7 @@ inline void connect(
     std::vector<AtomType>& atoms
 ,   T tolerance = T(0.45))
 {
-    std::sort(atoms.begin(), atoms.end(),
+    boost::sort(atoms,
         [](const AtomType i, const AtomType j)
         { return ((*i)[2] < (*j)[2]); });
 
@@ -49,13 +50,7 @@ inline void connect(
             if (z_diff > cutoff)
                 break;
             if (mtl::distance(atoms[i]->center(), atoms[j]->center()) < cutoff)
-            {
-                auto bnd = make<BondType>(atoms[i], atoms[j]);
-                atoms[i]->common_ancestor(atoms[j])->add(std::move(bnd));
-                atoms[i]->add_connection(atoms[i], atoms[j]);
-                assert(atoms[i]->have_connection(atoms[i], atoms[j]));
-                assert(atoms[j]->have_connection(atoms[j], atoms[i]));
-            }
+                make<BondType>(atoms[i], atoms[j]);
         }
     }
 }
