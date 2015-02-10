@@ -36,6 +36,8 @@
 #include <maral/algorithms/connect.hpp>
 #include <maral/algorithms/remove.hpp>
 #include <maral/algorithms/remove_if.hpp>
+#include <maral/algorithms/distance.hpp>
+#include <maral/algorithms/rmsd.hpp>
 
 using namespace std::chrono;
 using boost::test_tools::output_test_stream;
@@ -295,8 +297,8 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
     //cout << rt;
 
     //std::cout << sizeof(std::string) << std::endl;
-    //std::cout << sizeof(data_model::composite_node<hierarchical>) << std::endl;
-    //std::cout << sizeof(data_model::leaf_node<hierarchical>) << std::endl;
+    //std::cout << sizeof(datamodel::composite_node<hierarchical>) << std::endl;
+    //std::cout << sizeof(datamodel::leaf_node<hierarchical>) << std::endl;
     //std::cout << sizeof(root) << std::endl;
     //std::cout << sizeof(atom) << std::endl;
     //std::cout << sizeof(chain) << std::endl;
@@ -345,7 +347,7 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 //BOOST_AUTO_TEST_CASE( PDB_gzip )
 //{
 //    namespace io = boost::iostreams;
-//    std::ifstream gzfile("pdb/1CRN.pdb.gz", std::ios_base::in | std::ios_base::binary);
+//    std::ifstream gzfile(PATTERNS_FOLDER"1CRN.pdb.gz", std::ios_base::in | std::ios_base::binary);
 //    io::filtering_streambuf<io::input> in;
 //    in.push(io::gzip_decompressor());
 //    in.push(gzfile);
@@ -362,8 +364,9 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
 
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
 {
-    std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
+    //std::ifstream in(PATTERNS_FOLDER"1CRN.pdb");
     //std::ifstream in(PATTERNS_FOLDER"3SDY.pdb");
+    std::ifstream in(PATTERNS_FOLDER"1FFK.pdb");
     auto rt = make<root>();
     in >> rt;
 
@@ -381,16 +384,31 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
     //              << bnd->second_->name()
     //              << std::endl;
     auto thr = rt->begin<residue>();
+    std::advance(thr, 4);
     std::cout << "Before remove:" << std::endl;
     for (auto bnd : thr->range<bond>())
-    std::cout << bnd->src()->name() << '-'
-              << bnd->dst()->name()
-              << std::endl;
+        std::cout << bnd->src()->name() << '-'
+                  << bnd->dst()->name()
+                  << std::endl;
     auto thr_n = rt->begin<atom>();
     auto thr_ca = rt->begin<atom>();
-    ++thr_ca; ++thr_ca;
+    ++thr_ca;
 
-    make<bond>(thr_n, thr_ca);
+    //std::cout << "N-CA Length: " << distance(*thr_n, *thr_ca) << std::endl;
+    //std::cout << "N-CA Length: " << distance(thr_n, thr_ca) << std::endl;
+    //auto thr2 = thr;
+    //++thr2;
+    //std::cout << "RMSD: " << rmsd(thr->range<atom>(), thr2->range<atom>()) << std::endl;
+
+    std::cout << "THR:CA bonds:" << std::endl;
+    for (auto bnd : thr_ca->bonds<bond>())
+        std::cout << bnd->neighbor(bnd->src())->name() << '-'
+                  << bnd->neighbor(bnd->dst())->name()
+                  << std::endl;
+
+    std::cout << "THR:CA neighbors:" << std::endl;
+    for (auto atm : thr_ca->neighbors())
+        std::cout << atm->name() << std::endl;
 
     thr->remove(*thr_ca);
     std::cout << "After CA remove:" << std::endl;
@@ -409,20 +427,21 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
     std::cout << "Before removing all CA:" << std::endl;
     std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
     std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
+
     remove_if(
         rt->range<atom>()
         ,   [=] (const atom* atm)
-            //{ return (std::regex_match(atm->name(), std::regex(".*CA.*"))); } );
-            { return (std::regex_search(atm->name(), std::regex("CA"))); } );
+            { return (std::regex_match(atm->name(), std::regex(".*CA.*"))); } );
+            //{ return (std::regex_search(atm->name(), std::regex("CA"))); } );
 
     std::cout << "After removing all CA:" << std::endl;
     std::cout << "Bonds: " << boost::distance(rt->range<bond>()) << std::endl;
     std::cout << "Atoms: " << boost::distance(rt->range<atom>()) << std::endl;
-    for (auto bnd : chain_a->range<bond>())
-        std::cout //<< bnd->parent()->name() << ': '
-                  << bnd->src()->name() << '-'
-                  << bnd->dst()->name()
-                  << std::endl;
+    //for (auto bnd : chain_a->range<bond>())
+    //    std::cout //<< bnd->parent()->name() << ': '
+    //              << bnd->src()->name() << '-'
+    //              << bnd->dst()->name()
+    //              << std::endl;
     //remove(rt->range());
     //std::cout << "Total: " << boost::distance(rt->range()) << std::endl;
 

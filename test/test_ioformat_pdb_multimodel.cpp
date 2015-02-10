@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 // due to inclusion of <windows.h> by header only boost::test, we need
 // the following define to prevent problem with std::numeric_limits
@@ -24,7 +25,9 @@
 #include <boost/range/distance.hpp>
 
 #include <maral/bootstraps/bs_pdb_multimodel.hpp>
+#include <maral/algorithms/connect.hpp>
 
+using namespace std::chrono;
 using boost::test_tools::output_test_stream;
 namespace butrc = boost::unit_test::runtime_config;
 
@@ -301,4 +304,17 @@ BOOST_AUTO_TEST_CASE( IN_FRAMES_5 )
         !butrc::save_pattern());
     cout << rt;
     BOOST_CHECK(cout.match_pattern());
+}
+
+BOOST_AUTO_TEST_CASE(IN_1FFK)
+{
+    std::ifstream in(PATTERNS_FOLDER"1FFK.pdb");
+    auto rt = make<root>();
+    in >> rt;
+
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
+    connect<bond>(rt->range<atom>());
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(t2 - t1).count();
+    std::cout << duration << " ms" << std::endl;
 }

@@ -9,5 +9,6 @@
 		<Project filename="test/test_ioformat_tree.cbp" />
 		<Project filename="test/test_ioformat_pdb.cbp" />
 		<Project filename="test/test_ioformat_pdb_mutlimodel.cbp" />
+		<Project filename="test/test_connections.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

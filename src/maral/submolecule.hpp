@@ -40,14 +40,14 @@ template
 >
     class submolecule_host
     <
-        data_model::hierarchical
+        datamodel::hierarchical
     ,   Components...
     >
-:   public data_model::composite_node<data_model::hierarchical>
+:   public datamodel::composite_node<datamodel::hierarchical>
 ,   public Components...
 {
 public:
-    typedef submolecule_host<data_model::hierarchical, Components...> self_type;
+    typedef submolecule_host<datamodel::hierarchical, Components...> self_type;
 
 /// \name Construction
 //@{
@@ -115,7 +115,7 @@ private:
 template<typename ...Components>
 std::ostream& operator<< (
     std::ostream& out
-,   const entity<submolecule_host<data_model::hierarchical, Components...>>& sm)
+,   const entity<submolecule_host<datamodel::hierarchical, Components...>>& sm)
 {
     BOOST_ASSERT_MSG(sm.get() , "null submolecule!");
     sm->print(out);
@@ -127,7 +127,7 @@ std::ostream& operator<< (
 template<typename ...Components>
 std::istream& operator>> (
     std::istream& in
-,   entity<submolecule_host<data_model::hierarchical, Components...>>& sm)
+,   entity<submolecule_host<datamodel::hierarchical, Components...>>& sm)
 {
     BOOST_ASSERT_MSG(sm.get() , "null submolecule!");
     sm->scan(in);

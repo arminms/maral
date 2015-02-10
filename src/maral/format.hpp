@@ -145,8 +145,11 @@ public:
     ioformat(const long& id)
     :   id_(id)
     {
+#if BOOST_WORKAROUND(__GLIBCXX__, BOOST_TESTED_AT(20130909))
+#else
         BOOST_ASSERT_MSG(id < sizeof...(F),
             "file format index exceeding the max size!");
+#endif  //__GLIBCXX__
     }
 
     static void print_root(std::ostream& out, const Rt* rt)

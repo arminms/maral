@@ -40,10 +40,10 @@ struct CRN_INIT
     {
         using mtl::point3f;
         rt = make<root>();
-        auto crambin = make<model>("1CRN");
-        auto chain = make<molecule>("A");
+        auto crambin = rt->add(std::move(make<model>("1CRN")));
+        auto chain = crambin->add(std::move(make<molecule>("A")));
+        auto res = chain->add(std::move(make<residue>("PRO", 5)));
 
-        auto res = make<residue>("PRO", 5);
         res->add(std::move(make<atom>
             ( "N", 27, point3f(9.561f, 9.108f, 13.563f))));
         res->add(std::move(make<atom>
@@ -58,9 +58,8 @@ struct CRN_INIT
             ("CG", 32, point3f(7.338f, 9.786f, 14.114f))));
         res->add(std::move(make<atom>
             ("CD", 33, point3f(8.366f, 9.804f, 12.958f))));
-        chain->add(std::move(res));
 
-        res = make<residue>("SER", 6);
+        res = chain->add(std::move(make<residue>("SER", 6)));
         res->add(std::move(make<atom>
             ( "N", 34, point3f(8.875f, 6.686f, 14.796f))));
         res->add(std::move(make<atom>
@@ -73,10 +72,6 @@ struct CRN_INIT
             ("CB", 38, point3f(7.340f, 5.121f, 15.996f))));
         res->add(std::move(make<atom>
             ("OG", 39, point3f(6.274f, 5.220f, 15.031f))));
-        chain->add(std::move(res));
-
-        crambin->add(std::move(chain));
-        rt->add(std::move(crambin));
     }
 
     entity<root> rt;
@@ -88,9 +83,9 @@ BOOST_AUTO_TEST_CASE( Size_Test )
     BOOST_CHECK(sizeof(hierarchical::node_type) == sizeof(atm));
 //    BOOST_CHECK(sizeof(hierarchical::hierarchy_type) == (2 * sizeof(atm)));
     BOOST_CHECK(sizeof(hierarchical) == sizeof atm);
-//    BOOST_CHECK(sizeof(data_model::composite_node<hierarchical>) == (4 * sizeof(atm)));
-    BOOST_CHECK(sizeof(data_model::leaf_node<hierarchical>) == (2 * sizeof(atm)));
-//    BOOST_CHECK(sizeof(data_model::root_host<hierarchical>) == (4 * sizeof(atm)));
+//    BOOST_CHECK(sizeof(datamodel::composite_node<hierarchical>) == (4 * sizeof(atm)));
+    BOOST_CHECK(sizeof(datamodel::leaf_node<hierarchical>) == (2 * sizeof(atm)));
+//    BOOST_CHECK(sizeof(datamodel::root_host<hierarchical>) == (4 * sizeof(atm)));
     //BOOST_CHECK(sizeof(component::name<std::string>) == sizeof(std::string));
     BOOST_CHECK(sizeof(component::order<unsigned>) == sizeof(unsigned));
 
@@ -102,10 +97,10 @@ BOOST_AUTO_TEST_CASE( Dynamic_Casts )
 {
     entity<molecule> mol = make<molecule>("Test");
     BOOST_CHECK(dynamic_cast<hierarchical*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<data_model::composite_node<hierarchical>*>(mol.get()));
+    BOOST_CHECK(dynamic_cast<datamodel::composite_node<hierarchical>*>(mol.get()));
     //BOOST_CHECK(dynamic_cast<component::name<std::string>*>(mol.get()));
-    BOOST_CHECK(dynamic_cast<data_model::leaf_node<hierarchical>*>(mol.get()) == nullptr);
-    BOOST_CHECK(dynamic_cast<data_model::root_node<hierarchical>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<datamodel::leaf_node<hierarchical>*>(mol.get()) == nullptr);
+    BOOST_CHECK(dynamic_cast<datamodel::root_node<hierarchical>*>(mol.get()) == nullptr);
     BOOST_CHECK(dynamic_cast<atom*>(mol.get()) == nullptr);
 }
 
@@ -124,24 +119,24 @@ BOOST_FIXTURE_TEST_CASE( Find_Root, CRN_INIT )
 BOOST_FIXTURE_TEST_CASE( Has_Ancestor, CRN_INIT )
 {
     auto atm = rt->begin<atom>();
-    BOOST_CHECK( atm->has_ancestor(rt.get()) );
+    BOOST_CHECK(  rt->is_ancestor_of(*atm) );
     auto pro = rt->begin<residue>();
-    BOOST_CHECK( pro->has_ancestor(rt.get()) );
-    BOOST_CHECK( atm->has_ancestor(*pro) );
+    BOOST_CHECK(  rt->is_ancestor_of(*pro) );
+    BOOST_CHECK( pro->is_ancestor_of(*atm) );
     auto mol = rt->begin<molecule>();
-    BOOST_CHECK( mol->has_ancestor(rt.get()) );
-    BOOST_CHECK( pro->has_ancestor(*mol) );
-    BOOST_CHECK( atm->has_ancestor(*mol) );
+    BOOST_CHECK( rt->is_ancestor_of(*mol) );
+    BOOST_CHECK( mol->is_ancestor_of(*pro) );
+    BOOST_CHECK( mol->is_ancestor_of(*atm) );
     auto crn = rt->begin<model>();
-    BOOST_CHECK( crn->has_ancestor(rt.get()) );
-    BOOST_CHECK( mol->has_ancestor(*crn) );
-    BOOST_CHECK( pro->has_ancestor(*crn) );
-    BOOST_CHECK( atm->has_ancestor(*crn) );
+    BOOST_CHECK(  rt->is_ancestor_of(*crn) );
+    BOOST_CHECK( crn->is_ancestor_of(*mol) );
+    BOOST_CHECK( crn->is_ancestor_of(*pro) );
+    BOOST_CHECK( crn->is_ancestor_of(*atm) );
     auto ser = rt->rbegin<residue>();
-    BOOST_CHECK( atm->has_ancestor(*ser) == false );
-    BOOST_CHECK( rt->has_ancestor(*atm) == false );
-    BOOST_CHECK( rt->has_ancestor(rt.get()) == false );
-    BOOST_CHECK( atm->has_ancestor(*atm) == false );
+    BOOST_CHECK( ser->is_ancestor_of(*atm) == false );
+    BOOST_CHECK( atm->is_ancestor_of(*atm) == false );
+    BOOST_CHECK( atm->is_ancestor_of (rt.get()) == false );
+    BOOST_CHECK(  rt->is_ancestor_of (rt.get()) == false );
 }
 
 BOOST_AUTO_TEST_CASE( Composite_Add )

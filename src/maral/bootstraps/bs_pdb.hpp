@@ -40,25 +40,25 @@ namespace maral { namespace bootstrap { namespace pdb {
 // data model and required components
 typedef root_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 >   root;
 
 typedef model_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 >   model;
 
 typedef molecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::chainid<>
 >   chain;
 
 typedef submolecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::order<>
 ,   component::icode<>
@@ -66,7 +66,7 @@ typedef submolecule_host
 
 typedef atom_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::position<>
 ,   component::occupancy<>

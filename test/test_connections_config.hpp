@@ -8,24 +8,37 @@
 //
 // $Id$
 
-#ifndef MARAL_BOOTSTRAPS_PDB_MULTIMODEL_HPP
-#define MARAL_BOOTSTRAPS_PDB_MULTIMODEL_HPP
+// due to inclusion of <windows.h> by header only boost::test, we need
+// the following define to prevent problem with std::numeric_limits
+#if defined(_MSC_VER)
+#   define NOMINMAX
+#endif  //_MSC_VER
 
-// header(s) for required components
+#define BOOST_TEST_MAIN
+#include <boost/test/included/unit_test.hpp>
+#include <boost/test/output_test_stream.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
+
+#include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/uniqued.hpp>
+#include <boost/range/adaptor/reversed.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm/count_if.hpp>
+#include <boost/range/algorithm/find.hpp>
+#include <boost/range/algorithm/for_each.hpp>
+
 #include <maral/components/atomic_number.hpp>
 #include <maral/components/b_factor.hpp>
 #include <maral/components/chainid.hpp>
 #include <maral/components/connections.hpp>
-#include <maral/components/coordinates.hpp>
 #include <maral/components/covalent_radius.hpp>
 #include <maral/components/formal_charge.hpp>
 #include <maral/components/icode.hpp>
-#include <maral/components/linked_position.hpp>
 #include <maral/components/name.hpp>
 #include <maral/components/occupancy.hpp>
 #include <maral/components/order.hpp>
+#include <maral/components/position.hpp>
 
-// headers for host classes
 #include <maral/root.hpp>
 #include <maral/model.hpp>
 #include <maral/molecule.hpp>
@@ -33,17 +46,16 @@
 #include <maral/atom.hpp>
 #include <maral/bond.hpp>
 
-// header(s) for required file formats
 #include <maral/ioformats/pdb.hpp>
+#include <maral/ioformats/tree.hpp>
 
-namespace maral { namespace bootstrap { namespace pdb_multimodel {
+#include <maral/algorithms/connect.hpp>
 
-// seeding the host classes with the
-// data model and required components
+namespace maral {
+
 typedef root_host
 <
     datamodel::hierarchical
-,   component::coordinates<>
 >   root;
 
 typedef model_host
@@ -71,7 +83,8 @@ typedef atom_host
 <
     datamodel::hierarchical
 ,   component::name<>
-,   component::linked_position<>
+,   component::order<>
+,   component::position<>
 ,   component::occupancy<>
 ,   component::b_factor<>
 ,   component::formal_charge<>
@@ -87,37 +100,32 @@ typedef bond_host
 ,   component::connections<hierarchical>
 >   bond;
 
-// defining format class
 typedef ioformat
 <
-// first types of host classes
     root
 ,   model
 ,   chain
 ,   residue
 ,   atom
-// now required file format(s)
 ,   pdb_format
+,   tree_format
 >   format;
 
-}}  // namespace booststrap::pdb_multimodel
+enum { pdb, tree };
 
-// finally defining the type traits required for iostreams
-template<> struct format_traits<bootstrap::pdb_multimodel::root>
-    {   typedef bootstrap::pdb_multimodel::format type; };
+template<> struct format_traits<root>
+    {   typedef format type; };
 
-template<> struct format_traits<bootstrap::pdb_multimodel::model>
-    {   typedef bootstrap::pdb_multimodel::format type; };
+template<> struct format_traits<model>
+    {   typedef format type; };
 
-template<> struct format_traits<bootstrap::pdb_multimodel::chain>
-    {   typedef bootstrap::pdb_multimodel::format type; };
+template<> struct format_traits<chain>
+    {   typedef format type; };
 
-template<> struct format_traits<bootstrap::pdb_multimodel::residue>
-    {   typedef bootstrap::pdb_multimodel::format type; };
+template<> struct format_traits<residue>
+    {   typedef format type; };
 
-template<> struct format_traits<bootstrap::pdb_multimodel::atom>
-    {   typedef bootstrap::pdb_multimodel::format type; };
+template<> struct format_traits<atom>
+    {   typedef format type; };
 
 }   // namespace maral
-
-#endif    // MARAL_BOOTSTRAPS_PDB_MULTIMODEL_HPP

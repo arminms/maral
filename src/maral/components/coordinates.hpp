@@ -138,7 +138,7 @@ public:
             if (0 == i) continue;
             if (frames_[i]->size() < frames_[i-1]->size())
                 frames_[i]->insert(
-                    frames_[i]->cend()
+                    frames_[i]->end()
                 ,   frames_[i-1]->begin() + frames_[i]->size()
                 ,   frames_[i-1]->end());
         }

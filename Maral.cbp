@@ -77,6 +77,18 @@
 		<Unit filename="install.txt">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src/maral/algorithms/connect.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/algorithms/remove.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/maral/algorithms/remove_if.hpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/maral/atom.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />

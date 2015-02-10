@@ -39,14 +39,14 @@ template
 >
     class root_host
     <
-        data_model::hierarchical
+        datamodel::hierarchical
     ,   Components...
     >
-:   public data_model::root_node<data_model::hierarchical>
+:   public datamodel::root_node<datamodel::hierarchical>
 ,   public Components...
 {
 public:
-    typedef root_host<data_model::hierarchical, Components...> self_type;
+    typedef root_host<datamodel::hierarchical, Components...> self_type;
 
 /// \name Construction
 //@{
@@ -87,7 +87,7 @@ private:
 template<typename ...Components>
 std::ostream& operator<< (
     std::ostream& out
-,   const entity<root_host<data_model::hierarchical, Components...>>& root)
+,   const entity<root_host<datamodel::hierarchical, Components...>>& root)
 {
     BOOST_ASSERT_MSG(root.get() , "null root!");
     root->print(out);
@@ -99,7 +99,7 @@ std::ostream& operator<< (
 template<typename ...Components>
 std::istream& operator>> (
     std::istream& in
-,   entity<root_host<data_model::hierarchical, Components...>>& root)
+,   entity<root_host<datamodel::hierarchical, Components...>>& root)
 {
     BOOST_ASSERT_MSG(root.get() , "null root!");
     root->scan(in);

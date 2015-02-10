@@ -13,7 +13,7 @@
 
 #include <list>
 
-#include <boost/range/distance.hpp>
+//#include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/algorithm/copy.hpp>
 
 namespace maral {
@@ -21,6 +21,17 @@ namespace maral {
 template<class ForwardRange>
 inline void remove(const ForwardRange& rng)
 {
+    //auto parent = *(rng.begin());
+    //for (auto item : rng
+    //    |   boost::adaptors::filtered(
+    //    [&] (ForwardRange::value_type item)
+    //    {
+    //        bool r = !parent->is_ancestor_of(item);
+    //        if (r) parent = item;
+    //        return r;
+    //    } ) )
+    //    item->parent()->remove(item);
+
     std::list<typename ForwardRange::value_type> remove_list;
     boost::copy(rng
     ,   back_inserter(remove_list));
@@ -30,7 +41,7 @@ inline void remove(const ForwardRange& rng)
     auto prev_item = pos;
     while (pos != remove_list.end())
     {
-        if ((*pos)->has_ancestor(*prev_item))
+        if ((*prev_item)->is_ancestor_of(*pos))
             pos = remove_list.erase(pos);
         else
         {

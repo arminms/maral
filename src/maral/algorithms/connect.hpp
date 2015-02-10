@@ -12,6 +12,7 @@
 #define MARAL_ALGORITHMS_CONNECT_HPP
 
 #include <vector>
+//#include <omp.h>
 
 #include <boost/range/distance.hpp>
 #include <boost/range/algorithm/copy.hpp>
@@ -39,9 +40,13 @@ inline void connect(
         [](const AtomType i, const AtomType j)
         { return ((*i)[2] < (*j)[2]); });
 
-    for (unsigned i = 0 ; i < atoms.size() ; ++i)
+    //omp_lock_t writelock;
+    //omp_init_lock(&writelock);
+
+#pragma omp parallel for
+    for (int i = 0 ; i < atoms.size() ; ++i)
     {
-        for (unsigned j = i+1 ; j < atoms.size() ; ++j)
+        for (int j = i+1 ; j < atoms.size() ; ++j)
         {
             T cutoff = atoms[i]->covalent_radius().value()
                      + atoms[j]->covalent_radius().value()
@@ -49,8 +54,13 @@ inline void connect(
             T z_diff = (*atoms[j])[2] - (*atoms[i])[2];
             if (z_diff > cutoff)
                 break;
-            if (mtl::distance(atoms[i]->center(), atoms[j]->center()) < cutoff)
+            if (distance(atoms[i]->center(), atoms[j]->center()) < cutoff)
+            #pragma omp critical
+            {
+                //omp_set_lock(&writelock);
                 make<BondType>(atoms[i], atoms[j]);
+                //omp_unset_lock(&writelock);
+            }
         }
     }
 }
