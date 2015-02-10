@@ -42,17 +42,18 @@ template
     class bond_host
     <
         AtomType
-    ,   data_model::hierarchical
+    ,   datamodel::hierarchical
     ,   Components...
     >
-:   public data_model::leaf_node<data_model::hierarchical>
+:   public datamodel::leaf_node<datamodel::hierarchical>
 ,   public Components...
 {
 public:
-    typedef bond_host<AtomType, data_model::hierarchical, Components...>
+    typedef bond_host<AtomType, datamodel::hierarchical, Components...>
         self_type;
-
-/// \name Construction
+    typedef AtomType atom_type;
+    typedef component::connections<hierarchical> connections_type;
+    /// \name Construction
 //@{
     bond_host(AtomType* at1, AtomType* at2)
     {
@@ -64,7 +65,7 @@ public:
             "bond_host needs component::connections to work :(");
         BOOST_ASSERT_MSG(at1, "null pointer!");
         BOOST_ASSERT_MSG(at2, "null pointer!");
-        add_bond(this, at1, at2);
+        self_type::add_bond(this, at1, at2);
     }
 //@}
 
@@ -75,20 +76,26 @@ public:
         static_assert(
             has_connections_component<self_type>::value,
             "bond_host needs component::connections to work :(");
-        return (AtomType*)bond_1st_atom(this);
+        return (AtomType*)self_type::bond_1st_atom(this);
     }
 
     AtomType* dst()
-    {   return (AtomType*)bond_2nd_atom(this);  }
+    {   return (AtomType*)self_type::bond_2nd_atom(this);  }
+
+    AtomType* neighbor(AtomType* atm)
+    {   return (AtomType*)self_type::get_neighbor(this, atm);  }
 //@}
 
 // Implementation
+    virtual ~bond_host()
+    {   self_type::remove_bond(this);   }
+
 private:
     virtual bool do_change_parent(
-        data_model::composite_node<data_model::hierarchical>* new_parent)
+        datamodel::composite_node<datamodel::hierarchical>* new_parent)
     {
         if (new_parent == nullptr)
-            remove_bond(this);
+            self_type::remove_bond(this);
         parent_ = new_parent;
         return true;
     }
@@ -108,7 +115,7 @@ private:
 template<typename AtomType, typename ...Components>
 std::ostream& operator<< (
     std::ostream& out
-,   const entity<bond_host<AtomType, data_model::hierarchical, Components...>>&
+,   const entity<bond_host<AtomType, datamodel::hierarchical, Components...>>&
         bond)
 {
     BOOST_ASSERT_MSG(bond.get() , "null bond!");
@@ -121,7 +128,7 @@ std::ostream& operator<< (
 template<typename AtomType, typename ...Components>
 std::istream& operator>> (
     std::istream& in
-,   entity<bond_host<AtomType, data_model::hierarchical, Components...>>& bond)
+,   entity<bond_host<AtomType, datamodel::hierarchical, Components...>>& bond)
 {
     BOOST_ASSERT_MSG(bond.get() , "null bond!");
     bond->scan(in);
@@ -139,22 +146,28 @@ inline void make(
         at1->parent() != nullptr
     ||  at2->parent() != nullptr
     ,   "Parent required for adding bond!");
-    entity<BondType> bnd(new BondType(at1, at2));
-    at1->common_ancestor(at2)->add(std::move(bnd));
+    if (!at1->is_connected_to(at2))
+    {
+        entity<BondType> bnd(new BondType(at1, at2));
+        at1->common_ancestor(at2)->add(std::move(bnd));
+    }
 }
 
-template <class BondType, class AtomType, template <class> class AtomIterator>
-inline void make(
-    AtomIterator<AtomType> itr1
-,   AtomIterator<AtomType> itr2)
-{
-    BOOST_ASSERT_MSG(
-        itr1->parent() != nullptr
-    ||  itr2->parent() != nullptr
-    ,   "Parent required for adding bond!");
-    entity<BondType> bnd(new BondType(*itr1, *itr2));
-    (*itr1)->common_ancestor(*itr2)->add(std::move(bnd));
-}
+//template <class BondType, class AtomType, template <class> class AtomIterator>
+//inline void make(
+//    const AtomIterator<AtomType*>& itr1
+//,   const AtomIterator<AtomType*>& itr2)
+//{
+//    BOOST_ASSERT_MSG(
+//        itr1->parent() != nullptr
+//    ||  itr2->parent() != nullptr
+//    ,   "Parent required for adding bond!");
+//    if (!itr1->is_connected_to(*itr2))
+//    {
+//        entity<BondType> bnd(new BondType(*itr1, *itr2));
+//        (*itr1)->common_ancestor(*itr2)->add(std::move(bnd));
+//    }
+//}
 
 }    // namespace maral
 

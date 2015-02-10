@@ -11,11 +11,11 @@
 #ifndef MARAL_COMPONENTS_CONNECTIONS_HPP
 #define MARAL_COMPONENTS_CONNECTIONS_HPP
 
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 
-//#include <boost/range/algorithm/remove.hpp>
-//#include <boost/range/algorithm/find.hpp>
+#include <boost/range/iterator_range.hpp>
+#include <boost/iterator/iterator_facade.hpp>
 
 #ifndef MARAL_TRAITS_HPP
 #include <maral/traits.hpp>
@@ -35,30 +35,119 @@ namespace maral { namespace component {
 template <class T = void>
 class connections_component
 {
-    //static_assert(
-    //    pntvec_traits<T>::extent::den > 1,
-    //    "Need a fixed-size vector type :(");
-
 public:
-    /// \name Construction
-    //@{
+    typedef T* value_type;
+
+/// \name Construction
+//@{
     connections_component()
     {}
-    //@}
+//@}
 
-    /// \name Attributes
-    //@{
-    //@}
+////////////////////////////////////////////////////////////////////////////////
 
-    /// \name Operations
-    //@{
+    template <class BondType>
+        class const_bond_iterator
+    :   public boost::iterator_facade
+    <
+        const_bond_iterator<BondType>
+    ,   BondType* const
+    ,   boost::forward_traversal_tag
+    ,   BondType*
+    >
+    {
+    public:
+        const_bond_iterator()
+        {}
+
+        explicit const_bond_iterator(
+            const std::unordered_set<T*>& col
+        ,   bool end = false)
+        :   pos_(end ? col.end() : col.begin())
+        {}
+
+        BondType* operator->()
+        {   return reinterpret_cast<BondType*>(*pos_);   }
+        const BondType* operator->() const
+        {   return reinterpret_cast<BondType*>(*pos_);   }
+
+    private:
+        friend class boost::iterator_core_access;
+
+        void increment()
+        {   ++pos_;   }
+
+        bool equal(const_bond_iterator const& other) const
+        {   return (this->pos_ == other.pos_);   }
+
+        BondType* const dereference() const
+        {   return reinterpret_cast<BondType*>(*pos_);   }
+
+        typename std::unordered_set<T*>::const_iterator pos_;
+    };
+
+////////////////////////////////////////////////////////////////////////////////
+
+    template <class AtomType>
+        class const_neighbor_iterator
+    :   public boost::iterator_facade
+    <
+        const_neighbor_iterator<AtomType>
+    ,   AtomType* const
+    ,   boost::forward_traversal_tag
+    ,   AtomType*
+    >
+    {
+    public:
+        const_neighbor_iterator()
+        {}
+
+        explicit const_neighbor_iterator(
+            const std::unordered_map<T*, std::unordered_set<T*>>* col
+        ,   AtomType* atm
+        ,   bool end = false)
+        :   pos_(end ? col->at(atm).end() : col->at(atm).begin())
+        ,   col_(col)
+        ,   atm_(atm)
+        {}
+
+        AtomType* operator->()
+        {   return reinterpret_cast<AtomType*>(*pos_);   }
+        const AtomType* operator->() const
+        {   return reinterpret_cast<AtomType*>(*pos_);   }
+
+    private:
+        friend class boost::iterator_core_access;
+
+        void increment()
+        {   ++pos_;   }
+
+        bool equal(const_neighbor_iterator<AtomType> const& other) const
+        {   return (this->pos_ == other.pos_);   }
+
+        AtomType* const dereference() const
+        {
+            for (auto nbr : col_->at(*pos_))
+                if (nbr != atm_)
+                    return reinterpret_cast<AtomType*>(nbr);
+            return nullptr;
+        }
+
+        typename std::unordered_set<T*>::const_iterator pos_;
+        const std::unordered_map<T*, std::unordered_set<T*>>* col_;
+        AtomType* atm_;
+    };
+
+////////////////////////////////////////////////////////////////////////////////
+
+/// \name Operations
+//@{
     void add_bond(T* bnd, T* at1, T* at2)
     {
         BOOST_ASSERT_MSG(
                bnd != nullptr
             || at1 != nullptr
             || at2 != nullptr, "null pointer!");
-        if (have_connection(at1, at2)) return;
         connection_table_.emplace(bnd, std::unordered_set<T*>(2));
         connection_table_[bnd].insert(at1);
         connection_table_[bnd].insert(at2);
@@ -116,6 +205,37 @@ public:
         BOOST_ASSERT_MSG(bnd, "null pointer!");
         return *(++connection_table_[bnd].begin());
     }
+
+    T* get_neighbor(T* bnd, T* atm) const
+    {
+        BOOST_ASSERT_MSG(
+               bnd != nullptr
+            || atm != nullptr, "null pointer!");
+        for (auto nbr : connection_table_[bnd])
+            if (nbr != atm)
+                return nbr;
+        return nullptr;
+    }
+
+    template <class AtomType>
+    boost::iterator_range<const_neighbor_iterator<AtomType>>
+        get_neighbors(AtomType* atm) const
+    {
+        BOOST_ASSERT_MSG(atm, "null pointer!");
+        return make_iterator_range(
+            const_neighbor_iterator<AtomType>(&connection_table_, atm)
+        ,   const_neighbor_iterator<AtomType>(&connection_table_, atm, true));
+    }
+
+    template <class BondType>
+    boost::iterator_range<const_bond_iterator<BondType>>
+        get_bonds(T* atm) const
+    {
+        BOOST_ASSERT_MSG(atm, "null pointer!");
+        return make_iterator_range(
+            const_bond_iterator<BondType>(connection_table_[atm])
+        ,   const_bond_iterator<BondType>(connection_table_[atm], true));
+    }
 //@}
 
 // Implementation
@@ -130,6 +250,11 @@ template <class T>
 
 template <typename T = void>
 using connections = connections_component<T>;
+
+////////////////////////////////////////////////////////////////////////////////
+// Implementation
+
+//#include <maral/components/connections.ipp>
 
 }}    // maral::component
 

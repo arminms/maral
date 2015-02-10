@@ -42,25 +42,25 @@ namespace maral { namespace bootstrap { namespace bond {
 // data model and required components
 typedef root_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 >   root;
 
 typedef model_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 >   model;
 
 typedef molecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::chainid<>
 >   chain;
 
 typedef submolecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::order<>
 ,   component::icode<>
@@ -68,7 +68,7 @@ typedef submolecule_host
 
 typedef atom_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::position<>
 ,   component::occupancy<>
@@ -76,14 +76,14 @@ typedef atom_host
 ,   component::formal_charge<>
 ,   component::atomic_number<>
 ,   component::covalent_radius<>
-,   component::connections<data_model::hierarchical>
+,   component::connections<hierarchical>
 >   atom;
 
 typedef bond_host
 <
     atom
-,   data_model::hierarchical
-,   component::connections<data_model::hierarchical>
+,   datamodel::hierarchical
+,   component::connections<hierarchical>
 >   bond;
 
 // defining format class

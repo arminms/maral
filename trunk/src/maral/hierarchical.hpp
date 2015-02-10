@@ -35,7 +35,7 @@ namespace maral {
 /// which manner data can be stored, organized and manipulated. Two major data
 /// models supported by \b Maral are \b hierarchical and \b relational.
 
-namespace data_model {
+namespace datamodel {
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -50,10 +50,12 @@ public:
     {}
 
     template<typename T>
-    void add(entity<T> node)
+    T* add(entity<T> node)
     {
-        do_add(node.get());
+        T* ptr = node.get();
+        do_add(ptr);
         node.release();
+        return ptr;
     }
 
     //template<typename T>
@@ -65,20 +67,22 @@ public:
     //}
 
     template<typename ConstIterator, typename T>
-    void insert(
+    T* insert(
         ConstIterator pos
     ,   entity<T> node)
     {
-        typename Component::node_type node_ptr = node.release();
-        BOOST_ASSERT_MSG(node_ptr, "null pointer!");
-        node_ptr->change_parent(this);
+        //typename Component::node_type node_ptr = node.release();
+        T* ptr =  node.release();
+        BOOST_ASSERT_MSG(ptr, "null pointer!");
+        ptr->change_parent(this);
 #if BOOST_WORKAROUND(__GLIBCXX__, BOOST_TESTED_AT(20130909))
         typename std::list<typename Component::node_type>::iterator itr(children_.begin());
         std::advance(itr, std::distance<typename Component::hierarchy_type::const_iterator>(itr, pos));
-        children_.insert(itr, node_ptr);
+        children_.insert(itr, ptr);
 #else
-        children_.insert(pos, node_ptr);
+        children_.insert(pos, ptr);
 #endif  //__GLIBCXX__
+        return ptr;
     }
 
     template<typename T>
@@ -113,10 +117,10 @@ public:
     }
 
 // Implementation
-protected:
     virtual ~composite_node()
     {   do_clear();  }
 
+protected:
     composite_node<Component>* parent_;
     typename Component::hierarchy_type children_;
 
@@ -171,21 +175,15 @@ public:
     {}
 
 // Implementation
+protected:
+    composite_node<Component>* parent_;
+    static typename Component::hierarchy_type empty_;
+
 private:
     virtual const typename Component::hierarchy_type*
-        get_children() const
+    get_children() const
     {   return &empty_; }
     //{   return get_empty(); }
-
-    virtual composite_node<Component>* get_parent() const
-    {   return parent_; }
-
-    virtual bool
-        do_change_parent(composite_node<Component>* new_parent)
-    {
-        parent_ = new_parent;
-        return true;
-    }
 
     //static const typename Component::hierarchy_type*
     //    get_empty()
@@ -194,12 +192,18 @@ private:
     //    return &empty;
     //}
 
+    virtual composite_node<Component>* get_parent() const
+    {   return parent_; }
+
+    virtual bool
+    do_change_parent(composite_node<Component>* new_parent)
+    {
+        parent_ = new_parent;
+        return true;
+    }
+
     virtual void do_clear()
     {}
-
-protected:
-    composite_node<Component>* parent_;
-    static typename Component::hierarchy_type empty_;
 };
 
 template <typename Component>
@@ -251,8 +255,8 @@ public:
     const_reverse_iterator rbegin() const;
     const_iterator end() const;
     const_reverse_iterator rend() const;
-    boost::iterator_range< const_iterator > range() const;
-    boost::iterator_range< const_reverse_iterator > reverse_range() const;
+    boost::iterator_range<const_iterator> range() const;
+    boost::iterator_range<const_reverse_iterator> reverse_range() const;
 
     template < typename Type >
         const_type_iterator<Type> begin() const;
@@ -281,7 +285,7 @@ public:
 /// \name Operations
 //@{
     void clear()
-    {   return do_clear();   }
+    {   do_clear();   }
 
     bool change_parent(composite_node<abstract_node>* new_parent)
     {   return do_change_parent(new_parent); }
@@ -292,15 +296,15 @@ public:
     void scan(std::istream& in)
     {   return do_scan(in);   }
 
-    auto root() const -> decltype(parent())
+    composite_node<abstract_node>* root() const
     {   return parent() ? parent()->root() : (decltype(parent()))this; }
 
-    bool has_ancestor(abstract_node* node) const
+    bool is_ancestor_of(abstract_node* node) const
     {
-        auto p = parent();
+        auto p = node->parent();
         while (p)
         {
-            if (p == node)
+            if (p == this)
                 return true;
             else
                 p = p->parent();
@@ -308,13 +312,12 @@ public:
         return false;
     }
 
-    auto common_ancestor(abstract_node* node) const
-        -> decltype(parent())
+    composite_node<abstract_node>* common_ancestor(abstract_node* node) const
     {
         auto p = parent();
         while (p)
         {
-            if (node->has_ancestor(p))
+            if (p->is_ancestor_of(node))
                 return p;
             else
                 p = p->parent();
@@ -376,9 +379,9 @@ std::istream& operator>> (
 
 #include <maral/hierarchical.ipp>
 
-}    // namespace data_model
+}    // namespace datamodel
 
-typedef data_model::abstract_node hierarchical;
+typedef datamodel::abstract_node hierarchical;
 
 }    // namespace maral
 

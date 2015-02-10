@@ -15,7 +15,7 @@ namespace maral {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if BOOST_WORKAROUND(__clang_major__, BOOST_TESTED_AT(3))
+//#if BOOST_WORKAROUND(__clang_major__, BOOST_TESTED_AT(3))
 
 #define GENERATE_HAS_COMPONENT(component)                                      \
                                                                                \
@@ -45,36 +45,36 @@ struct has_##component                                                         \
 : public std::integral_constant<bool, Has_##component<T>::RESULT>              \
 { };                                                                           \
 
-#else
-
-#define GENERATE_HAS_COMPONENT(component)                                      \
-                                                                               \
-template < class T >                                                           \
-class Has_##component                                                          \
-{                                                                              \
-private:                                                                       \
-    using Yes = char[2];                                                       \
-    using  No = char[1];                                                       \
-                                                                               \
-    struct Fallback { int component; };                                        \
-    struct Derived : T, Fallback { };                                          \
-                                                                               \
-    template < class U >                                                       \
-    static No& test ( decltype(U::component)* );                               \
-    template < typename U >                                                    \
-    static Yes& test ( U* );                                                   \
-                                                                               \
-public:                                                                        \
-    BOOST_STATIC_CONSTEXPR bool RESULT =                                       \
-        sizeof(test<Derived>(nullptr)) == sizeof(Yes);                         \
-};                                                                             \
-                                                                               \
-template < class T >                                                           \
-struct has_##component                                                         \
-: public std::integral_constant<bool, Has_##component<T>::RESULT>              \
-{ };                                                                           \
-
-#endif  //BOOST_WORKAROUND
+//#else
+//
+//#define GENERATE_HAS_COMPONENT(component)                                      \
+//                                                                               \
+//template < class T >                                                           \
+//class Has_##component                                                          \
+//{                                                                              \
+//private:                                                                       \
+//    using Yes = char[2];                                                       \
+//    using  No = char[1];                                                       \
+//                                                                               \
+//    struct Fallback { int component; };                                        \
+//    struct Derived : T, Fallback { };                                          \
+//                                                                               \
+//    template < class U >                                                       \
+//    static No& test ( decltype(U::component)* );                               \
+//    template < typename U >                                                    \
+//    static Yes& test ( U* );                                                   \
+//                                                                               \
+//public:                                                                        \
+//    BOOST_STATIC_CONSTEXPR bool RESULT =                                       \
+//        sizeof(test<Derived>(nullptr)) == sizeof(Yes);                         \
+//};                                                                             \
+//                                                                               \
+//template < class T >                                                           \
+//struct has_##component                                                         \
+//: public std::integral_constant<bool, Has_##component<T>::RESULT>              \
+//{ };                                                                           \
+//
+//#endif  //BOOST_WORKAROUND
 
 GENERATE_HAS_COMPONENT(atomic_number_component)   // creates atomic_number_component
 GENERATE_HAS_COMPONENT(b_factor_component)        // creates has_b_factor_component

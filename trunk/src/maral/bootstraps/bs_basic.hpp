@@ -33,32 +33,32 @@ namespace maral { namespace bootstrap { namespace basic {
 // data model and required components
 typedef root_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 >   root;
 
 typedef model_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 >   model;
 
 typedef molecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::chainid<>
 >   molecule;
 
 typedef submolecule_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::order<>
 >   residue;
 
 typedef atom_host
 <
-    data_model::hierarchical
+    datamodel::hierarchical
 ,   component::name<>
 ,   component::order<>
 ,   component::position<>

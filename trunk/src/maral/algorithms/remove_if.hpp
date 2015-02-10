@@ -32,7 +32,7 @@ inline void remove_if(const ForwardRange& rng, UnaryPredicate pred = true)
     auto prev_item = pos;
     while (pos != remove_list.end())
     {
-        if ((*pos)->has_ancestor(*prev_item))
+        if ((*prev_item)->is_ancestor_of(*pos))
             pos = remove_list.erase(pos);
         else
         {

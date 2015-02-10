@@ -19,6 +19,10 @@
 #include <maral/component.hpp>
 #endif // MARAL_COMPONENT_HPP
 
+#ifndef MARAL_COMPONENTS_CONNECTIONS_HPP
+#include <maral/components/connections.hpp>
+#endif // MARAL_COMPONENTS_CONNECTIONS_HPP
+
 #ifndef MARAL_UNITS_HPP
 #include <maral/units.hpp>
 #endif // MARAL_UNITS_HPP
@@ -43,14 +47,14 @@ template
 >
     class atom_host
     <
-        data_model::hierarchical
+        datamodel::hierarchical
     ,   Components...
     >
-:   public data_model::leaf_node<data_model::hierarchical>
+:   public datamodel::leaf_node<datamodel::hierarchical>
 ,   public Components...
 {
 public:
-    typedef atom_host<data_model::hierarchical, Components...> self_type;
+    typedef atom_host<datamodel::hierarchical, Components...> self_type;
 
 /// \name Construction
 //@{
@@ -104,9 +108,31 @@ public:
             (has_covalent_radius<self_type>()));
     }
 
+    bool is_connected_to(self_type* atm)
+    {
+        return has_connection(atm, has_connections_component<self_type>());
+    }
+
+    boost::iterator_range
+        <component::connections<hierarchical>::const_neighbor_iterator<self_type>>
+        neighbors()
+    {   return self_type::get_neighbors(this);  }
+
+    template <class BondType>
+    boost::iterator_range
+        <component::connections<hierarchical>::const_bond_iterator<BondType>>
+        bonds()
+    {   return self_type::template get_bonds<BondType>(this);  }
+
+    virtual ~atom_host()
+    {
+        remove_atom_connections(nullptr,
+            has_connections_component<self_type>());
+    }
+
 private:
     virtual bool do_change_parent(
-        data_model::composite_node<data_model::hierarchical>* np)
+        datamodel::composite_node<datamodel::hierarchical>* np)
     {
         remove_atom_connections(np, has_connections_component<self_type>());
         parent_ = np;
@@ -165,12 +191,17 @@ private:
         return 0;
     }
 
+    bool has_connection(self_type* atm, std::true_type)
+    {   return self_type::have_connection(this, atm);   }
+    bool has_connection(self_type* atm, std::false_type)
+    {   return false;   }
+
     void remove_atom_connections(
-        data_model::composite_node<data_model::hierarchical>* np
+        datamodel::composite_node<datamodel::hierarchical>* np
     ,   std::true_type)
-    {   if (np == nullptr) remove_atom(this);  }
+    {   if (np == nullptr) self_type::remove_atom(this);  }
     void remove_atom_connections(
-        data_model::composite_node<data_model::hierarchical>* np
+        datamodel::composite_node<datamodel::hierarchical>* np
     ,   std::false_type)
     {}
 
@@ -198,7 +229,7 @@ private:
 template<typename ...Components>
 std::ostream& operator<< (
     std::ostream& out
-,   const entity<atom_host<data_model::hierarchical, Components...>>& atm)
+,   const entity<atom_host<datamodel::hierarchical, Components...>>& atm)
 {
     BOOST_ASSERT_MSG(atm.get() , "null atom!");
     atm->print(out);
@@ -210,7 +241,7 @@ std::ostream& operator<< (
 template<typename ...Components>
 std::istream& operator>> (
     std::istream& in
-,   entity<atom_host<data_model::hierarchical, Components...>>& atm)
+,   entity<atom_host<datamodel::hierarchical, Components...>>& atm)
 {
     BOOST_ASSERT_MSG(atm.get() , "null atom!");
     atm->scan(in);
