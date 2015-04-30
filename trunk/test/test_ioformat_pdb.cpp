@@ -25,11 +25,11 @@
 #include <boost/test/detail/unit_test_parameters.hpp>
 #include <boost/range/distance.hpp>
 
-//#include <boost/iostreams/filtering_streambuf.hpp>
-//#include <boost/iostreams/copy.hpp>
-//#include <boost/iostreams/filter/gzip.hpp>
-//#include <boost/iostreams/filtering_stream.hpp>
-//#include <boost/iostreams/device/file_descriptor.hpp>
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/device/file_descriptor.hpp>
 
 //#include <maral/bootstraps/bs_pdb.hpp>
 #include <maral/bootstraps/bs_bond.hpp>
@@ -344,23 +344,24 @@ BOOST_AUTO_TEST_CASE( PDB_1CRN_Print )
     //cout << rt;
 }
 
-//BOOST_AUTO_TEST_CASE( PDB_gzip )
-//{
-//    namespace io = boost::iostreams;
-//    std::ifstream gzfile(PATTERNS_FOLDER"1CRN.pdb.gz", std::ios_base::in | std::ios_base::binary);
-//    io::filtering_streambuf<io::input> in;
-//    in.push(io::gzip_decompressor());
-//    in.push(gzfile);
-//    std::stringstream file;
-//    boost::iostreams::copy(in, file);
-//    auto rt = make<root>();
-//    file >> rt;
-//
-//    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
-//    BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );
-//    BOOST_CHECK(  46 == boost::distance(rt->range<residue>()) );
-//    BOOST_CHECK( 327 == boost::distance(rt->range<atom>()) );
-//}
+BOOST_AUTO_TEST_CASE( PDB_gzip )
+{
+    namespace io = boost::iostreams;
+    std::ifstream gzfile(PATTERNS_FOLDER"1CRN.pdb.gz"
+                        ,   std::ios_base::in | std::ios_base::binary);
+    io::filtering_streambuf<io::input> in;
+    in.push(io::gzip_decompressor());
+    in.push(gzfile);
+    std::stringstream file;
+    boost::iostreams::copy(in, file);
+    auto rt = make<root>();
+    file >> rt;
+
+    BOOST_CHECK(   1 == boost::distance(rt->range<model>()) );
+    BOOST_CHECK(   1 == boost::distance(rt->range<chain>()) );
+    BOOST_CHECK(  46 == boost::distance(rt->range<residue>()) );
+    BOOST_CHECK( 327 == boost::distance(rt->range<atom>()) );
+}
 
 BOOST_AUTO_TEST_CASE( PDB_1CRN_Bond )
 {

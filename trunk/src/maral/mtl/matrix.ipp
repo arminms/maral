@@ -139,7 +139,7 @@ inline matrix22<T>::matrix22(
     for (auto it=vals.begin(); it != vals.end(); ++it)
         data_[count++] = *it;
     if (count < 4)
-        for (register unsigned i = count; i < 4; ++i)
+        for (unsigned i = count; i < 4; ++i)
             data_[i] = T(0);
 }
 
@@ -519,7 +519,7 @@ inline matrix33<T>::matrix33(
     for (auto it=vals.begin(); it != vals.end(); ++it)
         data_[count++] = *it;
     if (count < 9)
-        for (register unsigned i = count; i < 9; ++i)
+        for (unsigned i = count; i < 9; ++i)
             data_[i] = T(0);
 }
 
@@ -904,7 +904,7 @@ inline matrix44<T>::matrix44(
     for (auto val : vals)
         data_[count++] = val;
     if (count < 16)
-        for (register unsigned i = count; i < 16; ++i)
+        for (unsigned i = count; i < 16; ++i)
             data_[i] = T(0);
 }
 

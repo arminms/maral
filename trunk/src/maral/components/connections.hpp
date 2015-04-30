@@ -222,7 +222,7 @@ public:
         get_neighbors(AtomType* atm) const
     {
         BOOST_ASSERT_MSG(atm, "null pointer!");
-        return make_iterator_range(
+        return boost::make_iterator_range(
             const_neighbor_iterator<AtomType>(&connection_table_, atm)
         ,   const_neighbor_iterator<AtomType>(&connection_table_, atm, true));
     }
@@ -232,7 +232,7 @@ public:
         get_bonds(T* atm) const
     {
         BOOST_ASSERT_MSG(atm, "null pointer!");
-        return make_iterator_range(
+        return boost::make_iterator_range(
             const_bond_iterator<BondType>(connection_table_[atm])
         ,   const_bond_iterator<BondType>(connection_table_[atm], true));
     }

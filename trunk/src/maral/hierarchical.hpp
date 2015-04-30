@@ -52,10 +52,15 @@ public:
     template<typename T>
     T* add(entity<T> node)
     {
-        T* ptr = node.get();
-        do_add(ptr);
-        node.release();
-        return ptr;
+        if (node)
+        {
+            T* ptr = node.get();
+            do_add(ptr);
+            node.release();
+            return ptr;
+        }
+        else
+            return nullptr;
     }
 
     //template<typename T>
@@ -71,18 +76,25 @@ public:
         ConstIterator pos
     ,   entity<T> node)
     {
-        //typename Component::node_type node_ptr = node.release();
-        T* ptr =  node.release();
-        BOOST_ASSERT_MSG(ptr, "null pointer!");
-        ptr->change_parent(this);
+        if (node)
+        {
+            //typename Component::node_type node_ptr = node.release();
+            T* ptr =  node.release();
+            BOOST_ASSERT_MSG(ptr, "null pointer!");
+            ptr->change_parent(this);
 #if BOOST_WORKAROUND(__GLIBCXX__, BOOST_TESTED_AT(20130909))
-        typename std::list<typename Component::node_type>::iterator itr(children_.begin());
-        std::advance(itr, std::distance<typename Component::hierarchy_type::const_iterator>(itr, pos));
-        children_.insert(itr, ptr);
+            typename std::list<typename Component::node_type>::iterator
+                itr(children_.begin());
+            std::advance(itr, std::distance
+                <typename Component::hierarchy_type::const_iterator>(itr, pos));
+            children_.insert(itr, ptr);
 #else
-        children_.insert(pos, ptr);
+            children_.insert(pos, ptr);
 #endif  //__GLIBCXX__
-        return ptr;
+            return ptr;
+        }
+        else
+            return nullptr;
     }
 
     template<typename T>
