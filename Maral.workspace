@@ -1,14 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_workspace_file>
-	<Workspace title="Workspace">
-		<Project filename="Maral.cbp" />
-		<Project filename="test/test_mtl_point.cbp" />
-		<Project filename="test/test_mtl_vector.cbp" />
-		<Project filename="test/test_mtl_matrix.cbp" />
-		<Project filename="test/test_hierarchical_datamodel.cbp" />
-		<Project filename="test/test_ioformat_tree.cbp" />
-		<Project filename="test/test_ioformat_pdb.cbp" />
-		<Project filename="test/test_ioformat_pdb_mutlimodel.cbp" />
-		<Project filename="test/test_connections.cbp" />
-	</Workspace>
-</CodeBlocks_workspace_file>
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="maral" Database="">
+  <Project Name="test_hierarchical_datamodel" Path="test/test_hierarchical_datamodel.project" Active="No"/>
+  <Environment>
+    <![CDATA[]]>
+  </Environment>
+  <Project Name="Maral" Path="Maral.project" Active="No"/>
+  <Project Name="test_connections" Path="test/test_connections.project" Active="No"/>
+  <Project Name="test_ioformat_pdb" Path="test/test_ioformat_pdb.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Project Name="test_hierarchical_datamodel" ConfigName="Debug"/>
+      <Project Name="Maral" ConfigName="Debug"/>
+      <Project Name="test_connections" ConfigName="Debug"/>
+      <Project Name="test_ioformat_pdb" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="no">
+      <Project Name="test_hierarchical_datamodel" ConfigName="Release"/>
+      <Project Name="Maral" ConfigName="Release"/>
+      <Project Name="test_connections" ConfigName="Release"/>
+      <Project Name="test_ioformat_pdb" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

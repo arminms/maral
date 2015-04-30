@@ -427,13 +427,13 @@ inline abstract_node::const_reverse_iterator abstract_node::rend() const
 inline boost::iterator_range< abstract_node::const_iterator >
     abstract_node::range() const
 {
-    return make_iterator_range(begin(), end());
+    return boost::make_iterator_range(begin(), end());
 }
 
 inline boost::iterator_range< abstract_node::const_reverse_iterator >
     abstract_node::reverse_range() const
 {
-    return make_iterator_range(rbegin(), rend());
+    return boost::make_iterator_range(rbegin(), rend());
 }
 
 template < typename Type >
@@ -470,12 +470,12 @@ template < typename Type >
 inline boost::iterator_range< abstract_node::const_type_iterator<Type> >
     abstract_node::range() const
 {
-    return make_iterator_range(begin<Type>(), end<Type>());
+    return boost::make_iterator_range(begin<Type>(), end<Type>());
 }
 
 template < typename Type >
 inline boost::iterator_range< abstract_node::const_reverse_type_iterator<Type> >
     abstract_node::reverse_range() const
 {
-    return make_iterator_range(rbegin<Type>(), rend<Type>());
+    return boost::make_iterator_range(rbegin<Type>(), rend<Type>());
 }
