@@ -16,6 +16,7 @@ IF(Boost_FOUND)
     ADD_EXECUTABLE(test_mtl_matrix test_mtl_matrix.cpp)
     ADD_EXECUTABLE(test_mtl_point test_mtl_point.cpp)
     ADD_EXECUTABLE(test_mtl_vector test_mtl_vector.cpp)
+    INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
     INSTALL(TARGETS
                test_connections
 	       test_hierarchical_datamodel
@@ -25,5 +26,4 @@ IF(Boost_FOUND)
 	       test_mtl_point
 	       test_mtl_vector
             RUNTIME DESTINATION share/maral/test)
-    INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
 ENDIF()

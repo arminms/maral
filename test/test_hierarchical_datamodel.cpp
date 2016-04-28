@@ -185,7 +185,7 @@ BOOST_FIXTURE_TEST_CASE( Composite_Insert, CRN_INIT )
         auto pos = rt->begin<atom>();
         auto parent = (*pos)->parent();
         parent->insert(pos, std::move(make<atom>("B27")));
-        pos += 3;
+        std::advance(pos , 3); // pos += 3;
         parent->insert(pos, std::move(make<atom>("B30")));
         std::advance(pos, 4);
         parent = (*pos)->parent();
