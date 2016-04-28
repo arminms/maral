@@ -17,10 +17,14 @@
 #   endif  //_MSC_VER
 
 #define BOOST_TEST_MAIN
+#include <boost/mpl/list.hpp>
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
-#include <boost/test/detail/unit_test_parameters.hpp>
-#include <boost/mpl/list.hpp>
+#   if (BOOST_VERSION >= 105900)
+#       include <boost/test/unit_test_parameters.hpp>
+#   else
+#       include <boost/test/detail/unit_test_parameters.hpp>
+#   endif  //BOOST_VERSION
 
 #include <maral/mtl/mtl.hpp>
 #include <maral/units.hpp>

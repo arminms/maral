@@ -14,7 +14,11 @@
 #define BOOST_TEST_MAIN
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
-#include <boost/test/detail/unit_test_parameters.hpp>
+#   if (BOOST_VERSION >= 105900)
+#       include <boost/test/unit_test_parameters.hpp>
+#   else
+#       include <boost/test/detail/unit_test_parameters.hpp>
+#   endif  //BOOST_VERSION
 
 #include <maral/bootstraps/bs_basic.hpp>
 #include <maral/iomanip.hpp>
