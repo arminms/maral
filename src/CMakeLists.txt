@@ -1,0 +1,1 @@
+INSTALL(DIRECTORY maral DESTINATION include)
