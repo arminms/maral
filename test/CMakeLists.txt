@@ -57,6 +57,7 @@ IF(Boost_FOUND)
         ADD_EXECUTABLE(test_ioformat_pdb test_ioformat_pdb.cpp)
         TARGET_LINK_LIBRARIES(test_ioformat_pdb ${Boost_LIBRARIES})
     ENDIF(MSVC)
+#    FILE(COPY patterns DESTINATION test)
     INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
     INSTALL(TARGETS
             test_connections
@@ -67,4 +68,4 @@ IF(Boost_FOUND)
             test_mtl_vector
             test_ioformat_pdb
             RUNTIME DESTINATION share/maral/test)
-ENDIF()
+ENDIF(Boost_FOUND)

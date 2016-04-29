@@ -7,12 +7,10 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6 FATAL_ERROR)
 #
 IF(DEFINED CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING
-        "Choose the type of build, options are: 
-         None Debug Release RelWithDebInfo MinSizeRel.")
+        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel")
 ELSE()
     SET(CMAKE_BUILD_TYPE Release CACHE STRING
-        "Choose the type of build, options are: 
-         None Debug Release RelWithDebInfo MinSizeRel.")
+        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel")
 ENDIF()
 
 PROJECT(maral CXX)
@@ -20,7 +18,9 @@ PROJECT(maral CXX)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 IF(MSVC)
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+    ADD_DEFINITIONS(/D_CRT_SECURE_NO_WARNINGS
+                    /D_SCL_SECURE_NO_WARNINGS
+                    /D_HAS_ITERATOR_DEBUGGING=0)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHa /bigobj")
 ELSE(MSVC)
     INCLUDE(CheckCXXCompilerFlag)
