@@ -53,19 +53,33 @@ IF(Boost_FOUND)
     IF(MSVC)
         LINK_DIRECTORIES("${Boost_INCLUDE_DIR}/${_boost_LIB_PATH}")
         ADD_EXECUTABLE(test_ioformat_pdb test_ioformat_pdb.cpp)
-    ELSE(MSVC)
+        ADD_EXECUTABLE(test_ioformat_pdb_multimodel test_ioformat_pdb_multimodel.cpp)
+        INSTALL(DIRECTORY patterns DESTINATION test)
+        INSTALL(TARGETS
+                test_connections
+                test_hierarchical_datamodel
+                test_ioformat_tree
+                test_mtl_matrix
+                test_mtl_point
+                test_mtl_vector
+                test_ioformat_pdb
+                test_ioformat_pdb_multimodel
+                RUNTIME DESTINATION test)
+    ELSE()
         ADD_EXECUTABLE(test_ioformat_pdb test_ioformat_pdb.cpp)
+        ADD_EXECUTABLE(test_ioformat_pdb_multimodel test_ioformat_pdb_multimodel.cpp)
         TARGET_LINK_LIBRARIES(test_ioformat_pdb ${Boost_LIBRARIES})
-    ENDIF(MSVC)
+        INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
+        INSTALL(TARGETS
+                test_connections
+                test_hierarchical_datamodel
+                test_ioformat_tree
+                test_mtl_matrix
+                test_mtl_point
+                test_mtl_vector
+                test_ioformat_pdb
+                test_ioformat_pdb_multimodel
+                RUNTIME DESTINATION share/maral/test)
+    ENDIF()
 #    FILE(COPY patterns DESTINATION test)
-    INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
-    INSTALL(TARGETS
-            test_connections
-            test_hierarchical_datamodel
-            test_ioformat_tree
-            test_mtl_matrix
-            test_mtl_point
-            test_mtl_vector
-            test_ioformat_pdb
-            RUNTIME DESTINATION share/maral/test)
 ENDIF(Boost_FOUND)
