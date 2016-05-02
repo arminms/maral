@@ -81,5 +81,5 @@ IF(Boost_FOUND)
                 test_ioformat_pdb_multimodel
                 RUNTIME DESTINATION share/maral/test)
     ENDIF()
-#    FILE(COPY patterns DESTINATION test)
+    FILE(COPY patterns DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 ENDIF(Boost_FOUND)
