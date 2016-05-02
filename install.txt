@@ -6,7 +6,7 @@ Maral Installation Instructions
 
     1. Clone from repository:
 
-    $ git clone https://github.com/arminms/maral.git
+        $ git clone https://github.com/arminms/maral.git
 
     2. Create a build directory
 
@@ -14,55 +14,65 @@ Maral Installation Instructions
     directory, for example within the top-level of the Maral
     package:
 
-    $ cd maral
-    $ mkdir build
-    $ cd build
+        $ cd maral
+        $ mkdir build
+        $ cd build
 
     3. Configure the library
 
-    $ cmake ..
+        $ cmake ..
 
     or run GUI version (recommend under Windows):
 
-    $ cmake-gui ..
+        $ cmake-gui ..
 
     The latter command will try to locate the necessary libraries. If
     everything is OK, then this should end with something like:
-    -- Generating done
-    -- Build files have been written to: some-path/maral/build
+        -- Generating done
+        -- Build files have been written to: some-path/maral/build
 
     If CMake fails, because it cannot resolve all dependencies, then you
     may help CMake by setting some variables to help CMake locate the
     libraries. This may be done on the command-line using -Dvar=value or
     using the interactive program:
-    $ ccmake .
+
+        $ ccmake .
 
     To change any entry, use [Enter]. To save and quit, do [c] followed by
     [g].
 
     4. Build the binaries
 
-    $ make
+        $ make
 
     For parallel builds add '-j N', e.g. for building using 4 CPUs use:
 
-    $ make -j 4
+        $ make -j 4
 
     On Windows using native tools (i.e. Visual Studio) use cmake build
     facility:
 
-    $ cmake --build . --config Release
+        $ cmake --build . --config Release
 
     and for multi-thread builds use:
 
-    $ cmake --build . --config Release -- //m
+        $ cmake --build . --config Release -- //m
 
-    5. Install Maral binaries (as user with sufficient permissions):
-
-    $ make install
+    5. Running tests:
+    
+        $ make
+        $ make test
 
     And on Windows:
 
-    $ cmake --build . --config Release --target install
+        $ cmake --build . --config Release --target run_tests
+
+    6. Install Maral binaries (as user with sufficient permissions):
+
+        $ make install
+
+    And on Windows:
+
+        $ cmake --build . --config Release --target install
 
     This will install Maral to $INSTALL_PREFIX.

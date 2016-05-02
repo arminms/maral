@@ -43,8 +43,20 @@ OPTION(BUILD_TESTS "Build and install unit tests ?" ON)
 IF(BUILD_TESTS)
     ADD_SUBDIRECTORY(test)
     ENABLE_TESTING()
-    ADD_TEST(NAME connections COMMAND test_connections)
-    SET_TESTS_PROPERTIES(connections PROPERTIES
-        FAIL_REGULAR_EXPRESSION "/(.*) error:/s")
-        #FAIL_REGULAR_EXPRESSION "success")
+    ADD_TEST(NAME mtl_point COMMAND test_mtl_point
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME mtl_vector COMMAND test_mtl_vector
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME mtl_matrix COMMAND test_mtl_matrix
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME connections COMMAND test_connections
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME hierarchical_datamodel COMMAND test_hierarchical_datamodel
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME ioformat_tree COMMAND test_ioformat_tree
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME io_format_pdb COMMAND test_ioformat_pdb
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+    ADD_TEST(NAME io_format_pdb_multimodel COMMAND test_ioformat_pdb_multimodel
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 ENDIF(BUILD_TESTS)
