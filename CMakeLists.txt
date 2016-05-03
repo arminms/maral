@@ -13,7 +13,10 @@ ELSE()
         "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel")
 ENDIF()
 
-PROJECT(maral CXX)
+# this is for setting version in project command
+CMAKE_POLICY(SET CMP0048 NEW)
+
+PROJECT(maral VERSION 0.4.1.0)
 
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
@@ -39,6 +42,7 @@ ENDIF()
 
 ADD_SUBDIRECTORY(src)
 
+# testing
 OPTION(BUILD_TESTS "Build and install unit tests ?" ON)
 IF(BUILD_TESTS)
     ADD_SUBDIRECTORY(test)
@@ -60,3 +64,34 @@ IF(BUILD_TESTS)
     ADD_TEST(NAME io_format_pdb_multimodel COMMAND test_ioformat_pdb_multimodel
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 ENDIF(BUILD_TESTS)
+
+# build a CPack driven installer package
+INCLUDE(InstallRequiredSystemLibraries)
+SET(CPACK_PACKAGE_NAME "Maral")
+SET(CPACK_PACKAGE_VENDOR "amslab.org")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY
+    "Maral - A header-only template based C++11 molecular API")
+SET(CPACK_RESOURCE_FILE_LICENSE
+    "${CMAKE_CURRENT_SOURCE_DIR}/license.txt")
+SET(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+SET(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+SET(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+SET(CPACK_COMPONENTS_ALL headers tests patterns)
+SET(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Headers")
+SET(CPACK_COMPONENT_TESTS_DISPLAY_NAME "Unit Tests")
+SET(CPACK_COMPONENT_PATTERNS_DISPLAY_NAME "Pattern Files")
+SET(CPACK_COMPONENT_HEADERS_DESCRIPTION 
+    "You need only header files to develop using Maral")
+SET(CPACK_COMPONENT_TESTS_DESCRIPTION
+    "Binaries for unit testing")
+SET(CPACK_COMPONENT_PATTERNS_DESCRIPTION
+    "Pattern files required by unit tests")
+SET(CPACK_COMPONENT_PATTERNS_DEPENDS tests)
+SET(CPACK_COMPONENT_HEADERS_GROUP "Development")
+SET(CPACK_COMPONENT_TESTS_GROUP "Runtime")
+SET(CPACK_COMPONENT_PATTERNS_GROUP "Runtime")
+SET(CPACK_COMPONENT_GROUP_DEVELOPMENT_DESCRIPTION
+    "All you need to start developing using Maral")
+SET(CPACK_COMPONENT_GROUP_RUNTIME_DESCRIPTION
+    "Supporting binary files")
+INCLUDE(CPack)

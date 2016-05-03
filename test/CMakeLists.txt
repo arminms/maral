@@ -54,7 +54,6 @@ IF(Boost_FOUND)
         LINK_DIRECTORIES("${Boost_INCLUDE_DIR}/${_boost_LIB_PATH}")
         ADD_EXECUTABLE(test_ioformat_pdb test_ioformat_pdb.cpp)
         ADD_EXECUTABLE(test_ioformat_pdb_multimodel test_ioformat_pdb_multimodel.cpp)
-        INSTALL(DIRECTORY patterns DESTINATION test)
         INSTALL(TARGETS
                 test_connections
                 test_hierarchical_datamodel
@@ -64,12 +63,12 @@ IF(Boost_FOUND)
                 test_mtl_vector
                 test_ioformat_pdb
                 test_ioformat_pdb_multimodel
-                RUNTIME DESTINATION test)
+                RUNTIME DESTINATION test COMPONENT tests)
+        INSTALL(DIRECTORY patterns DESTINATION test COMPONENT patterns)
     ELSE()
         ADD_EXECUTABLE(test_ioformat_pdb test_ioformat_pdb.cpp)
         ADD_EXECUTABLE(test_ioformat_pdb_multimodel test_ioformat_pdb_multimodel.cpp)
         TARGET_LINK_LIBRARIES(test_ioformat_pdb ${Boost_LIBRARIES})
-        INSTALL(DIRECTORY patterns DESTINATION share/maral/test)
         INSTALL(TARGETS
                 test_connections
                 test_hierarchical_datamodel
@@ -79,7 +78,8 @@ IF(Boost_FOUND)
                 test_mtl_vector
                 test_ioformat_pdb
                 test_ioformat_pdb_multimodel
-                RUNTIME DESTINATION share/maral/test)
+                RUNTIME DESTINATION share/maral/test COMPONENT tests)
+        INSTALL(DIRECTORY patterns DESTINATION share/maral/test COMPONENT patterns)
     ENDIF()
     FILE(COPY patterns DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 ENDIF(Boost_FOUND)
