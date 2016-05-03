@@ -71,18 +71,11 @@ ENDIF(BUILD_TESTS)
 INCLUDE(InstallRequiredSystemLibraries)
 SET(CPACK_PACKAGE_NAME "Maral")
 SET(CPACK_PACKAGE_VENDOR "amslab.org")
+SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/readme.txt")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY
     "Maral - A header-only template based C++11 molecular API")
-SET(CPACK_PACKAGE_DESCRIPTION "\
-Maral is a header-only template based C++11 molecular API that only depends on \
-Boost <http://boost.org>. It simplifies the development and implementation of \
-algorithms in the field of molecular modelling, computational chemistry and \ 
-structural bioinformatics. It utilizes the policy based design along with \ 
-template metaprogramming (TMP) technique to optimize the source code at compile \
-time based on the decisions made by the user.
-")
 SET(CPACK_RESOURCE_FILE_LICENSE
-    "${CMAKE_CURRENT_SOURCE_DIR}/license.txt")
+    "${CMAKE_SOURCE_DIR}/license.txt")
 SET(CPACK_PACKAGE_VERSION_MAJOR "${MARAL_VERSION_MAJOR}")
 SET(CPACK_PACKAGE_VERSION_MINOR "${MARAL_VERSION_MINOR}")
 SET(CPACK_PACKAGE_VERSION_PATCH "${MARAL_VERSION_PATCH}")
