@@ -76,3 +76,11 @@ Maral Installation Instructions
         $ cmake --build . --config Release --target install
 
     This will install Maral to $INSTALL_PREFIX.
+
+    7. Making CPack install packages:
+
+        $ make package
+
+    And on Windows with NSIS installed:
+
+        $ cmake --build . --config Release --target package
