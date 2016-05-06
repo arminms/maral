@@ -17,6 +17,7 @@
 *.ilk
 *.VC.db
 *.swp
+.DS_Store
 build
 Bin
 /ipch
