@@ -21,6 +21,7 @@
 
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/range/algorithm/reverse.hpp>
+#include <boost/lexical_cast.hpp>
 
 #ifndef MARAL_COMPONENT_HPP
 #include <maral/component.hpp>
